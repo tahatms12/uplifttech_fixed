@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Disallow utility pages
+Disallow: /payment
+Disallow: /apply
+
+# Regional alternates
+Allow: /us/
+Allow: /uk/
+Allow: /ca/
+
+# Sitemap
+Sitemap: https://uplift-technologies.com/sitemap.xml

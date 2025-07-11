@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G98WB7VTVK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-G98WB7VTVK');
+    </script>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '123456789012345');
+      fbq('track', 'PageView');
+      
+      // Track when someone submits a form
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          fbq('track', 'Lead');
+          console.log('Meta Pixel: Lead event fired');
+        }
+      });
+    </script>
+    <!-- End Meta Pixel Code -->
+    
+    <!-- TikTok Pixel Code -->
+    <script>
+      !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+        
+        ttq.load('TIKTOK_PIXEL_ID');
+        ttq.page();
+        
+        // Track contact events
+        document.addEventListener('submit', function(e) {
+          if (e.target.tagName === 'FORM') {
+            ttq.track('Contact');
+            console.log('TikTok Pixel: Contact event fired');
+          }
+        });
+      }(window, document, 'ttq');
+    </script>
+    <!-- End TikTok Pixel Code -->
+    
+    <!-- Google Ads gtag.js -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'AW-CONVERSION_ID');
+      
+      // Track conversions when someone submits a form
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL',
+          });
+          console.log('Google Ads: Conversion event fired');
+        }
+      });
+    </script>
+    <!-- End Google Ads Tag -->
+    
+    <!-- LinkedIn Insight Tag -->
+    <script type="text/javascript">
+      _linkedin_partner_id = "LINKEDIN_PARTNER_ID";
+      window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+      window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+      (function(l) {
+        if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a, b])};
+        window.lintrk.q=[]}
+        var s = document.getElementsByTagName("script")[0];
+        var b = document.createElement("script");
+        b.type = "text/javascript";b.async = true;
+        b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+        s.parentNode.insertBefore(b, s);
+      })(window.lintrk);
+      
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          window.lintrk('track', { conversion_id: 'CONVERSION_ID' });
+          console.log('LinkedIn Insight Tag: Conversion event fired');
+        }
+      });
+    </script>
+    <!-- End LinkedIn Insight Tag -->
+    
+    <!-- Twitter/X Pixel -->
+    <script>
+      !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+      },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
+      a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+      twq('config','TWITTER_PIXEL_ID');
+      twq('event', 'tw-xxxxxxxx-content_view', {});
+      console.log('Twitter Pixel: Content view event fired');
+      
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          twq('event', 'tw-xxxxxxxx-lead', {});
+          console.log('Twitter Pixel: Lead event fired');
+        }
+      });
+    </script>
+    <!-- End Twitter/X Pixel -->
+    
+    <!-- Pinterest Tag -->
+    <script>
+      !function(e){if(!window.pintrk){window.pintrk = function () {
+      window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+      n=window.pintrk;n.queue=[],n.version="3.0";var
+      t=document.createElement("script");t.async=!0,t.src=e;var
+      r=document.getElementsByTagName("script")[0];
+      r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+      pintrk('load', 'PINTEREST_TAG_ID');
+      pintrk('page');
+      console.log('Pinterest Tag: PageLoad event fired');
+      
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          pintrk('track', 'lead');
+          console.log('Pinterest Tag: Lead event fired');
+        }
+      });
+    </script>
+    <!-- End Pinterest Tag -->
+    
+    <!-- Snap Pixel Code -->
+    <script type='text/javascript'>
+      (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function()
+      {a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};
+      a.queue=[];var s='script';r=t.createElement(s);r.async=!0;
+      r.src=n;var c=t.getElementsByTagName(s)[0];
+      c.parentNode.insertBefore(r,c);})(window,document,
+      'https://sc-static.net/scevent.min.js');
+      
+      snaptr('init', 'SNAP_PIXEL_ID', {
+        'user_email': '__INSERT_USER_EMAIL__'
+      });
+      snaptr('track', 'PAGE_VIEW');
+      console.log('Snap Pixel: PAGE_VIEW event fired');
+      
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          snaptr('track', 'SIGN_UP');
+          console.log('Snap Pixel: SIGN_UP event fired');
+        }
+      });
+    </script>
+    <!-- End Snap Pixel Code -->
+    
+    <!-- Reddit Pixel -->
+    <script>
+      !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','REDDIT_PIXEL_ID');rdt('track', 'PageVisit');
+      console.log('Reddit Pixel: PageVisit event fired');
+      
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          rdt('track', 'SignUp');
+          console.log('Reddit Pixel: SignUp event fired');
+        }
+      });
+    </script>
+    <!-- End Reddit Pixel -->
+    
+    <!-- Quora Pixel Code -->
+    <script>
+      !function(q,e,v,n,t,s){if(q.qp) return; n=q.qp=function(){n.qp?n.qp.apply(n,arguments):n.queue.push(arguments);}; n.queue=[];t=document.createElement(e);t.async=!0;t.src=v; s=document.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);}(window, 'script', 'https://a.quora.com/qevents.js');
+      qp('init', 'QUORA_PIXEL_ID');
+      qp('track', 'ViewContent');
+      console.log('Quora Pixel: ViewContent event fired');
+      
+      document.addEventListener('submit', function(e) {
+        if (e.target.tagName === 'FORM') {
+          qp('track', 'Lead');
+          console.log('Quora Pixel: Lead event fired');
+        }
+      });
+    </script>
+    <!-- End Quora Pixel Code -->
+    
+    <!-- Microsoft UET Tag -->
+    <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"MICROSOFT_UET_TAG_ID"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");
+    console.log('Microsoft UET Tag: PageLoad event fired');
+    
+    document.addEventListener('submit', function(e) {
+      if (e.target.tagName === 'FORM') {
+        window.uetq = window.uetq || [];
+        window.uetq.push({ 'ec':'lead', 'ea':'conversion', 'el':'lead_form', 'ev':1 });
+        console.log('Microsoft UET Tag: Conversion event fired');
+      }
+    });
+    </script>
+    <!-- End Microsoft UET Tag -->
+    
+    <!-- Verify all pixels are firing -->
+    <script>
+      window.addEventListener('load', function() {
+        console.log('All advertising pixels loaded and verified:');
+        console.log('- Meta Pixel (ID: 123456789012345) - PageView event');
+        console.log('- TikTok Pixel (ID: TIKTOK_PIXEL_ID) - PageView event');
+        console.log('- Google Ads (ID: AW-CONVERSION_ID) - Page load');
+        console.log('- LinkedIn Insight Tag (ID: LINKEDIN_PARTNER_ID) - Page load');
+        console.log('- Twitter Pixel (ID: TWITTER_PIXEL_ID) - Content view');
+        console.log('- Pinterest Tag (ID: PINTEREST_TAG_ID) - PageLoad');
+        console.log('- Snap Pixel (ID: SNAP_PIXEL_ID) - PAGE_VIEW');
+        console.log('- Reddit Pixel (ID: REDDIT_PIXEL_ID) - PageVisit');
+        console.log('- Quora Pixel (ID: QUORA_PIXEL_ID) - ViewContent');
+        console.log('- Microsoft UET Tag (ID: MICROSOFT_UET_TAG_ID) - PageLoad');
+      });
+    </script>
+    
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#9B1DFF" />
+    <meta name="theme-color" content="#0D0D0F" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Preload critical fonts -->
+    <link 
+      rel="preload" 
+      href="/fonts/poppins-latin-400-normal.woff2" 
+      as="font" 
+      type="font/woff2" 
+      crossorigin 
+    />
+    <link 
+      rel="preload" 
+      href="/fonts/poppins-latin-600-normal.woff2" 
+      as="font" 
+      type="font/woff2" 
+      crossorigin 
+    />
+    
+    <title>UPLIFT Technologies | People-Powered Outsourcing Partner</title>
+    
+    <!-- Critical CSS -->
+    <style>
+      /* Font declarations */
+      @font-face {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/poppins-latin-400-normal.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      
+      @font-face {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url('/fonts/poppins-latin-600-normal.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      
+      /* Optimize CLS */
+      img {
+        aspect-ratio: attr(width) / attr(height);
+      }
+      
+      /* Loading spinner styles */
+      .loading-spinner {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        border: 0.25rem solid #374151;
+        border-top-color: #9B1DFF;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Lazy loading placeholder */
+      .lazy-image {
+        background: #1F2937;
+        overflow: hidden;
+      }
+      
+      .lazy-image.loaded {
+        background: none;
+      }
+      
+      /* Blur-up image loading */
+      .blur-load {
+        filter: blur(20px);
+        transition: filter 0.3s ease-out;
+      }
+      
+      .blur-load.loaded {
+        filter: blur(0);
+      }
+    </style>
+  </head>
+  <body class="bg-rich-black text-base font-body">
+    <!-- Tracking pixel noscript fallbacks -->
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=123456789012345&ev=PageView&noscript=1"
+    /></noscript>
+    <noscript>
+      <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=LINKEDIN_PARTNER_ID&fmt=gif" />
+    </noscript>
+    <noscript>
+      <img height="1" width="1" style="display:none;" alt=""
+        src="https://ct.pinterest.com/v3/?event=init&tid=PINTEREST_TAG_ID&pd[em]=<hashed_email_address>&noscript=1" />
+    </noscript>
+    <noscript><img height="1" width="1" style="display:none" src="https://q.quora.com/_/ad/QUORA_PIXEL_ID/pixel?tag=ViewContent&noscript=1"/></noscript>
+    
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

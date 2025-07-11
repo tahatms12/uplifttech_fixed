@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mobile-first base styles */
+@layer base {
+  html {
+    @apply scroll-smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    @apply bg-rich-black text-base font-body overflow-x-hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins font-semibold text-base;
+  }
+
+  h1 {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight;
+  }
+
+  h2 {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight;
+  }
+
+  h3 {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl leading-tight;
+  }
+
+  p {
+    @apply text-sm sm:text-base/relaxed;
+  }
+
+  /* Improve touch targets */
+  button, a {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Reserve space for images */
+  img {
+    @apply w-full h-auto aspect-[attr(width)/attr(height)];
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 inline-flex items-center justify-center;
+    @apply focus:outline-none focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black;
+  }
+
+  .btn-primary {
+    @apply bg-electric-violet hover:bg-opacity-90 text-sm sm:text-base shadow-neon;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  @media (min-width: 640px) {
+    .btn-primary {
+      width: auto;
+    }
+  }
+
+  .btn-secondary {
+    @apply border-2 border-electric-violet text-electric-violet hover:bg-electric-violet hover:bg-opacity-10 w-full sm:w-auto;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-3 sm:px-6 lg:px-8;
+  }
+
+  .gradient-text {
+    @apply text-transparent bg-clip-text inline-block;
+    background-image: linear-gradient(to right, #c44fff, #6e17ff);
+    text-shadow: 0 0 20px rgba(155, 29, 255, 0.5);
+  }
+
+  .glass-card {
+    @apply bg-rich-black/40 backdrop-blur-lg border border-neutral-700 rounded-lg sm:rounded-xl;
+    @apply transition-all duration-300;
+  }
+  
+  @media (hover: hover) {
+    .glass-card {
+      @apply hover:border-electric-violet/50;
+    }
+  }
+  
+  .nav-link {
+    @apply relative px-1 sm:px-2 py-1 text-sm sm:text-base/80 hover:text-base transition-colors duration-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black;
+  }
+  
+  .nav-link-active {
+    @apply text-electric-violet font-medium;
+  }
+
+  /* Mobile specific styles */
+  @media (max-width: 639px) {
+    .container-custom {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .glass-card {
+      padding: 1rem;
+    }
+  }
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,14 @@
+# Redirect HTTP to HTTPS
+http://uplift-technologies.com/* https://uplift-technologies.com/:splat 301!
+http://www.uplift-technologies.com/* https://uplift-technologies.com/:splat 301!
+
+# Redirect www to apex domain
+https://www.uplift-technologies.com/* https://uplift-technologies.com/:splat 301!
+
+# Regional redirects
+/us/* /us/:splat 200
+/uk/* /uk/:splat 200
+/ca/* /ca/:splat 200
+
+# SPA fallback
+/* /index.html 200
