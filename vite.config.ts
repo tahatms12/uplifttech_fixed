@@ -54,7 +54,7 @@ export default defineConfig({
   build: {
     target: 'es2022',
     minify: 'terser',
-    cssMinify: 'lightningcss',
+    cssMinify: 'esbuild',
     modulePreload: {
       polyfill: false
     },
