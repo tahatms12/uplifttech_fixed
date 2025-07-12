@@ -17,7 +17,7 @@ const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const PaymentPage = lazy(() => import('./pages/PaymentPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const ApplyPage = lazy(() => import('./pages/ApplyPage'));
-const CalendarPage = lazy(() => import('./components/calendar/CalendarPage'));
+
 const CreativeDirectionPage = lazy(() => import('./pages/CreativeDirectionPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 
