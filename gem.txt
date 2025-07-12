@@ -1,51 +1,15 @@
-The Netlify deploy errored, with the following guidance provided:
-
-**Diagnosis:**
-The build is failing during the installation of dependencies with the following error:
-- `npm error code EBADPLATFORM`
-- `npm error notsup Unsupported platform for @rollup/rollup-win32-x64-msvc@4.45.0: wanted {"os":"win32","cpu":"x64"} (current: {"os": "linux"})`
-- `npm error notsup Valid os: win32`
-- `npm error notsup Actual os: linux`
-
-**Solution:**
-1. Verify that the package causing the error (`@rollup/rollup-win32-x64-msvc@4.45.0`) is in the `package.json` file or was committed to the repository.
-2. Since the error is related to platform mismatch (expected `win32` on `x64` but the current platform is `linux`), you'll need to address this by either:
-   - Finding an alternative package that is compatible with the Linux platform.
-   - If there are no alternatives, you may need to exclude the problematic package from the build process or find a way to provide compatibility for the Linux platform.
-
-
-The relevant error logs are:
-
-Line 0: build-image version: 068c1c7d7725d329cc382184c7bbf62ac27e2c09 (noble)
-Line 1: buildbot version: 1ad41682c3cb8ba50e6cec4a3cd94c50f999b538
-Line 2: Fetching cached dependencies
-Line 3: Failed to fetch cache, continuing with build
-Line 4: Starting to prepare the repo for build
-Line 5: No cached dependencies found. Cloning fresh repo
-Line 6: git clone --filter=blob:none https://github.com/tahatms12/uplifttech_fixed
-Line 7: Preparing Git Reference refs/heads/main
-Line 8: Custom build path detected. Proceeding with the specified path: ''
-Line 9: Starting to install dependencies
-Line 10: Using PHP version
-Line 11: v22.17.0 is already installed.
-Line 12: Now using node v22.17.0 (npm v10.9.2)
-Line 13: Enabling Node.js Corepack
-Line 14: Started restoring cached build plugins
-Line 15: Finished restoring cached build plugins
-Line 16: Started restoring cached corepack dependencies
-Line 17: Finished restoring cached corepack dependencies
-Line 18: No npm workspaces detected
-Line 19: Started restoring cached node modules
-Line 20: Failed during stage 'Install dependencies': dependency_installation script returned non-zero exit code: 1
-Line 21: Finished restoring cached node modules
-Line 22: Installing npm packages using npm version 10.9.2
-Line 23: npm error code EBADPLATFORM
-Line 24: npm error notsup Unsupported platform for @rollup/rollup-win32-x64-msvc@4.45.0: wanted {"os":"win32","cpu":"x64"} (current: {"os
-Line 25: npm error notsup Valid os:   win32
-Line 26: npm error notsup Actual os:  linux
-Line 27: npm error notsup Valid cpu:  x64
-Line 28: npm error notsup Actual cpu: x64
-Line 29: npm error A complete log of this run can be found in: /opt/buildhome/.npm/_logs/2025-07-12T11_17_52_222Z-debug-0.log
-Line 30: Error during npm install
-Line 31: Failing build: Failed to install dependencies
-Line 32: Finished processing build request in 10.064s
+Install Google Tag Manager
+Copy the code below and paste it onto every page of your website.
+1. Paste this code as high in the <head> of the page as possible:
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M68XKCCR');</script>
+<!-- End Google Tag Manager -->
+2. Paste this code immediately after the opening <body> tag:
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M68XKCCR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
