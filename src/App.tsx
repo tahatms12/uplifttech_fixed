@@ -68,11 +68,7 @@ function App() {
               <CreativeDirectionPage />
             </Suspense>
           } />
-          <Route path="book" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <CalendarPage />
-            </Suspense>
-          } />
+          
           <Route path="payment" element={
             <Suspense fallback={<LoadingSpinner />}>
               <PaymentPage />

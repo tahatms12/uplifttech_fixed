@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, Linkedin } from 'lucide-react';
 import Section from '../components/ui/Section';
-import CalEmbed from '../components/calendar/CalEmbed';
+
 import '../styles/zoho-form.css';
 
 const ContactPage: React.FC = () => {
@@ -33,7 +33,9 @@ const ContactPage: React.FC = () => {
         </div>
       </div>
       
-      {/* Calendar Section */}
+      
+      
+      {/* Schedule a Meeting Section */}
       <Section>
         <div className="text-center mb-12">
           <h2 className="text-3xl font-semibold mb-4">Schedule a Meeting</h2>
@@ -42,15 +44,11 @@ const ContactPage: React.FC = () => {
           </p>
         </div>
         
-        <div className="glass-card p-8">
-          <CalEmbed 
-            elementId="booking-calendar" 
-            calLink="uplift-tech/30min"
-            layout="week_view"
-          />
+        <div className="glass-card p-8 flex justify-center">
+          <iframe src="https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto" title="taha"frameBorder="0" scrolling="no" marginWidth="0" border="0px" marginHeight="0"height="350px" width="432px" allowTransparency="true" align="center"></iframe>
         </div>
       </Section>
-      
+
       {/* Contact Form Section */}
       <Section>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
