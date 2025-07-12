@@ -1,0 +1,1 @@
+fix: Resolve Rollup build issue on Windows by overriding optional dependency

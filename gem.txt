@@ -1,77 +1,17 @@
-3:31:14 AM: buildbot version: 1ad41682c3cb8ba50e6cec4a3cd94c50f999b538
-3:31:14 AM: build-image version: 068c1c7d7725d329cc382184c7bbf62ac27e2c09 (noble)
-3:31:14 AM: Fetching cached dependencies
-3:31:14 AM: Starting to prepare the repo for build
-3:31:14 AM: Failed to fetch cache, continuing with build
-3:31:14 AM: No cached dependencies found. Cloning fresh repo
-3:31:14 AM: git clone --filter=blob:none https://github.com/tahatms12/uplifttech_fixed
-3:31:15 AM: Preparing Git Reference refs/heads/main
-3:31:25 AM: Failed during stage 'Install dependencies': dependency_installation script returned non-zero exit code: 1
-3:31:22 AM: Starting to install dependencies
-3:31:23 AM: Using PHP version
-3:31:23 AM: v22.17.0 is already installed.
-3:31:23 AM: Now using node v22.17.0 (npm v10.9.2)
-3:31:23 AM: Enabling Node.js Corepack
-3:31:23 AM: Started restoring cached build plugins
-3:31:23 AM: Finished restoring cached build plugins
-3:31:23 AM: Started restoring cached corepack dependencies
-3:31:23 AM: Finished restoring cached corepack dependencies
-3:31:23 AM: No npm workspaces detected
-3:31:23 AM: Started restoring cached node modules
-3:31:24 AM: Finished restoring cached node modules
-3:31:24 AM: Installing npm packages using npm version 10.9.2
-3:31:25 AM: npm error code EBADPLATFORM
-3:31:25 AM: npm error notsup Unsupported platform for @rollup/rollup-win32-x64-msvc@4.44.2: wanted {"os":"win32","cpu":"x64"} (current: {"os":"linux","cpu":"x64"})
-3:31:25 AM: npm error notsup Valid os:   win32
-3:31:25 AM: npm error notsup Actual os:  linux
-3:31:25 AM: npm error notsup Valid cpu:  x64
-3:31:25 AM: npm error notsup Actual cpu: x64
-3:31:25 AM: npm error A complete log of this run can be found in: /opt/buildhome/.npm/_logs/2025-07-11T22_31_24_752Z-debug-0.log
-3:31:25 AM: Error during npm install
-3:31:25 AM: Failing build: Failed to install dependencies
-3:31:25 AM: Finished processing build request in 10.936s
+The Netlify deploy is failing due to persistent issues with Rollup's native module on Windows, despite multiple attempts to resolve it through dependency management and project rebuilds.
 
+**New Strategy: Migrate to Bun**
 
-The Netlify deploy errored, with the following guidance provided:
+Given the ongoing challenges with the current build system, the new strategy is to migrate the project to use Bun as the primary bundler. This is a significant change that involves replacing Vite, Rollup, and Esbuild.
 
-**Diagnosis:**
-The build failure is due to the `EBADPLATFORM` error caused by an unsupported platform for the `@rollup/rollup-win32-x64-msvc@4.44.2` package, which expects an operating system of `win32` and a CPU architecture of `x64`, but the current environment is running on a Linux operating system.
+**Implementation Steps:**
+1.  **Install Bun:** Install Bun globally on the build environment.
+2.  **Remove Vite and related dependencies:** Uninstall Vite, Rollup, Esbuild, and any associated plugins from `package.json`.
+3.  **Configure Bun for React:** Update `package.json` scripts to use Bun's native bundler for building the React application. This may involve adapting the project structure or configuration to Bun's conventions.
+4.  **Test Build:** Run the Bun build command to verify successful compilation.
+5.  **Deploy:** Deploy the project to Netlify using the new Bun-based build process.
 
-**Solution:**
-1. Verify that the `@rollup/rollup-win32-x64-msvc@4.44.2` package is a required dependency by checking the `package.json` file or confirming it was committed to the repository.
-2. To resolve this issue, add the `@rollup/rollup-win32-x64-msvc@4.44.2` package to the `external` configuration in your build setup, ensuring it does not get installed during the build process due to platform compatibility issues.
+**Decision Rationale:**
+This approach is chosen as a "Nuclear Option" (similar to Strategy 5 from the previous prompt) due to the intractable nature of the Rollup issue on the current build environment. Bun offers a fresh start with a potentially more stable and performant build system.
 
-The relevant error logs are:
-
-Line 0: buildbot version: 1ad41682c3cb8ba50e6cec4a3cd94c50f999b538
-Line 1: build-image version: 068c1c7d7725d329cc382184c7bbf62ac27e2c09 (noble)
-Line 2: Fetching cached dependencies
-Line 3: Starting to prepare the repo for build
-Line 4: Failed to fetch cache, continuing with build
-Line 5: No cached dependencies found. Cloning fresh repo
-Line 6: git clone --filter=blob:none https://github.com/tahatms12/uplifttech_fixed
-Line 7: Preparing Git Reference refs/heads/main
-Line 8: Failed during stage 'Install dependencies': dependency_installation script returned non-zero exit code: 1
-Line 9: Starting to install dependencies
-Line 10: Using PHP version
-Line 11: v22.17.0 is already installed.
-Line 12: Now using node v22.17.0 (npm v10.9.2)
-Line 13: Enabling Node.js Corepack
-Line 14: Started restoring cached build plugins
-Line 15: Finished restoring cached build plugins
-Line 16: Started restoring cached corepack dependencies
-Line 17: Finished restoring cached corepack dependencies
-Line 18: No npm workspaces detected
-Line 19: Started restoring cached node modules
-Line 20: Finished restoring cached node modules
-Line 21: Installing npm packages using npm version 10.9.2
-Line 22: npm error code EBADPLATFORM
-Line 23: npm error notsup Unsupported platform for @rollup/rollup-win32-x64-msvc@4.44.2: wanted {"os":"win32","cpu":"x64"} (current: {"os
-Line 24: npm error notsup Valid os:   win32
-Line 25: npm error notsup Actual os:  linux
-Line 26: npm error notsup Valid cpu:  x64
-Line 27: npm error notsup Actual cpu: x64
-Line 28: npm error A complete log of this run can be found in: /opt/buildhome/.npm/_logs/2025-07-11T22_31_24_752Z-debug-0.log
-Line 29: Error during npm install
-Line 30: Failing build: Failed to install dependencies
-Line 31: Finished processing build request in 10.936s
+Push all changes directly to the main branch.
