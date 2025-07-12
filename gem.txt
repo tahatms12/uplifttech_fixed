@@ -1,73 +1,80 @@
-The Netlify deploy errored, with the following guidance provided:
+Use a single Netlify _headers file and allow every external analytics pixel explicitly.
 
-**Diagnosis:**
-The build failed due to an error in the file "ScheduleConsultationPage.tsx" at line 30, which indicates an "Unterminated regular expression" error.
+perl
+Copy
+Edit
+/*
+  Content-Security-Policy:
+    default-src 'self';
+    script-src
+      'self'
+      'unsafe-inline'
+      'unsafe-eval'
+      https://www.googletagmanager.com
+      https://connect.facebook.net
+      https://analytics.tiktok.com
+      https://snap.licdn.com
+      https://static.ads-twitter.com
+      https://s.pinimg.com
+      https://sc-static.net
+      https://www.redditstatic.com
+      https://a.quora.com
+      https://bat.bing.com
+      https://googleads.g.doubleclick.net
+      https://app.cal.com;
+    connect-src
+      'self'
+      https://www.google-analytics.com
+      https://connect.facebook.net
+      https://analytics.tiktok.com
+      https://snap.licdn.com
+      https://static.ads-twitter.com
+      https://sc-static.net
+      https://www.redditstatic.com
+      https://a.quora.com
+      https://bat.bing.com
+      https://googleads.g.doubleclick.net
+      https://app.cal.com;
+    frame-src
+      'self'
+      https://forms.zohopublic.com
+      https://connect.facebook.net
+      https://www.facebook.com
+      https://www.googletagmanager.com
+      https://td.doubleclick.net
+      https://app.cal.com;
+    img-src
+      'self'
+      data:
+      blob:
+      https://*.facebook.com
+      https://*.fbcdn.net
+      https://www.googletagmanager.com
+      https://googleads.g.doubleclick.net
+      https://analytics.tiktok.com
+      https://snap.licdn.com
+      https://s.pinimg.com
+      https://static.ads-twitter.com
+      https://bat.bing.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src  'self' https://fonts.gstatic.com;
+    worker-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+Place your service-worker script at /public/service-worker.js, ensure the server returns JavaScript not HTML, and register it with the exact same path. Strip the navigation-preload warning:
 
-**Solution:**
-1. In the file "ScheduleConsultationPage.tsx", go to line 30 and ensure that the regular expression syntax is correctly terminated.
-   
-2. Check the regular expression `/^[^@]+@[^@]+\.[^\s@]+$/` at line 30 to make sure it is properly ended with `/` at the end.
+js
+Copy
+Edit
+self.addEventListener('activate', e => {
+  e.waitUntil(self.registration.navigationPreload.enable());
+});
 
-3. Correct the regular expression to ensure proper termination to resolve the "Unterminated regular expression" error.
-
-4. After fixing the regular expression, rerun the build to verify that the issue is resolved.
-
-5. If the regular expression was correct and the issue persists, verify that the necessary packages (if any) required for the regular expression are included in the package.json file or committed to the repository.
-
-The relevant error logs are:
-
-Line 66: [96m[1mBuild command from Netlify app                                [22m[39m
-Line 67: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
-Line 68: ​
-Line 69: [36m$ npm run build[39m
-Line 70: > uplift-technologies-website@1.0.0 build
-Line 71: > vite build
-Line 72: [36mvite v7.0.4 [32mbuilding for production...[36m[39m
-Line 73: transforming...
-Line 74: /fonts/poppins-latin-400-normal.woff2 referenced in /fonts/poppins-latin-400-normal.woff2 didn't resolve at build time, it will 
-Line 75: /fonts/poppins-latin-600-normal.woff2 referenced in /fonts/poppins-latin-600-normal.woff2 didn't resolve at build time, it will 
-Line 76: [31m✗[39m Build failed in 2.72s
-Line 77: [31merror during build:
-Line 78: [31m[vite:esbuild] Transform failed with 1 error:
-Line 79: /opt/build/repo/src/pages/ScheduleConsultationPage.tsx:30:20: ERROR: Unterminated regular expression[31m
-Line 80: file: [36m/opt/build/repo/src/pages/ScheduleConsultationPage.tsx:30:20[31m
-Line 81: [33m
-Line 82: [33mUnterminated regular expression[33m
-Line 83: 28 |          return value.trim().length < 2 ? 'Full name must be at least 2 characters' : undefined;
-Line 84: 29 |        case 'workEmail':
-Line 85: 30 |          return !/^[^
-Line 86:    |                      ^
-Line 87: 31 |  @]+@[^
-Line 88: 32 |  @]+\.[^\s@]+$/.test(value) ? 'Invalid email address' : undefined;
-Line 89: [31m
-Line 90:     at failureErrorWithLog (/opt/build/repo/node_modules/esbuild/lib/main.js:1465:15)
-Line 91:     at /opt/build/repo/node_modules/esbuild/lib/main.js:734:50
-Line 92:     at responseCallbacks.<computed> (/opt/build/repo/node_modules/esbuild/lib/main.js:601:9)
-Line 93:     at handleIncomingPacket (/opt/build/repo/node_modules/esbuild/lib/main.js:656:12)
-Line 94:     at Socket.readFromStdout (/opt/build/repo/node_modules/esbuild/lib/main.js:579:7)
-Line 95:     at Socket.emit (node:events:518:28)
-Line 96:     at addChunk (node:internal/streams/readable:561:12)
-Line 97:     at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
-Line 98:     at Readable.push (node:internal/streams/readable:392:5)
-Line 99:     at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)[39m
-Line 100: [91m[1m​[22m[39m
-Line 101: [91m[1m"build.command" failed                                        [22m[39m
-Line 102: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
-Line 103: ​
-Line 104:   [31m[1mError message[22m[39m
-Line 105:   Command failed with exit code 1: npm run build
-Line 106: ​
-Line 107:   [31m[1mError location[22m[39m
-Line 108:   In Build command from Netlify app:
-Line 109:   npm run build
-Line 110: ​
-Line 111:   [31m[1mResolved config[22m[39m
-Line 112:   build:
-Line 113:     command: npm run build
-Line 114:     commandOrigin: ui
-Line 115:     publish: /opt/build/repo/dist
-Line 116:     publishOrigin: ui
-Line 117: Failed during stage 'building site': Build script returned non-zero exit code: 2
-Line 118: Build failed due to a user error: Build script returned non-zero exit code: 2
-Line 119: Failing build: Failed to build site
-Line 120: Finished processing build request in 26.863s
+self.addEventListener('fetch', e => {
+  e.respondWith((async () => {
+    const preload = await e.preloadResponse;
+    return preload || fetch(e.request);
+  })());
+});
+CSP directive syntax and Netlify header delivery confirmed
