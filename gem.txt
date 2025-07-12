@@ -1,17 +1,51 @@
-The Netlify deploy is failing due to persistent issues with Rollup's native module on Windows, despite multiple attempts to resolve it through dependency management and project rebuilds.
+The Netlify deploy errored, with the following guidance provided:
 
-**New Strategy: Migrate to Bun**
+**Diagnosis:**
+The build is failing during the installation of dependencies with the following error:
+- `npm error code EBADPLATFORM`
+- `npm error notsup Unsupported platform for @rollup/rollup-win32-x64-msvc@4.45.0: wanted {"os":"win32","cpu":"x64"} (current: {"os": "linux"})`
+- `npm error notsup Valid os: win32`
+- `npm error notsup Actual os: linux`
 
-Given the ongoing challenges with the current build system, the new strategy is to migrate the project to use Bun as the primary bundler. This is a significant change that involves replacing Vite, Rollup, and Esbuild.
+**Solution:**
+1. Verify that the package causing the error (`@rollup/rollup-win32-x64-msvc@4.45.0`) is in the `package.json` file or was committed to the repository.
+2. Since the error is related to platform mismatch (expected `win32` on `x64` but the current platform is `linux`), you'll need to address this by either:
+   - Finding an alternative package that is compatible with the Linux platform.
+   - If there are no alternatives, you may need to exclude the problematic package from the build process or find a way to provide compatibility for the Linux platform.
 
-**Implementation Steps:**
-1.  **Install Bun:** Install Bun globally on the build environment.
-2.  **Remove Vite and related dependencies:** Uninstall Vite, Rollup, Esbuild, and any associated plugins from `package.json`.
-3.  **Configure Bun for React:** Update `package.json` scripts to use Bun's native bundler for building the React application. This may involve adapting the project structure or configuration to Bun's conventions.
-4.  **Test Build:** Run the Bun build command to verify successful compilation.
-5.  **Deploy:** Deploy the project to Netlify using the new Bun-based build process.
 
-**Decision Rationale:**
-This approach is chosen as a "Nuclear Option" (similar to Strategy 5 from the previous prompt) due to the intractable nature of the Rollup issue on the current build environment. Bun offers a fresh start with a potentially more stable and performant build system.
+The relevant error logs are:
 
-Push all changes directly to the main branch.
+Line 0: build-image version: 068c1c7d7725d329cc382184c7bbf62ac27e2c09 (noble)
+Line 1: buildbot version: 1ad41682c3cb8ba50e6cec4a3cd94c50f999b538
+Line 2: Fetching cached dependencies
+Line 3: Failed to fetch cache, continuing with build
+Line 4: Starting to prepare the repo for build
+Line 5: No cached dependencies found. Cloning fresh repo
+Line 6: git clone --filter=blob:none https://github.com/tahatms12/uplifttech_fixed
+Line 7: Preparing Git Reference refs/heads/main
+Line 8: Custom build path detected. Proceeding with the specified path: ''
+Line 9: Starting to install dependencies
+Line 10: Using PHP version
+Line 11: v22.17.0 is already installed.
+Line 12: Now using node v22.17.0 (npm v10.9.2)
+Line 13: Enabling Node.js Corepack
+Line 14: Started restoring cached build plugins
+Line 15: Finished restoring cached build plugins
+Line 16: Started restoring cached corepack dependencies
+Line 17: Finished restoring cached corepack dependencies
+Line 18: No npm workspaces detected
+Line 19: Started restoring cached node modules
+Line 20: Failed during stage 'Install dependencies': dependency_installation script returned non-zero exit code: 1
+Line 21: Finished restoring cached node modules
+Line 22: Installing npm packages using npm version 10.9.2
+Line 23: npm error code EBADPLATFORM
+Line 24: npm error notsup Unsupported platform for @rollup/rollup-win32-x64-msvc@4.45.0: wanted {"os":"win32","cpu":"x64"} (current: {"os
+Line 25: npm error notsup Valid os:   win32
+Line 26: npm error notsup Actual os:  linux
+Line 27: npm error notsup Valid cpu:  x64
+Line 28: npm error notsup Actual cpu: x64
+Line 29: npm error A complete log of this run can be found in: /opt/buildhome/.npm/_logs/2025-07-12T11_17_52_222Z-debug-0.log
+Line 30: Error during npm install
+Line 31: Failing build: Failed to install dependencies
+Line 32: Finished processing build request in 10.064s
