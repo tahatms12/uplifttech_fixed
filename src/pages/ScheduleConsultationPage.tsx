@@ -27,9 +27,7 @@ const useFormValidation = () => {
       case 'fullName':
         return value.trim().length < 2 ? 'Full name must be at least 2 characters' : undefined;
       case 'workEmail':
-        return !/^[^
-@]+@[^
-@]+\.[^\s@]+$/.test(value) ? 'Invalid email address' : undefined;
+        return !/^[^@]+@[^@]+\.[^\s@]+$/.test(value) ? 'Invalid email address' : undefined;
       case 'phone':
         return !/^\+?[\d\s\-\(]{10,}$/.test(value) ? 'Invalid phone number' : undefined;
       case 'preferredDate':
