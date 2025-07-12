@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Container from '../components/Container';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
+import Container from '../components/ui/Section';
 
 interface FormData {
   fullName: string;
@@ -27,9 +27,11 @@ const useFormValidation = () => {
       case 'fullName':
         return value.trim().length < 2 ? 'Full name must be at least 2 characters' : undefined;
       case 'workEmail':
-        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'Invalid email address' : undefined;
+        return !/^[^
+@]+@[^
+@]+\.[^\s@]+$/.test(value) ? 'Invalid email address' : undefined;
       case 'phone':
-        return !/^\+?[\d\s\-\(\)]{10,}$/.test(value) ? 'Invalid phone number' : undefined;
+        return !/^\+?[\d\s\-\(]{10,}$/.test(value) ? 'Invalid phone number' : undefined;
       case 'preferredDate':
         return !value ? 'Please select a preferred date' : undefined;
       default:
@@ -193,8 +195,6 @@ const ScheduleConsultation: React.FC = () => {
           {JSON.stringify(jsonLdFaq)}
         </script>
       </Helmet>
-
-      <Header />
 
       <main>
         {/* Hero Section */}
@@ -453,60 +453,3 @@ const ScheduleConsultation: React.FC = () => {
 };
 
 export default ScheduleConsultation;
-
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        primary: '#0057B8',
-        secondary: '#00C389',
-        'accent-brand': 'hsl(203 100% 36%)',
-        'accent-green': 'hsl(161 63% 46%)',
-      },
-      fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-      },
-      maxWidth: {
-        'screen-xl': '1280px',
-      }
-    },
-  },
-  plugins: [],
-}
-
-# Schedule Consultation Setup
-
-## Environment Variables
-
-Add to `.env.local`:
-
-```bash
-VITE_ZOHO_CALENDAR_URL=https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto
-```
-
-## CSP Configuration
-
-Update Content Security Policy to allow Zoho Calendar iframe:
-
-```
-frame-ancestors 'self' https://calendar.zoho.com;
-frame-src 'self' https://calendar.zoho.com;
-```
-
-## Cron Job for Slot Management
-
-Add to server crontab to purge stale booking slots:
-
-```bash
-# Run every hour to clean expired slots
-0 * * * * curl -X POST https://api.your-domain.com/admin/purge-stale-slots
-```
-
-## API Endpoint
-
-Ensure `/api/book` endpoint exists to handle form submissions with reCAPTCHA validation.

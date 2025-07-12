@@ -20,6 +20,7 @@ const ApplyPage = lazy(() => import('./pages/ApplyPage'));
 
 const CreativeDirectionPage = lazy(() => import('./pages/CreativeDirectionPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultationPage'));
 
 function App() {
   return (
@@ -77,6 +78,11 @@ function App() {
           <Route path="privacy-policy" element={
             <Suspense fallback={<LoadingSpinner />}>
               <PrivacyPolicyPage />
+            </Suspense>
+          } />
+          <Route path="schedule-consultation" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <ScheduleConsultationPage />
             </Suspense>
           } />
           <Route path="*" element={
