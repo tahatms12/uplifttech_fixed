@@ -1,5 +1,128 @@
-Separate path from header, indent the header, keep the whole CSP value on one line, and end every directive with a semicolon.
+The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
+The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
+The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
+The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
 
-/*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://connect.facebook.net https://analytics.tiktok.com https://snap.licdn.com https://static.ads-twitter.com https://s.pinimg.com https://sc-static.net https://www.redditstatic.com https://a.quora.com https://bat.bing.com https://googleads.g.doubleclick.net https://app.cal.com; connect-src 'self' https://www.google-analytics.com https://connect.facebook.net https://analytics.tiktok.com https://snap.licdn.com https://static.ads-twitter.com https://sc-static.net https://www.redditstatic.com https://a.quora.com https://bat.bing.com https://googleads.g.doubleclick.net https://app.cal.com; frame-src 'self' https://forms.zohopublic.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://td.doubleclick.net https://app.cal.com; img-src 'self' data: blob: https://*.facebook.com https://*.fbcdn.net https://www.googletagmanager.com https://googleads.g.doubleclick.net https://analytics.tiktok.com https://snap.licdn.com https://s.pinimg.com https://static.ads-twitter.com https://bat.bing.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';
-Netlify will now parse this rule.
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+book:109 Twitter Pixel: Content view event fired
+book:130 Pinterest Tag: PageLoad event fired
+book:154 Snap Pixel: PAGE_VIEW event fired
+book:168 Reddit Pixel: PageVisit event fired
+book:184 Quora Pixel: ViewContent event fired
+book:197 Microsoft UET Tag: PageLoad event fired
+book:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-400-normal.woff2
+book:1 OTS parsing error: invalid sfntVersion: 1008821359
+book:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-600-normal.woff2
+book:1 OTS parsing error: invalid sfntVersion: 1008821359
+js?id=AW-CONVERSION_ID:114 Refused to connect to 'https://www.google.com/ccm/collect?tid=AW-CONVERSION_ID&en=page_view&dl=https%3A%2F%2Fuplift-technologies.com%2Fbook&scrsrc=www.googletagmanager.com&frm=0&rnd=95390235.1752503343&dt=UPLIFT%20Technologies%20%7C%20People-Powered%20Outsourcing%20Partner&auid=346794205.1751485995&navt=r&npa=0&gtm=45be5791za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~103351869~103351871~104684208~104684211~104909302~104909304~104935091~104935093&tft=1752503343128&tfd=539&apve=1&apvf=f' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com".
+
+Uc @ js?id=AW-CONVERSION_ID:114
+jm @ js?id=AW-CONVERSION_ID:285
+(anonymous) @ js?id=AW-CONVERSION_ID:538
+Sz @ js?id=AW-CONVERSION_ID:536
+Wz @ js?id=AW-CONVERSION_ID:537
+DB @ js?id=AW-CONVERSION_ID:562
+f @ js?id=AW-CONVERSION_ID:667
+(anonymous) @ js?id=AW-CONVERSION_ID:669
+en @ js?id=AW-CONVERSION_ID:302
+op @ js?id=AW-CONVERSION_ID:324
+yJ @ js?id=AW-CONVERSION_ID:669
+v @ js?id=AW-CONVERSION_ID:343
+on @ js?id=AW-CONVERSION_ID:304
+Qq @ js?id=AW-CONVERSION_ID:343
+Pq.flush @ js?id=AW-CONVERSION_ID:347
+Pq.push @ js?id=AW-CONVERSION_ID:345
+config @ js?id=AW-CONVERSION_ID:602
+PD @ js?id=AW-CONVERSION_ID:610
+RD @ js?id=AW-CONVERSION_ID:613
+setTimeout
+B @ js?id=AW-CONVERSION_ID:111
+SD @ js?id=AW-CONVERSION_ID:616
+ho @ js?id=AW-CONVERSION_ID:732
+(anonymous) @ js?id=AW-CONVERSION_ID:735
+c @ js?id=AW-CONVERSION_ID:733
+(anonymous) @ js?id=AW-CONVERSION_ID:735
+(anonymous) @ js?id=AW-CONVERSION_ID:735
+(anonymous) @ js?id=AW-CONVERSION_ID:737
+js?id=AW-CONVERSION_ID:114 Fetch API cannot load https://www.google.com/ccm/collect?tid=AW-CONVERSION_ID&en=page_view&dl=https%3A%2F%2Fuplift-technologies.com%2Fbook&scrsrc=www.googletagmanager.com&frm=0&rnd=95390235.1752503343&dt=UPLIFT%20Technologies%20%7C%20People-Powered%20Outsourcing%20Partner&auid=346794205.1751485995&navt=r&npa=0&gtm=45be5791za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~103351869~103351871~104684208~104684211~104909302~104909304~104935091~104935093&tft=1752503343128&tfd=539&apve=1&apvf=f. Refused to connect because it violates the document's Content Security Policy.
+Uc @ js?id=AW-CONVERSION_ID:114
+jm @ js?id=AW-CONVERSION_ID:285
+(anonymous) @ js?id=AW-CONVERSION_ID:538
+Sz @ js?id=AW-CONVERSION_ID:536
+Wz @ js?id=AW-CONVERSION_ID:537
+DB @ js?id=AW-CONVERSION_ID:562
+f @ js?id=AW-CONVERSION_ID:667
+(anonymous) @ js?id=AW-CONVERSION_ID:669
+en @ js?id=AW-CONVERSION_ID:302
+op @ js?id=AW-CONVERSION_ID:324
+yJ @ js?id=AW-CONVERSION_ID:669
+v @ js?id=AW-CONVERSION_ID:343
+on @ js?id=AW-CONVERSION_ID:304
+Qq @ js?id=AW-CONVERSION_ID:343
+Pq.flush @ js?id=AW-CONVERSION_ID:347
+Pq.push @ js?id=AW-CONVERSION_ID:345
+config @ js?id=AW-CONVERSION_ID:602
+PD @ js?id=AW-CONVERSION_ID:610
+RD @ js?id=AW-CONVERSION_ID:613
+setTimeout
+B @ js?id=AW-CONVERSION_ID:111
+SD @ js?id=AW-CONVERSION_ID:616
+ho @ js?id=AW-CONVERSION_ID:732
+(anonymous) @ js?id=AW-CONVERSION_ID:735
+c @ js?id=AW-CONVERSION_ID:733
+(anonymous) @ js?id=AW-CONVERSION_ID:735
+(anonymous) @ js?id=AW-CONVERSION_ID:735
+(anonymous) @ js?id=AW-CONVERSION_ID:737
+www.googletagmanager.com/:1 Refused to frame 'https://td.doubleclick.net/' because it violates the following Content Security Policy directive: "frame-src 'self' https://forms.zohopublic.com".
+
+www.googletagmanager.com/:1 Refused to frame 'https://www.googletagmanager.com/' because it violates the following Content Security Policy directive: "frame-src 'self' https://forms.zohopublic.com".
+
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
+book:212 All advertising pixels loaded and verified:
+book:213 - Meta Pixel (ID: 123456789012345) - PageView event
+book:214 - TikTok Pixel (ID: TIKTOK_PIXEL_ID) - PageView event
+book:215 - Google Ads (ID: AW-CONVERSION_ID) - Page load
+book:216 - LinkedIn Insight Tag (ID: LINKEDIN_PARTNER_ID) - Page load
+book:217 - Twitter Pixel (ID: TWITTER_PIXEL_ID) - Content view
+book:218 - Pinterest Tag (ID: PINTEREST_TAG_ID) - PageLoad
+book:219 - Snap Pixel (ID: SNAP_PIXEL_ID) - PAGE_VIEW
+book:220 - Reddit Pixel (ID: REDDIT_PIXEL_ID) - PageVisit
+book:221 - Quora Pixel (ID: QUORA_PIXEL_ID) - ViewContent
+book:222 - Microsoft UET Tag (ID: MICROSOFT_UET_TAG_ID) - PageLoad
+book:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">
+service-worker.js:1 Uncaught SyntaxError: Unexpected token '<' (at service-worker.js:1:1)
+sw.js:1 Uncaught SyntaxError: Unexpected token '<' (at sw.js:1:1)
