@@ -1,1 +1,1 @@
-feat: Use @fontsource/poppins and remove placeholder font files
+fix: Add VITE_ZOHO_CALENDAR_URL to netlify.toml for Netlify Function
