@@ -1,1 +1,1 @@
-feat: Migrate Netlify config to netlify.toml and remove vite-plugin-pwa
+feat: Add placeholder Poppins font files
