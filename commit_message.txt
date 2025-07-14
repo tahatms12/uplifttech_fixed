@@ -1,1 +1,1 @@
-feat: Make CSP more permissive for debugging calendar loading
+feat: Add Netlify function to proxy Zoho calendar

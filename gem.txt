@@ -126,3 +126,72 @@ book:222 - Microsoft UET Tag (ID: MICROSOFT_UET_TAG_ID) - PageLoad
 book:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">
 service-worker.js:1 Uncaught SyntaxError: Unexpected token '<' (at service-worker.js:1:1)
 sw.js:1 Uncaught SyntaxError: Unexpected token '<' (at sw.js:1:1)
+
+
+Blocked script originates from a source not listed in `script-src`. Browser falls back to `script-src` because `script-src-elem` is absent, then refuses the load.
+
+Fix:
+
+1. Locate the failing `<script>` tag and note its URL.
+
+2. Add that URL’s origin, a nonce, or a SHA-256 hash to your policy.
+
+3. Update the header delivered by Netlify:
+
+```
+/*
+  Content-Security-Policy: default-src 'self';
+  script-src 'self' 'unsafe-inline' https://cdn.example.com;   # add each allowed origin
+  script-src-elem 'self' https://cdn.example.com;              # explicit for <script src="">
+  connect-src 'self';
+  img-src 'self' data:;
+  style-src 'self' 'unsafe-inline';
+  object-src 'none';
+```
+
+4. Commit the `_headers` file (or `netlify.toml` `[headers]` block) and redeploy.
+
+5. If the script is inline, remove `'unsafe-inline'` and instead embed its hash:
+
+```
+script-src 'self' sha256-<base64-hash>
+```
+
+6. If the script is generated at runtime, add a CSP nonce to the tag and the header:
+
+```
+script-src 'self' 'nonce-<random>';
+<script nonce="<same-random>" src="..."></script>
+```
+
+Only allow the precise origins, hashes, or nonces needed.
+
+
+
+Navigation preload cancelled because you neither awaited `event.preloadResponse` nor wrapped the resulting promise in `event.respondWith()`.
+
+```
+/// sw.js
+self.addEventListener('activate', e => {
+  e.waitUntil(self.registration.navigationPreload.enable());
+});
+
+self.addEventListener('fetch', e => {
+  if (e.request.mode !== 'navigate') return;
+
+  e.respondWith(async function () {
+    const preload = await e.preloadResponse;
+    if (preload) return preload;          // serve preloaded response
+    return fetch(e.request);              // network fallback
+  }());
+});
+```
+
+Alternative: disable navigation preload if unused.
+
+```
+self.addEventListener('activate', e => {
+  e.waitUntil(self.registration.navigationPreload.disable());
+});
+```
+
