@@ -1,0 +1,25 @@
+[[redirects]]
+  from = "/sw.js"
+  to   = "/sw.js"
+  status = 200
+
+[[redirects]]
+  from = "/service-worker.js"
+  to   = "/service-worker.js"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+  Content-Security-Policy = """
+default-src 'self';
+script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://static.ads-twitter.com https://snap.licdn.com https://q.quora.com https://bat.bing.com https://td.doubleclick.net https://sc-static.net https://cdn.pinterest.com;
+connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://www.google.com https://bat.bing.com https://tr.snapchat.com https://analytics.twitter.com https://q.quora.com;
+img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://static.ads-twitter.com https://snap.licdn.com https://q.quora.com https://tr.snapchat.com https://cdn.pinterest.com https://stats.g.doubleclick.net;
+frame-src 'self' https://forms.zohopublic.com https://www.googletagmanager.com https://td.doubleclick.net;
+font-src 'self' https://fonts.gstatic.com;
+worker-src 'self';
+base-uri 'self';
+object-src 'none';
+form-action 'self'
+"""

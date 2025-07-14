@@ -1,94 +1,56 @@
-Root causes
-• service-worker.js and sw\.js requests receive index.html because Netlify redirect rules catch everything. Browser tries to run HTML as JS and throws “Unexpected token ‘<’”.
-• navigationPreload is turned on but fetch handler never calls event.respondWith(preloadResponse). Browser cancels the preload and logs the warning.([MDN Web Docs][1])
-• Current Content-Security-Policy limits script-src and connect-src to 'self'. External pixels, GTM, DoubleClick, Zoho frames, etc. are blocked.([docs.netlify.com][2], [Google for Developers][3])
-• Poppins woff2 files referenced in CSS are missing or corrupted; Netlify again serves HTML, so OTS rejects them.
-• Frame-src and connect-src omissions block doubleclick, GA collect, td.doubleclick.net, etc.
+1  Place **\_redirects** and **\_headers** inside /public (Vite copies everything under /public to the output). Delete any earlier copies in src/ or root. Redeploy.
 
-Directives
+2  Alternate: remove both files and put a single **netlify.toml** in project root:
 
-1. Restore static assets
-    Place valid Poppins woff2 files under /public/fonts.
-    Update CSS import path or remove the preload lines.
-    Commit and redeploy.
+```toml
+[[redirects]]
+  from = "/sw.js"
+  to   = "/sw.js"
+  status = 200
 
-2. Exempt service-worker files from SPA rewrites
-   *create a file named **\_redirects** (if none exists) at repository root*
+[[redirects]]
+  from = "/service-worker.js"
+  to   = "/service-worker.js"
+  status = 200
 
-```
-/sw.js                /sw.js                 200
-/service-worker.js    /service-worker.js     200
-```
-
-Netlify stops rewriting those requests to index.html.
-
-3. Replace the broken CSP header
-   *create **/\_headers** (or edit the existing one) exactly as shown*
-
-```
-/*
-  Content-Security-Policy: default-src 'self'; \
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' \
-    https://www.googletagmanager.com \
-    https://www.google-analytics.com \
-    https://connect.facebook.net \
-    https://static.ads-twitter.com \
-    https://snap.licdn.com \
-    https://q.quora.com \
-    https://bat.bing.com \
-    https://td.doubleclick.net \
-    https://sc-static.net \
-    https://cdn.pinterest.com; \
-  connect-src 'self' \
-    https://www.google-analytics.com \
-    https://region1.google-analytics.com \
-    https://stats.g.doubleclick.net \
-    https://www.google.com \
-    https://bat.bing.com \
-    https://tr.snapchat.com \
-    https://analytics.twitter.com \
-    https://q.quora.com; \
-  img-src 'self' data: blob: \
-    https://www.google-analytics.com \
-    https://www.googletagmanager.com \
-    https://connect.facebook.net \
-    https://static.ads-twitter.com \
-    https://snap.licdn.com \
-    https://q.quora.com \
-    https://tr.snapchat.com \
-    https://cdn.pinterest.com \
-    https://stats.g.doubleclick.net; \
-  frame-src 'self' https://forms.zohopublic.com \
-    https://www.googletagmanager.com \
-    https://td.doubleclick.net; \
-  font-src 'self' https://fonts.gstatic.com; \
-  worker-src 'self'; \
-  base-uri 'self'; \
-  object-src 'none'; \
-  form-action 'self'
+[[headers]]
+  for = "/*"
+  [headers.values]
+  Content-Security-Policy = """
+default-src 'self';
+script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://static.ads-twitter.com https://snap.licdn.com https://q.quora.com https://bat.bing.com https://td.doubleclick.net https://sc-static.net https://cdn.pinterest.com;
+connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://bat.bing.com https://tr.snapchat.com https://analytics.twitter.com https://q.quora.com;
+img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://static.ads-twitter.com https://snap.licdn.com https://q.quora.com https://tr.snapchat.com https://cdn.pinterest.com https://stats.g.doubleclick.net;
+frame-src 'self' https://forms.zohopublic.com https://www.googletagmanager.com https://td.doubleclick.net;
+font-src 'self' https://fonts.gstatic.com;
+worker-src 'self';
+base-uri 'self';
+object-src 'none';
+form-action 'self'
+"""
 ```
 
-Commit, push, redeploy. Header now satisfies every pixel and analytics script.
+3  Delete vite-plugin-pwa from vite.config.js and package.json. Re-run `npm i`, `npm run build`, `netlify deploy`. Navigation-preload warnings disappear because no service worker registers. Re-enable only after sw is fixed.
 
-4. Disable navigation preload until a fetch handler uses it
-   *edit sw\.js (or service-worker.js)*
+4  To keep the service worker and silence the preload warnings, add to sw\.js top level:
 
 ```js
-self.addEventListener('activate', event => {
-  event.waitUntil(self.registration.navigationPreload.disable());
-});
+self.addEventListener('activate', e =>
+  e.waitUntil(self.registration.navigationPreload.disable())
+);
 ```
 
-Rebuild, deploy.
+5  Font errors: replace the two .woff2 files with valid copies from Google Fonts. Confirm size > 0 B. Commit to /public/fonts. In CSS keep:
 
-5. If still using vite-plugin-pwa, comment it out until the service-worker assets compile cleanly. A fresh deploy without the plugin removes the navigation-preload warning entirely.
+```css
+@font-face{
+  font-family:'Poppins';font-style:normal;font-weight:400;
+  src:url('/fonts/poppins-latin-400-normal.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Poppins';font-style:normal;font-weight:600;
+  src:url('/fonts/poppins-latin-600-normal.woff2') format('woff2');
+}
+```
 
-6. Verify
-   `curl -I https://uplift-technologies.com | grep -i content-security-policy` returns the new header.
-   Chrome DevTools Console shows zero CSP blocks, zero font decode errors, and no “Unexpected token” from sw\.js.
-
-Implementation complete.
-
-[1]: https://developer.mozilla.org/en-US/docs/Web/API/NavigationPreloadManager/disable?utm_source=chatgpt.com "NavigationPreloadManager: disable() method - Web APIs | MDN"
-[2]: https://docs.netlify.com/security/content-security-policy/?utm_source=chatgpt.com "Content Security Policy | Netlify Docs"
-[3]: https://developers.google.com/tag-platform/security/guides/csp?utm_source=chatgpt.com "Use Tag Manager with a Content Security Policy | Tag Platform"
+6  Rebuild, redeploy, hard-refresh (Ctrl + Shift + R). Console must show: no CSP blocks, no font decode, no “Unexpected token '<'”, no navigation-preload cancellations.
