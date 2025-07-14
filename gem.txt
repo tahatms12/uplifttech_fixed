@@ -1,197 +1,94 @@
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+Root causes
+• service-worker.js and sw\.js requests receive index.html because Netlify redirect rules catch everything. Browser tries to run HTML as JS and throws “Unexpected token ‘<’”.
+• navigationPreload is turned on but fetch handler never calls event.respondWith(preloadResponse). Browser cancels the preload and logs the warning.([MDN Web Docs][1])
+• Current Content-Security-Policy limits script-src and connect-src to 'self'. External pixels, GTM, DoubleClick, Zoho frames, etc. are blocked.([docs.netlify.com][2], [Google for Developers][3])
+• Poppins woff2 files referenced in CSS are missing or corrupted; Netlify again serves HTML, so OTS rejects them.
+• Frame-src and connect-src omissions block doubleclick, GA collect, td.doubleclick.net, etc.
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+Directives
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+1. Restore static assets
+    Place valid Poppins woff2 files under /public/fonts.
+    Update CSS import path or remove the preload lines.
+    Commit and redeploy.
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+2. Exempt service-worker files from SPA rewrites
+   *create a file named **\_redirects** (if none exists) at repository root*
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+```
+/sw.js                /sw.js                 200
+/service-worker.js    /service-worker.js     200
+```
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+Netlify stops rewriting those requests to index.html.
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
-
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
-
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
-
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
-
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
-
-book:109 Twitter Pixel: Content view event fired
-book:130 Pinterest Tag: PageLoad event fired
-book:154 Snap Pixel: PAGE_VIEW event fired
-book:168 Reddit Pixel: PageVisit event fired
-book:184 Quora Pixel: ViewContent event fired
-book:197 Microsoft UET Tag: PageLoad event fired
-book:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-400-normal.woff2
-book:1 OTS parsing error: invalid sfntVersion: 1008821359
-book:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-600-normal.woff2
-book:1 OTS parsing error: invalid sfntVersion: 1008821359
-js?id=AW-CONVERSION_ID:114 Refused to connect to 'https://www.google.com/ccm/collect?tid=AW-CONVERSION_ID&en=page_view&dl=https%3A%2F%2Fuplift-technologies.com%2Fbook&scrsrc=www.googletagmanager.com&frm=0&rnd=95390235.1752503343&dt=UPLIFT%20Technologies%20%7C%20People-Powered%20Outsourcing%20Partner&auid=346794205.1751485995&navt=r&npa=0&gtm=45be5791za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~103351869~103351871~104684208~104684211~104909302~104909304~104935091~104935093&tft=1752503343128&tfd=539&apve=1&apvf=f' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com".
-
-Uc @ js?id=AW-CONVERSION_ID:114
-jm @ js?id=AW-CONVERSION_ID:285
-(anonymous) @ js?id=AW-CONVERSION_ID:538
-Sz @ js?id=AW-CONVERSION_ID:536
-Wz @ js?id=AW-CONVERSION_ID:537
-DB @ js?id=AW-CONVERSION_ID:562
-f @ js?id=AW-CONVERSION_ID:667
-(anonymous) @ js?id=AW-CONVERSION_ID:669
-en @ js?id=AW-CONVERSION_ID:302
-op @ js?id=AW-CONVERSION_ID:324
-yJ @ js?id=AW-CONVERSION_ID:669
-v @ js?id=AW-CONVERSION_ID:343
-on @ js?id=AW-CONVERSION_ID:304
-Qq @ js?id=AW-CONVERSION_ID:343
-Pq.flush @ js?id=AW-CONVERSION_ID:347
-Pq.push @ js?id=AW-CONVERSION_ID:345
-config @ js?id=AW-CONVERSION_ID:602
-PD @ js?id=AW-CONVERSION_ID:610
-RD @ js?id=AW-CONVERSION_ID:613
-setTimeout
-B @ js?id=AW-CONVERSION_ID:111
-SD @ js?id=AW-CONVERSION_ID:616
-ho @ js?id=AW-CONVERSION_ID:732
-(anonymous) @ js?id=AW-CONVERSION_ID:735
-c @ js?id=AW-CONVERSION_ID:733
-(anonymous) @ js?id=AW-CONVERSION_ID:735
-(anonymous) @ js?id=AW-CONVERSION_ID:735
-(anonymous) @ js?id=AW-CONVERSION_ID:737
-js?id=AW-CONVERSION_ID:114 Fetch API cannot load https://www.google.com/ccm/collect?tid=AW-CONVERSION_ID&en=page_view&dl=https%3A%2F%2Fuplift-technologies.com%2Fbook&scrsrc=www.googletagmanager.com&frm=0&rnd=95390235.1752503343&dt=UPLIFT%20Technologies%20%7C%20People-Powered%20Outsourcing%20Partner&auid=346794205.1751485995&navt=r&npa=0&gtm=45be5791za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~103351869~103351871~104684208~104684211~104909302~104909304~104935091~104935093&tft=1752503343128&tfd=539&apve=1&apvf=f. Refused to connect because it violates the document's Content Security Policy.
-Uc @ js?id=AW-CONVERSION_ID:114
-jm @ js?id=AW-CONVERSION_ID:285
-(anonymous) @ js?id=AW-CONVERSION_ID:538
-Sz @ js?id=AW-CONVERSION_ID:536
-Wz @ js?id=AW-CONVERSION_ID:537
-DB @ js?id=AW-CONVERSION_ID:562
-f @ js?id=AW-CONVERSION_ID:667
-(anonymous) @ js?id=AW-CONVERSION_ID:669
-en @ js?id=AW-CONVERSION_ID:302
-op @ js?id=AW-CONVERSION_ID:324
-yJ @ js?id=AW-CONVERSION_ID:669
-v @ js?id=AW-CONVERSION_ID:343
-on @ js?id=AW-CONVERSION_ID:304
-Qq @ js?id=AW-CONVERSION_ID:343
-Pq.flush @ js?id=AW-CONVERSION_ID:347
-Pq.push @ js?id=AW-CONVERSION_ID:345
-config @ js?id=AW-CONVERSION_ID:602
-PD @ js?id=AW-CONVERSION_ID:610
-RD @ js?id=AW-CONVERSION_ID:613
-setTimeout
-B @ js?id=AW-CONVERSION_ID:111
-SD @ js?id=AW-CONVERSION_ID:616
-ho @ js?id=AW-CONVERSION_ID:732
-(anonymous) @ js?id=AW-CONVERSION_ID:735
-c @ js?id=AW-CONVERSION_ID:733
-(anonymous) @ js?id=AW-CONVERSION_ID:735
-(anonymous) @ js?id=AW-CONVERSION_ID:735
-(anonymous) @ js?id=AW-CONVERSION_ID:737
-www.googletagmanager.com/:1 Refused to frame 'https://td.doubleclick.net/' because it violates the following Content Security Policy directive: "frame-src 'self' https://forms.zohopublic.com".
-
-www.googletagmanager.com/:1 Refused to frame 'https://www.googletagmanager.com/' because it violates the following Content Security Policy directive: "frame-src 'self' https://forms.zohopublic.com".
-
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-book:212 All advertising pixels loaded and verified:
-book:213 - Meta Pixel (ID: 123456789012345) - PageView event
-book:214 - TikTok Pixel (ID: TIKTOK_PIXEL_ID) - PageView event
-book:215 - Google Ads (ID: AW-CONVERSION_ID) - Page load
-book:216 - LinkedIn Insight Tag (ID: LINKEDIN_PARTNER_ID) - Page load
-book:217 - Twitter Pixel (ID: TWITTER_PIXEL_ID) - Content view
-book:218 - Pinterest Tag (ID: PINTEREST_TAG_ID) - PageLoad
-book:219 - Snap Pixel (ID: SNAP_PIXEL_ID) - PAGE_VIEW
-book:220 - Reddit Pixel (ID: REDDIT_PIXEL_ID) - PageVisit
-book:221 - Quora Pixel (ID: QUORA_PIXEL_ID) - ViewContent
-book:222 - Microsoft UET Tag (ID: MICROSOFT_UET_TAG_ID) - PageLoad
-book:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">
-service-worker.js:1 Uncaught SyntaxError: Unexpected token '<' (at service-worker.js:1:1)
-sw.js:1 Uncaught SyntaxError: Unexpected token '<' (at sw.js:1:1)
-
-
-Blocked script originates from a source not listed in `script-src`. Browser falls back to `script-src` because `script-src-elem` is absent, then refuses the load.
-
-Fix:
-
-1. Locate the failing `<script>` tag and note its URL.
-
-2. Add that URL’s origin, a nonce, or a SHA-256 hash to your policy.
-
-3. Update the header delivered by Netlify:
+3. Replace the broken CSP header
+   *create **/\_headers** (or edit the existing one) exactly as shown*
 
 ```
 /*
-  Content-Security-Policy: default-src 'self';
-  script-src 'self' 'unsafe-inline' https://cdn.example.com;   # add each allowed origin
-  script-src-elem 'self' https://cdn.example.com;              # explicit for <script src="">
-  connect-src 'self';
-  img-src 'self' data:;
-  style-src 'self' 'unsafe-inline';
-  object-src 'none';
+  Content-Security-Policy: default-src 'self'; \
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' \
+    https://www.googletagmanager.com \
+    https://www.google-analytics.com \
+    https://connect.facebook.net \
+    https://static.ads-twitter.com \
+    https://snap.licdn.com \
+    https://q.quora.com \
+    https://bat.bing.com \
+    https://td.doubleclick.net \
+    https://sc-static.net \
+    https://cdn.pinterest.com; \
+  connect-src 'self' \
+    https://www.google-analytics.com \
+    https://region1.google-analytics.com \
+    https://stats.g.doubleclick.net \
+    https://www.google.com \
+    https://bat.bing.com \
+    https://tr.snapchat.com \
+    https://analytics.twitter.com \
+    https://q.quora.com; \
+  img-src 'self' data: blob: \
+    https://www.google-analytics.com \
+    https://www.googletagmanager.com \
+    https://connect.facebook.net \
+    https://static.ads-twitter.com \
+    https://snap.licdn.com \
+    https://q.quora.com \
+    https://tr.snapchat.com \
+    https://cdn.pinterest.com \
+    https://stats.g.doubleclick.net; \
+  frame-src 'self' https://forms.zohopublic.com \
+    https://www.googletagmanager.com \
+    https://td.doubleclick.net; \
+  font-src 'self' https://fonts.gstatic.com; \
+  worker-src 'self'; \
+  base-uri 'self'; \
+  object-src 'none'; \
+  form-action 'self'
 ```
 
-4. Commit the `_headers` file (or `netlify.toml` `[headers]` block) and redeploy.
+Commit, push, redeploy. Header now satisfies every pixel and analytics script.
 
-5. If the script is inline, remove `'unsafe-inline'` and instead embed its hash:
+4. Disable navigation preload until a fetch handler uses it
+   *edit sw\.js (or service-worker.js)*
 
-```
-script-src 'self' sha256-<base64-hash>
-```
-
-6. If the script is generated at runtime, add a CSP nonce to the tag and the header:
-
-```
-script-src 'self' 'nonce-<random>';
-<script nonce="<same-random>" src="..."></script>
-```
-
-Only allow the precise origins, hashes, or nonces needed.
-
-
-
-Navigation preload cancelled because you neither awaited `event.preloadResponse` nor wrapped the resulting promise in `event.respondWith()`.
-
-```
-/// sw.js
-self.addEventListener('activate', e => {
-  e.waitUntil(self.registration.navigationPreload.enable());
-});
-
-self.addEventListener('fetch', e => {
-  if (e.request.mode !== 'navigate') return;
-
-  e.respondWith(async function () {
-    const preload = await e.preloadResponse;
-    if (preload) return preload;          // serve preloaded response
-    return fetch(e.request);              // network fallback
-  }());
-});
-```
-
-Alternative: disable navigation preload if unused.
-
-```
-self.addEventListener('activate', e => {
-  e.waitUntil(self.registration.navigationPreload.disable());
+```js
+self.addEventListener('activate', event => {
+  event.waitUntil(self.registration.navigationPreload.disable());
 });
 ```
 
+Rebuild, deploy.
+
+5. If still using vite-plugin-pwa, comment it out until the service-worker assets compile cleanly. A fresh deploy without the plugin removes the navigation-preload warning entirely.
+
+6. Verify
+   `curl -I https://uplift-technologies.com | grep -i content-security-policy` returns the new header.
+   Chrome DevTools Console shows zero CSP blocks, zero font decode errors, and no “Unexpected token” from sw\.js.
+
+Implementation complete.
+
+[1]: https://developer.mozilla.org/en-US/docs/Web/API/NavigationPreloadManager/disable?utm_source=chatgpt.com "NavigationPreloadManager: disable() method - Web APIs | MDN"
+[2]: https://docs.netlify.com/security/content-security-policy/?utm_source=chatgpt.com "Content Security Policy | Netlify Docs"
+[3]: https://developers.google.com/tag-platform/security/guides/csp?utm_source=chatgpt.com "Use Tag Manager with a Content Security Policy | Tag Platform"

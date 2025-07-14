@@ -1,3 +1,6 @@
+/sw.js /sw.js 200
+/service-worker.js /service-worker.js 200
+
 # Redirect HTTP to HTTPS
 http://uplift-technologies.com/* https://uplift-technologies.com/:splat 301!
 http://www.uplift-technologies.com/* https://uplift-technologies.com/:splat 301!

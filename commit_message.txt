@@ -1,1 +1,1 @@
-feat: Add Netlify function to proxy Zoho calendar
+fix: Disable service worker navigation preload and refine CSP

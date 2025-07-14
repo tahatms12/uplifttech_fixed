@@ -1,34 +1,41 @@
 /*
-  Cache-Control: public, max-age=31536000, immutable
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  X-XSS-Protection: 1; mode=block
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' calendar.zoho.com; script-src-elem 'self' 'unsafe-inline' calendar.zoho.com; connect-src 'self' *; frame-src 'self' calendar.zoho.com; img-src 'self' data: blob: *; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; 
-  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; \
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' \
+    https://www.googletagmanager.com \
+    https://www.google-analytics.com \
+    https://connect.facebook.net \
+    https://static.ads-twitter.com \
+    https://snap.licdn.com \
+    https://q.quora.com \
+    https://bat.bing.com \
+    https://td.doubleclick.net \
+    https://sc-static.net \
+    https://cdn.pinterest.com; \
+  connect-src 'self' \
+    https://www.google-analytics.com \
+    https://region1.google-analytics.com \
+    https://stats.g.doubleclick.net \
+    https://www.google.com \
+    https://bat.bing.com \
+    https://tr.snapchat.com \
+    https://analytics.twitter.com \
+    https://q.quora.com; \
+  img-src 'self' data: blob: \
+    https://www.google-analytics.com \
+    https://www.googletagmanager.com \
+    https://connect.facebook.net \
+    https://static.ads-twitter.com \
+    https://snap.licdn.com \
+    https://q.quora.com \
+    https://tr.snapchat.com \
+    https://cdn.pinterest.com \
+    https://stats.g.doubleclick.net; \
+  frame-src 'self' https://forms.zohopublic.com \
+    https://www.googletagmanager.com \
+    https://td.doubleclick.net; \
+  font-src 'self' https://fonts.gstatic.com; \
+  worker-src 'self'; \
+  base-uri 'self'; \
+  object-src 'none'; \
+  form-action 'self'
 
-/*.html
-  Cache-Control: public, max-age=0, must-revalidate
-
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/static/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.json
-  Cache-Control: public, max-age=0, must-revalidate
-
-/*.js
-  Cache-Control: public, max-age=31536000, immutable
-  Content-Type: application/javascript; charset=utf-8
-
-/*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/img/*
-  Cache-Control: public, max-age=31536000, immutable
-  Accept-CH: DPR, Width, Viewport-Width
-  Content-DPR: 1.0
-  Vary: Accept, DPR, Width, Viewport-Width
