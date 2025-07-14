@@ -13,6 +13,9 @@
   [headers.values]
   Content-Security-Policy = """
 default-src 'self';
+
+[build.environment]
+VITE_ZOHO_CALENDAR_URL = "https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto"
 script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://static.ads-twitter.com https://snap.licdn.com https://q.quora.com https://bat.bing.com https://td.doubleclick.net https://sc-static.net https://cdn.pinterest.com;
 connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://www.google.com https://bat.bing.com https://tr.snapchat.com https://analytics.twitter.com https://q.quora.com;
 img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://static.ads-twitter.com https://snap.licdn.com https://q.quora.com https://tr.snapchat.com https://cdn.pinterest.com https://stats.g.doubleclick.net;

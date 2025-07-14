@@ -1,1 +1,1 @@
-feat: Add placeholder Poppins font files
+feat: Use @fontsource/poppins and remove placeholder font files
