@@ -1,1 +1,1 @@
-fix: Add VITE_ZOHO_CALENDAR_URL to netlify.toml for Netlify Function
+fix: Correct Netlify TOML CSP and environment variable placement
