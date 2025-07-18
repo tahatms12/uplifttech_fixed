@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uplift Technologies</title>
+    <link>https://uplift-technologies.com/</link>
+    <atom:link href="https://uplift-technologies.com/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Latest updates from Uplift Technologies</description>
+    <lastBuildDate>Fri, 19 Jul 2025 12:00:00 GMT</lastBuildDate>
+    <language>en-us</language>
+    <item>
+      <title>Welcome to Uplift Technologies</title>
+      <link>https://uplift-technologies.com/</link>
+      <pubDate>Fri, 19 Jul 2025 12:00:00 GMT</pubDate>
+      <guid>https://uplift-technologies.com/</guid>
+      <description>Discover how Uplift Technologies can transform your business with expert outsourcing solutions.</description>
+    </item>
+  </channel>
+</rss>

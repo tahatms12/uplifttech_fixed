@@ -1,82 +1,81 @@
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+1. Eliminate 404s. Either publish the missing routes (/about, /careers, /case‑studies, /contact, /privacy‑policy, /services, /llms.txt) or strip them from sitemap.xml. A sitemap must never reference a non‑200 URL.
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+2. Fix sitemap.xml. List only canonical HTTPS URLs. Regenerate after every deployment. Add to robots.txt:
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+```
+Sitemap: https://uplift‑technologies.com/sitemap.xml
+```
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+3. Consolidate hostnames. Force one scheme and one subdomain. Example Netlify \_redirects rule:
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+```
+http://*  https://uplift‑technologies.com/:splat  301!
+https://www.uplift‑technologies.com/*  https://uplift‑technologies.com/:splat  301!
+```
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+4. Robots.txt. Minimal safe version:
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+```
+User-agent: *
+Allow: /
+Sitemap: https://uplift‑technologies.com/sitemap.xml
+```
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+5. Head section template. Place in every HTML file or React layout:
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+```html
+<title>%%PAGE_TITLE%% | Uplift Technologies</title>
+<link rel="canonical" href="https://uplift‑technologies.com%%PATHNAME%%">
+<meta name="description" content="%%120‑160 CHAR SUMMARY%%">
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uplift‑technologies.com%%PATHNAME%%">
+<meta property="og:title" content="%%PAGE_TITLE%%">
+<meta property="og:description" content="%%120‑160 CHAR SUMMARY%%">
+<meta property="og:image" content="https://uplift‑technologies.com/assets/og/%%SLUG%%.jpg">
 
-Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' <URL>". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="%%PAGE_TITLE%%">
+<meta name="twitter:description" content="%%120‑160 CHAR SUMMARY%%">
+<meta name="twitter:image" content="https://uplift‑technologies.com/assets/og/%%SLUG%%.jpg">
 
-VM24:7 Twitter Pixel: Content view event fired
-VM25:10 Pinterest Tag: PageLoad event fired
-VM26:13 Snap Pixel: PAGE_VIEW event fired
-VM27:3 Reddit Pixel: PageVisit event fired
-VM28:5 Quora Pixel: ViewContent event fired
-VM29:2 Microsoft UET Tag: PageLoad event fired
-uplift-technologies.com/:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-400-normal.woff2
-uplift-technologies.com/:1 OTS parsing error: invalid sfntVersion: 1008821359
-uplift-technologies.com/:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-600-normal.woff2
-uplift-technologies.com/:1 OTS parsing error: invalid sfntVersion: 1008821359
-js?id=AW-CONVERSION_ID:113 Refused to connect to 'https://www.google.com/ccm/collect?tid=AW-CONVERSION_ID&en=page_view&dl=https%3A%2F%2Fuplift-technologies.com%2F&scrsrc=www.googletagmanager.com&frm=0&rnd=257664338.1752510897&dt=UPLIFT%20Technologies%20%7C%20People-Powered%20Outsourcing%20Partner&auid=346794205.1751485995&navt=n&npa=0&gtm=45be5791za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~103351869~103351871~104684208~104684211~104732250~104732252~104909302~104909304~104935091~104935093&tft=1752510897279&tfd=679&apve=1&apvf=sb' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com".
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebPage",
+  "url":"https://uplift‑technologies.com%%PATHNAME%%",
+  "name":"%%PAGE_TITLE%%",
+  "description":"%%120‑160 CHAR SUMMARY%%",
+  "inLanguage":"en"
+}
+</script>
+```
 
-Rc @ js?id=AW-CONVERSION_ID:113
-www.googletagmanager.com/:1 Refused to frame 'https://td.doubleclick.net/' because it violates the following Content Security Policy directive: "frame-src 'self' https://forms.zohopublic.com".
+6. Page titles. One unique, keyword‑front‑loaded `<title>` ≤60 characters per page. Example: “AI‑Driven Freight Dispatch | Uplift Technologies”.
 
-www.googletagmanager.com/:1 Refused to frame 'https://www.googletagmanager.com/' because it violates the following Content Security Policy directive: "frame-src 'self' https://forms.zohopublic.com".
+7. One `<h1>` per page mirroring the title. Subsequent headings in hierarchical order.
 
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('<URL>') does not match the recipient window's origin ('null').
-VM30:3 All advertising pixels loaded and verified:
-VM30:4 - Meta Pixel (ID: 123456789012345) - PageView event
-VM30:5 - TikTok Pixel (ID: TIKTOK_PIXEL_ID) - PageView event
-VM30:6 - Google Ads (ID: AW-CONVERSION_ID) - Page load
-VM30:7 - LinkedIn Insight Tag (ID: LINKEDIN_PARTNER_ID) - Page load
-VM30:8 - Twitter Pixel (ID: TWITTER_PIXEL_ID) - Content view
-VM30:9 - Pinterest Tag (ID: PINTEREST_TAG_ID) - PageLoad
-VM30:10 - Snap Pixel (ID: SNAP_PIXEL_ID) - PAGE_VIEW
-VM30:11 - Reddit Pixel (ID: REDDIT_PIXEL_ID) - PageVisit
-VM30:12 - Quora Pixel (ID: QUORA_PIXEL_ID) - ViewContent
-VM30:13 - Microsoft UET Tag (ID: MICROSOFT_UET_TAG_ID) - PageLoad
-uplift-technologies.com/:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">
-book:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-400-normal.woff2
-book:1 OTS parsing error: invalid sfntVersion: 1008821359
-book:1 Failed to decode downloaded font: https://uplift-technologies.com/fonts/poppins-latin-600-normal.woff2
-book:1 OTS parsing error: invalid sfntVersion: 1008821359
-book:1  Failed to load resource: the server responded with a status of 404 ()
+8. Asset weight. Inline critical CSS (<15 KB), lazy‑load images, serve AVIF/WebP, add `fetchpriority="high"` to the hero image. At build time run:
+
+```
+bun run vite build --minify --sourcemap=false
+```
+
+Then gzip or br brotli compress assets and set `Cache-Control: public,max-age=31536000,immutable`.
+
+9. Core Web Vitals. Target:
+   LCP <2.5 s. INP <200 ms. CLS <0.1. Remove render‑blocking JS. Use `load="async"` for analytics.
+
+10. HTML validity. Pass every page through [https://validator.w3.org/nu](https://validator.w3.org/nu).
+
+11. Internal links. Every page must be reachable in ≤3 clicks. Descriptive anchor text, no “click here”.
+
+12. Image alt text. Filename and alt both include primary keyword.
+
+13. RSS feed. Static `/feed.xml` announcing new content with `<lastBuildDate>` updated on deploy for faster discovery.
+
+14. HTTP status hygiene. 200 for live. 301 for moves. 410 for permanently removed. Never leave a 404 in production.
+
+15. Deploy, crawl with Screaming Frog or `wget --spider`, verify zero 404, one 301 chain max, metadata coverage 100 percent. Terminate.

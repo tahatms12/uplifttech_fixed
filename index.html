@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script async>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -20,7 +20,7 @@
     </script>
     
     <!-- Meta Pixel Code -->
-    <script>
+    <script async>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -43,7 +43,7 @@
     <!-- End Meta Pixel Code -->
     
     <!-- TikTok Pixel Code -->
-    <script>
+    <script async>
       !function (w, d, t) {
         w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
         
@@ -83,7 +83,7 @@
     <!-- End Google Ads Tag -->
     
     <!-- LinkedIn Insight Tag -->
-    <script type="text/javascript">
+    <script async type="text/javascript">
       _linkedin_partner_id = "LINKEDIN_PARTNER_ID";
       window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
       window._linkedin_data_partner_ids.push(_linkedin_partner_id);
@@ -107,7 +107,7 @@
     <!-- End LinkedIn Insight Tag -->
     
     <!-- Twitter/X Pixel -->
-    <script>
+    <script async>
       !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
       },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
       a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
@@ -125,7 +125,7 @@
     <!-- End Twitter/X Pixel -->
     
     <!-- Pinterest Tag -->
-    <script>
+    <script async>
       !function(e){if(!window.pintrk){window.pintrk = function () {
       window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
       n=window.pintrk;n.queue=[],n.version="3.0";var
@@ -146,7 +146,7 @@
     <!-- End Pinterest Tag -->
     
     <!-- Snap Pixel Code -->
-    <script type='text/javascript'>
+    <script async type='text/javascript'>
       (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function()
       {a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};
       a.queue=[];var s='script';r=t.createElement(s);r.async=!0;
@@ -170,7 +170,7 @@
     <!-- End Snap Pixel Code -->
     
     <!-- Reddit Pixel -->
-    <script>
+    <script async>
       !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','REDDIT_PIXEL_ID');rdt('track', 'PageVisit');
       console.log('Reddit Pixel: PageVisit event fired');
       
@@ -184,7 +184,7 @@
     <!-- End Reddit Pixel -->
     
     <!-- Quora Pixel Code -->
-    <script>
+    <script async>
       !function(q,e,v,n,t,s){if(q.qp) return; n=q.qp=function(){n.qp?n.qp.apply(n,arguments):n.queue.push(arguments);}; n.queue=[];t=document.createElement(e);t.async=!0;t.src=v; s=document.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);}(window, 'script', 'https://a.quora.com/qevents.js');
       qp('init', 'QUORA_PIXEL_ID');
       qp('track', 'ViewContent');
@@ -200,7 +200,7 @@
     <!-- End Quora Pixel Code -->
     
     <!-- Microsoft UET Tag -->
-    <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"MICROSOFT_UET_TAG_ID"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");
+    <script async>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"MICROSOFT_UET_TAG_ID"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");
     console.log('Microsoft UET Tag: PageLoad event fired');
     
     document.addEventListener('submit', function(e) {
