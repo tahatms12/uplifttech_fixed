@@ -12,7 +12,7 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'));
 const CareersPage = lazy(() => import('./pages/CareersPage'));
-const ContactPage = lazy(() => import('./pages/ContactPage'));
+
 const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const PaymentPage = lazy(() => import('./pages/PaymentPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -59,11 +59,6 @@ function App() {
               <ApplyPage />
             </Suspense>
           } />
-          <Route path="contact" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ContactPage />
-            </Suspense>
-          } />
           <Route path="creative-direction" element={
             <Suspense fallback={<LoadingSpinner />}>
               <CreativeDirectionPage />
@@ -80,7 +75,7 @@ function App() {
               <PrivacyPolicyPage />
             </Suspense>
           } />
-          <Route path="schedule-consultation" element={
+          <Route path="contact" element={
             <Suspense fallback={<LoadingSpinner />}>
               <ScheduleConsultationPage />
             </Suspense>
