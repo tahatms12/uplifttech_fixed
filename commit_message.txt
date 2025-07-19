@@ -1,1 +1,10 @@
-fix: Correct Netlify TOML CSP and environment variable placement
+feat: Implement gem.txt recommendations for SEO and performance
+
+- Updated sitemap.xml and robots.txt for canonical URLs and minimal configuration.
+- Configured Netlify redirects for hostname consolidation.
+- Created SeoHead component for centralized SEO metadata management.
+- Updated package.json build script for minification and sourcemap removal.
+- Added Cache-Control headers to netlify.toml for improved asset caching.
+- Ensured analytics scripts in index.html have async attribute.
+- Created a placeholder RSS feed (feed.xml).
+- Corrected CSS import order in index.css.

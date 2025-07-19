@@ -1,3 +1,8 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; frame-src https://calendar.zoho.com https://*.zoho.com; script-src 'self' 'unsafe-inline' https://calendar.zoho.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://calendar.zoho.com https://*.zoho.com"
+
 [[redirects]]
   from = "http://*"
   to = "https://uplift-technologies.com/:splat"

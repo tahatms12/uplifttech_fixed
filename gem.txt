@@ -1,81 +1,34 @@
-1. Eliminate 404s. Either publish the missing routes (/about, /careers, /case‑studies, /contact, /privacy‑policy, /services, /llms.txt) or strip them from sitemap.xml. A sitemap must never reference a non‑200 URL.
+<iframe src="https://calendar.zoho.com/zc/ui/embed/#calendar=zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78&title=taha&type=4&language=en&timezone=America%2FToronto&showTitle=1&showTimezone=1&startingDayOfWeek=0&timeFormat=0&color=5&showLogo=0" title="taha"width=650 height=500 frameBorder="0" scrolling="no"></iframe>
 
-2. Fix sitemap.xml. List only canonical HTTPS URLs. Regenerate after every deployment. Add to robots.txt:
 
-```
-Sitemap: https://uplift‑technologies.com/sitemap.xml
-```
 
-3. Consolidate hostnames. Force one scheme and one subdomain. Example Netlify \_redirects rule:
+2. In `src/components/ZohoCalendar.jsx` add:
 
-```
-http://*  https://uplift‑technologies.com/:splat  301!
-https://www.uplift‑technologies.com/*  https://uplift‑technologies.com/:splat  301!
-```
-
-4. Robots.txt. Minimal safe version:
-
-```
-User-agent: *
-Allow: /
-Sitemap: https://uplift‑technologies.com/sitemap.xml
-```
-
-5. Head section template. Place in every HTML file or React layout:
-
-```html
-<title>%%PAGE_TITLE%% | Uplift Technologies</title>
-<link rel="canonical" href="https://uplift‑technologies.com%%PATHNAME%%">
-<meta name="description" content="%%120‑160 CHAR SUMMARY%%">
-
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://uplift‑technologies.com%%PATHNAME%%">
-<meta property="og:title" content="%%PAGE_TITLE%%">
-<meta property="og:description" content="%%120‑160 CHAR SUMMARY%%">
-<meta property="og:image" content="https://uplift‑technologies.com/assets/og/%%SLUG%%.jpg">
-
-<!-- Twitter Cards -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="%%PAGE_TITLE%%">
-<meta name="twitter:description" content="%%120‑160 CHAR SUMMARY%%">
-<meta name="twitter:image" content="https://uplift‑technologies.com/assets/og/%%SLUG%%.jpg">
-
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"WebPage",
-  "url":"https://uplift‑technologies.com%%PATHNAME%%",
-  "name":"%%PAGE_TITLE%%",
-  "description":"%%120‑160 CHAR SUMMARY%%",
-  "inLanguage":"en"
+```jsx
+export default function ZohoCalendar() {
+  return (
+    <iframe
+      title="Zoho Calendar"
+      src="https://calendar.zoho.com/zc_calendar_embed/<CALENDAR_ID>?mode=grid&title=0&legend=1&width=100%25&height=800"
+      style={{border:0,width:"100%",minHeight:"800px"}}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+    />
+  );
 }
-</script>
 ```
 
-6. Page titles. One unique, keyword‑front‑loaded `<title>` ≤60 characters per page. Example: “AI‑Driven Freight Dispatch | Uplift Technologies”.
-
-7. One `<h1>` per page mirroring the title. Subsequent headings in hierarchical order.
-
-8. Asset weight. Inline critical CSS (<15 KB), lazy‑load images, serve AVIF/WebP, add `fetchpriority="high"` to the hero image. At build time run:
+3. Import and render `<ZohoCalendar />` in the desired page or layout.
+4. Remove any `<script src="https://calendar.zoho.com/...">` tags—React blocks them. Use the iframe only.
+5. `_headers` (Netlify root):
 
 ```
-bun run vite build --minify --sourcemap=false
+/*
+  Content-Security-Policy: default-src 'self'; frame-src https://calendar.zoho.com https://*.zoho.com; script-src 'self' 'unsafe-inline' https://calendar.zoho.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://calendar.zoho.com https://*.zoho.com
 ```
 
-Then gzip or br brotli compress assets and set `Cache-Control: public,max-age=31536000,immutable`.
+6. If CSP is injected via `<meta http-equiv>`, mirror the same directives there.
+7. Ensure no parent element sets `display:none`, `overflow:hidden`, or zero height.
+8. Commit, run `bun run vite build --minify`, deploy to Netlify, verify iframe loads without CSP violations in DevTools console.
 
-9. Core Web Vitals. Target:
-   LCP <2.5 s. INP <200 ms. CLS <0.1. Remove render‑blocking JS. Use `load="async"` for analytics.
-
-10. HTML validity. Pass every page through [https://validator.w3.org/nu](https://validator.w3.org/nu).
-
-11. Internal links. Every page must be reachable in ≤3 clicks. Descriptive anchor text, no “click here”.
-
-12. Image alt text. Filename and alt both include primary keyword.
-
-13. RSS feed. Static `/feed.xml` announcing new content with `<lastBuildDate>` updated on deploy for faster discovery.
-
-14. HTTP status hygiene. 200 for live. 301 for moves. 410 for permanently removed. Never leave a 404 in production.
-
-15. Deploy, crawl with Screaming Frog or `wget --spider`, verify zero 404, one 301 chain max, metadata coverage 100 percent. Terminate.
+[1]: https://help.zoho.com/portal/en/kb/calendar/share-calendars/articles/embed-calendars?utm_source=chatgpt.com "Embed Calendars - Zoho Cares"
