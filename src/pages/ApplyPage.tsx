@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Section from '../components/ui/Section';
-import '../styles/zoho-form.css';
+
 
 const ApplyPage: React.FC = () => {
   const [iframeHeight, setIframeHeight] = useState('2820px');

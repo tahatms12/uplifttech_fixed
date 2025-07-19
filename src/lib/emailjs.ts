@@ -32,7 +32,7 @@ export const sendContactEmail = async (params: EmailParams) => {
     };
 
     const result = await emailjs.send(
-      "zoho", // Service ID for your Zoho email service
+      "YOUR_EMAIL_SERVICE_ID", // Service ID for your Zoho email service
       "contact_form", // Template ID for contact form
       templateParams
     );
@@ -59,7 +59,7 @@ export const sendCareerApplication = async (params: CareerApplicationParams) => 
     };
 
     const result = await emailjs.send(
-      "zoho", // Service ID for your Zoho email service
+      "YOUR_EMAIL_SERVICE_ID", // Service ID for your Zoho email service
       "career_application", // Template ID for career applications
       templateParams
     );
