@@ -14,13 +14,13 @@ const Testimonials: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
       quote: "UPLIFT's team seamlessly integrated with our operations, providing 24/7 coverage that increased our customer satisfaction rates by 35% while reducing our operational costs.",
-      author: "Ashley Seo",
+      author: "Ashley S.",
       position: "Managing Director",
-      company: "Studio Dental"
+      company: "Studio Dental Centres"
     },
     {
       quote: "Their collections team recovered $2M in outstanding accounts receivable that we had almost written off. Within the first month, they brought in $25K and continued to deliver exceptional results.",
-      author: "Dr A Porcina",
+      author: "Dr A. Porcina",
       position: "President",
       company: "Sameday Dental"
     },
