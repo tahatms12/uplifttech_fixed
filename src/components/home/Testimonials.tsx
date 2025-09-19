@@ -14,21 +14,21 @@ const Testimonials: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
       quote: "UPLIFT's team seamlessly integrated with our operations, providing 24/7 coverage that increased our customer satisfaction rates by 35% while reducing our operational costs.",
-      author: "Sarah Johnson",
-      position: "COO",
-      company: "HealthTech Solutions"
+      author: "Ashley Seo",
+      position: "Managing Director",
+      company: "Studio Dental"
     },
     {
       quote: "Their collections team recovered $2M in outstanding accounts receivable that we had almost written off. Within the first month, they brought in $25K and continued to deliver exceptional results.",
-      author: "Michael Chen",
-      position: "CFO",
-      company: "Meridian Healthcare"
+      author: "Dr A Porcina",
+      position: "President",
+      company: "Sameday Dental"
     },
     {
-      quote: "The AI voice and text agents UPLIFT implemented revolutionized our scheduling system. We've seen dramatic improvements in response times and patient satisfaction.",
-      author: "David Williams",
+      quote: "The AI chat agents UPLIFT implemented revolutionized our scheduling system, reducing lost leads. We've seen dramatic improvements in response times and patient satisfaction.",
+      author: "Z. Amiri",
       position: "Director of Operations",
-      company: "Cirrus Software"
+      company: "Auto Enhance Hub"
     }
   ];
   
