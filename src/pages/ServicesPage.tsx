@@ -28,12 +28,12 @@ const ServiceCard: React.FC<ServiceProps> = ({
   return (
     <Card delay={delay} className="flex flex-col h-full">
       <div className="flex items-start gap-4 mb-6">
-        <div className="text-electric-violet p-3 bg-electric-violet/10 rounded-lg">
+        <div className="rounded-lg bg-electric-violet/10 p-3 text-electric-violet">
           {icon}
         </div>
         <div>
           <h3 className="text-xl font-medium mb-2">{title}</h3>
-          <p className="text-white/70">{description}</p>
+          <p className="text-text-muted">{description}</p>
         </div>
       </div>
       
@@ -48,8 +48,8 @@ const ServiceCard: React.FC<ServiceProps> = ({
       <ul className="space-y-2 mb-6">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start">
-            <CheckCircle size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-            <span className="text-white/80">{feature}</span>
+            <CheckCircle size={18} className="mt-1 mr-2 flex-shrink-0 text-electric-violet" />
+            <span className="text-text-muted">{feature}</span>
           </li>
         ))}
       </ul>
@@ -153,10 +153,10 @@ const ServicesPage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <h1 className="font-poppins font-semibold mb-6">
+            <h1 className="mb-6 font-poppins font-semibold">
               Our <span className="gradient-text">Services</span>
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-text-muted">
               Comprehensive outsourcing solutions designed to optimize your operations, reduce costs, and drive growth across your organization.
             </p>
           </motion.div>
@@ -186,7 +186,7 @@ const ServicesPage: React.FC = () => {
         title="Why Choose UPLIFT"
         subtitle="We deliver more than just services — we provide comprehensive solutions that transform how your business operates."
         centered
-        className="bg-deep-purple/5"
+        className="bg-electric-violet/10"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -220,8 +220,8 @@ const ServicesPage: React.FC = () => {
                 }
               ].map((item, index) => (
                 <li key={index} className="glass-card p-5">
-                  <h3 className="text-lg font-medium mb-2">{item.title}</h3>
-                  <p className="text-white/70">{item.description}</p>
+                  <h3 className="mb-2 text-lg font-medium text-white">{item.title}</h3>
+                  <p className="text-sm text-text-muted">{item.description}</p>
                 </li>
               ))}
             </ul>
@@ -242,9 +242,9 @@ const ServicesPage: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-rich-black p-6 rounded-xl border border-neutral-800 max-w-xs">
-                <h3 className="text-xl mb-2 text-electric-violet font-medium">Industry Compliant</h3>
-                <p className="text-white/80">All our services are HIPAA, GDPR, and PIPEDA compliant, ensuring your data remains secure and protected.</p>
+              <div className="absolute -bottom-6 -right-6 max-w-xs rounded-xl border border-border-muted/60 bg-rich-black p-6 shadow-card">
+                <h3 className="mb-2 text-xl font-medium text-electric-violet">Industry Compliant</h3>
+                <p className="text-sm text-text-muted">All our services are HIPAA, GDPR, and PIPEDA compliant, ensuring your data remains secure and protected.</p>
               </div>
             </div>
           </motion.div>
@@ -253,8 +253,8 @@ const ServicesPage: React.FC = () => {
       
       {/* CTA Section */}
       <Section>
-        <motion.div 
-          className="bg-gradient-to-r from-deep-purple/30 to-rich-black border border-neutral-800 rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto"
+        <motion.div
+          className="mx-auto max-w-4xl rounded-2xl border border-border-muted/60 bg-gradient-to-r from-electric-violet/30 to-rich-black p-8 text-center md:p-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -263,7 +263,7 @@ const ServicesPage: React.FC = () => {
           <h2 className="text-3xl font-poppins font-semibold mb-4">
             Ready to Transform Your Operations?
           </h2>
-          <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-text-muted">
             Schedule a consultation to discuss your specific needs and discover how our services can help your business thrive.
           </p>
           <iframe src="https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto" title="taha"frameBorder="0" scrolling="no" marginWidth="0" border="0px" marginHeight="0"height="350px" width="432px" allowTransparency="true" align="center"></iframe>

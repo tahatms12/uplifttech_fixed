@@ -23,7 +23,7 @@ const NotFoundPage: React.FC = () => {
             <span className="gradient-text">404</span>
           </h1>
           <h2 className="text-3xl md:text-4xl font-semibold mb-6">Page Not Found</h2>
-          <p className="text-xl text-white/80 mb-10">
+          <p className="mb-10 text-xl text-text-muted">
             The page you're looking for doesn't exist or has been moved.
           </p>
           <Button to="/" size="lg" className="group">

@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
   const variantClasses = {
     primary: 'btn-primary',
     secondary: 'btn-secondary',
-    outline: 'border border-white/20 hover:border-white/50 text-white/80 hover:text-white',
+    outline: 'border border-border-muted/70 text-text-muted hover:border-electric-violet hover:text-white',
     ghost: 'btn-ghost',
   };
 
@@ -42,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const isDisabled = disabled || loading;
-  const disabledClasses = isDisabled ? 'opacity-60 cursor-not-allowed pointer-events-none' : '';
+  const disabledClasses = isDisabled ? 'cursor-not-allowed opacity-60' : '';
   const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabledClasses} ${className}`;
 
   const motionProps = {

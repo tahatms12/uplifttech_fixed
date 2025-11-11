@@ -109,11 +109,11 @@ const PricingPage: React.FC = () => {
         />
       </Helmet>
 
-      <section className="bg-[linear-gradient(160deg,_rgba(11,99,246,0.35),_transparent)] pt-32 pb-20">
+      <section className="bg-[linear-gradient(160deg,_rgba(155,29,255,0.35),_transparent)] pt-32 pb-20">
         <div className="container-custom grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
-            <h1 className="text-4xl font-bold text-white">Pricing that scales with your goals</h1>
-            <p className="mt-4 text-lg text-white/80">
+            <h1 className="text-4xl font-semibold text-white">Pricing that scales with your goals</h1>
+            <p className="mt-4 text-lg text-text-muted">
               Build the exact team you need with hourly specialists across sales, marketing, collections, and admin. No setup fees.
               Cancel anytime. 2-week satisfaction guarantee.
             </p>
@@ -121,21 +121,21 @@ const PricingPage: React.FC = () => {
               <Button to="/contact" size="lg" analyticsLabel="pricing_schedule_call">
                 Ready to start? Schedule a call
               </Button>
-              <p className="text-sm text-white/60">Average onboarding time: 3 business days</p>
+              <p className="text-sm text-text-muted">Average onboarding time: 3 business days</p>
             </div>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_24px_64px_-32px_rgba(11,99,246,0.55)]">
+          <div className="rounded-3xl border border-border-muted/60 bg-surface/85 p-6 shadow-card">
             <h2 className="text-lg font-semibold text-white">Estimate your investment</h2>
-            <p className="mt-2 text-sm text-white/70">
+            <p className="mt-2 text-sm text-text-muted">
               Choose a role category and the coverage you need. We will share a custom proposal on your discovery call.
             </p>
             <div className="mt-6 space-y-5">
-              <label className="block text-sm font-medium text-white/80" htmlFor="category">
+              <label className="block text-sm font-medium text-text-muted" htmlFor="category">
                 Role needed
               </label>
               <select
                 id="category"
-                className="w-full rounded-md border border-white/15 bg-rich-black px-3 py-2 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-2 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
                 value={selectedCategory.category}
                 onChange={(event) => {
                   const category = pricingData.find((row) => row.category === event.target.value);
@@ -151,7 +151,7 @@ const PricingPage: React.FC = () => {
                 ))}
               </select>
 
-              <label className="block text-sm font-medium text-white/80" htmlFor="hours">
+              <label className="block text-sm font-medium text-text-muted" htmlFor="hours">
                 Hours per week
               </label>
               <input
@@ -161,10 +161,10 @@ const PricingPage: React.FC = () => {
                 max={60}
                 value={hoursPerWeek}
                 onChange={(event) => setHoursPerWeek(Number(event.target.value))}
-                className="w-full rounded-md border border-white/15 bg-rich-black px-3 py-2 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-2 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
 
-              <label className="block text-sm font-medium text-white/80" htmlFor="weeks">
+              <label className="block text-sm font-medium text-text-muted" htmlFor="weeks">
                 Weeks of support
               </label>
               <input
@@ -174,15 +174,15 @@ const PricingPage: React.FC = () => {
                 max={12}
                 value={weeks}
                 onChange={(event) => setWeeks(Number(event.target.value))}
-                className="w-full rounded-md border border-white/15 bg-rich-black px-3 py-2 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-2 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
 
-              <div className="rounded-xl border border-brand-blue/30 bg-brand-blue/10 p-4">
-                <p className="text-sm text-white/70">Estimated investment</p>
-                <p className="mt-2 text-2xl font-semibold text-brand-blue">
+              <div className="rounded-xl border border-electric-violet/40 bg-electric-violet/10 p-4">
+                <p className="text-sm text-text-muted">Estimated investment</p>
+                <p className="mt-2 text-2xl font-semibold text-electric-violet">
                   ${estimatedRange.minTotal.toLocaleString()} - ${estimatedRange.maxTotal.toLocaleString()} USD
                 </p>
-                <p className="mt-2 text-xs text-white/60">
+                <p className="mt-2 text-xs text-text-muted">
                   Based on {selectedCategory.category} ({selectedCategory.tiers[1].level} level). Final rates confirmed on your call.
                 </p>
               </div>
@@ -195,14 +195,14 @@ const PricingPage: React.FC = () => {
 
       <section className="container-custom py-16" aria-labelledby="pricing-table-heading">
         <h2 id="pricing-table-heading" className="text-3xl font-semibold text-white">Hourly ranges by role</h2>
-        <p className="mt-2 text-white/70">
+        <p className="mt-2 text-text-muted">
           Transparent ranges help you model your ROI. We recommend Mid tier for most teams to balance speed, expertise, and coverage.
         </p>
 
-        <div className="mt-8 hidden overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-lg lg:block">
-          <table className="min-w-full divide-y divide-white/10">
+        <div className="mt-8 hidden overflow-hidden rounded-3xl border border-border-muted/60 bg-surface/80 shadow-card lg:block">
+          <table className="min-w-full divide-y divide-border-muted/60">
             <caption className="sr-only">Pricing table for outsourcing roles</caption>
-            <thead className="bg-white/5 text-left text-sm uppercase tracking-widest text-white/60">
+            <thead className="bg-surface-alt/80 text-left text-sm uppercase tracking-widest text-text-muted">
               <tr>
                 <th scope="col" className="px-6 py-4">Category</th>
                 {['Entry', 'Mid', 'Pro'].map((tier) => (
@@ -212,16 +212,16 @@ const PricingPage: React.FC = () => {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10 text-sm">
+            <tbody className="divide-y divide-border-muted/60 text-sm">
               {pricingData.map((row) => (
                 <tr key={row.category}>
                   <th scope="row" className="whitespace-nowrap px-6 py-5 text-left text-base font-semibold text-white">
                     {row.category}
                   </th>
                   {row.tiers.map((tier) => (
-                    <td key={`${row.category}-${tier.level}`} className="px-6 py-5 text-white/80">
+                    <td key={`${row.category}-${tier.level}`} className="px-6 py-5 text-text-muted">
                       <span className="font-semibold text-white">{tier.level}</span>
-                      <p className="text-sm text-white/60">{tier.range}</p>
+                      <p className="text-sm text-text-muted">{tier.range}</p>
                     </td>
                   ))}
                 </tr>
@@ -232,12 +232,12 @@ const PricingPage: React.FC = () => {
 
         <div className="mt-8 space-y-4 lg:hidden" aria-label="Pricing tiers">
           {pricingData.map((row) => (
-            <article key={row.category} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <article key={row.category} className="rounded-2xl border border-border-muted/60 bg-surface-alt/80 p-5">
               <h3 className="text-lg font-semibold text-white">{row.category}</h3>
               <dl className="mt-4 space-y-3">
                 {row.tiers.map((tier) => (
                   <div key={`${row.category}-${tier.level}`} className="flex items-baseline justify-between">
-                    <dt className="text-sm text-white/70">{tier.level}</dt>
+                    <dt className="text-sm text-text-muted">{tier.level}</dt>
                     <dd className="text-base font-semibold text-white">{tier.range}</dd>
                   </div>
                 ))}
@@ -252,21 +252,21 @@ const PricingPage: React.FC = () => {
       <section className="container-custom py-16" aria-labelledby="pricing-faq-heading">
         <div className="max-w-3xl">
           <h2 id="pricing-faq-heading" className="text-3xl font-semibold text-white">Pricing FAQs</h2>
-          <p className="mt-2 text-white/70">Answers to the most common questions about billing, coverage, and satisfaction.</p>
+          <p className="mt-2 text-text-muted">Answers to the most common questions about billing, coverage, and satisfaction.</p>
         </div>
         <div className="mt-8 space-y-4">
           {faqs.map((faq) => (
             <Disclosure key={faq.question}>
               {({ open }) => (
-                <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                <div className="overflow-hidden rounded-2xl border border-border-muted/60 bg-surface-alt/80">
                   <Disclosure.Button className="flex w-full items-center justify-between px-5 py-4 text-left text-base font-medium text-white">
                     <span>{faq.question}</span>
                     <ChevronDown
-                      className={`h-5 w-5 transition-transform ${open ? 'rotate-180 text-brand-blue' : 'text-white/60'}`}
+                      className={`h-5 w-5 transition-transform ${open ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
                       aria-hidden="true"
                     />
                   </Disclosure.Button>
-                  <Disclosure.Panel className="border-t border-white/5 px-5 py-4 text-sm text-white/70">
+                  <Disclosure.Panel className="border-t border-border-muted/60 px-5 py-4 text-sm text-text-muted">
                     {faq.answer}
                   </Disclosure.Panel>
                 </div>
@@ -276,10 +276,10 @@ const PricingPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-white/[0.04] py-16">
+      <section className="bg-surface/70 py-16">
         <div className="container-custom flex flex-col items-center gap-6 text-center">
           <h2 className="text-3xl font-semibold text-white">Ready to start? Schedule a call</h2>
-          <p className="max-w-2xl text-white/70">
+          <p className="max-w-2xl text-text-muted">
             Tell us your targets and we will share a tailored roadmap, vetted talent shortlist, and onboarding plan within 72 hours.
           </p>
           <Button to="/contact" size="lg" analyticsLabel="pricing_footer_schedule">

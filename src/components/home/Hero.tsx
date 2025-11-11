@@ -40,8 +40,8 @@ const Hero: React.FC = () => {
   }), [shouldReduceMotion]);
 
   return (
-    <header className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(11,99,246,0.25),_transparent_60%)]">
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(5,11,22,0)_0%,rgba(5,11,22,0.85)_85%,rgba(5,11,22,1)_100%)]" aria-hidden="true" />
+    <header className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(155,29,255,0.3),_transparent_60%)]">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(13,13,15,0)_0%,rgba(13,13,15,0.85)_85%,rgba(13,13,15,1)_100%)]" aria-hidden="true" />
       <div className="container-custom flex flex-col-reverse lg:flex-row items-center gap-12 pt-32 pb-20 lg:py-36">
         <motion.div
           initial="hidden"
@@ -53,15 +53,15 @@ const Hero: React.FC = () => {
           className="w-full lg:w-1/2"
         >
           <motion.div variants={fadeIn}>
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-brand-blue-light/80">
-              <span className="inline-flex h-2 w-2 rounded-full bg-brand-blue" aria-hidden="true" />
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-electric-violet/40 bg-electric-violet/10 px-4 py-2 text-sm text-electric-violet-light">
+              <span className="inline-flex h-2 w-2 rounded-full bg-electric-violet" aria-hidden="true" />
               24/7 support – 99.9% uptime
             </p>
           </motion.div>
-          <motion.h1 variants={fadeIn} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+          <motion.h1 variants={fadeIn} className="max-w-2xl text-[2.25rem] font-semibold leading-none sm:text-[2.5rem] lg:text-5xl">
             People-Powered Outsourcing, On-Demand
           </motion.h1>
-          <motion.p variants={fadeIn} className="mt-4 text-base sm:text-lg lg:text-xl text-white/80 max-w-xl">
+          <motion.p variants={fadeIn} className="mt-4 max-w-xl text-base text-white/90 sm:text-lg">
             Expert remote teams in Sales, Marketing, Collections & Operations. Launch flexible pods that plug into your stack in days, not months.
           </motion.p>
           <motion.div variants={fadeIn} className="mt-6 flex flex-col sm:flex-row gap-4">
@@ -77,23 +77,23 @@ const Hero: React.FC = () => {
               {steps.map((step, index) => {
                 const Icon = step.icon;
                 return (
-                  <li key={step.title} className="flex gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
-                    <div className="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-brand-blue/10 text-brand-blue font-semibold" aria-hidden="true">
+                  <li key={step.title} className="flex gap-4 rounded-xl border border-border-muted/60 bg-surface-alt/80 p-4">
+                    <div className="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-electric-violet/10 font-semibold text-electric-violet" aria-hidden="true">
                       {index + 1}
                     </div>
                     <div>
                       <div className="flex items-start gap-2">
-                        <Icon className="mt-1 h-5 w-5 text-brand-blue" aria-hidden="true" />
+                        <Icon className="mt-1 h-5 w-5 text-electric-violet" aria-hidden="true" />
                         <h2 className="text-lg font-semibold text-white">{step.title}</h2>
                       </div>
-                      <p className="mt-1 text-sm text-white/75">{step.description}</p>
+                      <p className="mt-1 text-sm text-text-muted">{step.description}</p>
                     </div>
                   </li>
                 );
               })}
             </ol>
-            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-brand-blue/40 bg-brand-blue/10 px-4 py-2 text-sm text-brand-blue" role="status">
-              <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brand-blue animate-pulse" />
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-electric-violet/50 bg-electric-violet/10 px-4 py-2 text-sm text-electric-violet" role="status">
+              <span aria-hidden="true" className="h-2 w-2 animate-pulse rounded-full bg-electric-violet" />
               24/7 Support Guaranteed
             </div>
           </motion.div>
@@ -105,7 +105,7 @@ const Hero: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <figure className="relative mx-auto max-w-xl rounded-3xl border border-white/10 bg-white/5 p-4 shadow-[0_30px_60px_-30px_rgba(11,99,246,0.6)]">
+          <figure className="relative mx-auto max-w-xl rounded-3xl border border-border-muted/60 bg-surface/80 p-4 shadow-card">
             <picture>
               <source srcSet="/images/hero-team.svg" type="image/svg+xml" />
               <img
@@ -115,7 +115,7 @@ const Hero: React.FC = () => {
                 loading="eager"
               />
             </picture>
-            <figcaption className="mt-4 text-sm text-white/70">
+            <figcaption className="mt-4 text-sm text-text-muted">
               Trusted by teams who value human connection and on-demand scalability.
             </figcaption>
           </figure>

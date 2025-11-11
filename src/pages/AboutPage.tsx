@@ -77,7 +77,7 @@ const AboutPage: React.FC = () => {
             <h1 className="font-poppins font-semibold mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl">
               About <span className="gradient-text block sm:inline">UPLIFT</span> Technologies
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white/80">
+            <p className="text-base sm:text-lg md:text-xl text-text-muted">
               We are a people-powered outsourcing partner built for 24/7 operations, combining expert talent with cutting-edge technology to deliver exceptional results.
             </p>
           </motion.div>
@@ -94,10 +94,10 @@ const AboutPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="gradient-text mb-6">Our Mission</h2>
-            <p className="text-lg text-white/80 mb-6">
+            <p className="mb-6 text-lg text-text-muted">
               UPLIFT Technologies is on a mission to transform how businesses operate by providing expert talent and management consulting services that ensure adherence to the best industry standards through innovative software and automation.
             </p>
-            <p className="text-lg text-white/80">
+            <p className="text-lg text-text-muted">
               We believe that by combining human expertise with technological efficiency, we can help businesses scale operations, reduce costs, and achieve sustainable growth without sacrificing quality or compliance.
             </p>
           </motion.div>
@@ -126,14 +126,14 @@ const AboutPage: React.FC = () => {
         title="Our Core Values"
         subtitle="These principles guide everything we do and shape how we deliver value to our clients."
         centered
-        className="bg-deep-purple/5"
+        className="bg-electric-violet/10"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {values.map((value, index) => (
             <Card key={value.title} delay={index}>
               <div className="text-electric-violet mb-4">{value.icon}</div>
               <h3 className="text-xl font-medium mb-3">{value.title}</h3>
-              <p className="text-white/70">{value.description}</p>
+              <p className="text-text-muted">{value.description}</p>
             </Card>
           ))}
         </div>
@@ -165,7 +165,7 @@ const AboutPage: React.FC = () => {
               </div>
               <h3 className="text-xl sm:text-2xl font-medium mb-1 sm:mb-2">{member.name}</h3>
               <p className="text-electric-violet mb-2 sm:mb-4 text-base sm:text-lg">{member.position}</p>
-              <p className="text-white/70 text-sm sm:text-base max-w-xs mx-auto">
+              <p className="mx-auto text-sm text-text-muted sm:text-base">
                 {member.description}
               </p>
             </motion.div>

@@ -25,9 +25,12 @@ const Breadcrumbs: React.FC = () => {
   });
 
   return (
-    <nav aria-label="Breadcrumb" className="bg-white/[0.03] py-3 text-sm text-white/70">
+    <nav
+      aria-label="Breadcrumb"
+      className="border-b border-border-muted/60 bg-surface/80 py-3 text-sm text-text-muted backdrop-blur"
+    >
       <div className="container-custom flex flex-wrap items-center gap-2">
-        <Link to="/" className="hover:text-white">
+        <Link to="/" className="transition-colors hover:text-white">
           Home
         </Link>
         <span aria-hidden="true">/</span>
@@ -38,7 +41,7 @@ const Breadcrumbs: React.FC = () => {
                 {crumb.label}
               </span>
             ) : (
-              <Link to={crumb.path} className="hover:text-white">
+              <Link to={crumb.path} className="transition-colors hover:text-white">
                 {crumb.label}
               </Link>
             )}

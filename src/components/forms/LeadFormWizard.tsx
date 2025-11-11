@@ -172,10 +172,14 @@ const LeadFormWizard: React.FC = () => {
       ? `${formData.scheduleDate} ${formData.scheduleTime}`
       : scheduledDateTime.toLocaleString([], { dateStyle: 'long', timeStyle: 'short' });
     return (
-      <div className="rounded-3xl border border-brand-blue/30 bg-brand-blue/10 p-8 text-center" role="status" aria-live="polite">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-brand-blue" aria-hidden="true" />
+      <div
+        className="rounded-3xl border border-electric-violet/40 bg-electric-violet/10 p-8 text-center shadow-card"
+        role="status"
+        aria-live="polite"
+      >
+        <CheckCircle2 className="mx-auto h-12 w-12 text-electric-violet" aria-hidden="true" />
         <h2 className="mt-4 text-2xl font-semibold text-white">✅ Your request is received!</h2>
-        <p className="mt-3 text-white/80">
+        <p className="mt-3 text-text-muted">
           We've scheduled your call on {formattedDateTime}. You will receive a calendar invite shortly.
         </p>
       </div>
@@ -213,7 +217,7 @@ const LeadFormWizard: React.FC = () => {
                 onChange={handleInputChange('fullName')}
                 onBlur={handleBlur('fullName')}
                 required
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
                 autoComplete="name"
               />
               {renderError('fullName')}
@@ -231,7 +235,7 @@ const LeadFormWizard: React.FC = () => {
                 onChange={handleInputChange('email')}
                 onBlur={handleBlur('email')}
                 required
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
                 autoComplete="email"
               />
               {renderError('email')}
@@ -248,10 +252,10 @@ const LeadFormWizard: React.FC = () => {
                 value={formData.company}
                 onChange={handleInputChange('company')}
                 onBlur={handleBlur('company')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
                 autoComplete="organization"
               />
-              <p className="mt-2 text-xs text-white/60">We suggest a company name based on your email domain.</p>
+              <p className="mt-2 text-xs text-text-muted">We suggest a company name based on your email domain.</p>
             </div>
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-white">
@@ -265,7 +269,7 @@ const LeadFormWizard: React.FC = () => {
                 value={formData.phone}
                 onChange={handleInputChange('phone')}
                 onBlur={handleBlur('phone')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
                 autoComplete="tel"
               />
             </div>
@@ -285,7 +289,7 @@ const LeadFormWizard: React.FC = () => {
                 onChange={handleInputChange('roleNeeded')}
                 onBlur={handleBlur('roleNeeded')}
                 required
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               >
                 <option value="" disabled>
                   Select a role
@@ -310,9 +314,9 @@ const LeadFormWizard: React.FC = () => {
                 onChange={handleInputChange('notes')}
                 onBlur={handleBlur('notes')}
                 rows={4}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
-              <p className="mt-2 text-xs text-white/60">Include languages, tools, or preferred shift coverage.</p>
+              <p className="mt-2 text-xs text-text-muted">Include languages, tools, or preferred shift coverage.</p>
             </div>
           </div>
         );
@@ -332,7 +336,7 @@ const LeadFormWizard: React.FC = () => {
                 onChange={handleInputChange('scheduleDate')}
                 onBlur={handleBlur('scheduleDate')}
                 required
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
               {renderError('scheduleDate')}
             </div>
@@ -347,7 +351,7 @@ const LeadFormWizard: React.FC = () => {
                 onChange={handleInputChange('scheduleTime')}
                 onBlur={handleBlur('scheduleTime')}
                 required
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               >
                 <option value="" disabled>
                   Select a slot ({timezone})
@@ -360,7 +364,7 @@ const LeadFormWizard: React.FC = () => {
               </select>
               {renderError('scheduleTime')}
             </div>
-            <p className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+            <p className="rounded-xl border border-border-muted/60 bg-surface-alt/80 p-4 text-sm text-text-muted">
               Discovery calls last 15 minutes. We will confirm the invite immediately after you submit.
             </p>
           </div>
@@ -371,20 +375,20 @@ const LeadFormWizard: React.FC = () => {
   };
 
   return (
-    <div className="w-full rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
+    <div className="w-full rounded-3xl border border-border-muted/60 bg-surface/80 p-6 shadow-card sm:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-white/50">Step {stepIndex + 1} of {steps.length}</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-text-muted">Step {stepIndex + 1} of {steps.length}</p>
           <h2 ref={stepHeadingRef} tabIndex={-1} className="mt-2 text-2xl font-semibold text-white focus:outline-none">
             {steps[stepIndex].title}
           </h2>
-          <p className="text-sm text-white/70">{steps[stepIndex].description}</p>
+          <p className="text-sm text-text-muted">{steps[stepIndex].description}</p>
         </div>
         <div className="flex w-full max-w-sm items-center gap-2" aria-hidden="true">
           {steps.map((step, index) => (
             <span
               key={step.id}
-              className={`h-2 flex-1 rounded-full ${index <= stepIndex ? 'bg-brand-blue' : 'bg-white/10'}`}
+              className={`h-2 flex-1 rounded-full ${index <= stepIndex ? 'bg-electric-violet' : 'bg-surface-alt/60'}`}
             />
           ))}
         </div>

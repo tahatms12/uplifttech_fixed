@@ -43,7 +43,7 @@ const Card: React.FC<CardProps> = memo(({
     hover: {
       y: -5,
       transition: { duration: 0.2 },
-      boxShadow: '0 12px 30px -12px rgba(11, 99, 246, 0.35)'
+      boxShadow: '0 12px 30px -12px rgba(155, 29, 255, 0.35)'
     }
   } : {};
 

@@ -39,7 +39,7 @@ const PaymentPage: React.FC = () => {
   return (
     <div className="pt-32 pb-20">
       <Section className="max-w-4xl mx-auto">
-        <div className="text-center mb-10">
+        <div className="mb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const PaymentPage: React.FC = () => {
             <h1 className="text-3xl md:text-4xl font-semibold mb-4">
               Secure <span className="gradient-text">Payment</span> Portal
             </h1>
-            <p className="text-white/80 max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-text-muted">
               Make a secure payment for UPLIFT Technologies services. All transactions are protected with industry-standard encryption.
             </p>
           </motion.div>
@@ -68,7 +68,7 @@ const PaymentPage: React.FC = () => {
                 </div>
               </div>
               <h2 className="text-2xl font-semibold mb-3">Payment Successful!</h2>
-              <p className="text-white/80 mb-6">
+              <p className="mb-6 text-text-muted">
                 Thank you for your payment. A receipt has been sent to your email address.
               </p>
               <Button 
@@ -85,12 +85,12 @@ const PaymentPage: React.FC = () => {
               transition={{ duration: 0.6 }}
             >
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="flex items-center justify-between border-b border-neutral-700 pb-4 mb-6">
+                <div className="flex items-center justify-between border-b border-border-muted/50 pb-4 mb-6">
                   <h2 className="text-xl font-medium flex items-center">
                     <CreditCard size={24} className="mr-2 text-electric-violet" />
                     Payment Details
                   </h2>
-                  <div className="flex items-center text-white/60 text-sm">
+                <div className="flex items-center text-sm text-text-muted">
                     <LockIcon size={16} className="mr-2" />
                     Secure Payment
                   </div>
@@ -98,7 +98,7 @@ const PaymentPage: React.FC = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="invoiceNumber" className="block text-sm font-medium text-white/80 mb-2">
+                    <label htmlFor="invoiceNumber" className="mb-2 block text-sm font-medium text-text-muted">
                       Invoice Number*
                     </label>
                     <input
@@ -108,12 +108,12 @@ const PaymentPage: React.FC = () => {
                       required
                       value={formData.invoiceNumber}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                      className="w-full px-4 py-3 bg-surface-alt/60 border border-border-muted/50 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                       placeholder="INV-XXXXX"
                     />
                   </div>
                   <div>
-                    <label htmlFor="amount" className="block text-sm font-medium text-white/80 mb-2">
+                    <label htmlFor="amount" className="mb-2 block text-sm font-medium text-text-muted">
                       Payment Amount (USD)*
                     </label>
                     <input
@@ -123,18 +123,18 @@ const PaymentPage: React.FC = () => {
                       required
                       value={formData.amount}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                      className="w-full px-4 py-3 bg-surface-alt/60 border border-border-muted/50 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                       placeholder="0.00"
                     />
                   </div>
                 </div>
                 
-                <div className="border-t border-neutral-700 pt-6">
+                <div className="border-t border-border-muted/50 pt-6">
                   <h3 className="text-lg font-medium mb-4">Contact Information</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="name" className="mb-2 block text-sm font-medium text-text-muted">
                         Full Name*
                       </label>
                       <input
@@ -144,12 +144,12 @@ const PaymentPage: React.FC = () => {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                        className="w-full px-4 py-3 bg-surface-alt/60 border border-border-muted/50 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                         placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="email" className="mb-2 block text-sm font-medium text-text-muted">
                         Email Address*
                       </label>
                       <input
@@ -159,18 +159,18 @@ const PaymentPage: React.FC = () => {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                        className="w-full px-4 py-3 bg-surface-alt/60 border border-border-muted/50 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                         placeholder="your.email@example.com"
                       />
                     </div>
                   </div>
                 </div>
                 
-                <div className="border-t border-neutral-700 pt-6">
+                <div className="border-t border-border-muted/50 pt-6">
                   <h3 className="text-lg font-medium mb-4">Payment Method</h3>
                   
                   <div>
-                    <label htmlFor="cardNumber" className="block text-sm font-medium text-white/80 mb-2">
+                    <label htmlFor="cardNumber" className="mb-2 block text-sm font-medium text-text-muted">
                       Card Number*
                     </label>
                     <input
@@ -180,14 +180,14 @@ const PaymentPage: React.FC = () => {
                       required
                       value={formData.cardNumber}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                      className="w-full px-4 py-3 bg-surface-alt/60 border border-border-muted/50 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                       placeholder="1234 5678 9012 3456"
                     />
                   </div>
                   
                   <div className="grid grid-cols-2 gap-6 mt-6">
                     <div>
-                      <label htmlFor="expiryDate" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="expiryDate" className="mb-2 block text-sm font-medium text-text-muted">
                         Expiry Date*
                       </label>
                       <input
@@ -197,12 +197,12 @@ const PaymentPage: React.FC = () => {
                         required
                         value={formData.expiryDate}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                        className="w-full px-4 py-3 bg-surface-alt/60 border border-border-muted/50 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                         placeholder="MM/YY"
                       />
                     </div>
                     <div>
-                      <label htmlFor="cvv" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="cvv" className="mb-2 block text-sm font-medium text-text-muted">
                         CVV*
                       </label>
                       <input
@@ -212,16 +212,16 @@ const PaymentPage: React.FC = () => {
                         required
                         value={formData.cvv}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                        className="w-full px-4 py-3 bg-surface-alt/60 border border-border-muted/50 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                         placeholder="123"
                       />
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center bg-deep-purple/10 border border-electric-violet/30 rounded-md p-4 text-sm mt-6">
-                  <Shield size={20} className="text-electric-violet mr-3 flex-shrink-0" />
-                  <p className="text-white/80">
+                <div className="mt-6 flex items-center rounded-md border border-electric-violet/30 bg-electric-violet/10 p-4 text-sm">
+                  <Shield size={20} className="mr-3 flex-shrink-0 text-electric-violet" />
+                  <p className="text-text-muted">
                     Your payment information is secure. We use industry-standard encryption to protect your data.
                   </p>
                 </div>

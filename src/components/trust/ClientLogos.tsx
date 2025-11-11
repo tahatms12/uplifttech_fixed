@@ -16,17 +16,17 @@ const logos: Logo[] = [
 
 const ClientLogos: React.FC = () => {
   return (
-    <section aria-label="Client logos" className="border-y border-white/10 bg-white/[0.03] py-8 sm:py-10">
+    <section aria-label="Client logos" className="border-y border-border-muted/60 bg-surface/70 py-8 sm:py-10">
       <div className="container-custom">
-        <p className="text-center text-xs uppercase tracking-[0.3em] text-white/50">Trusted by customer-obsessed brands</p>
-        <ul className="mt-6 grid grid-cols-2 gap-4 text-sm text-white/60 sm:grid-cols-3 md:grid-cols-6">
+        <p className="text-center text-xs uppercase tracking-[0.3em] text-text-muted">Trusted by customer-obsessed brands</p>
+        <ul className="mt-6 grid grid-cols-2 gap-4 text-sm text-text-muted sm:grid-cols-3 md:grid-cols-6">
           {logos.map((logo) => (
             <li
               key={logo.name}
-              className="flex items-center justify-center rounded-lg border border-white/5 bg-white/5 px-4 py-3 text-center font-medium"
+              className="flex items-center justify-center rounded-lg border border-border-muted/60 bg-surface-alt/80 px-4 py-3 text-center font-medium"
             >
               <span className="sr-only">{logo.name}</span>
-              <span aria-hidden="true" className="text-lg font-semibold tracking-wide text-white/80">
+              <span aria-hidden="true" className="text-lg font-semibold tracking-wide text-white">
                 {logo.abbreviation}
               </span>
             </li>

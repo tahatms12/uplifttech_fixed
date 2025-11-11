@@ -50,7 +50,7 @@ const Testimonials: React.FC = () => {
   };
 
   return (
-    <Section className="bg-gradient-to-b from-transparent via-white/[0.05] to-transparent">
+    <Section className="bg-gradient-to-b from-transparent via-surface/50 to-transparent">
       <motion.div
         className="mx-auto flex max-w-5xl flex-col items-center text-center"
         initial={{ opacity: 0 }}
@@ -58,26 +58,26 @@ const Testimonials: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
       >
-        <Quote className="h-12 w-12 text-brand-blue/70" aria-hidden="true" />
+        <Quote className="h-12 w-12 text-electric-violet/80" aria-hidden="true" />
         <motion.article
           key={currentIndex}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-8 text-left shadow-[0_24px_48px_-32px_rgba(11,99,246,0.45)]"
+          className="mt-8 rounded-3xl border border-border-muted/60 bg-surface/90 p-8 text-left shadow-card"
         >
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
             <img
               src={testimonials[currentIndex].photo}
               alt={`Photo of ${testimonials[currentIndex].author}`}
-              className="h-24 w-24 flex-none rounded-2xl border border-white/20 bg-white/10"
+              className="h-24 w-24 flex-none rounded-2xl border border-border-muted/60 bg-surface-alt/80"
               width={96}
               height={96}
               loading="lazy"
             />
             <div>
-              <p className="text-xl font-medium text-white/90 lg:text-2xl">“{testimonials[currentIndex].quote}”</p>
-              <div className="mt-6 text-sm text-white/70">
+              <p className="text-xl font-medium text-white lg:text-2xl">“{testimonials[currentIndex].quote}”</p>
+              <div className="mt-6 text-sm text-text-muted">
                 <p className="font-semibold text-white">{testimonials[currentIndex].author}</p>
                 <p>
                   {testimonials[currentIndex].position}, {testimonials[currentIndex].company}
@@ -90,7 +90,7 @@ const Testimonials: React.FC = () => {
         <div className="mt-8 flex items-center justify-center gap-4" aria-label="Testimonial controls">
           <button
             onClick={prevTestimonial}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-border-muted/60 bg-surface-alt/80 text-white transition-colors hover:border-electric-violet hover:text-electric-violet focus:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet"
             aria-label="Show previous testimonial"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -101,7 +101,9 @@ const Testimonials: React.FC = () => {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`h-3 w-8 rounded-full transition-colors ${
-                  currentIndex === index ? 'bg-brand-blue' : 'bg-white/20 hover:bg-white/40'
+                  currentIndex === index
+                    ? 'bg-electric-violet'
+                    : 'bg-border-muted/60 hover:bg-electric-violet/40'
                 }`}
                 aria-label={`Show testimonial ${index + 1}`}
                 aria-pressed={currentIndex === index}
@@ -110,7 +112,7 @@ const Testimonials: React.FC = () => {
           </div>
           <button
             onClick={nextTestimonial}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-border-muted/60 bg-surface-alt/80 text-white transition-colors hover:border-electric-violet hover:text-electric-violet focus:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet"
             aria-label="Show next testimonial"
           >
             <ChevronRight className="h-5 w-5" aria-hidden="true" />

@@ -22,11 +22,11 @@ const StickyCtaBar: React.FC = () => {
       }`}
       aria-hidden={!isVisible}
     >
-      <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-rich-black/90 backdrop-blur-xl shadow-[0_18px_40px_-20px_rgba(8,23,55,0.75)] p-4 sm:p-5">
+      <div className="mx-auto max-w-3xl rounded-2xl border border-border-muted/60 bg-surface/95 p-4 shadow-card backdrop-blur-xl sm:p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand-blue-light">Need support fast?</p>
-            <p className="text-base text-white/80">Tap below to book your 15-minute discovery call.</p>
+            <p className="text-sm font-semibold uppercase tracking-wider text-electric-violet-light">Need support fast?</p>
+            <p className="text-base text-text-muted">Tap below to book your 15-minute discovery call.</p>
           </div>
           <div className="flex w-full sm:w-auto gap-3">
             <Button to="/contact" size="md" className="w-full sm:w-auto" analyticsLabel="sticky_cta_get_started">

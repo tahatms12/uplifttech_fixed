@@ -21,7 +21,7 @@ const badges = [
 
 const TrustBadges: React.FC = () => {
   return (
-    <section className="bg-white/[0.04] py-12">
+    <section className="bg-surface/60 py-12">
       <div className="container-custom">
         <div className="grid gap-6 md:grid-cols-3" role="list">
           {badges.map((badge) => {
@@ -30,11 +30,11 @@ const TrustBadges: React.FC = () => {
               <article
                 key={badge.title}
                 role="listitem"
-                className="flex h-full flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-6"
+                className="flex h-full flex-col gap-3 rounded-2xl border border-border-muted/60 bg-surface-alt/80 p-6 shadow-card"
               >
-                <Icon className="h-8 w-8 text-brand-blue" aria-hidden="true" />
+                <Icon className="h-8 w-8 text-electric-violet" aria-hidden="true" />
                 <h3 className="text-lg font-semibold text-white">{badge.title}</h3>
-                <p className="text-sm text-white/70">{badge.description}</p>
+                <p className="text-sm text-text-muted">{badge.description}</p>
               </article>
             );
           })}

@@ -33,6 +33,8 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const solutionsButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -43,9 +45,61 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     if (isMenuOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
       document.body.style.overflow = 'hidden';
+
+      const container = mobileNavRef.current;
+      if (container) {
+        const getFocusable = () =>
+          container.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          );
+
+        const initialFocusable = getFocusable();
+        initialFocusable[0]?.focus();
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            setIsMenuOpen(false);
+          }
+
+          if (event.key === 'Tab') {
+            const focusable = getFocusable();
+            if (focusable.length === 0) {
+              return;
+            }
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault();
+              first.focus();
+            }
+          }
+        };
+
+        const handleClick = (event: MouseEvent) => {
+          if (container && !container.contains(event.target as Node)) {
+            setIsMenuOpen(false);
+          }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('mousedown', handleClick);
+
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+          document.removeEventListener('mousedown', handleClick);
+        };
+      }
     } else {
       document.body.style.overflow = '';
+      previousFocusRef.current?.focus({ preventScroll: true });
     }
   }, [isMenuOpen]);
 
@@ -99,7 +153,7 @@ const Navbar: React.FC = () => {
       <div className="container-custom">
         <nav className="grid grid-cols-[auto_1fr_auto] items-center gap-2 py-4 sm:py-5" aria-label="Main navigation">
           <button
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white lg:hidden"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-border-muted/60 bg-surface-alt/80 text-white lg:hidden"
             onClick={() => setIsMenuOpen((previous) => !previous)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation"
@@ -128,7 +182,7 @@ const Navbar: React.FC = () => {
                   >
                     {link.name}
                     <ChevronDown
-                      className={`h-4 w-4 transition-transform ${isSolutionsOpen ? 'rotate-180 text-brand-blue' : ''}`}
+                      className={`h-4 w-4 transition-transform ${isSolutionsOpen ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
                       aria-hidden="true"
                     />
                   </button>
@@ -142,7 +196,7 @@ const Navbar: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.18 }}
-                        className="absolute right-0 mt-3 w-64 rounded-2xl border border-white/10 bg-rich-black/95 p-2 shadow-xl"
+                        className="absolute right-0 mt-3 w-64 rounded-2xl border border-border-muted/70 bg-surface/95 p-2 shadow-card"
                         onKeyDown={handleDropdownKeyDown}
                       >
                         {solutionLinks.map((item) => (
@@ -150,13 +204,13 @@ const Navbar: React.FC = () => {
                             key={item.name}
                             to={item.path}
                             className={({ isActive }) =>
-                              `flex items-start gap-3 rounded-xl px-4 py-3 text-sm transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue ${
-                                isActive ? 'text-brand-blue' : 'text-white/80'
+                              `flex items-start gap-3 rounded-xl px-4 py-3 text-sm transition-colors hover:bg-surface-alt/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet ${
+                                isActive ? 'text-electric-violet' : 'text-text-muted'
                               }`
                             }
                             role="menuitem"
                           >
-                            <span className="mt-1 inline-flex h-2 w-2 flex-none rounded-full bg-brand-blue" aria-hidden="true" />
+                            <span className="mt-1 inline-flex h-2 w-2 flex-none rounded-full bg-electric-violet" aria-hidden="true" />
                             <span>{item.name}</span>
                           </NavLink>
                         ))}
@@ -169,7 +223,7 @@ const Navbar: React.FC = () => {
                   key={link.name}
                   to={link.path}
                   className={({ isActive }) =>
-                    isActive ? 'nav-link nav-link-active' : 'nav-link text-white/70 hover:text-white'
+                    isActive ? 'nav-link nav-link-active' : 'nav-link hover:text-white'
                   }
                 >
                   {link.name}
@@ -193,6 +247,10 @@ const Navbar: React.FC = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 bg-rich-black/95 backdrop-blur-lg lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            ref={mobileNavRef}
           >
             <div className="flex h-full flex-col justify-between px-6 pb-12 pt-28">
               <nav aria-label="Mobile navigation" className="space-y-6">
@@ -200,14 +258,14 @@ const Navbar: React.FC = () => {
                   link.type === 'dropdown' ? (
                     <div key={link.name}>
                       <button
-                        className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left text-lg font-semibold"
+                        className="flex w-full items-center justify-between rounded-xl border border-border-muted/70 bg-surface-alt/80 px-4 py-3 text-left text-lg font-semibold text-white"
                         onClick={() => setIsSolutionsOpen((previous) => !previous)}
                         aria-expanded={isSolutionsOpen}
                         aria-controls="mobile-solutions"
                       >
                         <span>{link.name}</span>
                         <ChevronDown
-                          className={`h-5 w-5 transition-transform ${isSolutionsOpen ? 'rotate-180 text-brand-blue' : ''}`}
+                          className={`h-5 w-5 transition-transform ${isSolutionsOpen ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
                           aria-hidden="true"
                         />
                       </button>
@@ -219,7 +277,7 @@ const Navbar: React.FC = () => {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.25 }}
-                            className="mt-3 space-y-2 rounded-2xl border border-white/10 bg-white/5 p-3"
+                            className="mt-3 space-y-2 rounded-2xl border border-border-muted/60 bg-surface-alt/80 p-3"
                           >
                             {solutionLinks.map((item) => (
                               <NavLink
@@ -227,7 +285,9 @@ const Navbar: React.FC = () => {
                                 to={item.path}
                                 className={({ isActive }) =>
                                   `block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
-                                    isActive ? 'bg-brand-blue/20 text-brand-blue' : 'text-white/80 hover:bg-white/10'
+                                    isActive
+                                      ? 'bg-electric-violet/20 text-electric-violet'
+                                      : 'text-text-muted hover:bg-surface/70 hover:text-white'
                                   }`
                                 }
                               >
@@ -243,8 +303,8 @@ const Navbar: React.FC = () => {
                       key={link.name}
                       to={link.path}
                       className={({ isActive }) =>
-                        `block rounded-xl border border-white/5 bg-white/5 px-4 py-3 text-lg font-semibold transition-colors ${
-                          isActive ? 'text-brand-blue' : 'text-white/80 hover:bg-white/10'
+                        `block rounded-xl border border-border-muted/60 bg-surface-alt/80 px-4 py-3 text-lg font-semibold transition-colors ${
+                          isActive ? 'text-electric-violet' : 'text-text-muted hover:bg-surface/70 hover:text-white'
                         }`
                       }
                     >
@@ -259,7 +319,7 @@ const Navbar: React.FC = () => {
                   <Calendar className="h-5 w-5" aria-hidden="true" />
                   Get Started
                 </Button>
-                <p className="text-center text-sm text-white/60">
+                <p className="text-center text-sm text-text-muted">
                   24/7 support team ready within three business days.
                 </p>
               </div>

@@ -4,7 +4,7 @@
 
 @layer components {
   .prose {
-    @apply text-white/80;
+    @apply text-text-muted;
   }
   
   .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
@@ -48,19 +48,19 @@
   }
   
   .prose table {
-    @apply w-full border-collapse border border-neutral-700 my-6;
+    @apply w-full border-collapse border border-border-muted/50 my-6;
   }
   
   .prose th {
-    @apply bg-deep-purple/20 text-white font-medium p-2 border border-neutral-700 text-left;
+    @apply bg-electric-violet/20 text-white font-medium p-2 border border-border-muted/50 text-left;
   }
   
   .prose td {
-    @apply p-2 border border-neutral-700;
+    @apply p-2 border border-border-muted/50;
   }
   
   .prose hr {
-    @apply my-8 border-neutral-700;
+    @apply my-8 border-border-muted/50;
   }
   
   .prose blockquote {

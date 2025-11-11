@@ -210,7 +210,7 @@ const CandidateApplicationWizard: React.FC = () => {
 
   const renderBadge = (key: keyof ApplicationData) =>
     parsedFields.has(key) ? (
-      <span className="ml-2 inline-flex items-center rounded-full bg-brand-blue/15 px-2 py-1 text-xs text-brand-blue">
+      <span className="ml-2 inline-flex items-center rounded-full bg-electric-violet/15 px-2 py-1 text-xs text-electric-violet">
         From resume – please verify
       </span>
     ) : null;
@@ -233,7 +233,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.fullName}
                 onChange={handleInputChange('fullName')}
                 onBlur={handleBlur('fullName')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
               {renderError('fullName')}
             </div>
@@ -249,7 +249,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.email}
                 onChange={handleInputChange('email')}
                 onBlur={handleBlur('email')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
               {renderError('email')}
             </div>
@@ -265,7 +265,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.phone}
                 onChange={handleInputChange('phone')}
                 onBlur={handleBlur('phone')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
               {renderError('phone')}
             </div>
@@ -275,9 +275,9 @@ const CandidateApplicationWizard: React.FC = () => {
               </label>
               <label
                 htmlFor="resume"
-                className="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-white/5 p-6 text-center text-sm text-white/70 hover:border-brand-blue"
+                className="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-border-muted/60 bg-surface-alt/80 p-6 text-center text-sm text-text-muted transition-colors hover:border-electric-violet"
               >
-                <FileText className="mb-2 h-8 w-8 text-brand-blue" aria-hidden="true" />
+                <FileText className="mb-2 h-8 w-8 text-electric-violet" aria-hidden="true" />
                 <span>{formData.resumeFile ? formData.resumeFile.name : 'Drag & drop or browse your PDF/DOCX resume (max 5MB)'}</span>
                 <input id="resume" type="file" accept=".pdf,.docx" className="sr-only" onChange={handleResumeUpload} />
               </label>
@@ -300,7 +300,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.linkedIn}
                 onChange={handleInputChange('linkedIn')}
                 onBlur={handleBlur('linkedIn')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
             </div>
           </div>
@@ -320,7 +320,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.experienceYears}
                 onChange={handleInputChange('experienceYears')}
                 onBlur={handleBlur('experienceYears')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
               {renderError('experienceYears')}
             </div>
@@ -335,7 +335,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.topSkills}
                 onChange={handleInputChange('topSkills')}
                 onBlur={handleBlur('topSkills')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
               {renderError('topSkills')}
             </div>
@@ -348,7 +348,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.educationLevel}
                 onChange={handleInputChange('educationLevel')}
                 onBlur={handleBlur('educationLevel')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               >
                 <option value="">Select education level</option>
                 {educationOptions.map((option) => (
@@ -369,7 +369,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.fitReason}
                 onChange={handleInputChange('fitReason')}
                 onBlur={handleBlur('fitReason')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
             </div>
           </div>
@@ -388,7 +388,7 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.availability}
                 onChange={handleInputChange('availability')}
                 onBlur={handleBlur('availability')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
               {renderError('availability')}
             </div>
@@ -403,21 +403,21 @@ const CandidateApplicationWizard: React.FC = () => {
                 value={formData.coverLetter}
                 onChange={handleInputChange('coverLetter')}
                 onBlur={handleBlur('coverLetter')}
-                className="mt-2 w-full rounded-md border border-white/15 bg-rich-black px-3 py-3 text-sm text-white focus-visible:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40"
+                className="mt-2 w-full rounded-md border border-border-muted/60 bg-surface-alt/80 px-3 py-3 text-sm text-white placeholder:text-text-muted/80 focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
               />
             </div>
-            <label className="flex items-start gap-3 text-sm text-white/80">
+            <label className="flex items-start gap-3 text-sm text-text-muted">
               <input
                 type="checkbox"
                 checked={formData.consent}
                 onChange={handleInputChange('consent')}
                 onBlur={handleBlur('consent')}
-                className="mt-1 h-5 w-5 rounded border border-white/30 bg-rich-black text-brand-blue focus-visible:ring-brand-blue"
+                className="mt-1 h-5 w-5 rounded border border-border-muted/60 bg-surface-alt/80 text-electric-violet focus-visible:ring-electric-violet"
               />
               <span>I consent to have my information stored for recruitment purposes.</span>
             </label>
             {renderError('consent')}
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/70">
+            <div className="rounded-2xl border border-border-muted/60 bg-surface-alt/80 p-5 text-sm text-text-muted">
               <h3 className="text-base font-semibold text-white">Review summary</h3>
               <ul className="mt-3 space-y-2">
                 <li><strong className="font-semibold text-white">Name:</strong> {formData.fullName || '—'}</li>
@@ -437,29 +437,33 @@ const CandidateApplicationWizard: React.FC = () => {
 
   if (isComplete) {
     return (
-      <div className="rounded-3xl border border-brand-blue/30 bg-brand-blue/10 p-8 text-center" role="status" aria-live="polite">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-brand-blue" aria-hidden="true" />
+      <div
+        className="rounded-3xl border border-electric-violet/40 bg-electric-violet/10 p-8 text-center shadow-card"
+        role="status"
+        aria-live="polite"
+      >
+        <CheckCircle2 className="mx-auto h-12 w-12 text-electric-violet" aria-hidden="true" />
         <h2 className="mt-4 text-2xl font-semibold text-white">✅ Application submitted!</h2>
-        <p className="mt-3 text-white/80">You will receive an email confirmation shortly.</p>
+        <p className="mt-3 text-text-muted">You will receive an email confirmation shortly.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
+    <div className="w-full rounded-3xl border border-border-muted/60 bg-surface/80 p-6 shadow-card sm:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-white/50">Step {stepIndex + 1} of {steps.length}</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-text-muted">Step {stepIndex + 1} of {steps.length}</p>
           <h2 ref={stepHeadingRef} tabIndex={-1} className="mt-2 text-2xl font-semibold text-white focus:outline-none">
             {steps[stepIndex].title}
           </h2>
-          <p className="text-sm text-white/70">{steps[stepIndex].description}</p>
+          <p className="text-sm text-text-muted">{steps[stepIndex].description}</p>
         </div>
         <div className="flex w-full max-w-sm items-center gap-2" aria-hidden="true">
           {steps.map((step, index) => (
             <span
               key={step.id}
-              className={`h-2 flex-1 rounded-full ${index <= stepIndex ? 'bg-brand-blue' : 'bg-white/10'}`}
+              className={`h-2 flex-1 rounded-full ${index <= stepIndex ? 'bg-electric-violet' : 'bg-surface-alt/60'}`}
             />
           ))}
         </div>

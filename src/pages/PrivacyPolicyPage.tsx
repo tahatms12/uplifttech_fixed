@@ -29,7 +29,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <h1 className="font-poppins font-semibold mb-6">
               Privacy <span className="gradient-text">Policy</span>
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-text-muted">
               Our commitment to protecting your privacy and ensuring compliance with global data protection regulations.
             </p>
           </motion.div>
@@ -62,44 +62,44 @@ const PrivacyPolicyPage: React.FC = () => {
             
             <h3 className="text-xl font-medium mt-8 mb-4">4. Purposes & Legal Bases</h3>
             <div className="overflow-x-auto">
-              <table className="min-w-full border border-neutral-700 mt-4">
+              <table className="min-w-full border border-border-muted/50 mt-4">
                 <thead>
-                  <tr className="bg-deep-purple/20">
-                    <th className="border border-neutral-700 px-4 py-2 text-left">Purpose</th>
-                    <th className="border border-neutral-700 px-4 py-2 text-left">Legal Basis (Art. 6)</th>
-                    <th className="border border-neutral-700 px-4 py-2 text-left">Details</th>
+                  <tr className="bg-electric-violet/20">
+                    <th className="border border-border-muted/50 px-4 py-2 text-left">Purpose</th>
+                    <th className="border border-border-muted/50 px-4 py-2 text-left">Legal Basis (Art. 6)</th>
+                    <th className="border border-border-muted/50 px-4 py-2 text-left">Details</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-neutral-700 px-4 py-2">Service provision, account setup</td>
-                    <td className="border border-neutral-700 px-4 py-2">1(b) contract</td>
-                    <td className="border border-neutral-700 px-4 py-2">Authentication, user management, invoicing</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Service provision, account setup</td>
+                    <td className="border border-border-muted/50 px-4 py-2">1(b) contract</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Authentication, user management, invoicing</td>
                   </tr>
                   <tr>
-                    <td className="border border-neutral-700 px-4 py-2">Support, incident response</td>
-                    <td className="border border-neutral-700 px-4 py-2">1(b) contract</td>
-                    <td className="border border-neutral-700 px-4 py-2">Ticket tracking, troubleshooting</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Support, incident response</td>
+                    <td className="border border-border-muted/50 px-4 py-2">1(b) contract</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Ticket tracking, troubleshooting</td>
                   </tr>
                   <tr>
-                    <td className="border border-neutral-700 px-4 py-2">Marketing communications</td>
-                    <td className="border border-neutral-700 px-4 py-2">1(a) consent</td>
-                    <td className="border border-neutral-700 px-4 py-2">Opt-in newsletters, product updates</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Marketing communications</td>
+                    <td className="border border-border-muted/50 px-4 py-2">1(a) consent</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Opt-in newsletters, product updates</td>
                   </tr>
                   <tr>
-                    <td className="border border-neutral-700 px-4 py-2">Analytics, UX optimisation</td>
-                    <td className="border border-neutral-700 px-4 py-2">1(f) legitimate interest</td>
-                    <td className="border border-neutral-700 px-4 py-2">Pseudonymised statistics, conversion metrics</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Analytics, UX optimisation</td>
+                    <td className="border border-border-muted/50 px-4 py-2">1(f) legitimate interest</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Pseudonymised statistics, conversion metrics</td>
                   </tr>
                   <tr>
-                    <td className="border border-neutral-700 px-4 py-2">Security, fraud prevention</td>
-                    <td className="border border-neutral-700 px-4 py-2">1(f) legitimate interest</td>
-                    <td className="border border-neutral-700 px-4 py-2">Access logs, anomaly detection</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Security, fraud prevention</td>
+                    <td className="border border-border-muted/50 px-4 py-2">1(f) legitimate interest</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Access logs, anomaly detection</td>
                   </tr>
                   <tr>
-                    <td className="border border-neutral-700 px-4 py-2">Compliance, tax, audit</td>
-                    <td className="border border-neutral-700 px-4 py-2">1(c) legal obligation</td>
-                    <td className="border border-neutral-700 px-4 py-2">Statutory record-keeping</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Compliance, tax, audit</td>
+                    <td className="border border-border-muted/50 px-4 py-2">1(c) legal obligation</td>
+                    <td className="border border-border-muted/50 px-4 py-2">Statutory record-keeping</td>
                   </tr>
                 </tbody>
               </table>
@@ -133,7 +133,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <h3 className="text-xl font-medium mt-8 mb-4">10. Changes</h3>
             <p>Policy version and date posted on this page; continued use constitutes acceptance.</p>
             
-            <hr className="my-12 border-neutral-700" />
+            <hr className="my-12 border-border-muted/50" />
             
             <h2 className="text-2xl font-semibold mb-6 text-electric-violet">HIPAA Compliance Policy</h2>
             
@@ -185,7 +185,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <h3 className="text-xl font-medium mt-8 mb-4">8. Documentation & Review</h3>
             <p>All policies, training records, risk assessments retained 6 years from date of creation or last effective date and reviewed annually.</p>
             
-            <hr className="my-12 border-neutral-700" />
+            <hr className="my-12 border-border-muted/50" />
             
             <h2 className="text-2xl font-semibold mb-6 text-electric-violet">PIPEDA Compliance Policy</h2>
             
@@ -223,7 +223,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <p>Annual reassessment or upon legislative change; documented revision history.</p>
             
             <div className="mt-12 text-center">
-              <p className="text-sm text-white/60">Last updated: June 19, 2025</p>
+              <p className="text-sm text-text-muted">Last updated: June 19, 2025</p>
             </div>
           </div>
         </div>
