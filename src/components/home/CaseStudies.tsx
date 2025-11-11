@@ -23,33 +23,33 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
   delay,
 }) => {
   return (
-    <Card className="overflow-hidden p-0 flex flex-col h-full" delay={delay}>
-      <div className="relative h-40 sm:h-48 overflow-hidden">
+    <Card className="flex h-full flex-col overflow-hidden p-0" delay={delay}>
+      <div className="relative h-40 overflow-hidden sm:h-48">
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
         />
-        <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-electric-violet/90 text-white text-xs font-medium px-2 py-1 sm:px-3 sm:py-1 rounded-full">
+        <div className="absolute left-2 top-2 rounded-full bg-electric-violet/90 px-2 py-1 text-xs font-medium text-white sm:left-4 sm:top-4 sm:px-3 sm:py-1">
           {category}
         </div>
       </div>
-      <div className="p-4 sm:p-6 flex-grow flex flex-col">
-        <h3 className="text-xl font-medium mb-3">{title}</h3>
-        <p className="text-white/70 mb-6">{description}</p>
-        
-        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-4 sm:mb-6">
+      <div className="flex flex-col p-4 sm:p-6">
+        <h3 className="mb-3 text-xl font-medium">{title}</h3>
+        <p className="mb-6 text-text-muted">{description}</p>
+
+        <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-6 sm:gap-4">
           {stats.map((stat, index) => (
             <div key={index}>
-              <p className="text-lg sm:text-xl font-medium text-electric-violet">{stat.value}</p>
-              <p className="text-sm text-white/60">{stat.label}</p>
+              <p className="text-lg font-medium text-electric-violet sm:text-xl">{stat.value}</p>
+              <p className="text-sm text-text-muted">{stat.label}</p>
             </div>
           ))}
         </div>
-        
+
         <div className="mt-auto">
           <Button to="/case-studies" variant="outline" className="w-full">
-          View Case Study
+            View Case Study
           </Button>
         </div>
       </div>
@@ -96,7 +96,7 @@ const CaseStudies: React.FC = () => {
       title="Case Studies"
       subtitle="Real results for real businesses. See how our services have transformed operations and driven growth."
       centered
-      className="bg-deep-purple/5"
+      className="bg-electric-violet/10"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {caseStudies.map((study, index) => (

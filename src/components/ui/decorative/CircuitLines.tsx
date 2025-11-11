@@ -14,7 +14,7 @@ const CircuitLines: React.FC<CircuitLinesProps> = ({
 }) => {
   const baseClasses = 'absolute pointer-events-none';
   const colorClasses = {
-    primary: 'text-deep-purple/30',
+    primary: 'text-electric-violet/30',
     accent: 'text-electric-violet/50'
   };
 

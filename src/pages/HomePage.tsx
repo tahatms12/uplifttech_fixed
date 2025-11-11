@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet';
 import Hero from '../components/home/Hero';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { AnimatePresenceGroup } from '../components/motion';
+import ClientLogos from '../components/trust/ClientLogos';
+import TrustBadges from '../components/trust/TrustBadges';
 
 // Lazy load below-the-fold components
 const Services = lazy(() => 
@@ -28,7 +30,9 @@ const HomePage: React.FC = () => {
 
       {/* Hero section loads immediately */}
       <Hero />
-      
+
+      <ClientLogos />
+
       {/* Lazy load below-the-fold sections with loading states */}
       <Suspense fallback={<LoadingSpinner />}>
         <Services />
@@ -41,7 +45,9 @@ const HomePage: React.FC = () => {
       <Suspense fallback={<LoadingSpinner />}>
         <Testimonials />
       </Suspense>
-      
+
+      <TrustBadges />
+
       <Suspense fallback={<LoadingSpinner />}>
         <CallToAction />
       </Suspense>

@@ -5,9 +5,15 @@ export default {
     extend: {
       colors: {
         'rich-black': '#0D0D0F',
-        'deep-purple': '#280059',
+        surface: '#111827',
+        'surface-alt': '#1F2937',
         'electric-violet': '#9B1DFF',
-        'base': '#FFFFFF',
+        'electric-violet-light': '#BB57FF',
+        'electric-violet-dark': '#7400C7',
+        'text-muted': '#D1D5DB',
+        accent: '#6B7280',
+        'border-muted': '#374151',
+        base: '#FFFFFF',
         success: {
           50: '#ECFDF5',
           500: '#10B981',
@@ -37,9 +43,9 @@ export default {
         }
       },
       fontFamily: {
-        'display': ['Orbitron', 'sans-serif'],
-        'body': ['Inter', 'system-ui', 'sans-serif'],
-        'poppins': ['Poppins', 'sans-serif'],
+        heading: ['Poppins', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -49,8 +55,16 @@ export default {
         'glow': 'pulse 3s ease-in-out infinite',
       },
       boxShadow: {
-        'neon': '0 0 20px rgba(155, 29, 255, 0.3)',
-        'focus': '0 0 0 3px rgba(155, 29, 255, 0.5)',
+        focus: '0 0 0 2px #9B1DFF',
+        glow: '0 0 20px rgba(155, 29, 255, 0.3)',
+        card: '0 6px 20px rgba(0, 0, 0, 0.3)',
+      },
+      borderRadius: {
+        none: '0px',
+        sm: '4px',
+        md: '6px',
+        lg: '8px',
+        xl: '12px',
       },
       typography: {
         DEFAULT: {

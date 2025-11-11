@@ -31,7 +31,7 @@ const CreativeDirectionPage: React.FC<CreativeDirectionPageProps> = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center gradient-bg">
+    <div className="gradient-bg flex min-h-screen items-center justify-center">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-electric-violet/20 rounded-full filter blur-[100px] animate-glow"></div>
       
       <motion.div 
@@ -44,8 +44,8 @@ const CreativeDirectionPage: React.FC<CreativeDirectionPageProps> = () => {
           <span className="gradient-text">Creative Direction</span>
         </h1>
         
-        <p className="text-lg md:text-xl text-white/80 mb-8">
-          Our Creative Direction portfolio showcases our brand strategy and design work. 
+        <p className="mb-8 text-lg text-text-muted md:text-xl">
+          Our Creative Direction portfolio showcases our brand strategy and design work.
           It's available on a separate specialized website.
         </p>
         
@@ -72,7 +72,7 @@ const CreativeDirectionPage: React.FC<CreativeDirectionPageProps> = () => {
           </Link>
         </div>
         
-        <p className="mt-6 text-sm text-white/60">
+        <p className="mt-6 text-sm text-text-muted">
           Note: Clicking "View Portfolio" will take you to our external portfolio site at shnwzrf.com
         </p>
       </motion.div>

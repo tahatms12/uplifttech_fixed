@@ -1,245 +1,333 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../ui/Logo';
+import Button from '../ui/Button';
+
+interface NavigationLink {
+  name: string;
+  path: string;
+  type?: 'dropdown' | 'link';
+}
+
+const primaryLinks: NavigationLink[] = [
+  { name: 'Solutions', path: '/services', type: 'dropdown' },
+  { name: 'Pricing', path: '/pricing' },
+  { name: 'About Us', path: '/about' },
+  { name: 'Remote Jobs', path: '/careers' }
+];
+
+const solutionLinks = [
+  { name: 'Virtual Assistants', path: '/services/front-desk' },
+  { name: 'Sales Reps', path: '/services/sales' },
+  { name: 'Marketing', path: '/services/marketing' },
+  { name: 'Collections', path: '/services/collections' },
+  { name: 'Operations', path: '/services/logistics' }
+];
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const location = useLocation();
-  
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    document.body.style.overflow = !isMenuOpen ? 'hidden' : '';
-  };
-  
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-    document.body.style.overflow = '';
-  };
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.body.style.overflow = '';
-    };
-  }, []);
-  
-  useEffect(() => {
-    closeMenu();
-  }, [location]);
-  
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services', hasDropdown: true },
-    { name: 'Creative Direction', path: '/creative-direction' },
-    { name: 'Case Studies', path: '/case-studies' },
-    { name: 'Careers', path: '/careers' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const solutionsButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  const serviceLinks = [
-    { name: 'Sales', path: '/services/sales' },
-    { name: 'Logistics', path: '/services/logistics' },
-    { name: 'Collections', path: '/services/collections' },
-    { name: 'Marketing', path: '/services/marketing' },
-    { name: 'Front Desk', path: '/services/front-desk' },
-  ];
-  
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      document.body.style.overflow = 'hidden';
+
+      const container = mobileNavRef.current;
+      if (container) {
+        const getFocusable = () =>
+          container.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          );
+
+        const initialFocusable = getFocusable();
+        initialFocusable[0]?.focus();
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            setIsMenuOpen(false);
+          }
+
+          if (event.key === 'Tab') {
+            const focusable = getFocusable();
+            if (focusable.length === 0) {
+              return;
+            }
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault();
+              first.focus();
+            }
+          }
+        };
+
+        const handleClick = (event: MouseEvent) => {
+          if (container && !container.contains(event.target as Node)) {
+            setIsMenuOpen(false);
+          }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('mousedown', handleClick);
+
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+          document.removeEventListener('mousedown', handleClick);
+        };
+      }
+    } else {
+      document.body.style.overflow = '';
+      previousFocusRef.current?.focus({ preventScroll: true });
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+    setIsSolutionsOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        solutionsButtonRef.current &&
+        !solutionsButtonRef.current.contains(event.target as Node)
+      ) {
+        setIsSolutionsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSolutionsKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setIsSolutionsOpen(true);
+      const firstItem = dropdownRef.current?.querySelector<HTMLAnchorElement>('a');
+      firstItem?.focus();
+    }
+    if (event.key === 'Escape') {
+      setIsSolutionsOpen(false);
+      solutionsButtonRef.current?.focus();
+    }
+  };
+
+  const handleDropdownKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape') {
+      setIsSolutionsOpen(false);
+      solutionsButtonRef.current?.focus();
+    }
+  };
+
   return (
-    <>
-      <header 
-        className={`fixed w-full z-50 transition-all duration-300 ${
-          isScrolled || isMenuOpen ? 'bg-rich-black/95 backdrop-blur-md py-2 shadow-lg' : 'bg-transparent py-3 sm:py-5'
-        }`}
-      >
-        <div className="container-custom px-3 sm:px-4">
-          <nav className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-8">
-            {/* Mobile Menu Button (Left) */}
-            <div className="lg:hidden">
-              <button 
-                className="relative z-50 p-2 rounded-full bg-rich-black/80 backdrop-blur-md border border-neutral-700"
-                onClick={toggleMenu}
-                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-            
-            {/* Logo (Center) */}
-            <Link to="/" className="relative z-50 justify-self-center" onClick={closeMenu}>
-              <Logo />
-            </Link>
-            
-            {/* Desktop Navigation (Right) */}
-            <div className="hidden lg:flex items-center justify-end space-x-8">
-              {navLinks.map((link) => (
-                <div key={link.name} className="relative group">
-                  {link.hasDropdown ? (
-                    <button 
-                      className="nav-link flex items-center"
-                      onMouseEnter={() => setIsServicesOpen(true)}
-                      onMouseLeave={() => setIsServicesOpen(false)}
-                    >
-                      {link.name}
-                      <ChevronDown size={16} className="ml-1" />
-                    </button>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-rich-black/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+      }`}
+    >
+      <div className="container-custom">
+        <nav className="grid grid-cols-[auto_1fr_auto] items-center gap-2 py-4 sm:py-5" aria-label="Main navigation">
+          <button
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-border-muted/60 bg-surface-alt/80 text-white lg:hidden"
+            onClick={() => setIsMenuOpen((previous) => !previous)}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+
+          <Link to="/" className="justify-self-center lg:justify-self-start" aria-label="UPLIFT Technologies home">
+            <Logo />
+          </Link>
+
+          <div className="hidden items-center justify-end gap-6 lg:flex">
+            {primaryLinks.map((link) =>
+              link.type === 'dropdown' ? (
+                <div key={link.name} className="relative">
+                  <button
+                    ref={solutionsButtonRef}
+                    className={`nav-link inline-flex items-center gap-1 ${
+                      location.pathname.startsWith('/services') ? 'nav-link-active' : ''
+                    }`}
+                    aria-haspopup="true"
+                    aria-expanded={isSolutionsOpen}
+                    onClick={() => setIsSolutionsOpen((previous) => !previous)}
+                    onKeyDown={handleSolutionsKeyDown}
+                  >
+                    {link.name}
+                    <ChevronDown
+                      className={`h-4 w-4 transition-transform ${isSolutionsOpen ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {isSolutionsOpen && (
+                      <motion.div
+                        ref={dropdownRef}
+                        role="menu"
+                        aria-label="Solutions"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute right-0 mt-3 w-64 rounded-2xl border border-border-muted/70 bg-surface/95 p-2 shadow-card"
+                        onKeyDown={handleDropdownKeyDown}
+                      >
+                        {solutionLinks.map((item) => (
+                          <NavLink
+                            key={item.name}
+                            to={item.path}
+                            className={({ isActive }) =>
+                              `flex items-start gap-3 rounded-xl px-4 py-3 text-sm transition-colors hover:bg-surface-alt/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet ${
+                                isActive ? 'text-electric-violet' : 'text-text-muted'
+                              }`
+                            }
+                            role="menuitem"
+                          >
+                            <span className="mt-1 inline-flex h-2 w-2 flex-none rounded-full bg-electric-violet" aria-hidden="true" />
+                            <span>{item.name}</span>
+                          </NavLink>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <NavLink
+                  key={link.name}
+                  to={link.path}
+                  className={({ isActive }) =>
+                    isActive ? 'nav-link nav-link-active' : 'nav-link hover:text-white'
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              )
+            )}
+            <Button to="/contact" size="md" className="w-auto" analyticsLabel="nav_get_started">
+              <Calendar className="h-4 w-4" aria-hidden="true" />
+              Get Started
+            </Button>
+          </div>
+        </nav>
+      </div>
+
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            id="mobile-navigation"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-rich-black/95 backdrop-blur-lg lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            ref={mobileNavRef}
+          >
+            <div className="flex h-full flex-col justify-between px-6 pb-12 pt-28">
+              <nav aria-label="Mobile navigation" className="space-y-6">
+                {primaryLinks.map((link) =>
+                  link.type === 'dropdown' ? (
+                    <div key={link.name}>
+                      <button
+                        className="flex w-full items-center justify-between rounded-xl border border-border-muted/70 bg-surface-alt/80 px-4 py-3 text-left text-lg font-semibold text-white"
+                        onClick={() => setIsSolutionsOpen((previous) => !previous)}
+                        aria-expanded={isSolutionsOpen}
+                        aria-controls="mobile-solutions"
+                      >
+                        <span>{link.name}</span>
+                        <ChevronDown
+                          className={`h-5 w-5 transition-transform ${isSolutionsOpen ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
+                          aria-hidden="true"
+                        />
+                      </button>
+                      <AnimatePresence>
+                        {isSolutionsOpen && (
+                          <motion.div
+                            id="mobile-solutions"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="mt-3 space-y-2 rounded-2xl border border-border-muted/60 bg-surface-alt/80 p-3"
+                          >
+                            {solutionLinks.map((item) => (
+                              <NavLink
+                                key={item.name}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                  `block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
+                                    isActive
+                                      ? 'bg-electric-violet/20 text-electric-violet'
+                                      : 'text-text-muted hover:bg-surface/70 hover:text-white'
+                                  }`
+                                }
+                              >
+                                {item.name}
+                              </NavLink>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   ) : (
-                    <NavLink 
-                      to={link.path} 
-                      className={({ isActive }) => 
-                        isActive ? 'nav-link nav-link-active' : 'nav-link'
+                    <NavLink
+                      key={link.name}
+                      to={link.path}
+                      className={({ isActive }) =>
+                        `block rounded-xl border border-border-muted/60 bg-surface-alt/80 px-4 py-3 text-lg font-semibold transition-colors ${
+                          isActive ? 'text-electric-violet' : 'text-text-muted hover:bg-surface/70 hover:text-white'
+                        }`
                       }
                     >
                       {link.name}
                     </NavLink>
-                  )}
-                  
-                  {link.hasDropdown && (
-                    <AnimatePresence>
-                      {isServicesOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute left-0 mt-2 w-56 bg-rich-black/95 backdrop-blur-md border border-neutral-800 rounded-md shadow-lg overflow-hidden"
-                          onMouseEnter={() => setIsServicesOpen(true)}
-                          onMouseLeave={() => setIsServicesOpen(false)}
-                        >
-                          <div className="py-2">
-                            {serviceLinks.map((service) => (
-                              <Link
-                                key={service.name}
-                                to={service.path}
-                                className="block px-4 py-2 text-sm hover:bg-deep-purple/30 transition-colors"
-                              >
-                                {service.name}
-                              </Link>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  )}
-                </div>
-              ))}
-              
-              <Link to="/book" className="btn btn-primary flex items-center">
-                <Calendar size={18} className="mr-2" />
-                Book a Meeting
-              </Link>
-            </div>
-          </nav>
-        </div>
-      </header>
+                  )
+                )}
+              </nav>
 
-      {/* Mobile Navigation Overlay */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-rich-black/95 backdrop-blur-md z-40"
-              onClick={closeMenu}
-            />
-            <motion.div 
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-rich-black/98 backdrop-blur-md lg:hidden flex flex-col pt-24 px-6 z-40"
-              style={{
-                backgroundImage: `url('https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48LYcCDZiUMZzX7lfxvW3hEk5JKuRtbm1dNVHP')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundBlendMode: 'overlay'
-              }}
-            >
-              <div className="flex flex-col space-y-6 mt-8">
-                {navLinks.map((link) => (
-                  <div key={link.name}>
-                    {link.hasDropdown && !link.name.includes("Creative") ? (
-                      <>
-                        <button 
-                          className="flex items-center text-xl font-medium py-2"
-                          onClick={() => setIsServicesOpen(!isServicesOpen)}
-                        >
-                          {link.name}
-                          <ChevronDown 
-                            size={20} 
-                            className={`ml-2 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`}
-                          />
-                        </button>
-                        
-                        <AnimatePresence>
-                          {isServicesOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="overflow-hidden ml-4 border-l-2 border-electric-violet/30 pl-4 mt-2"
-                            >
-                              {serviceLinks.map((service) => (
-                                <Link
-                                  key={service.name}
-                                  to={service.path}
-                                  className="block py-2 text-white/80 hover:text-electric-violet transition-colors"
-                                  onClick={closeMenu}
-                                >
-                                  {service.name}
-                                </Link>
-                              ))}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </>
-                    ) : (
-                      <NavLink 
-                        to={link.path} 
-                        className={({ isActive }) => 
-                          `block text-xl font-medium py-2 ${isActive ? 'text-electric-violet' : 'text-white/80 hover:text-white'}`
-                        }
-                        onClick={closeMenu}
-                      >
-                        {link.name}
-                      </NavLink>
-                    )}
-                  </div>
-                ))}
+              <div className="space-y-3">
+                <Button to="/contact" size="lg" className="w-full" analyticsLabel="mobile_nav_get_started">
+                  <Calendar className="h-5 w-5" aria-hidden="true" />
+                  Get Started
+                </Button>
+                <p className="text-center text-sm text-text-muted">
+                  24/7 support team ready within three business days.
+                </p>
               </div>
-              
-              <div className="mt-auto mb-8">
-                <div className="mb-3 sm:mb-5">
-                  <Link 
-                    to="/book" 
-                    className="w-full btn btn-primary flex items-center justify-center text-base"
-                    onClick={closeMenu}
-                  >
-                    <Calendar size={18} className="mr-2" />
-                    Book a Meeting
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </header>
   );
 };
 

@@ -17,9 +17,11 @@ interface ServiceCardProps {
 const ServiceCard: React.FC<ServiceCardProps> = memo(({ icon, title, description, link, linkText, delay }) => {
   return (
     <Card delay={delay}>
-      <div className="text-electric-violet mb-4">{icon}</div>
-      <h3 className="text-xl font-medium mb-3">{title}</h3>
-      <p className="text-white/70 mb-4">{description}</p>
+      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-electric-violet/10 text-electric-violet">
+        {icon}
+      </div>
+      <h3 className="mb-3 text-xl font-medium">{title}</h3>
+      <p className="mb-4 text-text-muted">{description}</p>
       <Link 
         to={link} 
         className="inline-flex items-center text-electric-violet hover:underline group"

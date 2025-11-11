@@ -163,7 +163,7 @@ const CareersPage: React.FC = () => {
             <h1 className="font-poppins font-semibold mb-6">
               Join Our <span className="gradient-text">Team</span>
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-text-muted">
               Build your career with UPLIFT Technologies. We're looking for talented individuals to help drive our mission of providing exceptional outsourcing services.
             </p>
           </motion.div>
@@ -202,9 +202,9 @@ const CareersPage: React.FC = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="text-4xl mb-4">{benefit.icon}</div>
-              <h3 className="text-xl font-medium mb-3">{benefit.title}</h3>
-              <p className="text-white/70">{benefit.description}</p>
+              <div className="mb-4 text-4xl">{benefit.icon}</div>
+              <h3 className="mb-3 text-xl font-medium">{benefit.title}</h3>
+              <p className="text-text-muted">{benefit.description}</p>
             </motion.div>
           ))}
         </div>
@@ -215,7 +215,7 @@ const CareersPage: React.FC = () => {
         title="Open Positions"
         subtitle="Find your next opportunity with UPLIFT Technologies."
         centered
-        className="bg-deep-purple/5"
+        className="bg-electric-violet/10"
       >
         {/* Department Filters */}
         <div className="mb-10 flex flex-wrap gap-4 justify-center">
@@ -226,7 +226,7 @@ const CareersPage: React.FC = () => {
               className={`px-4 py-2 rounded-full transition-all ${
                 activeFilter === department
                   ? 'bg-electric-violet text-white'
-                  : 'bg-neutral-800/50 text-white/70 hover:bg-neutral-700'
+                  : 'bg-surface-alt/60 text-text-muted hover:bg-surface-alt/70 hover:text-white'
               }`}
             >
               {department === 'all' ? 'All Departments' : department}
@@ -253,15 +253,15 @@ const CareersPage: React.FC = () => {
                     <div className="flex-1">
                       <h3 className="text-xl font-medium mb-2">{job.title}</h3>
                       <div className="flex flex-wrap gap-4 text-sm">
-                        <div className="flex items-center text-white/70">
+                        <div className="flex items-center text-text-muted">
                           <Briefcase size={16} className="mr-2" />
                           {job.department}
                         </div>
-                        <div className="flex items-center text-white/70">
+                        <div className="flex items-center text-text-muted">
                           <MapPin size={16} className="mr-2" />
                           {job.location}
                         </div>
-                        <div className="flex items-center text-white/70">
+                        <div className="flex items-center text-text-muted">
                           <Clock size={16} className="mr-2" />
                           {job.type}
                         </div>
@@ -282,7 +282,7 @@ const CareersPage: React.FC = () => {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="mt-6 pt-6 border-t border-neutral-800"
+                      className="mt-6 pt-6 border-t border-border-muted/60"
                     >
                       <p className="mb-6">{job.description}</p>
                       
@@ -292,7 +292,7 @@ const CareersPage: React.FC = () => {
                           {job.responsibilities.map((item, index) => (
                             <li key={index} className="flex items-start">
                               <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-                              <span className="text-white/80">{item}</span>
+                              <span className="text-text-muted">{item}</span>
                             </li>
                           ))}
                         </ul>
@@ -304,7 +304,7 @@ const CareersPage: React.FC = () => {
                           {job.requirements.map((item, index) => (
                             <li key={index} className="flex items-start">
                               <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-                              <span className="text-white/80">{item}</span>
+                              <span className="text-text-muted">{item}</span>
                             </li>
                           ))}
                         </ul>
@@ -320,7 +320,7 @@ const CareersPage: React.FC = () => {
               </motion.div>
             ))
           ) : (
-            <p className="text-center text-white/70">No positions available in this department currently. Check back later!</p>
+            <p className="text-center text-text-muted">No positions available in this department currently. Check back later!</p>
           )}
         </div>
       </Section>
@@ -362,11 +362,11 @@ const CareersPage: React.FC = () => {
                   {index + 1}
                 </div>
                 <h3 className="text-xl font-medium mb-3 mt-4">{phase.step}</h3>
-                <p className="text-white/70">{phase.description}</p>
+                <p className="text-text-muted">{phase.description}</p>
               </Card>
               
               {index < 3 && (
-                <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-electric-violet/50"></div>
+                <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-electric-violet/100"></div>
               )}
             </motion.div>
           ))}
@@ -374,9 +374,9 @@ const CareersPage: React.FC = () => {
       </Section>
       
       {/* CTA Section */}
-      <Section className="bg-deep-purple/5">
+      <Section className="bg-electric-violet/10">
         <motion.div 
-          className="bg-gradient-to-r from-deep-purple/30 to-rich-black border border-neutral-800 rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto"
+          className="bg-gradient-to-r from-electric-violet/30 to-rich-black border border-border-muted/60 rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -385,7 +385,7 @@ const CareersPage: React.FC = () => {
           <h2 className="text-3xl font-poppins font-semibold mb-4">
             Don't See the Right Fit?
           </h2>
-          <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-text-muted">
             We're always looking for talented individuals to join our team. Submit your resume for future opportunities.
           </p>
           <Button to="/apply" size="lg">

@@ -37,19 +37,19 @@ const JobPosting: React.FC<JobPostingProps> = ({ job }) => {
       >
         <div className="flex-1">
           <h2 className="text-xl font-medium mb-2">{job.title}</h2>
-          <div 
+          <div
             className="flex flex-wrap gap-4 text-sm"
             data-testid="job-metadata"
           >
-            <div className="flex items-center text-white/70">
+            <div className="flex items-center text-text-muted">
               <Briefcase size={16} className="mr-2" />
               {job.department}
             </div>
-            <div className="flex items-center text-white/70">
+            <div className="flex items-center text-text-muted">
               <MapPin size={16} className="mr-2" />
               {job.location}
             </div>
-            <div className="flex items-center text-white/70">
+            <div className="flex items-center text-text-muted">
               <Clock size={16} className="mr-2" />
               {job.type}
             </div>
@@ -75,7 +75,7 @@ const JobPosting: React.FC<JobPostingProps> = ({ job }) => {
             transition={{ duration: 0.3 }}
             className="px-6 pb-6"
           >
-            <div className="pt-6 border-t border-neutral-800">
+            <div className="pt-6 border-t border-border-muted/60">
               <p className="mb-6">{job.description}</p>
               
               <div className="mb-6">
@@ -86,8 +86,8 @@ const JobPosting: React.FC<JobPostingProps> = ({ job }) => {
                 >
                   {job.responsibilities.map((item, index) => (
                     <li key={index} className="flex items-start">
-                      <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-                      <span className="text-white/80">{item}</span>
+                      <Check size={18} className="mt-1 mr-2 flex-shrink-0 text-electric-violet" />
+                      <span className="text-text-muted">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -101,8 +101,8 @@ const JobPosting: React.FC<JobPostingProps> = ({ job }) => {
                 >
                   {job.requirements.map((item, index) => (
                     <li key={index} className="flex items-start">
-                      <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-                      <span className="text-white/80">{item}</span>
+                      <Check size={18} className="mt-1 mr-2 flex-shrink-0 text-electric-violet" />
+                      <span className="text-text-muted">{item}</span>
                     </li>
                   ))}
                 </ul>

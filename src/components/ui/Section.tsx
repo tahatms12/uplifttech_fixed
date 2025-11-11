@@ -57,7 +57,7 @@ const Section: React.FC<SectionProps> = ({
             {title && (
               <motion.h2
                 variants={fadeUpVariants}
-                className="gradient-text mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl"
+                className="gradient-text mb-3 text-3xl sm:mb-4 sm:text-4xl"
               >
                 {title}
               </motion.h2>
@@ -65,7 +65,7 @@ const Section: React.FC<SectionProps> = ({
             {subtitle && (
               <motion.p
                 variants={fadeUpVariants}
-                className="text-base sm:text-lg md:text-xl text-white/80"
+                className="text-base text-text-muted sm:text-lg"
               >
                 {subtitle}
               </motion.p>

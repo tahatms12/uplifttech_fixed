@@ -241,7 +241,7 @@ const CaseStudiesPage: React.FC = () => {
             <h1 className="font-poppins font-semibold mb-6">
               Our <span className="gradient-text">Case Studies</span>
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-text-muted">
               Real results for real businesses. Explore how our services have transformed operations and driven growth across industries.
             </p>
           </motion.div>
@@ -249,7 +249,7 @@ const CaseStudiesPage: React.FC = () => {
       </div>
       
       {/* Filters */}
-      <div className="py-8 border-b border-neutral-800">
+      <div className="py-8 border-b border-border-muted/60">
         <div className="container-custom overflow-x-auto px-2">
           <div className="flex flex-nowrap sm:flex-wrap gap-2 sm:gap-4 justify-start sm:justify-center min-w-full pb-2">
             {categories.map((category) => (
@@ -258,8 +258,8 @@ const CaseStudiesPage: React.FC = () => {
                 onClick={() => setActiveFilter(category)}
                 className={`px-3 py-2 text-sm whitespace-nowrap rounded-full transition-all ${
                   activeFilter === category
-                    ? 'bg-electric-violet text-white'
-                    : 'bg-neutral-800/50 text-white/70 hover:bg-neutral-700'
+                  ? 'bg-electric-violet text-white'
+                  : 'bg-surface-alt/60 text-text-muted hover:bg-surface-alt/70 hover:text-white'
                 }`}
               >
                 {category === 'all' ? 'All' : category}
@@ -293,21 +293,21 @@ const CaseStudiesPage: React.FC = () => {
                 </div>
                 
                 <h2 className="text-2xl font-medium mb-3">{study.title}</h2>
-                <p className="text-white/80 mb-5">{study.description}</p>
+                <p className="mb-5 text-text-muted">{study.description}</p>
                 
                 <div className="mb-6">
                   <h3 className="text-lg font-medium mb-2">Challenge:</h3>
-                  <p className="text-white/70 mb-4">{study.challenge}</p>
+                  <p className="mb-4 text-text-muted">{study.challenge}</p>
                   
                   <h3 className="text-lg font-medium mb-2">Solution:</h3>
-                  <p className="text-white/70 mb-4">{study.solution}</p>
+                  <p className="mb-4 text-text-muted">{study.solution}</p>
                   
                   <h3 className="text-lg font-medium mb-2">Results:</h3>
                   <ul className="space-y-2">
                     {study.results.map((result, index) => (
                       <li key={index} className="flex items-start">
-                        <CheckCircle size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-                        <span className="text-white/80">{result}</span>
+                        <CheckCircle size={18} className="mt-1 mr-2 flex-shrink-0 text-electric-violet" />
+                        <span className="text-text-muted">{result}</span>
                       </li>
                     ))}
                   </ul>
@@ -315,13 +315,13 @@ const CaseStudiesPage: React.FC = () => {
                 
                 {study.testimonial && (
                   <div className="mt-auto">
-                    <div className="border-t border-neutral-700 pt-6 mt-6">
+                    <div className="border-t border-border-muted/50 pt-6 mt-6">
                       <p className="text-white/90 italic mb-4">"{study.testimonial.quote}"</p>
                       <div>
                         <p className="font-medium text-electric-violet">
                           {study.testimonial.author}
                         </p>
-                        <p className="text-sm text-white/60">
+                        <p className="text-sm text-text-muted">
                           {study.testimonial.position}, {study.testimonial.company}
                         </p>
                       </div>
@@ -335,9 +335,9 @@ const CaseStudiesPage: React.FC = () => {
       </Section>
       
       {/* CTA Section */}
-      <Section className="bg-deep-purple/5">
+      <Section className="bg-electric-violet/10">
         <motion.div 
-          className="bg-gradient-to-r from-deep-purple/30 to-rich-black border border-neutral-800 rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto"
+          className="bg-gradient-to-r from-electric-violet/30 to-rich-black border border-border-muted/60 rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -346,7 +346,7 @@ const CaseStudiesPage: React.FC = () => {
           <h2 className="text-3xl font-poppins font-semibold mb-4">
             Ready to Achieve Similar Results?
           </h2>
-          <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-text-muted">
             Schedule a consultation to discuss your specific needs and discover how our services can transform your business operations.
           </p>
           <iframe src="https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto" title="taha"frameBorder="0" scrolling="no" marginWidth="0" border="0px" marginHeight="0"height="350px" width="432px" allowTransparency="true" align="center"></iframe>

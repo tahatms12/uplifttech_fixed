@@ -1,0 +1,7 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-porcina">
+  <title id="title-porcina">Portrait of Dr. A. Porcina</title>
+  <rect width="120" height="120" rx="24" fill="#1D4ED8" fill-opacity="0.12"/>
+  <circle cx="60" cy="46" r="28" fill="#BFDBFE"/>
+  <path d="M60 24C50 24 42 32 42 42C42 52 50 60 60 60C70 60 78 52 78 42C78 32 70 24 60 24Z" fill="#1D4ED8" fill-opacity="0.6"/>
+  <rect x="28" y="74" width="64" height="30" rx="15" fill="#1D4ED8" fill-opacity="0.3"/>
+</svg>

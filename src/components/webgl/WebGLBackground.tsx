@@ -57,7 +57,7 @@ const WebGLBackground: React.FC<WebGLBackgroundProps> = ({ className = '' }) => 
   if (!isWebGLAvailable) {
     return (
       <div 
-        className={`absolute inset-0 bg-gradient-radial from-deep-purple/20 to-rich-black ${className}`}
+        className={`absolute inset-0 bg-gradient-radial from-electric-violet/20 to-rich-black ${className}`}
         aria-hidden="true"
       />
     );

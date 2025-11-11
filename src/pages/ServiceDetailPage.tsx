@@ -360,7 +360,7 @@ const ServiceDetailPage: React.FC = () => {
                   {serviceData.title} <span className="gradient-text">Services</span>
                 </h1>
               </div>
-              <p className="text-xl text-white/80 mb-8">
+              <p className="mb-8 text-xl text-text-muted">
                 {serviceData.longDescription}
               </p>
               <Button to="/contact" size="lg" className="group">
@@ -414,7 +414,7 @@ const ServiceDetailPage: React.FC = () => {
         title="Key Benefits"
         subtitle={`Why businesses choose our ${serviceData.title} services to drive growth and efficiency.`}
         centered
-        className="bg-deep-purple/5"
+        className="bg-electric-violet/10"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {serviceData.benefits.map((benefit, index) => (
@@ -427,7 +427,7 @@ const ServiceDetailPage: React.FC = () => {
               className="glass-card p-6"
             >
               <h3 className="text-xl font-medium mb-3 text-electric-violet">{benefit.title}</h3>
-              <p className="text-white/80">{benefit.description}</p>
+              <p className="text-text-muted">{benefit.description}</p>
             </motion.div>
           ))}
         </div>
@@ -453,10 +453,10 @@ const ServiceDetailPage: React.FC = () => {
                   {index + 1}
                 </div>
                 <h3 className="text-xl font-medium mb-3 mt-4">{step.title}</h3>
-                <p className="text-white/80">{step.description}</p>
+                <p className="text-text-muted">{step.description}</p>
               </div>
               {index < serviceData.process.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-electric-violet/50"></div>
+                <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-electric-violet/100"></div>
               )}
             </motion.div>
           ))}

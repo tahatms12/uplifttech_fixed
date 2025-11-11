@@ -8,105 +8,115 @@ interface Testimonial {
   author: string;
   position: string;
   company: string;
+  photo: string;
 }
 
+const testimonials: Testimonial[] = [
+  {
+    quote:
+      "UPLIFT's team seamlessly integrated with our operations, providing 24/7 coverage that increased our customer satisfaction rates by 35% while reducing our operational costs.",
+    author: 'Ashley S.',
+    position: 'Managing Director',
+    company: 'Confidential Dental Centres',
+    photo: '/images/testimonial-ashley.svg'
+  },
+  {
+    quote:
+      'Their collections team recovered $2M in outstanding accounts receivable that we had almost written off. Within the first month, they brought in $25K and continued to deliver exceptional results.',
+    author: 'Dr A. Porcina',
+    position: 'President',
+    company: 'Confidential Dental',
+    photo: '/images/testimonial-dr-porcina.svg'
+  },
+  {
+    quote:
+      'The AI chat agents UPLIFT implemented revolutionized our scheduling system, reducing lost leads. We have seen dramatic improvements in response times and patient satisfaction.',
+    author: 'Z. Amiri',
+    position: 'Director of Operations',
+    company: 'Auto Enhance Hub',
+    photo: '/images/testimonial-amiri.svg'
+  }
+];
+
 const Testimonials: React.FC = () => {
-  const testimonials: Testimonial[] = [
-    {
-      quote: "UPLIFT's team seamlessly integrated with our operations, providing 24/7 coverage that increased our customer satisfaction rates by 35% while reducing our operational costs.",
-      author: "Ashley S.",
-      position: "Managing Director",
-      company: "Confidential Dental Centres"
-    },
-    {
-      quote: "Their collections team recovered $2M in outstanding accounts receivable that we had almost written off. Within the first month, they brought in $25K and continued to deliver exceptional results.",
-      author: "Dr A. Porcina",
-      position: "President",
-      company: "Confidential Dental"
-    },
-    {
-      quote: "The AI chat agents UPLIFT implemented revolutionized our scheduling system, reducing lost leads. We've seen dramatic improvements in response times and patient satisfaction.",
-      author: "Z. Amiri",
-      position: "Director of Operations",
-      company: "Auto Enhance Hub"
-    }
-  ];
-  
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const nextTestimonial = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
   };
-  
+
   const prevTestimonial = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
   };
-  
+
   return (
-    <Section className="bg-gradient-to-b from-deep-purple/10 to-rich-black">
-      <motion.div 
-        className="max-w-xl sm:max-w-2xl md:max-w-4xl mx-auto text-center relative px-4"
+    <Section className="bg-gradient-to-b from-transparent via-surface/50 to-transparent">
+      <motion.div
+        className="mx-auto flex max-w-5xl flex-col items-center text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/4 text-electric-violet opacity-20">
-          <Quote size={120} />
-        </div>
-        
-        <div className="relative z-10">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="text-xl sm:text-2xl md:text-3xl font-poppins font-medium leading-relaxed mb-6 sm:mb-8">
-              "{testimonials[currentIndex].quote}"
-            </p>
-            
+        <Quote className="h-12 w-12 text-electric-violet/80" aria-hidden="true" />
+        <motion.article
+          key={currentIndex}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="mt-8 rounded-3xl border border-border-muted/60 bg-surface/90 p-8 text-left shadow-card"
+        >
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+            <img
+              src={testimonials[currentIndex].photo}
+              alt={`Photo of ${testimonials[currentIndex].author}`}
+              className="h-24 w-24 flex-none rounded-2xl border border-border-muted/60 bg-surface-alt/80"
+              width={96}
+              height={96}
+              loading="lazy"
+            />
             <div>
-              <p className="font-medium text-electric-violet">
-                {testimonials[currentIndex].author}
-              </p>
-              <p className="text-white/70">
-                {testimonials[currentIndex].position}, {testimonials[currentIndex].company}
-              </p>
+              <p className="text-xl font-medium text-white lg:text-2xl">“{testimonials[currentIndex].quote}”</p>
+              <div className="mt-6 text-sm text-text-muted">
+                <p className="font-semibold text-white">{testimonials[currentIndex].author}</p>
+                <p>
+                  {testimonials[currentIndex].position}, {testimonials[currentIndex].company}
+                </p>
+              </div>
             </div>
-          </motion.div>
-          
-          <div className="flex justify-center gap-3 sm:gap-4 mt-8 sm:mt-10">
-            <button 
-              onClick={prevTestimonial}
-              className="p-2 rounded-full border border-neutral-700 hover:border-electric-violet hover:bg-deep-purple/20 transition-colors"
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <div className="flex gap-2 items-center">
-              {testimonials.map((_, index) => (
-                <button 
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all ${
-                    currentIndex === index 
-                      ? 'bg-electric-violet w-6 sm:w-8' 
-                      : 'bg-neutral-700 hover:bg-neutral-500'
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
-            </div>
-            <button 
-              onClick={nextTestimonial}
-              className="p-2 rounded-full border border-neutral-700 hover:border-electric-violet hover:bg-deep-purple/20 transition-colors"
-              aria-label="Next testimonial"
-            >
-              <ChevronRight size={20} />
-            </button>
           </div>
+        </motion.article>
+
+        <div className="mt-8 flex items-center justify-center gap-4" aria-label="Testimonial controls">
+          <button
+            onClick={prevTestimonial}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-border-muted/60 bg-surface-alt/80 text-white transition-colors hover:border-electric-violet hover:text-electric-violet focus:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet"
+            aria-label="Show previous testimonial"
+          >
+            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <div className="flex items-center gap-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`h-3 w-8 rounded-full transition-colors ${
+                  currentIndex === index
+                    ? 'bg-electric-violet'
+                    : 'bg-border-muted/60 hover:bg-electric-violet/40'
+                }`}
+                aria-label={`Show testimonial ${index + 1}`}
+                aria-pressed={currentIndex === index}
+              />
+            ))}
+          </div>
+          <button
+            onClick={nextTestimonial}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-border-muted/60 bg-surface-alt/80 text-white transition-colors hover:border-electric-violet hover:text-electric-violet focus:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet"
+            aria-label="Show next testimonial"
+          >
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
+          </button>
         </div>
       </motion.div>
     </Section>
