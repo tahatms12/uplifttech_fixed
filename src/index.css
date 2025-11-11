@@ -128,7 +128,7 @@
 
   @media (hover: hover) {
     .glass-card {
-      @apply hover:border-electric-violet/50;
+      @apply hover:border-brand-blue/40;
     }
   }
 
