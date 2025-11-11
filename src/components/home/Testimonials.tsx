@@ -16,13 +16,13 @@ const Testimonials: React.FC = () => {
       quote: "UPLIFT's team seamlessly integrated with our operations, providing 24/7 coverage that increased our customer satisfaction rates by 35% while reducing our operational costs.",
       author: "Ashley S.",
       position: "Managing Director",
-      company: "Studio Dental Centres"
+      company: "Confidential Dental Centres"
     },
     {
       quote: "Their collections team recovered $2M in outstanding accounts receivable that we had almost written off. Within the first month, they brought in $25K and continued to deliver exceptional results.",
       author: "Dr A. Porcina",
       position: "President",
-      company: "Sameday Dental"
+      company: "Confidential Dental"
     },
     {
       quote: "The AI chat agents UPLIFT implemented revolutionized our scheduling system, reducing lost leads. We've seen dramatic improvements in response times and patient satisfaction.",
