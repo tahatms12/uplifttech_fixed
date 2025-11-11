@@ -13,10 +13,14 @@
   }
   
   body {
-    @apply bg-rich-black text-base font-body overflow-x-hidden;
+    @apply bg-rich-black text-base font-body overflow-x-hidden text-white;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 bg-brand-blue text-white px-4 py-2 rounded shadow-lg;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -46,22 +50,22 @@
 
   /* Reserve space for images */
   img {
-    @apply w-full h-auto aspect-[attr(width)/attr(height)];
+    @apply w-full h-auto;
   }
 }
 
 @layer components {
   .btn {
-    @apply px-4 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 inline-flex items-center justify-center;
-    @apply focus:outline-none focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black;
+    @apply px-4 sm:px-6 py-3 rounded font-semibold transition-all duration-200 inline-flex items-center justify-center gap-2;
+    @apply focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-blue/40 focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black;
   }
 
   .btn-primary {
-    @apply bg-electric-violet hover:bg-opacity-90 text-sm sm:text-base shadow-neon;
+    @apply bg-brand-blue hover:bg-brand-blue-dark text-sm sm:text-base shadow-[0_12px_24px_-12px_rgba(11,99,246,0.6)] text-white;
     width: 100%;
     max-width: 100%;
   }
-  
+
   @media (min-width: 640px) {
     .btn-primary {
       width: auto;
@@ -69,7 +73,11 @@
   }
 
   .btn-secondary {
-    @apply border-2 border-electric-violet text-electric-violet hover:bg-electric-violet hover:bg-opacity-10 w-full sm:w-auto;
+    @apply border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white w-full sm:w-auto;
+  }
+
+  .btn-ghost {
+    @apply text-white/80 hover:text-white hover:bg-white/5;
   }
   
   .container-custom {
@@ -78,28 +86,28 @@
 
   .gradient-text {
     @apply text-transparent bg-clip-text inline-block;
-    background-image: linear-gradient(to right, #c44fff, #6e17ff);
-    text-shadow: 0 0 20px rgba(155, 29, 255, 0.5);
+    background-image: linear-gradient(to right, #0b63f6, #6a9bff);
+    text-shadow: 0 0 20px rgba(11, 99, 246, 0.35);
   }
 
   .glass-card {
-    @apply bg-rich-black/40 backdrop-blur-lg border border-neutral-700 rounded-lg sm:rounded-xl;
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl;
     @apply transition-all duration-300;
   }
-  
+
   @media (hover: hover) {
     .glass-card {
-      @apply hover:border-electric-violet/50;
+      @apply hover:border-brand-blue/40;
     }
   }
-  
+
   .nav-link {
-    @apply relative px-1 sm:px-2 py-1 text-sm sm:text-base/80 hover:text-base transition-colors duration-300;
-    @apply focus:outline-none focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black;
+    @apply relative px-1 sm:px-2 py-2 text-sm sm:text-base/80 hover:text-white transition-colors duration-200;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black;
   }
-  
+
   .nav-link-active {
-    @apply text-electric-violet font-medium;
+    @apply text-brand-blue font-semibold;
   }
 
   /* Mobile specific styles */

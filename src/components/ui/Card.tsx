@@ -16,7 +16,7 @@ const Card: React.FC<CardProps> = memo(({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
-    margin: "-10% 0px -10% 0px",
+    margin: '-10% 0px -10% 0px',
     once: true,
   });
   const shouldReduceMotion = useReducedMotion();
@@ -43,7 +43,7 @@ const Card: React.FC<CardProps> = memo(({
     hover: {
       y: -5,
       transition: { duration: 0.2 },
-      boxShadow: '0 10px 30px -10px rgba(155, 29, 255, 0.2)'
+      boxShadow: '0 12px 30px -12px rgba(11, 99, 246, 0.35)'
     }
   } : {};
 

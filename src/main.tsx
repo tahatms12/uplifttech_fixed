@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
 import './styles/prose.css';
+import AnalyticsProvider from './components/analytics/AnalyticsProvider';
 
 // Register service worker
 if ('serviceWorker' in navigator) {
@@ -21,7 +22,9 @@ if ('serviceWorker' in navigator) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <AnalyticsProvider>
+        <App />
+      </AnalyticsProvider>
     </BrowserRouter>
   </StrictMode>
 );

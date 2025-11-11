@@ -7,6 +7,9 @@ export default {
         'rich-black': '#0D0D0F',
         'deep-purple': '#280059',
         'electric-violet': '#9B1DFF',
+        'brand-blue': '#0B63F6',
+        'brand-blue-dark': '#063E9C',
+        'brand-blue-light': '#D0E4FF',
         'base': '#FFFFFF',
         success: {
           50: '#ECFDF5',
