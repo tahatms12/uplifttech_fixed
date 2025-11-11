@@ -114,7 +114,7 @@ function App() {
             }
           />
 
-          {/* 🧑‍💼 New candidate directory system */}
+          {/* 🧑‍💼 Candidate directory system */}
           <Route
             path="candidates"
             element={
@@ -123,8 +123,9 @@ function App() {
               </Suspense>
             }
           />
+          {/* ⚠️ FIXED: Changed from candidates/:id to candidate/:id */}
           <Route
-            path="candidates/:id"
+            path="candidate/:id"
             element={
               <Suspense fallback={<LoadingSpinner />}>
                 <CandidateDetailPage />
