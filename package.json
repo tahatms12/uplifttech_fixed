@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "vite build --minify --sourcemap=false",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",
