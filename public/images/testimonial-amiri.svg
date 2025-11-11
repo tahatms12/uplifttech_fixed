@@ -1,0 +1,7 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-amiri">
+  <title id="title-amiri">Portrait of Z. Amiri</title>
+  <rect width="120" height="120" rx="24" fill="#2563EB" fill-opacity="0.12"/>
+  <circle cx="60" cy="50" r="26" fill="#DBEAFE"/>
+  <path d="M60 30C52 30 46 36 46 44C46 52 52 58 60 58C68 58 74 52 74 44C74 36 68 30 60 30Z" fill="#2563EB" fill-opacity="0.6"/>
+  <rect x="30" y="76" width="60" height="26" rx="13" fill="#2563EB" fill-opacity="0.3"/>
+</svg>

@@ -1,71 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import Section from '../components/ui/Section';
-
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import CandidateApplicationWizard from '../components/forms/CandidateApplicationWizard';
 
 const ApplyPage: React.FC = () => {
-  const [iframeHeight, setIframeHeight] = useState('2820px');
-  
-  useEffect(() => {
-    document.title = 'Apply | UPLIFT Technologies';
-    
-    // Handle iframe resizing
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIframeHeight('100vh');
-      } else {
-        setIframeHeight('2820px');
-      }
-    };
-    
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return (
-    <>
-      <div className="pt-32 pb-20 gradient-bg relative overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-electric-violet/20 rounded-full filter blur-[100px] animate-glow"></div>
-        
-        <div className="container-custom relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
-            <h1 className="font-poppins font-semibold mb-6 text-3xl md:text-4xl lg:text-5xl">
-              Join Our <span className="gradient-text">Team</span>
-            </h1>
-            <p className="text-lg md:text-xl text-white/80">
-              Take the next step in your career with UPLIFT Technologies. Fill out the application form below and we'll be in touch soon.
-            </p>
-          </motion.div>
-        </div>
-      </div>
+    <main className="bg-rich-black text-white">
+      <Helmet>
+        <title>Apply for Remote Roles | UPLIFT Technologies</title>
+        <meta
+          name="description"
+          content="Submit your resume for remote roles at UPLIFT Technologies. Upload a PDF or DOCX resume and complete our quick three-step application."
+        />
+      </Helmet>
 
-      <Section className="px-4 md:px-6">
-        <div className="glass-card p-4 md:p-8 overflow-hidden">
-          <iframe 
-            aria-label="Job Application"
-            allow="camera;microphone"
-            style={{
-              height: iframeHeight,
-              width: '100%',
-              border: 'none',
-              transition: 'all 0.5s ease',
-              borderRadius: '0.5rem',
-              overflow: 'hidden'
-            }}
-            src="https://forms.zohopublic.com/tahauplifttec1/form/JobApplication/formperma/cxtgCuL2bugI3VbnXsRmnJMkfZjVs5QDAnl7nqhj2qE?zf_enablecamera=true&zf_rszfm=1"
-          />
+      <section className="bg-[radial-gradient(circle_at_top,_rgba(11,99,246,0.35),_transparent_60%)] pt-32 pb-16">
+        <div className="container-custom max-w-5xl">
+          <h1 className="text-4xl font-semibold text-white">Join our remote talent bench</h1>
+          <p className="mt-4 text-lg text-white/80">
+            We build people-powered teams for sales, marketing, collections, and operations. Complete the three-step application
+            to be considered for upcoming roles with our clients.
+          </p>
+          <ul className="mt-6 grid gap-3 text-sm text-white/70 sm:grid-cols-3">
+            <li className="rounded-2xl border border-white/10 bg-white/5 p-4">Resume parsing highlights key details automatically.</li>
+            <li className="rounded-2xl border border-white/10 bg-white/5 p-4">Save-as-you-go with persistent fields across steps.</li>
+            <li className="rounded-2xl border border-white/10 bg-white/5 p-4">Mobile-friendly upload with 5MB file limit.</li>
+          </ul>
         </div>
-      </Section>
-    </>
+      </section>
+
+      <section className="container-custom pb-20">
+        <CandidateApplicationWizard />
+      </section>
+    </main>
   );
 };
 

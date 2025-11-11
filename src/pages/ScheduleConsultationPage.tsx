@@ -1,9 +1,49 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
+import { CalendarDays } from 'lucide-react';
+import LeadFormWizard from '../components/forms/LeadFormWizard';
+
 const ScheduleConsultationPage: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <iframe src="https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto" title="taha"frameBorder="0" scrolling="no" marginWidth="0" border="0px" marginHeight="0"height="350px" width="432px" allowTransparency="true" align="center"></iframe>
-    </div>
+    <main className="bg-rich-black text-white">
+      <Helmet>
+        <title>Schedule a Discovery Call | UPLIFT Technologies</title>
+        <meta
+          name="description"
+          content="Book a 15-minute discovery call with UPLIFT Technologies. Share your outsourcing needs and receive vetted candidates within three days."
+        />
+      </Helmet>
+
+      <section className="bg-[radial-gradient(circle_at_top,_rgba(11,99,246,0.35),_transparent_60%)] pt-32 pb-16">
+        <div className="container-custom grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-brand-blue/40 bg-brand-blue/10 px-4 py-2 text-sm text-brand-blue">
+              <CalendarDays className="h-4 w-4" aria-hidden="true" />
+              15-minute consult, zero pressure
+            </p>
+            <h1 className="mt-6 text-4xl font-semibold text-white">Let’s build your remote team</h1>
+            <p className="mt-4 text-lg text-white/80">
+              Answer a few quick questions, choose a time that works for you, and our specialists will share vetted candidates within three business days.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm text-white/70">
+              <li>• Inline validation keeps your details accurate.</li>
+              <li>• We auto-detect your timezone so nothing gets lost in translation.</li>
+              <li>• Satisfaction guaranteed — cancel anytime.</li>
+            </ul>
+          </div>
+          <LeadFormWizard />
+        </div>
+      </section>
+
+      <section className="container-custom pb-20">
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-sm text-white/70">
+          <h2 className="text-lg font-semibold text-white">Need help sooner?</h2>
+          <p className="mt-3">
+            Email <a className="text-brand-blue hover:underline" href="mailto:hello@uplift-tech.com">hello@uplift-tech.com</a> or call <a className="text-brand-blue hover:underline" href="tel:+14165551234">+1 (416) 555-1234</a>. Our team replies within four business hours.
+          </p>
+        </div>
+      </section>
+    </main>
   );
 };
 

@@ -25,12 +25,12 @@ const CallToAction: React.FC = () => {
             Schedule a free consultation today and discover how our services can drive efficiency and growth for your operations.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-            <Button to="/book" size="lg" className="group">
+            <Button to="/book" size="lg" className="group" analyticsLabel="cta_book_meeting">
               <Calendar size={18} className="mr-2" />
               Book a Meeting
               <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button to="/case-studies" variant="outline" size="lg">
+            <Button to="/case-studies" variant="outline" size="lg" analyticsLabel="cta_explore_work">
               Explore Our Work
             </Button>
           </div>

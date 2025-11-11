@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import Breadcrumbs from './Breadcrumbs';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Layout: React.FC = () => {
@@ -15,6 +15,7 @@ const Layout: React.FC = () => {
         Skip to main content
       </a>
       <Navbar />
+      <Breadcrumbs />
       <AnimatePresence mode="wait">
         <motion.main 
           id="main-content"
@@ -29,8 +30,6 @@ const Layout: React.FC = () => {
         </motion.main>
       </AnimatePresence>
       <Footer />
-      
-      
     </div>
   );
 };
