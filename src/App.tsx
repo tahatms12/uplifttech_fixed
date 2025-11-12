@@ -22,6 +22,8 @@ const PricingPage = lazy(() => import('./pages/PricingPage'));
 const CreativeDirectionPage = lazy(() => import('./pages/CreativeDirectionPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultationPage'));
+const CandidatesPage = lazy(() => import('./pages/CandidatesPage'));
+const CandidateDetailPage = lazy(() => import('./pages/CandidateDetailPage'));
 
 function App() {
   return (
@@ -40,6 +42,22 @@ function App() {
               <ServicesPage />
             </Suspense>
           } />
+          <Route
+            path="candidates"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <CandidatesPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="candidates/:id"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <CandidateDetailPage />
+              </Suspense>
+            }
+          />
           <Route path="services/:service" element={
             <Suspense fallback={<LoadingSpinner />}>
               <ServiceDetailPage />

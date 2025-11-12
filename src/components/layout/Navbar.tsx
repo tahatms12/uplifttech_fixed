@@ -14,6 +14,7 @@ interface NavigationLink {
 const primaryLinks: NavigationLink[] = [
   { name: 'Solutions', path: '/services', type: 'dropdown' },
   { name: 'Pricing', path: '/pricing' },
+  { name: 'Talent', path: '/candidates' },
   { name: 'About Us', path: '/about' },
   { name: 'Remote Jobs', path: '/careers' }
 ];
