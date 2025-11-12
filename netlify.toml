@@ -1,13 +1,12 @@
 [build]
-  command = "rm -rf node_modules && npm install && chmod -R 755 node_modules && npm run build"
+  command = "npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20.11.0"
-  NPM_VERSION = "10.2.4"
+  NODE_VERSION = "20.19.0"
 
 [context.production.environment]
-  NODE_VERSION = "20.11.0"
+  NODE_VERSION = "20.19.0"
 
 [[headers]]
   for = "/*"
@@ -59,3 +58,8 @@
   for = "/feed.xml"
   [headers.values]
     Cache-Control = "public,max-age=0,must-revalidate"
+```
+
+And update `.nvmrc`:
+```
+20.19.0
