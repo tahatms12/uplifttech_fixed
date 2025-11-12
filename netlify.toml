@@ -58,8 +58,3 @@
   for = "/feed.xml"
   [headers.values]
     Cache-Control = "public,max-age=0,must-revalidate"
-```
-
-And update `.nvmrc`:
-```
-20.19.0
