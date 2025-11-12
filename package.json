@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "postinstall": "chmod +x node_modules/esbuild/bin/esbuild || true"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
