@@ -328,7 +328,7 @@ const RAW_CANDIDATES: Candidate[] = [
     profilePhoto: '',
     workWindow: '9 am to 6 pm PKT',
     summary:
-      'Dental surgeon with US observership experience, INBDE passed, pursuing public health master's degree.'
+      "Dental surgeon with US observership experience, INBDE passed, pursuing public health master's degree."
   },
   {
     id: 'CV-BPO-005',
