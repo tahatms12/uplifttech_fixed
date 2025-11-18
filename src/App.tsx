@@ -10,8 +10,10 @@ import HomePage from './pages/HomePage';
 // Lazy load all other pages
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
-const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'));
-const CareersPage = lazy(() => import('./pages/CareersPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
+const CandidatesPage = lazy(() => import('./pages/CandidatesPage')); // Talent page
+const CandidateDetailPage = lazy(() => import('./pages/CandidateDetailPage')); // Individual candidate
+const CareersPage = lazy(() => import('./pages/CareersPage')); // Remote Jobs
 
 const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const PaymentPage = lazy(() => import('./pages/PaymentPage'));
@@ -44,9 +46,19 @@ function App() {
               <ServiceDetailPage />
             </Suspense>
           } />
-          <Route path="case-studies" element={
+          <Route path="pricing" element={
             <Suspense fallback={<LoadingSpinner />}>
-              <CaseStudiesPage />
+              <PricingPage />
+            </Suspense>
+          } />
+          <Route path="candidates" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CandidatesPage />
+            </Suspense>
+          } />
+          <Route path="candidates/:id" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CandidateDetailPage />
             </Suspense>
           } />
           <Route path="careers" element={
@@ -75,7 +87,7 @@ function App() {
               <PrivacyPolicyPage />
             </Suspense>
           } />
-          <Route path="contact" element={
+          <Route path="book" element={
             <Suspense fallback={<LoadingSpinner />}>
               <ScheduleConsultationPage />
             </Suspense>

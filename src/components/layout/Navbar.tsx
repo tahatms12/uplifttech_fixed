@@ -43,9 +43,9 @@ const Navbar: React.FC = () => {
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services', hasDropdown: true },
     { name: 'Creative Direction', path: '/creative-direction' },
-    { name: 'Case Studies', path: '/case-studies' },
-    { name: 'Careers', path: '/careers' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Pricing', path: '/pricing' },
+    { name: 'Talent', path: '/candidates' },
+    { name: 'Remote Jobs', path: '/careers' },
   ];
 
   const serviceLinks = [
@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
             </Link>
             
             {/* Desktop Navigation (Right) */}
-            <div className="hidden lg:flex items-center justify-end space-x-8">
+            <div className="desktop-nav-links-wrapper hidden lg:flex items-center justify-end space-x-8">
               {navLinks.map((link) => (
                 <div key={link.name} className="relative group">
                   {link.hasDropdown ? (
