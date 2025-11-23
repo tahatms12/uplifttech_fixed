@@ -7,7 +7,7 @@ import ClientLogos from '../components/trust/ClientLogos';
 import TrustBadges from '../components/trust/TrustBadges';
 
 interface PricingTier {
-  level: 'Entry' | 'Mid' | 'Pro';
+  level: 'Intermediate' | 'Professional';
   range: string;
 }
 
@@ -20,89 +20,78 @@ const pricingData: PricingRow[] = [
   {
     category: 'Virtual Assistants',
     tiers: [
-      { level: 'Entry', range: '$6/hour' },
-      { level: 'Mid', range: '$9/hour' },
-      { level: 'Pro', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9/hour' },
+      { level: 'Professional', range: '$12/hour' }
     ]
   },
   {
     category: 'Sales Reps',
     tiers: [
-      { level: 'Entry', range: '$6/hour' },
-      { level: 'Mid', range: '$9/hour' },
-      { level: 'Pro', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9/hour' },
+      { level: 'Professional', range: '$12/hour' }
     ]
   },
   {
     category: 'Marketing',
     tiers: [
-      { level: 'Entry', range: '$6/hour' },
-      { level: 'Mid', range: '$9/hour' },
-      { level: 'Pro', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9/hour' },
+      { level: 'Professional', range: '$12/hour' }
     ]
   },
   {
     category: 'Collections',
     tiers: [
-      { level: 'Entry', range: '$6/hour' },
-      { level: 'Mid', range: '$9/hour' },
-      { level: 'Pro', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9/hour' },
+      { level: 'Professional', range: '$12/hour' }
     ]
   },
   {
     category: 'Admin',
     tiers: [
-      { level: 'Entry', range: '$6/hour' },
-      { level: 'Mid', range: '$9/hour' },
-      { level: 'Pro', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9/hour' },
+      { level: 'Professional', range: '$12/hour' }
     ]
   },
   {
     category: 'Patient Coordinator',
     tiers: [
-        { level: 'Entry', range: '-'},
-        { level: 'Mid', range: '-'},
-        { level: 'Pro', range: '$10/hour'}
+        { level: 'Intermediate', range: '-'},
+        { level: 'Professional', range: '$10/hour'}
     ]
   },
   {
     category: 'Client Success Specialist',
     tiers: [
-        { level: 'Entry', range: '-'},
-        { level: 'Mid', range: '-'},
-        { level: 'Pro', range: '$10/hour'}
+        { level: 'Intermediate', range: '-'},
+        { level: 'Professional', range: '$10/hour'}
     ]
   },
   {
     category: 'Clinical Nurse Coordinator',
     tiers: [
-        { level: 'Entry', range: '-'},
-        { level: 'Mid', range: '-'},
-        { level: 'Pro', range: '$12/hour'}
+        { level: 'Intermediate', range: '-'},
+        { level: 'Professional', range: '$12/hour'}
     ]
   },
   {
     category: 'Order Entry Specialist',
     tiers: [
-        { level: 'Entry', range: '-'},
-        { level: 'Mid', range: '-'},
-        { level: 'Pro', range: '$12/hour'}
+        { level: 'Intermediate', range: '-'},
+        { level: 'Professional', range: '$12/hour'}
     ]
   },
   {
     category: 'Claims Specialist',
     tiers: [
-        { level: 'Entry', range: '-'},
-        { level: 'Mid', range: '-'},
-        { level: 'Pro', range: '$10/hour'}
+        { level: 'Intermediate', range: '-'},
+        { level: 'Professional', range: '$10/hour'}
     ]
   },
   {
     category: 'Insurance Support Specialist',
     tiers: [
-        { level: 'Entry', range: '-'},
-        { level: 'Mid', range: '-'},
-        { level: 'Pro', range: '$10/hour'}
+        { level: 'Intermediate', range: '-'},
+        { level: 'Professional', range: '$10/hour'}
     ]
   }
 ];
@@ -121,12 +110,12 @@ const faqs = [
   {
     question: 'Can we scale down or cancel?',
     answer:
-      'Yes. You may scale down to a smaller pod or cancel with seven days’ notice. Our team will support knowledge transfer for a smooth transition.'
+      'Yes. You may scale down to a smaller pod or cancel with a seven day notice. Our team will support knowledge transfer for a smooth transition.'
   },
   {
     question: 'How do you vet staff?',
     answer:
-      'Every specialist passes language, compliance, and scenario-based assessments. Only 4% of applicants become part of UPLIFT’s remote bench.'
+      'Every specialist passes language, compliance, and scenario-based assessments. Only 4% of applicants become part of our remote bench.'
   }
 ];
 
@@ -136,15 +125,32 @@ const PricingPage: React.FC = () => {
   const [weeks, setWeeks] = useState(4);
 
   const estimatedRange = useMemo(() => {
-    const tier = selectedCategory.tiers[1];
-    const [min, max] = tier.range
-      .replace(/\$/g, '')
-      .replace(/\s/g, '')
-      .split('-')
-      .map((value) => Number(value.replace('/hour', '')));
-    const minTotal = min * hoursPerWeek * weeks;
-    const maxTotal = max * hoursPerWeek * weeks;
-    return { minTotal, maxTotal };
+    // Get valid prices (not '-')
+    const validTiers = selectedCategory.tiers.filter(tier => tier.range !== '-');
+    
+    if (validTiers.length === 0) {
+      return { minTotal: 0, maxTotal: 0, isSinglePrice: false };
+    }
+    
+    // Extract prices
+    const prices = validTiers.map(tier => {
+      const priceStr = tier.range.replace(/\$/g, '').replace('/hour', '').trim();
+      return Number(priceStr);
+    });
+    
+    // If only one price is available
+    if (prices.length === 1) {
+      const total = prices[0] * hoursPerWeek * weeks;
+      return { minTotal: total, maxTotal: total, isSinglePrice: true };
+    }
+    
+    // If two prices are available, create a range
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+    const minTotal = minPrice * hoursPerWeek * weeks;
+    const maxTotal = maxPrice * hoursPerWeek * weeks;
+    
+    return { minTotal, maxTotal, isSinglePrice: false };
   }, [selectedCategory, hoursPerWeek, weeks]);
 
   return (
@@ -230,15 +236,16 @@ const PricingPage: React.FC = () => {
                 style={{ colorScheme: 'dark' }}
               />
 
-              {/* <div className="rounded-xl border border-electric-violet/40 bg-electric-violet/10 p-4">
+              <div className="rounded-xl border border-electric-violet/40 bg-electric-violet/10 p-4">
                 <p className="text-sm text-text-muted">Estimated investment</p>
                 <p className="mt-2 text-2xl font-semibold text-electric-violet">
-                  ${estimatedRange.minTotal.toLocaleString()} - ${estimatedRange.maxTotal.toLocaleString()} USD
+                  {estimatedRange.isSinglePrice ? (
+                    `$${estimatedRange.minTotal.toLocaleString()} USD`
+                  ) : (
+                    `$${estimatedRange.minTotal.toLocaleString()} - $${estimatedRange.maxTotal.toLocaleString()} USD`
+                  )}
                 </p>
-                <p className="mt-2 text-xs text-text-muted">
-                  Based on {selectedCategory.category} ({selectedCategory.tiers[1].level} level). Final rates confirmed on your call.
-                </p>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
@@ -251,7 +258,7 @@ const PricingPage: React.FC = () => {
       <section className="container-custom py-16" aria-labelledby="pricing-table-heading">
         <h2 id="pricing-table-heading" className="text-3xl font-semibold text-white">Hourly ranges by role</h2>
         <p className="mt-2 text-text-muted">
-          Transparent ranges help you model your ROI. We recommend Mid tier for most teams to balance speed, expertise, and coverage.
+          Transparent ranges help you model your ROI. We recommend Intermediate tier for most teams to balance speed, expertise, and coverage.
         </p>
 
         <div className="mt-8 hidden overflow-hidden rounded-3xl border border-border-muted/60 bg-surface/80 shadow-card lg:block">
@@ -260,7 +267,7 @@ const PricingPage: React.FC = () => {
             <thead className="bg-surface-alt/80 text-left text-sm uppercase tracking-widest text-text-muted">
               <tr>
                 <th scope="col" className="px-6 py-4">Category</th>
-                {['Entry', 'Mid', 'Pro'].map((tier) => (
+                {['Intermediate', 'Professional'].map((tier) => (
                   <th scope="col" key={tier} className="px-6 py-4">
                     {tier}
                   </th>
