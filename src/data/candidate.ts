@@ -95,8 +95,8 @@ const RAW_CANDIDATES: Candidate[] = [
       }
     ],
     videoUrl: '',
-    email: 'afsheenwaheed180@gmail.com',
-    phone: '+92 336 7256370',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: '8 am to 6 pm EST',
     summary:
@@ -158,8 +158,8 @@ const RAW_CANDIDATES: Candidate[] = [
       }
     ],
     videoUrl: '',
-    email: 'fatimaalina051@gmail.com',
-    phone: '+92 331 8589888',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: '8 am to 6 pm EST',
     summary:
@@ -240,12 +240,451 @@ const RAW_CANDIDATES: Candidate[] = [
       }
     ],
     videoUrl: '',
-    email: 'alexhcgs735_2sb@indeedemail.com',
-    phone: '+92 322 8015543',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: 'Flexible - Willing to work NA shifts',
     summary:
       'Senior RCM specialist with 10 years experience across multiple specialties and EMR platforms, team leadership expertise.'
+  },
+  // Add these new candidates to your RAW_CANDIDATES array:
+
+  {
+    id: 'CV-CS-009',
+    fullName: 'A. Akhtar', // Alveena Akhtar
+    title: 'Client Support Specialist',
+    seniority: 'Mid',
+    yearsExp: 3,
+    skills: [
+      'Customer Service',
+      'Client Support',
+      'Healthcare Front Desk',
+      'CRM Tools',
+      'Data Entry',
+      'Scheduling',
+      'Patient Communication',
+      'MS Office',
+      'Conflict Resolution',
+      'Zoom',
+      'Google Meet'
+    ],
+    primarySkill: 'Customer Support',
+    locationCity: 'Islamabad',
+    locationCountry: 'Pakistan',
+    timezone: 'UTC+5',
+    availabilityLeadTime: 'Immediate',
+    salaryRangePKR: {
+      min: 100000,
+      max: 150000
+    },
+    languages: ['English Fluent', 'Urdu Native'],
+    education: [
+      {
+        degree: 'Bachelor of Humanities and Social Sciences',
+        institution: 'Bahria University',
+        year: 2025
+      },
+      {
+        degree: 'Semester Exchange Program',
+        institution: 'Yeditepe University, Istanbul',
+        year: 2023
+      }
+    ],
+    experience: [
+      {
+        company: 'Auto Enhance Hub',
+        role: 'Client Support Specialist',
+        start: 'Aug 2025',
+        end: 'Present',
+        highlights: [
+          'Primary contact for client inquiries across multiple digital platforms',
+          'Collaborate with technical teams to resolve escalated issues',
+          'Monitor service performance metrics',
+          'Streamline client onboarding processes'
+        ]
+      },
+      {
+        company: 'Studio Dental, Toronto',
+        role: 'Frontline Medical Receptionist',
+        start: 'Oct 2024',
+        end: 'Sep 2025',
+        highlights: [
+          'Scheduled and coordinated patient appointments',
+          'Managed patient data entry and records',
+          'Delivered excellent customer service',
+          'Supported clinic operations and communication'
+        ]
+      },
+      {
+        company: 'MicroEnsure Pakistan',
+        role: 'Customer Service Representative',
+        start: 'Mar 2019',
+        end: 'Aug 2019',
+        highlights: [
+          'Assisted with insurance inquiries and claims',
+          'Handled client data entry with precision',
+          'Achieved high customer satisfaction scores'
+        ]
+      }
+    ],
+    videoUrl: 'https://player.vimeo.com/video/1137861614?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
+    profilePhoto: '',
+    workWindow: '8 am to 6 pm EST',
+    summary:
+      'Client support specialist with healthcare front desk experience, strong cross-cultural communication, and expertise in CRM tools.'
+  },
+  {
+    id: 'CV-ACC-010',
+    fullName: 'R. Mehboob', // Rafia Mehboob
+    title: 'Accountant & Managing Director',
+    seniority: 'Senior',
+    yearsExp: 2,
+    skills: [
+      'Financial Reporting',
+      'Accounting',
+      'Budgeting',
+      'Cash Flow Management',
+      'QuickBooks',
+      'MS Excel Advanced',
+      'Business Operations',
+      'Team Leadership',
+      'Client Relations',
+      'Risk Management'
+    ],
+    primarySkill: 'Accounting',
+    locationCity: 'Islamabad',
+    locationCountry: 'Pakistan',
+    timezone: 'UTC+5',
+    availabilityLeadTime: '2 weeks',
+    salaryRangePKR: {
+      min: 150000,
+      max: 250000
+    },
+    languages: ['English Fluent', 'Urdu Native'],
+    education: [
+      {
+        degree: 'Chartered Management Accountant (In Progress)',
+        institution: 'Institute of Chartered Management Accountants',
+        year: 'Present'
+      },
+      {
+        degree: 'HSSC - Intermediate of Commerce',
+        institution: 'Punjab Group of Colleges',
+        year: 2022
+      }
+    ],
+    experience: [
+      {
+        company: 'Safety First Security Ltd UK',
+        role: 'Managing Director',
+        start: 'Feb 2024',
+        end: 'Present',
+        highlights: [
+          'Managed business operations from recruitment to contracts',
+          'Pitched and negotiated contracts with clients',
+          'Supervised security staff and ensured payroll accuracy',
+          'Handled HR duties and emergency management'
+        ]
+      },
+      {
+        company: 'Claim Help UK Limited',
+        role: 'Accountant',
+        start: 'Feb 2023',
+        end: 'Present',
+        highlights: [
+          'Manage payment records for claims',
+          'Maintain accurate books and financial documentation',
+          'Engage with clients to address queries',
+          'Handle administrative tasks and supervise staff'
+        ]
+      }
+    ],
+    videoUrl: '',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
+    profilePhoto: '',
+    workWindow: 'Flexible - UK hours preferred',
+    summary:
+      'Accountant and business operations leader with expertise in financial management, team leadership, and UK-based client relations.'
+  },
+  {
+    id: 'CV-PSY-011',
+    fullName: 'H. Shabbir', // Hafsa Shabbir
+    title: 'Associate Clinical Psychologist',
+    seniority: 'Junior',
+    yearsExp: 2,
+    skills: [
+      'Clinical Psychology',
+      'Patient Communication',
+      'Healthcare Scheduling',
+      'Documentation Management',
+      'Psychological Testing',
+      'Patient Intake',
+      'Research',
+      'MS Office',
+      'SPSS',
+      'Content Development'
+    ],
+    primarySkill: 'Healthcare',
+    locationCity: 'Islamabad',
+    locationCountry: 'Pakistan',
+    timezone: 'UTC+5',
+    availabilityLeadTime: '2 weeks',
+    salaryRangePKR: {
+      min: 120000,
+      max: 180000
+    },
+    languages: ['English Fluent', 'Urdu Native'],
+    education: [
+      {
+        degree: 'MSCP Clinical Psychology (In Progress)',
+        institution: 'National University of Sciences and Technology',
+        year: 'Present'
+      },
+      {
+        degree: 'BSCP Clinical Psychology (Silver Medal)',
+        institution: 'Shifa Tameer-e-Millat University',
+        year: null
+      }
+    ],
+    experience: [
+      {
+        company: 'Uplift Technologies',
+        role: 'Accounts Receivable Agent',
+        start: 'Recent',
+        end: 'Present',
+        highlights: [
+          'Coordinated with patients and insurance providers',
+          'Maintained detailed logs and communication records',
+          'Handled large volumes of cases efficiently',
+          'Managed patient queries within healthcare systems'
+        ]
+      },
+      {
+        company: 'Bahria University',
+        role: 'Lecturer',
+        start: 'Recent',
+        end: 'Recent',
+        highlights: [
+          'Delivered lectures and facilitated discussions',
+          'Designed lesson plans and assessments',
+          'Mentored students in academic development'
+        ]
+      },
+      {
+        company: 'Shifa International Hospital',
+        role: 'Clinical Intern',
+        start: 'Previous',
+        end: 'Previous',
+        highlights: [
+          'Conducted patient intake interviews',
+          'Managed patient documentation and records',
+          'Supported treatment planning coordination'
+        ]
+      }
+    ],
+    videoUrl: 'https://player.vimeo.com/video/1139855114?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
+    profilePhoto: '',
+    workWindow: '8 am to 6 pm EST',
+    summary:
+      'Clinical psychologist with healthcare operations experience, strong in patient communication, scheduling, and documentation management.'
+  },
+  {
+    id: 'CV-OPS-012',
+    fullName: 'K. Riaz', // Komal Riaz
+    title: 'Client Support & Operations Specialist',
+    seniority: 'Senior',
+    yearsExp: 7,
+    skills: [
+      'Administrative Coordination',
+      'Client Support',
+      'Quality Assurance',
+      'Team Leadership',
+      'AR Management',
+      'PIPEDA Compliance',
+      'Documentation Management',
+      'Customer Communication',
+      'Process Improvement',
+      'Data Entry'
+    ],
+    primarySkill: 'Operations',
+    locationCity: 'Pakistan',
+    locationCountry: 'Pakistan',
+    timezone: 'UTC+5',
+    availabilityLeadTime: 'Immediate',
+    salaryRangePKR: {
+      min: 140000,
+      max: 200000
+    },
+    languages: ['English Fluent', 'Urdu Intermediate'],
+    education: [
+      {
+        degree: 'BSc International Business',
+        institution: 'Madonna University, Michigan, USA',
+        year: 2014
+      },
+      {
+        degree: 'IGCSE O Level',
+        institution: 'The Westminster School, Dubai',
+        year: 2007
+      }
+    ],
+    experience: [
+      {
+        company: 'Auto Enhance Hub (Uplift Technologies)',
+        role: 'Client Support Specialist',
+        start: 'Sep 2025',
+        end: 'Present',
+        highlights: [
+          'Sourced car parts and negotiated deals',
+          'Handled multi-channel client communication',
+          'Maintained accurate client records',
+          'Ensured customer satisfaction through follow-ups'
+        ]
+      },
+      {
+        company: 'Sameday Dental (Uplift Technologies)',
+        role: 'Quality Assurance Manager',
+        start: 'Aug 2025',
+        end: 'Sep 2025',
+        highlights: [
+          'Ensured accurate documentation of dental procedures',
+          'Prepared QA reports for management',
+          'Maintained and updated SOPs',
+          'Enhanced collaboration between teams'
+        ]
+      },
+      {
+        company: 'Studio Dental (Uplift Technologies)',
+        role: 'AR Team Lead',
+        start: 'Jan 2025',
+        end: 'Aug 2025',
+        highlights: [
+          'Led team of collection specialists',
+          'Ensured PIPEDA compliance',
+          'Monitored performance and provided coaching',
+          'Handled sensitive financial matters'
+        ]
+      },
+      {
+        company: 'TDEA-FAFEN',
+        role: 'Junior Program Officer',
+        start: 'Jul 2021',
+        end: 'May 2024',
+        highlights: [
+          'Coordinated with field partner organizations',
+          'Monitored project timelines and compliance',
+          'Ensured quality of reports and documentation'
+        ]
+      }
+    ],
+    videoUrl: 'https://player.vimeo.com/video/1137861485?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
+    profilePhoto: '',
+    workWindow: 'Flexible - Can work NA shifts',
+    summary:
+      'Operations specialist with extensive remote work experience in client support, QA management, and AR team leadership.'
+  },
+  {
+    id: 'CV-NUTR-013',
+    fullName: 'S. Yasin', // Sabah Yasin
+    title: 'Healthcare Operations & Insurance Specialist',
+    seniority: 'Mid',
+    yearsExp: 5,
+    skills: [
+      'Patient Scheduling',
+      'Insurance Verification',
+      'Healthcare Communication',
+      'AR Collections',
+      'Digital Marketing',
+      'Data Labelling',
+      'Customer Service',
+      'MS Office',
+      'SPSS',
+      'SEO'
+    ],
+    primarySkill: 'Healthcare Operations',
+    locationCity: 'Faisalabad',
+    locationCountry: 'Pakistan',
+    timezone: 'UTC+5',
+    availabilityLeadTime: 'Immediate',
+    salaryRangePKR: {
+      min: 110000,
+      max: 160000
+    },
+    languages: ['English Fluent', 'Urdu Native'],
+    education: [
+      {
+        degree: 'MSc (Hons.) Food & Nutrition',
+        institution: 'University of Agriculture Faisalabad',
+        year: 2015
+      },
+      {
+        degree: 'BSc (Hons.) Food & Nutrition',
+        institution: 'University of Agriculture Faisalabad',
+        year: 2013
+      }
+    ],
+    experience: [
+      {
+        company: 'Uplift Technologies - Studio Dental',
+        role: 'Insurance & Collections Specialist',
+        start: 'Sep 2025',
+        end: 'Present',
+        highlights: [
+          'Verified dental insurance claims',
+          'Followed up on unpaid claims with insurance companies',
+          'Ensured accurate documentation',
+          'Resolved outstanding accounts'
+        ]
+      },
+      {
+        company: 'Uplift Technologies - Same Day Dental',
+        role: 'Marketing & Outreach Representative',
+        start: 'Aug 2025',
+        end: 'Sep 2025',
+        highlights: [
+          'Executed outbound marketing campaigns',
+          'Promoted clinic services to local businesses',
+          'Expanded patient base through outreach'
+        ]
+      },
+      {
+        company: 'Uplift Technologies - Studio Dental',
+        role: 'Front Desk Coordinator',
+        start: 'Dec 2024',
+        end: 'Aug 2025',
+        highlights: [
+          'Managed patient communications',
+          'Scheduled and confirmed appointments',
+          'Conducted reminder and recall calls',
+          'Delivered excellent customer service'
+        ]
+      },
+      {
+        company: 'The University of Faisalabad',
+        role: 'Lecturer',
+        start: '2016',
+        end: '2018',
+        highlights: [
+          'Taught nutrition courses',
+          'Supervised student research',
+          'Organized nutrition events'
+        ]
+      }
+    ],
+    videoUrl: 'https://player.vimeo.com/video/1137861337?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
+    profilePhoto: '',
+    workWindow: 'Flexible - Can work NA shifts',
+    summary:
+      'Healthcare operations specialist with dental clinic experience in insurance verification, patient scheduling, and collections management.'
   },
   {
     id: 'CV-DEN-004',
@@ -323,8 +762,8 @@ const RAW_CANDIDATES: Candidate[] = [
       }
     ],
     videoUrl: '',
-    email: 'ayeshahussayin@gmail.com',
-    phone: '+92 333 0222437',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: '8 am to 6 pm EST',
     summary:
@@ -346,6 +785,7 @@ const RAW_CANDIDATES: Candidate[] = [
       'Marketing',
       'Amazon Wholesale'
     ],
+    
     primarySkill: 'Sales',
     locationCity: 'Rawalpindi',
     locationCountry: 'Pakistan',
@@ -398,8 +838,8 @@ const RAW_CANDIDATES: Candidate[] = [
       }
     ],
     videoUrl: '',
-    email: 'fahadahmed246810@gmail.com',
-    phone: '+92 333 1979840',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: 'Flexible - Can work NA/UK shifts',
     summary:
@@ -472,8 +912,8 @@ const RAW_CANDIDATES: Candidate[] = [
       }
     ],
     videoUrl: '',
-    email: 'mominashakoorhioye_46b@indeedemail.com',
-    phone: '+92 333 5541839',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: '8 am to 6 pm EST',
     summary:
@@ -557,8 +997,8 @@ const RAW_CANDIDATES: Candidate[] = [
       }
     ],
     videoUrl: '',
-    email: 'zobiabadar54@gmail.com',
-    phone: '+92 345 3051715',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: '8 am to 6 pm EST',
     summary:
@@ -603,8 +1043,8 @@ const RAW_CANDIDATES: Candidate[] = [
     ],
     experience: [],
     videoUrl: '',
-    email: 'zunairanazeera6xxd_4k9@indeedemail.com',
-    phone: '+92 329 8059582',
+    email: 'hr@uplift-technologies.com',
+    phone: '+92 315 5899936',
     profilePhoto: '',
     workWindow: 'Flexible',
     summary:
