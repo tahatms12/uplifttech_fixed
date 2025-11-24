@@ -1,10 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import Section from '../components/ui/Section';
-import Card from '../components/ui/Card';
+import { Mail, Phone, MapPin, Clock, CheckCircle2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
-const ContactPage: React.FC = () => {
+// Mock Section and Card components for demonstration
+const Section = ({ title, subtitle, centered, className = '', maxWidth = 'max-w-6xl', children }) => (
+  <section className={`py-16 ${className}`}>
+    <div className={`container mx-auto px-4 ${maxWidth}`}>
+      {title && (
+        <div className={`mb-12 ${centered ? 'text-center' : ''}`}>
+          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">{title}</h2>
+          {subtitle && <p className="text-gray-400">{subtitle}</p>}
+        </div>
+      )}
+      {children}
+    </div>
+  </section>
+);
+
+const Card = ({ children, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, delay: delay * 0.1 }}
+    className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700 hover:border-purple-500 transition-colors"
+  >
+    {children}
+  </motion.div>
+);
+
+const ContactPage = () => {
   useEffect(() => {
     document.title = 'Contact Us | UPLIFT Technologies';
   }, []);
@@ -16,13 +42,69 @@ const ContactPage: React.FC = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('idle'); // 'idle' | 'success' | 'error'
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
     console.log('Form submitted:', formData);
+
+    try {
+      // EmailJS configuration
+      const serviceId = 'service_04ty7fg';
+      const templateId = 'template_znsp7eh';
+      const publicKey = 'aJW8lljt4LFwOzyor';
+
+      console.log('Sending email with EmailJS...');
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          company: formData.company || 'Not provided',
+          message: formData.message,
+          to_name: 'UPLIFT Technologies Team',
+        },
+        publicKey
+      );
+
+      console.log('Email sent successfully:', result);
+      setSubmitStatus('success');
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        message: ''
+      });
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
+      setSubmitStatus('error');
+      
+      // Reset error message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -61,8 +143,9 @@ const ContactPage: React.FC = () => {
       link: null
     }
   ];
+
   return (
-    <>
+    <div className="min-h-screen bg-gray-900 text-white">
       {/* Hero Section */}
       <div className="pt-32 pb-20 relative overflow-hidden">
         <div
@@ -75,17 +158,17 @@ const ContactPage: React.FC = () => {
           }}
         />
         
-        <div className="container-custom relative z-10 px-4">
+        <div className="container mx-auto relative z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-xl md:max-w-2xl lg:max-w-3xl"
           >
-            <h1 className="font-poppins font-semibold mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl">
-              Get in <span className="gradient-text block sm:inline">Touch</span>
+            <h1 className="font-semibold mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl">
+              Get in <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent block sm:inline">Touch</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white/80">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300">
               Ready to transform your operations? Let's start a conversation about how UPLIFT can help your business thrive.
             </p>
           </motion.div>
@@ -97,22 +180,22 @@ const ContactPage: React.FC = () => {
         title="Contact Information"
         subtitle="Multiple ways to reach our team. We're here to help 24/7."
         centered
-        className="bg-deep-purple/5"
+        className="bg-purple-900/10"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {contactInfo.map((info, index) => (
-            <Card key={info.title} delay={index}>
-              <div className="text-electric-violet mb-4">{info.icon}</div>
+            <Card key={info.title + index} delay={index}>
+              <div className="text-purple-400 mb-4">{info.icon}</div>
               <h3 className="text-xl font-medium mb-3">{info.title}</h3>
               {info.link ? (
                 <a 
                   href={info.link}
-                  className="text-white/70 hover:text-electric-violet transition-colors"
+                  className="text-gray-400 hover:text-purple-400 transition-colors"
                 >
                   {info.details}
                 </a>
               ) : (
-                <p className="text-white/70">{info.details}</p>
+                <p className="text-gray-400">{info.details}</p>
               )}
             </Card>
           ))}
@@ -128,11 +211,11 @@ const ContactPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="gradient-text mb-6">Send Us a Message</h2>
-            <p className="text-lg text-white/80 mb-6">
+            <h2 className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-6 text-3xl font-bold">Send Us a Message</h2>
+            <p className="text-lg text-gray-300 mb-6">
               Fill out the form and our team will get back to you within 24 hours. We're excited to learn about your business needs.
             </p>
-            <p className="text-lg text-white/80">
+            <p className="text-lg text-gray-300">
               Whether you need expert talent, consulting services, or custom software solutions, we're ready to help you achieve your goals.
             </p>
           </motion.div>
@@ -145,7 +228,7 @@ const ContactPage: React.FC = () => {
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                   Full Name *
                 </label>
                 <input
@@ -155,13 +238,13 @@ const ContactPage: React.FC = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
-                  style={{ colorScheme: 'dark' }}
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-gray-600 bg-gray-800/80 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                   Email Address *
                 </label>
                 <input
@@ -171,13 +254,13 @@ const ContactPage: React.FC = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
-                  style={{ colorScheme: 'dark' }}
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-gray-600 bg-gray-800/80 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
               <div>
-                <label htmlFor="company" className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
                   Company Name
                 </label>
                 <input
@@ -186,13 +269,13 @@ const ContactPage: React.FC = () => {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
-                  style={{ colorScheme: 'dark' }}
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-gray-600 bg-gray-800/80 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
                   Message *
                 </label>
                 <textarea
@@ -202,16 +285,38 @@ const ContactPage: React.FC = () => {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 resize-none"
-                  style={{ colorScheme: 'dark' }}
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-gray-600 bg-gray-800/80 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="flex items-center gap-2 rounded-lg bg-green-500/10 border border-green-500/40 px-4 py-3 text-green-400">
+                  <CheckCircle2 className="h-5 w-5" />
+                  <p className="text-sm font-medium">Message sent successfully! We'll get back to you soon.</p>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="rounded-lg bg-red-500/10 border border-red-500/40 px-4 py-3 text-red-400">
+                  <p className="text-sm font-medium">Failed to send message. Please try again or email us directly.</p>
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-electric-violet hover:bg-electric-violet/90 text-white font-medium py-3 px-6 rounded-md transition-colors duration-200"
+                disabled={isSubmitting}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Send Message
+                {isSubmitting ? (
+                  <>
+                    <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send Message'
+                )}
               </button>
             </form>
           </motion.div>
@@ -223,7 +328,7 @@ const ContactPage: React.FC = () => {
         title="Why Choose UPLIFT?"
         subtitle="We're more than just a service provider—we're your growth partner."
         centered
-        className="bg-deep-purple/5"
+        className="bg-purple-900/10"
         maxWidth="max-w-3xl"
       >
         <motion.div
@@ -233,15 +338,15 @@ const ContactPage: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <p className="text-lg text-white/80 mb-6">
+          <p className="text-lg text-gray-300 mb-6">
             With our global team operating 24/7, expert talent across various domains, and commitment to excellence, we ensure your business never misses a beat.
           </p>
-          <p className="text-lg text-white/80">
+          <p className="text-lg text-gray-300">
             Let's discuss how we can help you scale efficiently, reduce costs, and achieve sustainable growth through innovative solutions and dedicated support.
           </p>
         </motion.div>
       </Section>
-    </>
+    </div>
   );
 };
 
