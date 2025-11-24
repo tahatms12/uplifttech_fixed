@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Disclosure } from '@headlessui/react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ShoppingCart, X, Trash2 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import ClientLogos from '../components/trust/ClientLogos';
 import TrustBadges from '../components/trust/TrustBadges';
@@ -14,6 +14,17 @@ interface PricingTier {
 interface PricingRow {
   category: string;
   tiers: PricingTier[];
+}
+
+interface CartItem {
+  id: string;
+  category: string;
+  hoursPerWeek: number;
+  weeks: number;
+  cost: number;
+  isSinglePrice: boolean;
+  minCost?: number;
+  maxCost?: number;
 }
 
 const pricingData: PricingRow[] = [
@@ -123,6 +134,8 @@ const PricingPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState(pricingData[0]);
   const [hoursPerWeek, setHoursPerWeek] = useState(20);
   const [weeks, setWeeks] = useState(4);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const estimatedRange = useMemo(() => {
     // Get valid prices (not '-')
@@ -152,6 +165,38 @@ const PricingPage: React.FC = () => {
     
     return { minTotal, maxTotal, isSinglePrice: false };
   }, [selectedCategory, hoursPerWeek, weeks]);
+
+  const addToCart = () => {
+    const newItem: CartItem = {
+      id: Date.now().toString(),
+      category: selectedCategory.category,
+      hoursPerWeek,
+      weeks,
+      cost: estimatedRange.isSinglePrice ? estimatedRange.minTotal : 0,
+      isSinglePrice: estimatedRange.isSinglePrice,
+      minCost: estimatedRange.isSinglePrice ? undefined : estimatedRange.minTotal,
+      maxCost: estimatedRange.isSinglePrice ? undefined : estimatedRange.maxTotal,
+    };
+    setCart([...cart, newItem]);
+  };
+
+  const removeFromCart = (id: string) => {
+    setCart(cart.filter(item => item.id !== id));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    setIsCartOpen(false);
+  };
+
+  const cartTotal = useMemo(() => {
+    return cart.reduce((total, item) => {
+      if (item.isSinglePrice) {
+        return total + item.cost;
+      }
+      return total;
+    }, 0);
+  }, [cart]);
 
   return (
     <main className="bg-rich-black pb-20 text-white">
@@ -240,11 +285,28 @@ const PricingPage: React.FC = () => {
                 <p className="text-sm text-text-muted">Estimated investment</p>
                 <p className="mt-2 text-2xl font-semibold text-electric-violet">
                   {estimatedRange.isSinglePrice ? (
-                    `$${estimatedRange.minTotal.toLocaleString()} USD`
+                    `${estimatedRange.minTotal.toLocaleString()} USD`
                   ) : (
-                    `$${estimatedRange.minTotal.toLocaleString()} - $${estimatedRange.maxTotal.toLocaleString()} USD`
+                    `${estimatedRange.minTotal.toLocaleString()} - ${estimatedRange.maxTotal.toLocaleString()} USD`
                   )}
                 </p>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={addToCart}
+                  className="flex-1 rounded-lg bg-electric-violet px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-electric-violet/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  disabled={cart.length === 0}
+                  className="flex items-center gap-2 rounded-lg border border-border-muted/60 bg-surface-alt/80 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-surface-alt disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-alt/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black"
+                >
+                  <ShoppingCart className="h-4 w-4" />
+                  View Cart {cart.length > 0 && `(${cart.length})`}
+                </button>
               </div>
             </div>
           </div>
@@ -347,6 +409,95 @@ const PricingPage: React.FC = () => {
           </Button>
         </div>
       </section>
+
+      {/* Cart Modal */}
+      {isCartOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setIsCartOpen(false)}
+          />
+          
+          {/* Modal */}
+          <div className="relative z-10 w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-3xl border border-border-muted/60 bg-surface shadow-2xl">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-border-muted/60 px-6 py-4">
+              <h3 className="text-xl font-semibold text-white">Your Cart</h3>
+              <button
+                onClick={() => setIsCartOpen(false)}
+                className="rounded-lg p-2 text-text-muted transition-colors hover:bg-surface-alt hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Cart Items */}
+            <div className="max-h-[50vh] overflow-y-auto px-6 py-4">
+              {cart.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <ShoppingCart className="h-16 w-16 text-text-muted/40" />
+                  <p className="mt-4 text-lg text-text-muted">Your cart is empty</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {cart.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-start justify-between gap-4 rounded-xl border border-border-muted/60 bg-surface-alt/80 p-4"
+                    >
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-white">{item.category}</h4>
+                        <p className="mt-1 text-sm text-text-muted">
+                          {item.hoursPerWeek} hours/week × {item.weeks} weeks
+                        </p>
+                        <p className="mt-2 text-lg font-semibold text-electric-violet">
+                          {item.isSinglePrice ? (
+                            `${item.cost.toLocaleString()} USD`
+                          ) : (
+                            `${item.minCost?.toLocaleString()} - ${item.maxCost?.toLocaleString()} USD`
+                          )}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="rounded-lg p-2 text-text-muted transition-colors hover:bg-red-500/10 hover:text-red-400"
+                        aria-label="Remove item"
+                      >
+                        <Trash2 className="h-5 w-5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            {cart.length > 0 && (
+              <div className="border-t border-border-muted/60 px-6 py-4">
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="text-lg font-semibold text-white">Total Items:</span>
+                  <span className="text-lg text-text-muted">{cart.length}</span>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={clearCart}
+                    className="flex-1 rounded-lg border border-red-500/60 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-400 transition-colors hover:bg-red-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                  >
+                    Empty Cart
+                  </button>
+                  <button
+                    onClick={() => setIsCartOpen(false)}
+                    className="flex-1 rounded-lg bg-electric-violet px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-electric-violet/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                  >
+                    Continue Shopping
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 };
