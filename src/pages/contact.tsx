@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, CheckCircle2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import Section from '../components/ui/Section';
 import Card from '../components/ui/Card';
 
@@ -16,10 +17,61 @@ const ContactPage: React.FC = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Replace these with your actual EmailJS credentials
+      const serviceId = 'service_04ty7fg'; // e.g., 'service_abc123'
+      const templateId = 'template_znsp7eh'; // e.g., 'template_xyz789'
+      const publicKey = 'aJW8lljt4LFwOzyor'; // e.g., 'abcdefghijklmnop'
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          company: formData.company || 'Not provided',
+          message: formData.message,
+          to_name: 'UPLIFT Technologies Team', // The recipient name
+        },
+        publicKey
+      );
+
+      console.log('Email sent successfully:', result);
+      setSubmitStatus('success');
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        message: ''
+      });
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setSubmitStatus('error');
+      
+      // Reset error message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -150,7 +202,8 @@ const ContactPage: React.FC = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ colorScheme: 'dark' }}
                 />
               </div>
@@ -166,7 +219,8 @@ const ContactPage: React.FC = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ colorScheme: 'dark' }}
                 />
               </div>
@@ -181,7 +235,8 @@ const ContactPage: React.FC = () => {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40"
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ colorScheme: 'dark' }}
                 />
               </div>
@@ -197,16 +252,39 @@ const ContactPage: React.FC = () => {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 resize-none"
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ colorScheme: 'dark' }}
                 />
               </div>
 
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="flex items-center gap-2 rounded-lg bg-green-500/10 border border-green-500/40 px-4 py-3 text-green-400">
+                  <CheckCircle2 className="h-5 w-5" />
+                  <p className="text-sm font-medium">Message sent successfully! We'll get back to you soon.</p>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="rounded-lg bg-red-500/10 border border-red-500/40 px-4 py-3 text-red-400">
+                  <p className="text-sm font-medium">Failed to send message. Please try again or email us directly.</p>
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-electric-violet hover:bg-electric-violet/90 text-white font-medium py-3 px-6 rounded-md transition-colors duration-200"
+                disabled={isSubmitting}
+                className="w-full bg-electric-violet hover:bg-electric-violet/90 text-white font-medium py-3 px-6 rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Send Message
+                {isSubmitting ? (
+                  <>
+                    <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send Message'
+                )}
               </button>
             </form>
           </motion.div>
