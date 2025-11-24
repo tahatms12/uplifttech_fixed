@@ -72,7 +72,7 @@ function App() {
               <ApplyPage />
             </Suspense>
           } />
-          <Route path="candidate-acknowledgement" element={
+          <Route path="declaration" element={
             <Suspense fallback={<LoadingSpinner />}>
               <CandidateAcknowledgementPage />
             </Suspense>
