@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { CheckCircle2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const CandidateAcknowledgementForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ const CandidateAcknowledgementForm: React.FC = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const handleCheckboxChange = (field: keyof typeof formData) => {
     setFormData(prev => ({
@@ -20,7 +23,7 @@ const CandidateAcknowledgementForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate all checkboxes are checked
@@ -31,9 +34,46 @@ const CandidateAcknowledgementForm: React.FC = () => {
       formData.nonCompliance &&
       formData.candidateName.trim()
     ) {
-      // Handle form submission here (e.g., API call)
-      console.log('Form submitted:', formData);
-      setSubmitted(true);
+      setIsSubmitting(true);
+      setSubmitError(false);
+
+      try {
+        // Replace these with your actual EmailJS credentials
+        const serviceId = 'service_04ty7fg'; // e.g., 'service_abc123'
+        const templateId = 'template_znsp7eh'; // e.g., 'template_xyz789'
+        const publicKey = 'aJW8lljt4LFwOzyor'; // e.g., 'abcdefghijklmnop'
+
+        // Send email using EmailJS
+        const result = await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            candidate_name: formData.candidateName,
+            technical_requirements: formData.technicalRequirements ? 'Agreed' : 'Not Agreed',
+            interview_format: formData.interviewFormat ? 'Agreed' : 'Not Agreed',
+            next_steps: formData.nextSteps ? 'Agreed' : 'Not Agreed',
+            non_compliance: formData.nonCompliance ? 'Agreed' : 'Not Agreed',
+            submission_date: new Date().toLocaleString('en-US', {
+              dateStyle: 'full',
+              timeStyle: 'short'
+            }),
+            to_name: 'UPLIFT Technologies HR Team',
+          },
+          publicKey
+        );
+
+        console.log('Acknowledgement sent successfully:', result);
+        setSubmitted(true);
+
+      } catch (error) {
+        console.error('Failed to send acknowledgement:', error);
+        setSubmitError(true);
+        setTimeout(() => {
+          setSubmitError(false);
+        }, 5000);
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       alert('Please complete all required fields.');
     }
@@ -105,7 +145,8 @@ const CandidateAcknowledgementForm: React.FC = () => {
                 type="checkbox"
                 checked={formData.technicalRequirements}
                 onChange={() => handleCheckboxChange('technicalRequirements')}
-                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black"
+                disabled={isSubmitting}
+                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <span className="text-sm font-medium text-white">I understand and agree</span>
             </label>
@@ -134,7 +175,8 @@ const CandidateAcknowledgementForm: React.FC = () => {
                 type="checkbox"
                 checked={formData.interviewFormat}
                 onChange={() => handleCheckboxChange('interviewFormat')}
-                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black"
+                disabled={isSubmitting}
+                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <span className="text-sm font-medium text-white">I understand and agree</span>
             </label>
@@ -156,7 +198,8 @@ const CandidateAcknowledgementForm: React.FC = () => {
                 type="checkbox"
                 checked={formData.nextSteps}
                 onChange={() => handleCheckboxChange('nextSteps')}
-                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black"
+                disabled={isSubmitting}
+                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <span className="text-sm font-medium text-white">I understand and agree</span>
             </label>
@@ -179,7 +222,8 @@ const CandidateAcknowledgementForm: React.FC = () => {
                 type="checkbox"
                 checked={formData.nonCompliance}
                 onChange={() => handleCheckboxChange('nonCompliance')}
-                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black"
+                disabled={isSubmitting}
+                className="mt-1 h-5 w-5 cursor-pointer rounded border-gray-700 bg-gray-800 text-electric-violet focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <span className="text-sm font-medium text-white">I understand and agree</span>
             </label>
@@ -197,20 +241,35 @@ const CandidateAcknowledgementForm: React.FC = () => {
               id="candidateName"
               value={formData.candidateName}
               onChange={(e) => setFormData(prev => ({ ...prev, candidateName: e.target.value }))}
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white placeholder-gray-500 focus:border-electric-violet focus:outline-none focus:ring-2 focus:ring-electric-violet"
+              disabled={isSubmitting}
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white placeholder-gray-500 focus:border-electric-violet focus:outline-none focus:ring-2 focus:ring-electric-violet disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter your full name"
               required
             />
           </div>
 
+          {/* Error Message */}
+          {submitError && (
+            <div className="rounded-lg bg-red-500/10 border border-red-500/40 px-4 py-3 text-red-400">
+              <p className="text-sm font-medium">Failed to submit acknowledgement. Please try again or contact HR directly.</p>
+            </div>
+          )}
+
           {/* Submit Button */}
           <div className="pt-4">
             <button
               type="submit"
-              disabled={!isFormValid}
-              className="w-full rounded-lg bg-electric-violet px-6 py-4 text-lg font-semibold text-white transition-all hover:bg-electric-violet/90 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-electric-violet focus:outline-none focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black"
+              disabled={!isFormValid || isSubmitting}
+              className="w-full rounded-lg bg-electric-violet px-6 py-4 text-lg font-semibold text-white transition-all hover:bg-electric-violet/90 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-electric-violet focus:outline-none focus:ring-2 focus:ring-electric-violet focus:ring-offset-2 focus:ring-offset-rich-black flex items-center justify-center gap-2"
             >
-              Submit
+              {isSubmitting ? (
+                <>
+                  <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                'Submit'
+              )}
             </button>
           </div>
         </form>
