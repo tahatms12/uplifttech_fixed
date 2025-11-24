@@ -1,7 +1,6 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    
 
 [[redirects]]
   from = "/book"
@@ -20,6 +19,12 @@
   to = "https://uplift-technologies.com/:splat"
   status = 301
   force = true
+
+# THIS IS THE IMPORTANT ONE - Add this at the end
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [[headers]]
   for = "/assets/*"
