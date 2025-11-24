@@ -14,6 +14,7 @@ const PricingPage = lazy(() => import('./pages/PricingPage'));
 const CandidatesPage = lazy(() => import('./pages/CandidatesPage')); // Talent page
 const CandidateDetailPage = lazy(() => import('./pages/CandidateDetailPage')); // Individual candidate
 const CareersPage = lazy(() => import('./pages/CareersPage')); // Remote Jobs
+const CandidateAcknowledgementPage = lazy(() => import('./pages/CandidateAcknowledgementForm')); // Candidate Declaration
 
 const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const PaymentPage = lazy(() => import('./pages/PaymentPage'));
@@ -69,6 +70,11 @@ function App() {
           <Route path="apply" element={
             <Suspense fallback={<LoadingSpinner />}>
               <ApplyPage />
+            </Suspense>
+          } />
+          <Route path="candidate-acknowledgement" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CandidateAcknowledgementPage />
             </Suspense>
           } />
           <Route path="creative-direction" element={
