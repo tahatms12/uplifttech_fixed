@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
                 className="w-full"
               >
                 <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                  Expert Growth Solutions for <br className="hidden sm:block" /><span className="gradient-text">North America and the United Kingdom</span>
+                  Expert Growth Solutions for <br className="hidden sm:block" /><span className="gradient-text">North America</span>
                 </h1>
               </motion.div>
               
