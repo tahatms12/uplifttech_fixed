@@ -46,7 +46,7 @@ const services = [
   {
     icon: <PhoneCall size={32} />,
     title: "Virtual Reception",
-    description: "24/7 professional customer service and virtual reception coverage for US, UK & Canadian businesses.",
+    description: "24/7 professional customer service and virtual reception coverage for US & Canadian businesses.",
     link: "/services/front-desk",
     linkText: "Explore Professional Reception Services"
   },
@@ -60,7 +60,7 @@ const services = [
   {
     icon: <Users size={32} />,
     title: "Sales Outsourcing",
-    description: "Scale your revenue with dedicated sales teams trained in your products. Available 24/7 for US, UK & Canadian markets.",
+    description: "Scale your revenue with dedicated sales teams trained in your products. Available 24/7 for US & Canadian markets.",
     link: "/services/sales",
     linkText: "Explore Outsourced Sales Operations"
   },
@@ -74,14 +74,14 @@ const services = [
   {
     icon: <Palette size={32} />,
     title: "Creative Services",
-    description: "Expert brand development and creative direction tailored for North American and UK market presence.",
+    description: "Expert brand development and creative direction tailored for North American market presence.",
     link: "/creative-direction",
     linkText: "See Creative Direction & Design Services"
   },
   {
     icon: <TrendingUp size={32} />,
     title: "Logistics Management",
-    description: "Optimize your supply chain with expert logistics coordination and management across North America and the UK.",
+    description: "Optimize your supply chain with expert logistics coordination and management across North America.",
     link: "/services/logistics",
     linkText: "Discover Supply Chain & Logistics Solutions"
   }
@@ -91,7 +91,7 @@ const Services: React.FC = memo(() => {
   return (
     <Section
       title="Outsourcing Solutions"
-      subtitle="Comprehensive business process outsourcing services tailored for US, UK & Canadian markets, combining expert talent with cutting-edge technology."
+      subtitle="Comprehensive business process outsourcing services tailored for US & Canadian markets, combining expert talent with cutting-edge technology."
       centered
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
