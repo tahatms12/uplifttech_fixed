@@ -29,7 +29,7 @@ interface CartItem {
 
 const pricingData: PricingRow[] = [
   {
-    category: 'Virtual Assistants',
+    category: 'Executive Assistants',
     tiers: [
       { level: 'Intermediate', range: '$9/hour' },
       { level: 'Professional', range: '$12/hour' }
@@ -50,7 +50,7 @@ const pricingData: PricingRow[] = [
     ]
   },
   {
-    category: 'Collections',
+    category: 'AR Specialist',
     tiers: [
       { level: 'Intermediate', range: '$9/hour' },
       { level: 'Professional', range: '$12/hour' }
@@ -64,7 +64,7 @@ const pricingData: PricingRow[] = [
     ]
   },
   {
-    category: 'Patient Coordinator',
+    category: 'Treatment Coordinator',
     tiers: [
         { level: 'Intermediate', range: '-'},
         { level: 'Professional', range: '$10/hour'}
