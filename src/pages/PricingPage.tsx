@@ -29,80 +29,80 @@ interface CartItem {
 
 const pricingData: PricingRow[] = [
   {
-    category: 'Executive Assistants',
+    category: 'Executive Assistant',
     tiers: [
-      { level: 'Intermediate', range: '$9/hour' },
-      { level: 'Professional', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9.50/hour' },
+      { level: 'Professional', range: '$13/hour' }
     ]
   },
   // {
   //   category: 'Sales Reps',
   //   tiers: [
-  //     { level: 'Intermediate', range: '$9/hour' },
-  //     { level: 'Professional', range: '$12/hour' }
+  //     { level: 'Intermediate', range: '$9.50/hour' },
+  //     { level: 'Professional', range: '$13/hour' }
   //   ]
   // },
   {
     category: 'Marketing',
     tiers: [
-      { level: 'Intermediate', range: '$9/hour' },
-      { level: 'Professional', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9.50/hour' },
+      { level: 'Professional', range: '$13/hour' }
     ]
   },
   {
     category: 'AR Specialist',
     tiers: [
-      { level: 'Intermediate', range: '$9/hour' },
-      { level: 'Professional', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9.50/hour' },
+      { level: 'Professional', range: '$15/hour' }
     ]
   },
   {
     category: 'Admin',
     tiers: [
-      { level: 'Intermediate', range: '$9/hour' },
-      { level: 'Professional', range: '$12/hour' }
+      { level: 'Intermediate', range: '$9.50/hour' },
+      { level: 'Professional', range: '$13/hour' }
     ]
   },
   {
-    category: 'Treatment Coordinator',
+    category: 'PT/Treatment Coordinator',
     tiers: [
         { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$10/hour'}
+        { level: 'Professional', range: '$15/hour'}
     ]
   },
   {
     category: 'Client Success Specialist',
     tiers: [
         { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$10/hour'}
+        { level: 'Professional', range: '$13/hour'}
     ]
   },
   {
     category: 'Clinical Nurse Coordinator',
     tiers: [
         { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$12/hour'}
+        { level: 'Professional', range: '$13/hour'}
     ]
   },
   {
     category: 'Order Entry Specialist',
     tiers: [
         { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$12/hour'}
+        { level: 'Professional', range: '$13/hour'}
     ]
   },
   {
     category: 'Claims Specialist',
     tiers: [
         { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$10/hour'}
+        { level: 'Professional', range: '$15/hour'}
     ]
   },
   {
     category: 'Insurance Support Specialist',
     tiers: [
         { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$10/hour'}
+        { level: 'Professional', range: '$15/hour'}
     ]
   }
 ];
