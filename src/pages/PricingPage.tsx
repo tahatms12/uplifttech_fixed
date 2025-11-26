@@ -35,13 +35,13 @@ const pricingData: PricingRow[] = [
       { level: 'Professional', range: '$12/hour' }
     ]
   },
-  {
-    category: 'Sales Reps',
-    tiers: [
-      { level: 'Intermediate', range: '$9/hour' },
-      { level: 'Professional', range: '$12/hour' }
-    ]
-  },
+  // {
+  //   category: 'Sales Reps',
+  //   tiers: [
+  //     { level: 'Intermediate', range: '$9/hour' },
+  //     { level: 'Professional', range: '$12/hour' }
+  //   ]
+  // },
   {
     category: 'Marketing',
     tiers: [
@@ -124,9 +124,9 @@ const faqs = [
       'Yes. You may scale down to a smaller pod or cancel with a seven day notice. Our team will support knowledge transfer for a smooth transition.'
   },
   {
-    question: 'How do you vet staff?',
+    question: 'How your future team is selected?',
     answer:
-      'Every specialist passes language, compliance, and scenario-based assessments. Only 4% of applicants become part of our remote bench.'
+      'Every specialist passes language, compliance, and scenario-based assessments. Only 3% of applicants become part of our remote bench.'
   }
 ];
 
