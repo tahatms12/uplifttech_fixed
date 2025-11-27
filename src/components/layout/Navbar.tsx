@@ -49,11 +49,10 @@ const Navbar: React.FC = () => {
   ];
 
   const serviceLinks = [
-    { name: 'Sales', path: '/services/sales' },
-    { name: 'Logistics', path: '/services/logistics' },
-    { name: 'Collections', path: '/services/collections' },
-    { name: 'Marketing', path: '/services/marketing' },
-    { name: 'Front Desk', path: '/services/front-desk' },
+    { name: 'Administration', path: '/services/administration' },
+    { name: 'Clinical Coordination', path: '/services/clinical-coordination' },
+    { name: 'Revenue Cycle', path: '/services/revenue-cycle' },
+    { name: 'Front Office', path: '/services/front-office' },
   ];
   
   return (
@@ -113,7 +112,7 @@ const Navbar: React.FC = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute left-0 mt-2 w-56 bg-rich-black/95 backdrop-blur-md border border-neutral-800 rounded-md shadow-lg overflow-hidden"
+                          className="absolute left-0 mt-2 w-64 bg-rich-black/95 backdrop-blur-md border border-neutral-800 rounded-md shadow-lg overflow-hidden"
                           onMouseEnter={() => setIsServicesOpen(true)}
                           onMouseLeave={() => setIsServicesOpen(false)}
                         >
@@ -172,7 +171,7 @@ const Navbar: React.FC = () => {
               <div className="flex flex-col space-y-6 mt-8">
                 {navLinks.map((link) => (
                   <div key={link.name}>
-                    {link.hasDropdown && !link.name.includes("Creative") ? (
+                    {link.hasDropdown && !link.name.includes('Creative') ? (
                       <>
                         <button 
                           className="flex items-center text-xl font-medium py-2"
