@@ -188,31 +188,33 @@ const CandidatesPage: React.FC = () => {
   };
 
   return (
-    <main className="pt-28 pb-12 container-custom" >
+    <main className="pt-28 sm:pt-32 pb-12 container-custom">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        className="mb-8"
       >
-        <h1>Available Candidates</h1>
-        <p>Search and refine to find a match. Press Enter on a card to open a profile.</p>
+        <h1 className="mb-4">Available Candidates</h1>
+        <p className="text-neutral-400">Search and refine to find a match. Press Enter on a card to open a profile.</p>
       </motion.div>
 
       <motion.section
-        className="glass-card stack"
+        className="glass-card mb-8 p-4 sm:p-6"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
-        <div className="controls" role="group" aria-label="Search and filters">
-          <label className="control">
-            <span>
-              <Search size={16} style={{ display: 'inline', marginRight: '4px' }} />
+        <div className="flex flex-col gap-4 mb-6" role="group" aria-label="Search and filters">
+          {/* Search Input */}
+          <label className="flex flex-col gap-2">
+            <span className="flex items-center gap-2 text-sm font-semibold text-base">
+              <Search size={16} />
               Search
             </span>
             <input
               id="q"
-              className="input"
+              className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
               type="search"
               value={state.q}
               onChange={handleSearchChange}
@@ -220,81 +222,110 @@ const CandidatesPage: React.FC = () => {
             />
           </label>
 
-          <label className="control">
-            <span>
-              <Filter size={16} style={{ display: 'inline', marginRight: '4px' }} />
-              Seniority
-            </span>
-            <select id="seniority" className="select" value={state.seniority[0] || ''} onChange={handleFilterChange}>
-              <option value="">Any</option>
-              <option value="Junior">Junior</option>
-              <option value="Mid">Mid</option>
-              <option value="Senior">Senior</option>
-            </select>
-          </label>
+          {/* Filters Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <label className="flex flex-col gap-2">
+              <span className="flex items-center gap-2 text-sm font-semibold text-base">
+                <Filter size={16} />
+                Seniority
+              </span>
+              <select 
+                id="seniority" 
+                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                value={state.seniority[0] || ''} 
+                onChange={handleFilterChange}
+              >
+                <option value="">Any</option>
+                <option value="Junior">Junior</option>
+                <option value="Mid">Mid</option>
+                <option value="Senior">Senior</option>
+              </select>
+            </label>
 
-          <label className="control">
-            <span>Primary Skill</span>
-            <select id="primary" className="select" value={state.primary[0] || ''} onChange={handleFilterChange}>
-              <option value="">Any</option>
-              {primaryOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-semibold text-base">Primary Skill</span>
+              <select 
+                id="primary" 
+                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                value={state.primary[0] || ''} 
+                onChange={handleFilterChange}
+              >
+                <option value="">Any</option>
+                {primaryOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-          <label className="control">
-            <span>Timezone</span>
-            <select id="tz" className="select" value={state.tz} onChange={handleFilterChange}>
-              <option value="">Any</option>
-              {timezoneOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-semibold text-base">Timezone</span>
+              <select 
+                id="tz" 
+                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                value={state.tz} 
+                onChange={handleFilterChange}
+              >
+                <option value="">Any</option>
+                {timezoneOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-          <label className="control">
-            <span>Sort</span>
-            <select id="sort" className="select" value={state.sort} onChange={handleFilterChange}>
-              <option value="relevance">Relevance</option>
-              <option value="exp">Years of experience desc</option>
-              <option value="name">Name A–Z</option>
-            </select>
-          </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-semibold text-base">Sort</span>
+              <select 
+                id="sort" 
+                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                value={state.sort} 
+                onChange={handleFilterChange}
+              >
+                <option value="relevance">Relevance</option>
+                <option value="exp">Years of experience desc</option>
+                <option value="name">Name A–Z</option>
+              </select>
+            </label>
+          </div>
         </div>
 
-        <div className="results-bar">
-          <output>
-            <User size={18} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
-            Showing {currentItems.length} of {filteredCandidates.length} candidates
-          </output>
-          <div className="actions" style={{ gap: '6px' }}>
-            <label className="subtle" htmlFor="per-page">
+        {/* Results Bar */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-gray-800/50 border border-neutral-700 rounded-lg">
+          <div className="flex items-center gap-2 font-bold text-base">
+            <User size={18} />
+            <span>Showing {currentItems.length} of {filteredCandidates.length} candidates</span>
+          </div>
+          <div className="flex items-center gap-3 flex-wrap">
+            <label className="flex items-center gap-2 text-sm text-neutral-400">
               Per page
+              <select
+                id="per-page"
+                className="px-3 py-2 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet transition-all"
+                value={state.per}
+                onChange={handlePerPageChange}
+              >
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+              </select>
             </label>
-            <select
-              id="per-page"
-              className="select select-per"
-              value={state.per}
-              onChange={handlePerPageChange}
+            <button 
+              type="button" 
+              className="px-4 py-2 text-sm bg-transparent border border-neutral-700 text-neutral-400 hover:text-base hover:bg-gray-800 rounded-md transition-all"
+              onClick={clearFilters}
             >
-              <option value="12">12</option>
-              <option value="24">24</option>
-              <option value="48">48</option>
-            </select>
-            <button type="button" className="btn ghost small" onClick={clearFilters}>
               Clear
             </button>
           </div>
         </div>
       </motion.section>
 
+      {/* Candidates Grid */}
       <motion.section
-        className="list grid"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         role="grid"
         variants={containerVariants}
         initial="hidden"
@@ -314,8 +345,9 @@ const CandidatesPage: React.FC = () => {
         ))}
       </motion.section>
 
+      {/* Pagination */}
       <motion.nav
-        className="pagination"
+        className="flex items-center justify-end gap-4 mt-8 flex-wrap"
         aria-label="Pagination controls"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -323,22 +355,22 @@ const CandidatesPage: React.FC = () => {
       >
         <button
           type="button"
-          className="btn outline small"
+          className="px-4 py-2 text-sm bg-transparent border border-neutral-700 text-electric-violet hover:border-electric-violet hover:bg-electric-violet/10 rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => handlePageChange('prev')}
           disabled={currentPage <= 1}
         >
-          &larr;
+          &larr; Previous
         </button>
-        <span className="subtle">
+        <span className="text-sm text-neutral-400">
           Page {currentPage} of {pages}
         </span>
         <button
           type="button"
-          className="btn outline small"
+          className="px-4 py-2 text-sm bg-transparent border border-neutral-700 text-electric-violet hover:border-electric-violet hover:bg-electric-violet/10 rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => handlePageChange('next')}
           disabled={currentPage >= pages}
         >
-          &rarr;
+          Next &rarr;
         </button>
       </motion.nav>
     </main>
