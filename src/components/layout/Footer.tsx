@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
               </li>
             </ul>
             <div className="mt-4 sm:mt-6">
-              <Link to="/contact" className="btn btn-primary w-full sm:w-auto">
+              <Link to="/book" className="btn btn-primary w-full sm:w-auto">
                 Book a Meeting
               </Link>
             </div>
