@@ -84,7 +84,7 @@ const ServicesPage: React.FC = () => {
         "Sales process optimization"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrOwsfWsPtf5tLxrJBKGIUXpzSWP3AO9Qwhg1N",
-  path: "/contact"
+  path: "/book"
     },
     {
       icon: <TrendingUp size={28} />,
