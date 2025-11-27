@@ -34,29 +34,29 @@ const CaseStudiesPage: React.FC = () => {
   const caseStudies: CaseStudy[] = [
     {
       id: 1,
-      title: "Development Team Gap",
-      category: "Software Development",
-      description: "Providing a structured development team for a company using outdated technology with no formal processes.",
-      challenge: "A company using outdated tech lacked a formal dev team. They relied on old-school methods like Agile/Waterfall without structured enforcement. No optimized systems meant missed deadlines and undocumented QA.",
-      solution: "We implemented a structured development process with proper Agile methodology, introduced documentation standards, established QA protocols, and provided a skilled development team familiar with modern technologies.",
+      title: Accounts Recievable Team Gap",
+      category: "Revenue Cycle",
+      description: "Providing a structured AR team for a Dental Company with no formal processes.",
+      challenge: "A company using outdated technology and lacked a formal AR Team. They relied on their Admin to do the work without structured enforcement. No optimized systems meant missed deadlines and undocumented recievables.",
+      solution: "We implemented a structured process with proper documentation standards, established QA protocols, and provided a team familiar with modern technologies.",
       results: [
         "85% improvement in process efficiency",
         "100% adherence to deadlines after implementation",
         "Comprehensive documentation allowing for knowledge transfer",
-        "Reduced bug rate by 67% through formalized QA"
+        "Reduced rejection rate to 3% from 11% through formalized QA"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr1nZS9eKKpXVWvs9SzonqPt04iFJaeUgRD85u",
       testimonial: {
-        quote: "UPLIFT transformed our development process from chaotic to structured. Their team didn't just write code—they implemented systems that fundamentally changed how we approach software development.",
+        quote: "UPLIFT transformed our Collections process from chaotic to structured. Their team didn't just expedite our DSOs collection rate, they implemented systems that fundamentally changed how we approach AR.",
         author: "Thomas Wright",
-        position: "CTO",
-        company: "TechSolutions Inc."
+        position: "CEO and Co-Founder",
+        company: "Confidential Inc."
       }
     },
     {
       id: 2,
       title: "Accounts Receivable Recovery",
-      category: "Collections",
+      category: "Revenue Cycle",
       description: "Structured collection strategies recovering $2M in outstanding accounts receivable for a healthcare provider.",
       challenge: "A healthcare business had $2M outstanding in accounts receivable, with limited internal resources to pursue collections and no structured follow-up process for unpaid invoices.",
       solution: "We implemented a systematic collections approach with tiered strategies based on account age, deployed a dedicated team of collection specialists, and integrated with the client's billing system for seamless information flow.",
@@ -77,7 +77,7 @@ const CaseStudiesPage: React.FC = () => {
     {
       id: 3,
       title: "Call Center Optimization",
-      category: "Front Desk",
+      category: "Front Office",
       description: "Optimizing scheduling and call management for a busy clinic to maximize efficiency and customer satisfaction.",
       challenge: "A medical clinic struggled with managing both inbound scheduling calls and performing necessary outbound recall calls, resulting in missed appointments and scheduling inefficiencies.",
       solution: "We implemented a dedicated virtual front desk team handling inbound calls while performing systematic outbound recall calls, optimized scheduling protocols, and introduced a quality retention program.",
@@ -91,52 +91,52 @@ const CaseStudiesPage: React.FC = () => {
     },
     {
       id: 4,
-      title: "AI Voice and Text Agent Integration",
-      category: "Automation",
-      description: "Deploying AI-powered agents to automate scheduling, reminders, and follow-ups across departments.",
-      challenge: "A multi-location business struggled with staffing for routine communication tasks, resulting in inconsistent customer follow-up and after-hours coverage gaps.",
-      solution: "We deployed AI-powered voice and text agents integrated with their existing systems to automate scheduling, reminders, and follow-ups across all departments, with seamless escalation to human agents when needed.",
+      title: "Professional Clinical Assistance",
+      category: "Clinical Coordination",
+      description: "Deploying professional medical agents to handle internal scheduling, reminders, and follow-ups across departments.",
+      challenge: "A multi-location dental organization struggled with internal staff for routine communication tasks, resulting in inconsistent customer follow-up and after-hours coverage gaps.",
+      solution: "We deployed Clinical Nursing Coordinators and Patient Coordination Agents to integrate with their existing systems to remove guesswork from scheduling, reminders, and follow-ups across all departments, with seamless escalation to on site staff when needed.",
       results: [
-        "65% reduction in response times for routine inquiries",
-        "24/7 coverage for basic customer interactions",
+        "95% reduction in response times for routine inquiries",
+        "24/7 coverage for basic customer bookings",
         "73% of routine scheduling handled automatically",
         "50% reduction in staff time spent on repetitive communication tasks"
       ],
       imageSrc: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       testimonial: {
-        quote: "The AI integration UPLIFT implemented has been transformative. Our customers receive immediate responses at any hour, and our team can focus on complex interactions that truly require the human touch.",
+        quote: "The Clinical Coordination Team UPLIFT implemented has been transformative. Our patients receive immediate responses at any hour, and our team can focus on onsite interactions with seamless scheduling and confirmations.",
         author: "James Chen",
         position: "Operations Director",
-        company: "Velocity Services Group"
+        company: "Confidential Services Group"
       }
     },
     {
       id: 5,
-      title: "Sales Pipeline Expansion",
-      category: "Sales",
-      description: "Building and managing an outbound sales operation for a SaaS company entering new markets.",
-      challenge: "A growing SaaS company needed to expand into new market segments but lacked the sales team and expertise to effectively reach and convert these prospects.",
-      solution: "We created a dedicated outbound sales unit with industry-specific expertise, implemented a structured sales process from prospecting to closing, and integrated with the client's CRM for seamless lead management.",
+      title: "Recall Pipeline Expansion",
+      category: "Front Desk",
+      description: "Building and managing an outbound operation for a dental office opening in new markets.",
+      challenge: "A growing healhcare company needed to expand into 3 new locations at once, and they lacked the staff and training to effectively reach and convert these prospects.",
+      solution: "We created a dedicated outbound unit with healthcare booking expertise, implemented a structured process from prospecting to closing, and integrated with the client's EMR System for seamless lead management.",
       results: [
-        "127% increase in qualified sales pipeline within 90 days",
-        "42% reduction in customer acquisition cost",
+        "127% increase in qualified patients booked within 90 days",
+        "78% reduction in customer acquisition cost",
         "35% higher conversion rate than previous internal efforts",
-        "Successful entry into 3 new vertical markets"
+        "Successful entry into 3 new zipcodes simultaneously"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrYamlY1VvGagiQPkZIS78eT2lbXDK1sjz5c3t"
     },
     {
       id: 6,
-      title: "Supply Chain Optimization",
-      category: "Logistics",
-      description: "Restructuring logistics operations for a manufacturing company to improve efficiency and reduce costs.",
-      challenge: "A manufacturing business struggled with inventory management, shipping delays, and high logistics costs due to disorganized processes and limited visibility into their supply chain.",
-      solution: "We implemented end-to-end supply chain management, optimized inventory levels through data analysis, streamlined shipping processes, and introduced real-time tracking and reporting systems.",
+      title: "Training Optimization",
+      category: "Admin",
+      description: "Restructuring training for operations for an Endocrinology and Infusion Clinic to improve efficiency and reduce costs.",
+      challenge: "A Clinic struggled with staff management, treatment delays, and high churn costs due to disorganized processes and limited visibility into their supply chain.",
+      solution: "We implemented end-to-end management training and staff training, optimized processes through data analysis, streamlined communication channels, and introduced real-time reporting systems.",
       results: [
-        "32% reduction in overall logistics costs",
-        "Inventory holding costs decreased by 28%",
+        "32% reduction in overall management costs",
+        "Employee Retention costs decreased by 28%",
         "On-time delivery improved from 79% to 97%",
-        "Order processing time reduced by 40%"
+        "Patient processing time reduced by 40%"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr8Hyh7FSpA1R97OPT6CrtFKfNDeZcxaImnYuB"
     },
@@ -166,20 +166,20 @@ const CaseStudiesPage: React.FC = () => {
       title: "Integrated Marketing Campaign",
       category: "Marketing",
       description: "Multi-channel marketing campaign combining traditional and digital strategies for maximum impact.",
-      challenge: "A B2B software company struggled to stand out in a crowded market and needed a comprehensive marketing approach to increase market share.",
+      challenge: "A Dental Lab struggled to stand out in a crowded market and needed a comprehensive marketing approach to increase market share.",
       solution: "We created an integrated marketing campaign that combined content marketing, social media, email automation, and targeted advertising, all unified by strong creative direction.",
       results: [
         "156% increase in qualified leads",
         "89% improvement in social engagement",
         "43% reduction in customer acquisition cost",
-        "12 major industry awards won"
+        "12 major B2B relationships formed"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrrIXNSKFdfMxj3N4Ltv1KoiqPgbEIWwUAFmSh",
       testimonial: {
-        quote: "The marketing and creative team at Uplift Technologies delivered beyond our expectations. Their integrated approach not only increased our leads but also established us as a thought leader in our space.",
+        quote: "The marketing and creative team at Uplift Technologies delivered beyond our expectations. Their integrated approach not only increased our leads but also established us as a market leader in our space.",
         author: "Michael Roberts",
         position: "VP Marketing",
-        company: "CloudSphere Solutions"
+        company: "Confidential Dental Labs"
       }
     }
   ];
