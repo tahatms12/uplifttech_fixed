@@ -363,7 +363,7 @@ const ServiceDetailPage: React.FC = () => {
               <p className="text-xl text-white/80 mb-8">
                 {serviceData.longDescription}
               </p>
-              <Button to="/contact" size="lg" className="group">
+              <Button to="/book" size="lg" className="group">
                 Book a Consultation
                 <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
