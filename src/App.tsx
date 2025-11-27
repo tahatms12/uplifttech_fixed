@@ -3,10 +3,10 @@ import { Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import SitemapGenerator from './components/seo/SitemapGenerator';
+import ScrollToTop from './components/ScrollToTop';
 
 // Eager load HomePage for fastest initial render
 import HomePage from './pages/HomePage';
-import CaseStudies from './components/home/CaseStudies';
 
 // Lazy load all other pages
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -32,6 +32,7 @@ function App() {
   return (
     <>
       <SitemapGenerator />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
