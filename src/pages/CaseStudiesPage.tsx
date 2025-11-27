@@ -34,10 +34,10 @@ const CaseStudiesPage: React.FC = () => {
   const caseStudies: CaseStudy[] = [
     {
       id: 1,
-      title: Accounts Recievable Team Gap",
+      title: "Accounts Receivable Team Gap",
       category: "Revenue Cycle",
       description: "Providing a structured AR team for a Dental Company with no formal processes.",
-      challenge: "A company using outdated technology and lacked a formal AR Team. They relied on their Admin to do the work without structured enforcement. No optimized systems meant missed deadlines and undocumented recievables.",
+      challenge: "A company using outdated technology and lacking a formal AR team. They relied on their admin to do the work without structured enforcement. No optimized systems meant missed deadlines and undocumented receivables.",
       solution: "We implemented a structured process with proper documentation standards, established QA protocols, and provided a team familiar with modern technologies.",
       results: [
         "85% improvement in process efficiency",
@@ -47,7 +47,7 @@ const CaseStudiesPage: React.FC = () => {
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr1nZS9eKKpXVWvs9SzonqPt04iFJaeUgRD85u",
       testimonial: {
-        quote: "UPLIFT transformed our Collections process from chaotic to structured. Their team didn't just expedite our DSOs collection rate, they implemented systems that fundamentally changed how we approach AR.",
+        quote: "UPLIFT transformed our collections process from chaotic to structured. Their team didn't just expedite our DSO collection rate, they implemented systems that fundamentally changed how we approach AR.",
         author: "Thomas Wright",
         position: "CEO and Co-Founder",
         company: "Confidential Inc."
@@ -58,11 +58,11 @@ const CaseStudiesPage: React.FC = () => {
       title: "Accounts Receivable Recovery",
       category: "Revenue Cycle",
       description: "Structured collection strategies recovering $2M in outstanding accounts receivable for a healthcare provider.",
-      challenge: "A healthcare business had $2M outstanding in accounts receivable, with limited internal resources to pursue collections and no structured follow-up process for unpaid invoices.",
+      challenge: "A healthcare business had $2M outstanding in accounts receivable, with limited internal resources to pursue collections and no structured follow up process for unpaid invoices.",
       solution: "We implemented a systematic collections approach with tiered strategies based on account age, deployed a dedicated team of collection specialists, and integrated with the client's billing system for seamless information flow.",
       results: [
         "Recovered $25K within the first month",
-        "Full recovery of $2M in previously written-off AR",
+        "Full recovery of $2M in previously written off AR",
         "Established ongoing collection protocols reducing future AR aging",
         "Maintained positive patient relationships through professional communication"
       ],
@@ -82,7 +82,7 @@ const CaseStudiesPage: React.FC = () => {
       challenge: "A medical clinic struggled with managing both inbound scheduling calls and performing necessary outbound recall calls, resulting in missed appointments and scheduling inefficiencies.",
       solution: "We implemented a dedicated virtual front desk team handling inbound calls while performing systematic outbound recall calls, optimized scheduling protocols, and introduced a quality retention program.",
       results: [
-        "42% reduction in no-show appointments",
+        "42% reduction in no show appointments",
         "95% answer rate for all incoming calls",
         "Full schedule utilization, maximizing provider productivity",
         "Improved patient satisfaction scores by 38%"
@@ -93,9 +93,9 @@ const CaseStudiesPage: React.FC = () => {
       id: 4,
       title: "Professional Clinical Assistance",
       category: "Clinical Coordination",
-      description: "Deploying professional medical agents to handle internal scheduling, reminders, and follow-ups across departments.",
-      challenge: "A multi-location dental organization struggled with internal staff for routine communication tasks, resulting in inconsistent customer follow-up and after-hours coverage gaps.",
-      solution: "We deployed Clinical Nursing Coordinators and Patient Coordination Agents to integrate with their existing systems to remove guesswork from scheduling, reminders, and follow-ups across all departments, with seamless escalation to on site staff when needed.",
+      description: "Deploying professional medical agents to handle internal scheduling, reminders, and follow ups across departments.",
+      challenge: "A multi location dental organization struggled with internal staff for routine communication tasks, resulting in inconsistent customer follow up and after hours coverage gaps.",
+      solution: "We deployed Clinical Nursing Coordinators and Patient Coordination Agents to integrate with their existing systems to remove guesswork from scheduling, reminders, and follow ups across all departments, with seamless escalation to onsite staff when needed.",
       results: [
         "95% reduction in response times for routine inquiries",
         "24/7 coverage for basic customer bookings",
@@ -115,13 +115,13 @@ const CaseStudiesPage: React.FC = () => {
       title: "Recall Pipeline Expansion",
       category: "Front Desk",
       description: "Building and managing an outbound operation for a dental office opening in new markets.",
-      challenge: "A growing healhcare company needed to expand into 3 new locations at once, and they lacked the staff and training to effectively reach and convert these prospects.",
-      solution: "We created a dedicated outbound unit with healthcare booking expertise, implemented a structured process from prospecting to closing, and integrated with the client's EMR System for seamless lead management.",
+      challenge: "A growing healthcare company needed to expand into 3 new locations at once, and they lacked the staff and training to effectively reach and convert these prospects.",
+      solution: "We created a dedicated outbound unit with healthcare booking expertise, implemented a structured process from prospecting to closing, and integrated with the client's EMR system for seamless lead management.",
       results: [
         "127% increase in qualified patients booked within 90 days",
         "78% reduction in customer acquisition cost",
         "35% higher conversion rate than previous internal efforts",
-        "Successful entry into 3 new zipcodes simultaneously"
+        "Successful entry into 3 new zip codes simultaneously"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrYamlY1VvGagiQPkZIS78eT2lbXDK1sjz5c3t"
     },
@@ -129,13 +129,13 @@ const CaseStudiesPage: React.FC = () => {
       id: 6,
       title: "Training Optimization",
       category: "Admin",
-      description: "Restructuring training for operations for an Endocrinology and Infusion Clinic to improve efficiency and reduce costs.",
-      challenge: "A Clinic struggled with staff management, treatment delays, and high churn costs due to disorganized processes and limited visibility into their supply chain.",
-      solution: "We implemented end-to-end management training and staff training, optimized processes through data analysis, streamlined communication channels, and introduced real-time reporting systems.",
+      description: "Restructuring training for operations for an endocrinology and infusion clinic to improve efficiency and reduce costs.",
+      challenge: "A clinic struggled with staff management, treatment delays, and high churn costs due to disorganized processes and limited visibility into their supply chain.",
+      solution: "We implemented end to end management training and staff training, optimized processes through data analysis, streamlined communication channels, and introduced real time reporting systems.",
       results: [
         "32% reduction in overall management costs",
-        "Employee Retention costs decreased by 28%",
-        "On-time delivery improved from 79% to 97%",
+        "Employee retention costs decreased by 28%",
+        "On time delivery improved from 79% to 97%",
         "Patient processing time reduced by 40%"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr8Hyh7FSpA1R97OPT6CrtFKfNDeZcxaImnYuB"
@@ -165,8 +165,8 @@ const CaseStudiesPage: React.FC = () => {
       id: 8,
       title: "Integrated Marketing Campaign",
       category: "Marketing",
-      description: "Multi-channel marketing campaign combining traditional and digital strategies for maximum impact.",
-      challenge: "A Dental Lab struggled to stand out in a crowded market and needed a comprehensive marketing approach to increase market share.",
+      description: "Multi channel marketing campaign combining traditional and digital strategies for maximum impact.",
+      challenge: "A dental lab struggled to stand out in a crowded market and needed a comprehensive marketing approach to increase market share.",
       solution: "We created an integrated marketing campaign that combined content marketing, social media, email automation, and targeted advertising, all unified by strong creative direction.",
       results: [
         "156% increase in qualified leads",
@@ -221,7 +221,7 @@ const CaseStudiesPage: React.FC = () => {
     <>
       <MetaTags 
         title="Case Studies - Client Success Stories"
-        description="Discover how UPLIFT Technologies transforms businesses through expert outsourcing solutions. Real results, real impact across sales, marketing, collections & more."
+        description="Discover how UPLIFT Technologies transforms businesses through expert outsourcing solutions. Real results, real impact across sales, marketing, collections and more."
         image="https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48gUJycDW4KQobNdljuvhf3x8ZICL0FDiO2aUY"
         type="article"
       />
@@ -349,7 +349,18 @@ const CaseStudiesPage: React.FC = () => {
           <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
             Schedule a consultation to discuss your specific needs and discover how our services can transform your business operations.
           </p>
-          <iframe src="https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto" title="taha"frameBorder="0" scrolling="no" marginWidth="0" border="0px" marginHeight="0"height="350px" width="432px" allowTransparency="true" align="center"></iframe>
+          <iframe
+            src="https://calendar.zoho.com/eventreqForm/zz08011230b90f11f7d9e4f845d3466bf542b203c85792616eef005cce40c051b56dd6ff3b7f21ca86a6ce7ce3b245f62337f9fb78?theme=0&l=en&tz=America%2FToronto"
+            title="taha"
+            frameBorder="0"
+            scrolling="no"
+            marginWidth={0}
+            marginHeight={0}
+            height="350px"
+            width="432px"
+            allowTransparency
+            align="center"
+          />
         </motion.div>
       </Section>
     </>
