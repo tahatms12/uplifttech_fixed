@@ -55,40 +55,37 @@ const CandidateDetailPage: React.FC = () => {
         const value = details[field];
         if (Array.isArray(value)) {
           return value.length ? (
-            <ul style={{ paddingLeft: 'var(--sp-24)', marginTop: 'var(--sp-12)' }}>
+            <ul className="pl-6 mt-3">
               {value.map((item) => (
-                <li
-                  key={item}
-                  style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-small)', marginBottom: 'var(--sp-8)' }}
-                >
+                <li key={item} className="text-neutral-400 text-[0.875rem] mb-2">
                   {item}
                 </li>
               ))}
             </ul>
           ) : (
-            <p style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-small)' }}>—</p>
+            <p className="text-neutral-400 text-[0.875rem]">—</p>
           );
         }
 
         if (typeof value === 'string' && value.trim().length > 0) {
-          return <p style={{ color: 'var(--text-muted)' }}>{value}</p>;
+          return <p className="text-neutral-400">{value}</p>;
         }
 
-        return <p style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-small)' }}>—</p>;
+        return <p className="text-neutral-400 text-[0.875rem]">—</p>;
       }
 
       const currentValue = details[field];
       const textValue = Array.isArray(currentValue) ? currentValue.join('\n') : currentValue ?? '';
       return (
         <textarea
-          className="input"
+          className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
           value={textValue}
           onChange={(event) => {
             const { value } = event.target;
             updateDetail(field, multiline ? value.split('\n').filter(Boolean) : value);
           }}
           rows={multiline ? 5 : 3}
-          style={{ width: '100%', minHeight: multiline ? '120px' : '60px' }}
+          style={{ minHeight: multiline ? '120px' : '60px' }}
         />
       );
     },
@@ -115,11 +112,15 @@ const CandidateDetailPage: React.FC = () => {
 
   if (!candidate) {
     return (
-      <section className="container" style={{ paddingBottom: '3rem' }}>
-        <div className="notfound">
-          <h1>Not found</h1>
-          <p>The requested candidate does not exist.</p>
-          <button type="button" className="btn outline small" onClick={() => navigate('/candidates')}>
+      <section className="container-custom pb-12">
+        <div className="p-12 border-2 border-dashed border-neutral-700 rounded-xl bg-gray-800 text-center">
+          <h1 className="text-white">Not found</h1>
+          <p className="mb-6 text-neutral-400">The requested candidate does not exist.</p>
+          <button 
+            type="button" 
+            className="inline-flex items-center justify-center gap-2 min-h-[36px] px-4 py-2 rounded-md bg-transparent text-electric-violet border border-neutral-700 font-semibold text-[0.875rem] cursor-pointer transition-all duration-300 hover:border-electric-violet hover:bg-[rgba(155,29,255,0.1)]" 
+            onClick={() => navigate('/candidates')}
+          >
             Back to candidates
           </button>
         </div>
@@ -128,18 +129,27 @@ const CandidateDetailPage: React.FC = () => {
   }
 
   return (
-    <main className="container with-navbar-spacing stack">
-      <div className="actions" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-        <button type="button" className="btn outline small" onClick={() => navigate('/candidates')}>
+    <main className="container-custom pt-28 sm:pt-32 pb-12 flex flex-col gap-6">
+      {/* Top Actions Bar */}
+      <div className="flex justify-between items-center flex-wrap gap-4">
+        <button 
+          type="button" 
+          className="inline-flex items-center justify-center gap-2 min-h-[36px] px-4 py-2 rounded-md bg-transparent text-electric-violet border border-neutral-700 font-semibold text-[0.875rem] cursor-pointer transition-all duration-300 hover:border-electric-violet hover:bg-[rgba(155,29,255,0.1)]" 
+          onClick={() => navigate('/candidates')}
+        >
           Back to list
         </button>
-        <div className="actions">
-          <button type="button" className="btn ghost small" onClick={handleCopyLink}>
+        <div className="flex gap-2 flex-wrap">
+          <button 
+            type="button" 
+            className="inline-flex items-center justify-center gap-2 min-h-[36px] px-4 py-2 rounded-md bg-transparent text-neutral-400 border border-transparent font-semibold text-[0.875rem] cursor-pointer transition-all duration-300 hover:text-white hover:bg-gray-800" 
+            onClick={handleCopyLink}
+          >
             Copy link
           </button>
           <button
             type="button"
-            className="btn btn-primary small"
+            className="inline-flex items-center justify-center gap-2 min-h-[36px] px-4 py-2 rounded-md border-none font-semibold text-[0.875rem] cursor-pointer transition-all duration-300 bg-[#9b1dff] text-white shadow-[0_0_20px_rgba(155,29,255,0.3)] hover:bg-[#7400c7] hover:translate-y-[-1px] hover:shadow-[0_0_30px_rgba(155,29,255,0.5)] active:translate-y-0"
             onClick={() => window.open(`mailto:${candidate.email}`, '_blank')}
           >
             Request interview
@@ -147,23 +157,32 @@ const CandidateDetailPage: React.FC = () => {
         </div>
       </div>
 
-      <section className="hero">
-        <div className="photo" aria-hidden="true">
-          <img src={candidate.profilePhoto} alt={candidate.fullName} onError={handleImageError} />
+      {/* Hero Section */}
+      <section className="grid grid-cols-[140px_1fr] gap-6 p-8 border border-neutral-700 rounded-xl bg-gray-900 shadow-[0_6px_20px_rgba(0,0,0,0.3)]">
+        <div className="w-[140px] h-[140px] rounded-xl overflow-hidden bg-gray-800 border border-neutral-700 grid place-items-center" aria-hidden="true">
+          <img 
+            src={candidate.profilePhoto} 
+            alt={candidate.fullName} 
+            onError={handleImageError}
+            className="w-full h-full object-cover block"
+          />
         </div>
         <div>
-          <h1 className="name">
+          <h1 className="font-poppins font-extrabold text-[clamp(1.5rem,3.5vw,2rem)] mb-3 text-white">
             {candidate.fullName} • {candidate.id}
           </h1>
-          <div className="title">
+          <div className="text-[1.125rem] mb-3 text-neutral-400">
             {candidate.title} · {candidate.seniority} · {candidate.yearsExp} yrs
           </div>
-          <div className="meta-line">
+          <div className="flex gap-4 flex-wrap text-neutral-400 text-[0.875rem] mb-4">
             <span>Availability {candidate.availabilityLeadTime}</span>
           </div>
-          <div className="chips">
+          <div className="flex flex-wrap gap-2">
             {[candidate.primarySkill, ...candidate.skills.slice(0, 4)].map((skill) => (
-              <span key={skill} className="chip">
+              <span 
+                key={skill} 
+                className="px-3 py-2 rounded-full bg-[rgba(155,29,255,0.15)] border border-[rgba(155,29,255,0.3)] font-semibold text-[0.875rem] text-[#bb57ff] whitespace-nowrap"
+              >
                 {skill}
               </span>
             ))}
@@ -171,40 +190,39 @@ const CandidateDetailPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="grid-2col">
-        <article className="section">
-          <h3>Sample Work</h3>
-          <div className="media">
+      {/* Main Content Grid */}
+      <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
+        {/* Left Column - Main Content */}
+        <article className="bg-gray-900 border border-neutral-700 rounded-xl p-6 shadow-[0_6px_20px_rgba(0,0,0,0.3)]">
+          <h3 className="font-poppins font-semibold text-[1.25rem] mb-4 text-white">Sample Work</h3>
+          <div className="aspect-video border border-neutral-700 rounded-lg grid place-items-center bg-gradient-to-br from-[rgba(155,29,255,0.1)] to-gray-800 font-bold text-[#9b1dff] overflow-hidden mb-6">
             {candidate.videoUrl ? (
               <iframe
                 src={candidate.videoUrl}
                 title="Sample work video"
                 allowFullScreen
-                style={{ width: '100%', height: '100%', border: 'none' }}
+                className="w-full h-full border-none"
               />
             ) : (
               'Video or demo can be shown here during live call'
             )}
           </div>
 
-          <h2>Overview</h2>
+          <h2 className="font-poppins font-semibold text-[1.5rem] mb-4 text-white">Overview</h2>
           {editMode ? (
             renderEditable('overview', true)
           ) : (
-            <p style={{ color: 'var(--text-muted)' }}>
+            <p className="text-neutral-400 mb-6">
               {details.overview || candidate.summary || 'No overview available.'}
             </p>
           )}
 
           {details.careerHighlights && details.careerHighlights.length > 0 && !editMode && (
             <>
-              <h3>Career Highlights</h3>
-              <ul style={{ paddingLeft: 'var(--sp-24)', marginTop: 'var(--sp-12)' }}>
+              <h3 className="font-poppins font-semibold text-[1.25rem] mt-6 mb-3 text-white">Career Highlights</h3>
+              <ul className="pl-6 mt-3">
                 {details.careerHighlights.map((highlight) => (
-                  <li
-                    key={highlight}
-                    style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-small)', marginBottom: 'var(--sp-8)' }}
-                  >
+                  <li key={highlight} className="text-neutral-400 text-[0.875rem] mb-2">
                     {highlight}
                   </li>
                 ))}
@@ -214,28 +232,36 @@ const CandidateDetailPage: React.FC = () => {
 
           {editMode && renderEditable('careerHighlights', true)}
 
-          <h3>Core Skills</h3>
-          <div className="chips">
+          <h3 className="font-poppins font-semibold text-[1.25rem] mt-6 mb-3 text-white">Core Skills</h3>
+          <div className="flex flex-wrap gap-2 mb-6">
             {(details.coreCompetencies || candidate.skills || []).map((skill) => (
-              <span key={skill} className="chip">
+              <span 
+                key={skill} 
+                className="px-3 py-2 rounded-full bg-[rgba(155,29,255,0.15)] border border-[rgba(155,29,255,0.3)] font-semibold text-[0.875rem] text-[#bb57ff] whitespace-nowrap"
+              >
                 {skill}
               </span>
             ))}
           </div>
 
-          <h3>Experience</h3>
-          <div className="timeline">
+          <h3 className="font-poppins font-semibold text-[1.25rem] mt-6 mb-3 text-white">Experience</h3>
+          <div className="relative mt-4 mb-6 pl-6 before:content-[''] before:absolute before:left-[6px] before:top-[4px] before:bottom-[4px] before:w-[2px] before:bg-neutral-700 before:rounded">
             {candidate.experience.map((experience) => (
-              <div key={`${experience.company}-${experience.start}`} className="item">
-                <p className="role">{experience.role}</p>
-                <p className="where">{experience.company}</p>
-                <p className="period">
+              <div 
+                key={`${experience.company}-${experience.start}`} 
+                className="relative mb-6 pl-2 before:content-[''] before:absolute before:left-[-18px] before:top-[6px] before:w-3 before:h-3 before:rounded-full before:bg-[#9b1dff] before:shadow-[0_0_8px_rgba(155,29,255,0.5)]"
+              >
+                <p className="m-0 font-bold text-base text-white">{experience.role}</p>
+                <p className="my-1 text-neutral-400 text-[0.875rem]">{experience.company}</p>
+                <p className="text-[0.875rem] text-neutral-500 mb-2">
                   {experience.start} – {experience.end}
                 </p>
                 {experience.highlights && experience.highlights.length > 0 && (
-                  <ul>
+                  <ul className="mt-2 pl-5">
                     {experience.highlights.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
+                      <li key={highlight} className="text-neutral-400 text-[0.875rem] mb-1">
+                        {highlight}
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -243,26 +269,26 @@ const CandidateDetailPage: React.FC = () => {
             ))}
           </div>
 
-          <h3>Education</h3>
-          <div className="timeline">
+          <h3 className="font-poppins font-semibold text-[1.25rem] mt-6 mb-3 text-white">Education</h3>
+          <div className="relative mt-4 mb-6 pl-6 before:content-[''] before:absolute before:left-[6px] before:top-[4px] before:bottom-[4px] before:w-[2px] before:bg-neutral-700 before:rounded">
             {candidate.education.map((education) => (
-              <div key={`${education.institution}-${education.degree}`} className="item">
-                <p className="role">{education.degree}</p>
-                <p className="where">{education.institution}</p>
-                <p className="period">{education.year || '—'}</p>
+              <div 
+                key={`${education.institution}-${education.degree}`} 
+                className="relative mb-6 pl-2 before:content-[''] before:absolute before:left-[-18px] before:top-[6px] before:w-3 before:h-3 before:rounded-full before:bg-[#9b1dff] before:shadow-[0_0_8px_rgba(155,29,255,0.5)]"
+              >
+                <p className="m-0 font-bold text-base text-white">{education.degree}</p>
+                <p className="my-1 text-neutral-400 text-[0.875rem]">{education.institution}</p>
+                <p className="text-[0.875rem] text-neutral-500">{education.year || '—'}</p>
               </div>
             ))}
           </div>
 
           {details.certifications && details.certifications.length > 0 && !editMode && (
             <>
-              <h3>Certifications</h3>
-              <ul style={{ paddingLeft: 'var(--sp-24)', marginTop: 'var(--sp-12)' }}>
+              <h3 className="font-poppins font-semibold text-[1.25rem] mt-6 mb-3 text-white">Certifications</h3>
+              <ul className="pl-6 mt-3">
                 {details.certifications.map((certification) => (
-                  <li
-                    key={certification}
-                    style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-small)', marginBottom: 'var(--sp-8)' }}
-                  >
+                  <li key={certification} className="text-neutral-400 text-[0.875rem] mb-2">
                     {certification}
                   </li>
                 ))}
@@ -272,10 +298,13 @@ const CandidateDetailPage: React.FC = () => {
 
           {editMode && renderEditable('certifications', true)}
 
-          <h3>Languages</h3>
-          <div className="chips">
+          <h3 className="font-poppins font-semibold text-[1.25rem] mt-6 mb-3 text-white">Languages</h3>
+          <div className="flex flex-wrap gap-2 mb-6">
             {candidate.languages.map((language) => (
-              <span key={language} className="chip">
+              <span 
+                key={language} 
+                className="px-3 py-2 rounded-full bg-[rgba(155,29,255,0.15)] border border-[rgba(155,29,255,0.3)] font-semibold text-[0.875rem] text-[#bb57ff] whitespace-nowrap"
+              >
                 {language}
               </span>
             ))}
@@ -283,8 +312,8 @@ const CandidateDetailPage: React.FC = () => {
 
           {details.additionalInfo && !editMode ? (
             <>
-              <h3>Additional Information</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-small)', marginTop: 'var(--sp-12)' }}>
+              <h3 className="font-poppins font-semibold text-[1.25rem] mt-6 mb-3 text-white">Additional Information</h3>
+              <p className="text-neutral-400 text-[0.875rem] mt-3">
                 {details.additionalInfo}
               </p>
             </>
@@ -293,59 +322,60 @@ const CandidateDetailPage: React.FC = () => {
           {editMode && renderEditable('additionalInfo')}
         </article>
 
-        <aside className="section">
-          <h2>Engagement</h2>
-          <div className="kv">
-            <span>Seniority</span>
-            <strong>{candidate.seniority}</strong>
+        {/* Right Column - Sidebar */}
+        <aside className="bg-gray-900 border border-neutral-700 rounded-xl p-6 shadow-[0_6px_20px_rgba(0,0,0,0.3)] h-fit">
+          <h2 className="font-poppins font-semibold text-[1.5rem] mb-4 text-white">Engagement</h2>
+          
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Seniority</span>
+            <strong className="text-white font-semibold text-right">{candidate.seniority}</strong>
           </div>
-          <div className="kv">
-            <span>Primary skill</span>
-            <strong>{candidate.primarySkill}</strong>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Primary skill</span>
+            <strong className="text-white font-semibold text-right">{candidate.primarySkill}</strong>
           </div>
-          <div className="kv">
-            <span>Years of experience</span>
-            <strong>{candidate.yearsExp}</strong>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Years of experience</span>
+            <strong className="text-white font-semibold text-right">{candidate.yearsExp}</strong>
           </div>
-          <div className="kv">
-            <span>Availability lead time</span>
-            <strong>{candidate.availabilityLeadTime}</strong>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Starting availability</span>
+            <strong className="text-white font-semibold text-right">{candidate.availabilityLeadTime}</strong>
           </div>
-          <div className="kv">
-            <span>Work window</span>
-            <strong>{candidate.workWindow}</strong>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Work window</span>
+            <strong className="text-white font-semibold text-right">{candidate.workWindow}</strong>
           </div>
-          <div className="kv">
-            <span>Languages</span>
-            <strong>{candidate.languages.join(', ')}</strong>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Languages</span>
+            <strong className="text-white font-semibold text-right">{candidate.languages.join(', ')}</strong>
           </div>
 
-
-          <h2 style={{ marginTop: '24px' }}>Contact</h2>
-          <div className="kv">
-            <span>Email</span>
-            <strong>
-              <a href={`mailto:${candidate.email}`}>{candidate.email}</a>
+          <h2 className="font-poppins font-semibold text-[1.5rem] mt-6 mb-4 text-white">Contact</h2>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Email</span>
+            <strong className="text-white font-semibold text-right">
+              <a href={`mailto:${candidate.email}`} className="text-[#bb57ff] hover:underline">{candidate.email}</a>
             </strong>
           </div>
-          <div className="kv">
-            <span>Phone</span>
-            <strong>
-              <a href={`tel:${candidate.phone}`}>{candidate.phone}</a>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gray-800 border border-neutral-700 mb-2">
+            <span className="text-neutral-400 text-[0.875rem]">Phone</span>
+            <strong className="text-white font-semibold text-right">
+              <a href={`tel:${candidate.phone}`} className="text-[#bb57ff] hover:underline">{candidate.phone}</a>
             </strong>
           </div>
 
-          <div className="stack" style={{ marginTop: 24, gap: 12 }}>
+          <div className="flex flex-col gap-3 mt-6">
             <button
               type="button"
-              className="btn btn-primary small"
+              className="inline-flex items-center justify-center gap-2 min-h-[36px] px-4 py-2 rounded-md border-none font-semibold text-[0.875rem] cursor-pointer transition-all duration-300 bg-[#9b1dff] text-white shadow-[0_0_20px_rgba(155,29,255,0.3)] hover:bg-[#7400c7] hover:translate-y-[-1px] hover:shadow-[0_0_30px_rgba(155,29,255,0.5)] active:translate-y-0"
               onClick={() => window.open(`mailto:${candidate.email}`, '_blank')}
             >
               Email
             </button>
             <button
               type="button"
-              className="btn btn-secondary small"
+              className="inline-flex items-center justify-center gap-2 min-h-[36px] px-4 py-2 rounded-md bg-transparent text-electric-violet border-2 border-electric-violet font-semibold text-[0.875rem] cursor-pointer transition-all duration-300 hover:bg-electric-violet hover:text-white"
               onClick={() => window.open(`tel:${candidate.phone}`, '_blank')}
             >
               Call
@@ -354,7 +384,7 @@ const CandidateDetailPage: React.FC = () => {
         </aside>
       </section>
 
-      <footer style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-muted)', fontSize: 'var(--fs-small)' }}>
+      <footer className="text-center mt-8 text-neutral-400 text-[0.875rem]">
         Press Esc to return to the grid. Sharing is limited to this device unless deployed.
       </footer>
     </main>
