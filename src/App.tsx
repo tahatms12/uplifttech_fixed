@@ -6,6 +6,7 @@ import SitemapGenerator from './components/seo/SitemapGenerator';
 
 // Eager load HomePage for fastest initial render
 import HomePage from './pages/HomePage';
+import CaseStudies from './components/home/CaseStudies';
 
 // Lazy load all other pages
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -15,6 +16,8 @@ const CandidatesPage = lazy(() => import('./pages/CandidatesPage')); // Talent p
 const CandidateDetailPage = lazy(() => import('./pages/CandidateDetailPage')); // Individual candidate
 const CareersPage = lazy(() => import('./pages/CareersPage')); // Remote Jobs
 const CandidateAcknowledgementPage = lazy(() => import('./pages/CandidateAcknowledgementForm')); // Candidate Declaration
+
+const CaseStudies = lazy(() => import('./pages/CaseStudiesPage'));
 
 const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const PaymentPage = lazy(() => import('./pages/PaymentPage'));
@@ -72,7 +75,7 @@ function App() {
               <ApplyPage />
             </Suspense>
           } />
-          <Route path="declaration" element={
+          <Route path="candidate-acknowledgement" element={
             <Suspense fallback={<LoadingSpinner />}>
               <CandidateAcknowledgementPage />
             </Suspense>
@@ -80,6 +83,11 @@ function App() {
           <Route path="creative-direction" element={
             <Suspense fallback={<LoadingSpinner />}>
               <CreativeDirectionPage />
+            </Suspense>
+          } />
+          <Route path="case-studies" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CaseStudies />
             </Suspense>
           } />
           
