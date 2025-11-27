@@ -45,7 +45,7 @@ const CaseStudiesPage: React.FC = () => {
         "Comprehensive documentation allowing for knowledge transfer",
         "Reduced rejection rate to 3% from 11% through formalized QA"
       ],
-      imageSrc: "https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48umk0e7rzSVUAW58LFw0OdkaCEGun9vJTQ37M",
+      imageSrc: "https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48KsDMQ73cbMY8IewBXDN1uCftWjJZ5Rlhyg0G",
       testimonial: {
         quote: "UPLIFT transformed our collections process from chaotic to structured. Their team didn't just expedite our DSO collection rate, they implemented systems that fundamentally changed how we approach AR.",
         author: "Thomas Wright",
@@ -102,7 +102,7 @@ const CaseStudiesPage: React.FC = () => {
         "73% of routine scheduling handled automatically",
         "50% reduction in staff time spent on repetitive communication tasks"
       ],
-      imageSrc: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      imageSrc: "https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48umk0e7rzSVUAW58LFw0OdkaCEGun9vJTQ37M",
       testimonial: {
         quote: "The Clinical Coordination Team UPLIFT implemented has been transformative. Our patients receive immediate responses at any hour, and our team can focus on onsite interactions with seamless scheduling and confirmations.",
         author: "James Chen",
