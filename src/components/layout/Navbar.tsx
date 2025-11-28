@@ -77,7 +77,9 @@ const Navbar: React.FC = () => {
             
             {/* Logo (Center) */}
             <Link to="/" className="relative z-50 justify-self-center" onClick={closeMenu}>
-              <Logo />
+              <div className="w-[72px] h-[72px] flex items-center justify-center">
+                <Logo />
+              </div>
             </Link>
             
             {/* Desktop Navigation (Right) */}
