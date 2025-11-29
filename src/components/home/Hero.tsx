@@ -31,8 +31,11 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-rich-black pointer-events-none" />
 
       <div className="container-custom relative z-10">
-        <div className="flex flex-col lg:flex-row items-center px-[15px]">
-          <div className="lg:w-3/5 mb-10 lg:mb-0">
+        {/* INCREASED GAP: Changed from gap-12 to gap-16 lg:gap-24 for more separation */}
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24 px-[15px]">
+          
+          {/* --- RED BOX AREA: Text Content --- */}
+          <div className="w-full lg:w-1/2 mb-10 lg:mb-0">
             <motion.div
               className="mb-4 sm:mb-0"
               initial="hidden"
@@ -61,21 +64,9 @@ const Hero: React.FC = () => {
                 variants={fadeUpVariants}
                 className="w-full mt-4 sm:mt-6"
               >
-                <div className="flex flex-col md:flex-row md:items-start">
-                  <p className="text-base sm:text-lg md:text-xl text-white/80 md:flex-1">
-                    Transform your business with UPLIFT Technologies&apos; comprehensive outsourcing solutions. Expert teams available 24/7 for healthcare support.
-                  </p>
-                  <div className="mt-4 md:mt-0 md:ml-8 flex-shrink-0">
-                    <div className="relative w-[400px] h-[300px] rounded-lg overflow-hidden bg-rich-black/70 backdrop-blur-sm border border-neutral-800/70 shadow-lg">
-                      <img
-                        src="https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U489OxAJFfwdBSz7fDQec0oRvjxW8JlOaM2i6Ip"
-                        alt="UPLIFT Technologies operations"
-                        className="w-full h-full object-cover opacity-90"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
+                  Transform your business with UPLIFT Technologies&apos; comprehensive outsourcing solutions. Expert teams available 24/7 for healthcare support.
+                </p>
               </motion.div>
             </motion.div>
 
@@ -96,8 +87,26 @@ const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Right column left available for future content; currently empty */}
-          <div className="lg:w-2/5" />
+          {/* --- BLUE BOX AREA: Image Content --- */}
+          <div className="w-full lg:w-1/2">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeUpVariants}
+              className="w-full"
+            >
+              {/* FIXED HEIGHT: Changed to exactly h-[350px] as requested */}
+              <div className="relative w-full h-[350px] rounded-lg overflow-hidden bg-rich-black/70 backdrop-blur-sm border border-neutral-800/70 shadow-lg">
+                <img
+                  src="https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U489OxAJFfwdBSz7fDQec0oRvjxW8JlOaM2i6Ip"
+                  alt="UPLIFT Technologies operations"
+                  className="w-full h-full object-cover opacity-90"
+                  loading="lazy"
+                />
+              </div>
+            </motion.div>
+          </div>
+
         </div>
       </div>
     </div>
