@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, Linkedin, MapPin, ArrowRight } from 'lucide-react';
+import { Phone, Mail, Linkedin, Instagram, MapPin, ArrowRight } from 'lucide-react';
 import Logo from '../ui/Logo';
 
 const Footer: React.FC = () => {
@@ -22,6 +22,15 @@ const Footer: React.FC = () => {
                 aria-label="LinkedIn"
               >
                 <Linkedin size={20} />
+              </a>
+              <a 
+                href="https://www.instagram.com/uplifttechnologies_/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-electric-violet transition-colors duration-300"
+                aria-label="LinkedIn"
+              >
+                <Instagram size={20} />
               </a>
             </div>
           </div>
