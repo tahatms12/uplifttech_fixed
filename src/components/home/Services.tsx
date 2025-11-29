@@ -52,37 +52,30 @@ const services = [
   },
   {
     icon: <BadgeDollarSign size={32} />,
-    title: "Collections Services",
+    title: "AR Collections Services",
     description: "Recover outstanding accounts receivable with our compliant collection strategies for healthcare and B2B sectors.",
     link: "/services/collections",
     linkText: "Learn About Debt Collection Services"
   },
   {
-    icon: <Users size={32} />,
-    title: "Sales Outsourcing",
-    description: "Scale your revenue with dedicated sales teams trained in your products. Available 24/7 for US & Canadian markets.",
-    link: "/services/sales",
-    linkText: "Explore Outsourced Sales Operations"
-  },
-  {
-    icon: <Megaphone size={32} />,
-    title: "Marketing Operations",
+    icon: <Palette size={32} />,
+    title: "Marketing And Creative Operations",
     description: "Drive growth with comprehensive marketing services, from content creation to campaign management in your target markets.",
-    link: "/services/marketing",
+    link: "/creative-direction",
     linkText: "View Strategic Marketing Services"
   },
   {
-    icon: <Palette size={32} />,
-    title: "Creative Services",
-    description: "Expert brand development and creative direction tailored for North American market presence.",
-    link: "/creative-direction",
-    linkText: "See Creative Direction & Design Services"
+    icon: <Megaphone size={32} />,
+    title: "Recall Services",
+    description: "Expert outbound customer development and bookings tailored for healthcare presence.",
+    link: "/services/front-office",
+    linkText: "See How Our Front Office Can Help You"
   },
   {
     icon: <TrendingUp size={32} />,
-    title: "Logistics Management",
-    description: "Optimize your supply chain with expert logistics coordination and management across North America.",
-    link: "/services/logistics",
+    title: "Office Quality Management",
+    description: "Optimize your Clinic's efficiency with meaningful coordination and management.",
+    link: "/services/administration",
     linkText: "Discover Supply Chain & Logistics Solutions"
   }
 ];
@@ -90,8 +83,8 @@ const services = [
 const Services: React.FC = memo(() => {
   return (
     <Section
-      title="Outsourcing Solutions"
-      subtitle="Comprehensive business process outsourcing services tailored for US & Canadian markets, combining expert talent with cutting-edge technology."
+      title="Clinical and Independent Practice Solutions"
+      subtitle="Comprehensive healthcare support services tailored for HIPAA and PIPEDA compliant markets, combining expert talent with cutting-edge technology."
       centered
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
