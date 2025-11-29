@@ -90,12 +90,12 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <div className="relative w-full max-w-xs sm:max-w-md mx-auto">
+            <div className="relative w-full max-w-[666px] mx-auto">
               <div className="absolute inset-0 aspect-[1/1] w-full bg-[radial-gradient(ellipse_at_center,#9B1DFF_0%,#280059_60%,transparent_70%)] blur-[80px]" />
               <div className="absolute -bottom-24 sm:-bottom-6 right-0 sm:-right-6 bg-rich-black/70 backdrop-blur-sm p-2 sm:p-3 rounded-xl border border-neutral-800/70 z-20 shadow-lg">
-                <div className="relative w-28 h-20 sm:w-32 sm:h-24 overflow-hidden rounded-lg">
+                <div className="relative w-[666px] h-[500px] overflow-hidden rounded-lg">
                   <img
-                    src="https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U489OxAJFfwdBSz7fDQec0oRvjxW8JlOaM2i6Ip"
+                    src="https://your-image-url-here"
                     alt="UPLIFT Technologies operations"
                     className="w-full h-full object-cover opacity-90"
                     loading="lazy"
