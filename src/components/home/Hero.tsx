@@ -61,9 +61,21 @@ const Hero: React.FC = () => {
                 variants={fadeUpVariants}
                 className="w-full mt-4 sm:mt-6"
               >
-                <p className="text-base sm:text-lg md:text-xl text-white/80">
-                  Transform your business with UPLIFT Technologies' comprehensive outsourcing solutions. Expert teams available 24/7 for healthcare support.
-                </p>
+                <div className="flex flex-col md:flex-row md:items-start">
+                  <p className="text-base sm:text-lg md:text-xl text-white/80 md:flex-1">
+                    Transform your business with UPLIFT Technologies&apos; comprehensive outsourcing solutions. Expert teams available 24/7 for healthcare support.
+                  </p>
+                  <div className="mt-4 md:mt-0 md:ml-8 flex-shrink-0">
+                    <div className="relative w-[400px] h-[300px] rounded-lg overflow-hidden bg-rich-black/70 backdrop-blur-sm border border-neutral-800/70 shadow-lg">
+                      <img
+                        src="https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U489OxAJFfwdBSz7fDQec0oRvjxW8JlOaM2i6Ip"
+                        alt="UPLIFT Technologies operations"
+                        className="w-full h-full object-cover opacity-90"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
 
@@ -84,26 +96,8 @@ const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          <motion.div
-            className="lg:w-2/5 relative"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <div className="relative w-full max-w-[666px] mx-auto">
-              <div className="absolute inset-0 aspect-[1/1] w-full bg-[radial-gradient(ellipse_at_center,#9B1DFF_0%,#280059_60%,transparent_70%)] blur-[80px]" />
-              <div className="absolute -bottom-24 sm:-bottom-6 right-0 sm:-right-6 bg-rich-black/70 backdrop-blur-sm p-2 sm:p-3 rounded-xl border border-neutral-800/70 z-20 shadow-lg">
-                <div className="relative w-[666px] h-[500px] overflow-hidden rounded-lg">
-                  <img
-                    src="https://your-image-url-here"
-                    alt="UPLIFT Technologies operations"
-                    className="w-full h-full object-cover opacity-90"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          {/* Right column left available for future content; currently empty */}
+          <div className="lg:w-2/5" />
         </div>
       </div>
     </div>
