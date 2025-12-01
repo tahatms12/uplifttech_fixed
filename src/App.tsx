@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import HubSpotTracking from './components/integrations/HubSpotTracking';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import SitemapGenerator from './components/seo/SitemapGenerator';
 
@@ -25,6 +26,7 @@ const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultation
 function App() {
   return (
     <>
+      <HubSpotTracking />
       <SitemapGenerator />
       <Routes>
         <Route path="/" element={<Layout />}>
