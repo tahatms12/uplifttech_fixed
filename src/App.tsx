@@ -4,6 +4,7 @@ import Layout from './components/layout/Layout';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import SitemapGenerator from './components/seo/SitemapGenerator';
 import ScrollToTop from './components/ScrollToTop';
+import HubSpotTracking from './components/integrations/HubSpotTracking';
 
 // Eager load HomePage for fastest initial render
 import HomePage from './pages/HomePage';
@@ -31,6 +32,7 @@ const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultation
 function App() {
   return (
     <>
+      <HubSpotTracking />
       <SitemapGenerator />
       <ScrollToTop />
       <Routes>
