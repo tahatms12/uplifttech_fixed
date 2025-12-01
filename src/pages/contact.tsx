@@ -85,27 +85,15 @@ const ContactPage: React.FC = () => {
     {
       icon: <Mail size={32} />,
       title: 'Email',
-      details: 'hello@uplift-tech.com',
-      link: 'mailto:hello@uplift-tech.com'
+      details: 'business@uplift-technologies.com',
+      link: 'mailto:business@uplift-technologies.com'
     },
     {
       icon: <Phone size={32} />,
       title: 'Phone',
-      details: '+1 (555) 123-4567',
-      link: 'tel:+15551234567'
+      details: '+1 (855) 643-5404',
+      link: 'tel:+18556435404'
     },
-    {
-      icon: <MapPin size={32} />,
-      title: 'Location',
-      details: 'Global Operations',
-      link: null
-    },
-    {
-      icon: <Clock size={32} />,
-      title: 'Availability',
-      details: '24/7 Support',
-      link: null
-    }
   ];
 
   return (
