@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-1">
             <Logo />
             <p className="mt-3 sm:mt-4 text-sm text-white/70 max-w-xs">
-              Your people-powered outsourcing partner built for 24/7 operations, driving efficiency and growth.
+              Your people-powered Clinical Support partner built for 24/7 operations, driving efficiency and growth.
             </p>
             <div className="mt-4 sm:mt-6 flex space-x-4">
               <a 
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Services</h4>
             <ul className="space-y-2 sm:space-y-3">
-              {['Sales', 'Logistics', 'Collections', 'Marketing', 'Front Desk'].map((service) => (
+              {['Front Office', 'Revenue Cycle', 'Administration', 'Clinical Coordination'].map((service) => (
                 <li key={service}>
                   <Link 
                     to={`/services/${service.toLowerCase().replace(' ', '-')}`}
@@ -100,9 +100,8 @@ const Footer: React.FC = () => {
                 <div className="text-white/70 flex items-start">
                   <MapPin size={18} className="mr-3 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="mb-2">Essex, UK (Head Office)</p>
-                    <p className="mb-2">Sheridan, Wyoming, USA</p>
-                    <p>Islamabad, Pakistan</p>
+                    <p className="mb-2">Sheridan, Wyoming</p>
+                    <p className="mb-2">Islamabad, Pakistan</p>
                   </div>
                 </div>
               </li>
