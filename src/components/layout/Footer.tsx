@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Services</h4>
             <ul className="space-y-2 sm:space-y-3">
-              {['Sales', 'Logistics', 'Collections', 'Marketing', 'Front Desk'].map((service) => (
+              {['Clinical Coordination', 'Administration', 'Revenue Cycle', 'Creative Direction', 'Front Office'].map((service) => (
                 <li key={service}>
                   <Link 
                     to={`/services/${service.toLowerCase().replace(' ', '-')}`}
@@ -91,9 +91,8 @@ const Footer: React.FC = () => {
                 <div className="text-white/70 flex items-start">
                   <MapPin size={18} className="mr-3 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="mb-2">Essex, UK (Head Office)</p>
                     <p className="mb-2">Sheridan, Wyoming, USA</p>
-                    <p>Islamabad, Pakistan</p>
+                    <p className="mb-2">Islamabad, Pakistan</p>
                   </div>
                 </div>
               </li>
@@ -103,18 +102,6 @@ const Footer: React.FC = () => {
                 Book a Meeting
               </Link>
             </div>
-          </div>
-        </div>
-        
-        <div className="mt-10 sm:mt-12 md:mt-16 pt-4 sm:pt-6 border-t border-neutral-800 text-xs sm:text-sm text-white/50 flex flex-col sm:flex-row justify-between items-center">
-          <p>© {new Date().getFullYear()} Uplift Technologies. All rights reserved.</p>
-          <div className="mt-3 sm:mt-0 flex space-x-4 sm:space-x-6">
-            <Link to="/privacy-policy" className="hover:text-white transition-colors duration-300">
-              Privacy Policy
-            </Link>
-            <Link to="/terms-of-service" className="hover:text-white transition-colors duration-300">
-              Terms of Service
-            </Link>
           </div>
         </div>
       </div>
