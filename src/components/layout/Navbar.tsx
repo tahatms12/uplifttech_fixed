@@ -49,11 +49,11 @@ const Navbar: React.FC = () => {
   ];
 
   const serviceLinks = [
-    { name: 'Sales', path: '/services/sales' },
-    { name: 'Logistics', path: '/services/logistics' },
-    { name: 'Collections', path: '/services/collections' },
-    { name: 'Marketing', path: '/services/marketing' },
-    { name: 'Front Desk', path: '/services/front-desk' },
+    { name: 'Front Office', path: '/services/front-office' },
+    { name: 'Clinical Coordination', path: '/services/Clinical-Coordination' },
+    { name: 'Revenue Cycle', path: '/services/Revenue-Cycle' },
+    { name: 'Administration', path: '/services/Administration' },
+    { name: 'Creative Direction', path: '/services/creative-direction' },
   ];
   
   return (
