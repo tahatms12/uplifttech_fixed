@@ -44,69 +44,6 @@ export interface Candidate {
 
 const RAW_CANDIDATES: Candidate[] = [
   {
-    id: 'CV-CS-002',
-    fullName: 'A. Fatima', //Alina Fatima
-    title: 'Customer Service Representative',
-    seniority: 'Mid',
-    yearsExp: 2,
-    skills: [
-      'Customer Service',
-      'Issue Resolution',
-      'Cross-functional Collaboration',
-      'Graphic Design',
-      'Adobe Photoshop',
-      'Adobe Illustrator',
-      'Communication'
-    ],
-    primarySkill: 'Customer Support',
-    locationCity: 'Karachi',
-    locationCountry: 'Pakistan',
-    timezone: 'UTC+5',
-    availabilityLeadTime: 'Immediate',
-    salaryRangePKR: {
-      min: 80000,
-      max: 120000
-    },
-    languages: ['English B2', 'Urdu Native'],
-    education: [
-      {
-        degree: 'BFA (Gold Medalist)',
-        institution: 'Government Sadiq College Women University Bahawalpur',
-        year: 2020
-      }
-    ],
-    experience: [
-      {
-        company: 'IDEA Digital',
-        role: 'Customer Service Representative',
-        start: 'Dec 2024',
-        end: 'Present',
-        highlights: [
-          'Resolved 95 percent of customer issues',
-          'Improved satisfaction scores by 15 percent in 6 months',
-          'Reduced ticket resolution time by 20 percent through cross-team collaboration'
-        ]
-      },
-      {
-        company: 'Self-Employed',
-        role: 'Graphic Designer',
-        start: 'Feb 2023',
-        end: 'Present',
-        highlights: [
-          'Achieved 95 percent client satisfaction rate',
-          'Enhanced client brand identity and social media engagement'
-        ]
-      }
-    ],
-    videoUrl: '',
-    email: 'hr@uplift-technologies.com',
-    phone: '+92 315 5899936',
-    profilePhoto: '',
-    workWindow: '8 am to 6 pm EST',
-    summary:
-      'Customer service representative with graphic design skills, proven track record in issue resolution and customer satisfaction.'
-  },
-  {
     id: 'CV-CS-009',
     fullName: 'A. Akhtar', // Alveena Akhtar
     title: 'Client Support Specialist',
