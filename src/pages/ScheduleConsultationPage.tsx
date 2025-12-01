@@ -9,7 +9,9 @@ const Section = ({ title, subtitle, centered, className = '', maxWidth = 'max-w-
     <div className={`container mx-auto px-4 ${maxWidth}`}>
       {title && (
         <div className={`mb-12 ${centered ? 'text-center' : ''}`}>
-          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">{title}</h2>
+          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+            {title}
+          </h2>
           {subtitle && <p className="text-gray-400">{subtitle}</p>}
         </div>
       )}
@@ -35,11 +37,35 @@ const ContactPage = () => {
     document.title = 'Contact Us | UPLIFT Technologies';
   }, []);
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://app.cal.com/embed/embed.js';
+    script.async = true;
+
+    script.onload = () => {
+      if (window.Cal) {
+        window.Cal('init', '30min', { origin: 'https://app.cal.com' });
+        window.Cal.ns['30min']('ui', {
+          hideEventTypeDetails: false,
+          layout: 'month_view',
+        });
+      }
+    };
+
+    document.head.appendChild(script);
+
+    return () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
-    message: ''
+    message: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,25 +102,24 @@ const ContactPage = () => {
 
       console.log('Email sent successfully:', result);
       setSubmitStatus('success');
-      
+
       // Reset form after successful submission
       setFormData({
         name: '',
         email: '',
         company: '',
-        message: ''
+        message: '',
       });
 
       // Reset success message after 5 seconds
       setTimeout(() => {
         setSubmitStatus('idle');
       }, 5000);
-
     } catch (error) {
       console.error('Failed to send email:', error);
       console.error('Error details:', JSON.stringify(error, null, 2));
       setSubmitStatus('error');
-      
+
       // Reset error message after 5 seconds
       setTimeout(() => {
         setSubmitStatus('idle');
@@ -107,7 +132,7 @@ const ContactPage = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -116,32 +141,20 @@ const ContactPage = () => {
       icon: <Mail size={32} />,
       title: 'Email',
       details: 'business@uplift-technologies.com',
-      link: 'mailto:business@uplift-technologies.com'
+      link: 'mailto:business@uplift-technologies.com',
     },
     {
       icon: <Phone size={32} />,
       title: 'Phone (US)',
       details: '+1 855 643 5404',
-      link: 'tel:+18556435404'
-    },
-    {
-      icon: <Phone size={32} />,
-      title: 'Phone (PK)',
-      details: '+92 315 5899936',
-      link: 'tel:+923155899936'
-    },
-    {
-      icon: <MapPin size={32} />,
-      title: 'Location',
-      details: 'Global Operations',
-      link: null
+      link: 'tel:+18556435404',
     },
     {
       icon: <Clock size={32} />,
       title: 'Availability',
       details: '24/7 Support',
-      link: null
-    }
+      link: null,
+    },
   ];
 
   return (
@@ -154,10 +167,10 @@ const ContactPage = () => {
             backgroundImage: `url('https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48LYcCDZiUMZzX7lfxvW3hEk5JKuRtbm1dNVHP')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: 0.4
+            opacity: 0.4,
           }}
         />
-        
+
         <div className="container mx-auto relative z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -166,10 +179,14 @@ const ContactPage = () => {
             className="max-w-xl md:max-w-2xl lg:max-w-3xl"
           >
             <h1 className="font-semibold mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl">
-              Get in <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent block sm:inline">Touch</span>
+              Get in{' '}
+              <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent block sm:inline">
+                Touch
+              </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-300">
-              Ready to transform your operations? Let's start a conversation about how UPLIFT can help your business thrive.
+              Ready to transform your operations? Let's start a conversation about how UPLIFT can help your business
+              thrive.
             </p>
           </motion.div>
         </div>
@@ -188,10 +205,7 @@ const ContactPage = () => {
               <div className="text-purple-400 mb-4">{info.icon}</div>
               <h3 className="text-xl font-medium mb-3">{info.title}</h3>
               {info.link ? (
-                <a 
-                  href={info.link}
-                  className="text-gray-400 hover:text-purple-400 transition-colors"
-                >
+                <a href={info.link} className="text-gray-400 hover:text-purple-400 transition-colors">
                   {info.details}
                 </a>
               ) : (
@@ -211,12 +225,16 @@ const ContactPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-6 text-3xl font-bold">Send Us a Message</h2>
+            <h2 className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-6 text-3xl font-bold">
+              Send Us a Message
+            </h2>
             <p className="text-lg text-gray-300 mb-6">
-              Fill out the form and our team will get back to you within 24 hours. We're excited to learn about your business needs.
+              Fill out the form and our team will get back to you within 24 hours. We're excited to learn about your
+              business needs.
             </p>
             <p className="text-lg text-gray-300">
-              Whether you need expert talent, consulting services, or custom software solutions, we're ready to help you achieve your goals.
+              Whether you need expert talent, consulting services, or custom software solutions, we're ready to help
+              you achieve your goals.
             </p>
           </motion.div>
 
@@ -300,7 +318,9 @@ const ContactPage = () => {
 
               {submitStatus === 'error' && (
                 <div className="rounded-lg bg-red-500/10 border border-red-500/40 px-4 py-3 text-red-400">
-                  <p className="text-sm font-medium">Failed to send message. Please try again or email us directly.</p>
+                  <p className="text-sm font-medium">
+                    Failed to send message. Please try again or email us directly.
+                  </p>
                 </div>
               )}
 
@@ -317,6 +337,16 @@ const ContactPage = () => {
                 ) : (
                   'Send Message'
                 )}
+              </button>
+
+              <button
+                type="button"
+                data-cal-link="taha-uplift/30min"
+                data-cal-namespace="30min"
+                data-cal-config='{"layout":"month_view"}'
+                className="w-full mt-3 bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 px-6 rounded-md border border-gray-600 flex items-center justify-center"
+              >
+                View calendar
               </button>
             </form>
           </motion.div>
@@ -339,10 +369,12 @@ const ContactPage = () => {
           className="text-center"
         >
           <p className="text-lg text-gray-300 mb-6">
-            With our global team operating 24/7, expert talent across various domains, and commitment to excellence, we ensure your business never misses a beat.
+            With our global team operating 24/7, expert talent across various domains, and commitment to excellence, we
+            ensure your business never misses a beat.
           </p>
           <p className="text-lg text-gray-300">
-            Let's discuss how we can help you scale efficiently, reduce costs, and achieve sustainable growth through innovative solutions and dedicated support.
+            Let's discuss how we can help you scale efficiently, reduce costs, and achieve sustainable growth through
+            innovative solutions and dedicated support.
           </p>
         </motion.div>
       </Section>
