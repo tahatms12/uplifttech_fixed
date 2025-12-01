@@ -4,43 +4,51 @@ import { Phone, Mail, Linkedin, Instagram, MapPin, ArrowRight } from 'lucide-rea
 import Logo from '../ui/Logo';
 
 const Footer: React.FC = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-deep-purple/20 border-t border-neutral-800 pt-12 sm:pt-16 pb-6 sm:pb-8">
+    <footer className="relative z-10 bg-deep-purple/20 border-t border-neutral-800 pt-12 sm:pt-16 pb-6 sm:pb-8">
       <div className="container-custom px-4 sm:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
-          <div className="lg:col-span-1">
-            <Logo />
-            <p className="mt-3 sm:mt-4 text-sm text-white/70 max-w-xs">
+          {/* Logo + description + social */}
+          <div className="lg:col-span-1 flex flex-col items-start">
+            <div className="mb-3 sm:mb-4">
+              <Logo />
+            </div>
+
+            <p className="text-sm text-white/70 max-w-xs">
               Your people-powered Clinical Support partner built for 24/7 operations, driving efficiency and growth.
             </p>
-            <div className="mt-4 sm:mt-6 flex space-x-4">
-              <a 
-                href="https://linkedin.com/company/uplift-technologies-intl" 
-                target="_blank" 
+
+            <div className="mt-4 sm:mt-6 flex flex-row flex-wrap gap-3">
+              <a
+                href="https://linkedin.com/company/uplift-technologies-intl"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/70 hover:text-electric-violet transition-colors duration-300"
+                className="inline-flex items-center justify-center text-white/70 hover:text-electric-violet transition-colors duration-300"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={20} />
               </a>
-              <a 
-                href="https://www.instagram.com/uplifttechnologies_/" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/uplifttechnologies_/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/70 hover:text-electric-violet transition-colors duration-300"
-                aria-label="LinkedIn"
+                className="inline-flex items-center justify-center text-white/70 hover:text-electric-violet transition-colors duration-300"
+                aria-label="Instagram"
               >
                 <Instagram size={20} />
               </a>
             </div>
           </div>
-          
+
+          {/* Services */}
           <div>
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Services</h4>
             <ul className="space-y-2 sm:space-y-3">
               {['Front Office', 'Revenue Cycle', 'Administration', 'Clinical Coordination'].map((service) => (
                 <li key={service}>
-                  <Link 
+                  <Link
                     to={`/services/${service.toLowerCase().replace(' ', '-')}`}
                     className="text-white/70 hover:text-electric-violet transition-colors duration-300 flex items-center"
                   >
@@ -51,7 +59,8 @@ const Footer: React.FC = () => {
               ))}
             </ul>
           </div>
-          
+
+          {/* Company */}
           <div>
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Company</h4>
             <ul className="space-y-2 sm:space-y-3">
@@ -63,7 +72,7 @@ const Footer: React.FC = () => {
                 { name: 'Contact', path: '/book' },
               ].map((item) => (
                 <li key={item.name}>
-                  <Link 
+                  <Link
                     to={item.path}
                     className="text-white/70 hover:text-electric-violet transition-colors duration-300 flex items-center"
                   >
@@ -74,13 +83,14 @@ const Footer: React.FC = () => {
               ))}
             </ul>
           </div>
-          
+
+          {/* Contact */}
           <div>
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Contact Us</h4>
             <ul className="space-y-3 sm:space-y-4">
               <li>
-                <a 
-                  href="tel:8556435404" 
+                <a
+                  href="tel:8556435404"
                   className="text-white/70 hover:text-electric-violet transition-colors duration-300 flex items-center"
                 >
                   <Phone size={18} className="mr-3" />
@@ -88,8 +98,8 @@ const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="mailto:business@uplift-technologies.com" 
+                <a
+                  href="mailto:business@uplift-technologies.com"
                   className="text-white/70 hover:text-electric-violet transition-colors duration-300 flex items-center"
                 >
                   <Mail size={18} className="mr-3" />
@@ -113,9 +123,9 @@ const Footer: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="mt-10 sm:mt-12 md:mt-16 pt-4 sm:pt-6 border-t border-neutral-800 text-xs sm:text-sm text-white/50 flex flex-col sm:flex-row justify-between items-center">
-          <p>© {new Date().getFullYear()} Uplift Technologies. All rights reserved.</p>
+          <p>© {currentYear} Uplift Technologies. All rights reserved.</p>
           <div className="mt-3 sm:mt-0 flex space-x-4 sm:space-x-6">
             <Link to="/privacy-policy" className="hover:text-white transition-colors duration-300">
               Privacy Policy
