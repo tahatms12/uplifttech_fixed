@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
     { name: 'Creative Direction', path: '/creative-direction' },
     { name: 'Case Studies', path: '/case-studies' },
     { name: 'Careers', path: '/careers' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Contact', path: '/book' },
   ];
 
   const serviceLinks = [
