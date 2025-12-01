@@ -45,16 +45,16 @@ ServiceCard.displayName = 'ServiceCard';
 const services = [
   {
     icon: <PhoneCall size={32} />,
-    title: "Virtual Reception",
+    title: "Front Office Reception",
     description: "24/7 professional customer service and virtual reception coverage for US & Canadian businesses.",
-    link: "/services/front-desk",
+    link: "/services/front-Office",
     linkText: "Explore Professional Reception Services"
   },
   {
     icon: <BadgeDollarSign size={32} />,
     title: "AR Collections Services",
     description: "Recover outstanding accounts receivable with our compliant collection strategies for healthcare and B2B sectors.",
-    link: "/services/collections",
+    link: "/services/Revenue-cycle",
     linkText: "Learn About Debt Collection Services"
   },
   {
