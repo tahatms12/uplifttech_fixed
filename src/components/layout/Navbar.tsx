@@ -43,16 +43,17 @@ const Navbar: React.FC = () => {
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services', hasDropdown: true },
     { name: 'Creative Direction', path: '/creative-direction' },
-    { name: 'Pricing', path: '/pricing' },
-    //{ name: 'Talent', path: '/candidates' },
-    { name: 'Remote Jobs', path: '/careers' },
+    { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Careers', path: '/careers' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   const serviceLinks = [
-    { name: 'Administration', path: '/services/administration' },
-    { name: 'Clinical Coordination', path: '/services/clinical-coordination' },
-    { name: 'Revenue Cycle', path: '/services/revenue-cycle' },
     { name: 'Front Office', path: '/services/front-office' },
+    { name: 'Clinical Coordination', path: '/services/Clinical-Coordination' },
+    { name: 'Revenue Cycle', path: '/services/Revenue-Cycle' },
+    { name: 'Administration', path: '/services/Administration' },
+    { name: 'Creative Direction', path: '/services/creative-direction' },
   ];
   
   return (
@@ -77,13 +78,11 @@ const Navbar: React.FC = () => {
             
             {/* Logo (Center) */}
             <Link to="/" className="relative z-50 justify-self-center" onClick={closeMenu}>
-              <div className="w-[324px] h-[108px] flex items-center justify-center">
-                <Logo />
-              </div>
+              <Logo />
             </Link>
             
             {/* Desktop Navigation (Right) */}
-            <div className="desktop-nav-links-wrapper hidden lg:flex items-center justify-end space-x-8">
+            <div className="hidden lg:flex items-center justify-end space-x-8">
               {navLinks.map((link) => (
                 <div key={link.name} className="relative group">
                   {link.hasDropdown ? (
@@ -114,7 +113,7 @@ const Navbar: React.FC = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute left-0 mt-2 w-64 bg-rich-black/95 backdrop-blur-md border border-neutral-800 rounded-md shadow-lg overflow-hidden"
+                          className="absolute left-0 mt-2 w-56 bg-rich-black/95 backdrop-blur-md border border-neutral-800 rounded-md shadow-lg overflow-hidden"
                           onMouseEnter={() => setIsServicesOpen(true)}
                           onMouseLeave={() => setIsServicesOpen(false)}
                         >
@@ -173,7 +172,7 @@ const Navbar: React.FC = () => {
               <div className="flex flex-col space-y-6 mt-8">
                 {navLinks.map((link) => (
                   <div key={link.name}>
-                    {link.hasDropdown && !link.name.includes('Creative') ? (
+                    {link.hasDropdown && !link.name.includes("Creative") ? (
                       <>
                         <button 
                           className="flex items-center text-xl font-medium py-2"
