@@ -1,13 +1,6 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    
-
-[[redirects]]
-  from = "/book"
-  to = "/contact"
-  status = 301
-  force = true
 
 [[redirects]]
   from = "http://*"
