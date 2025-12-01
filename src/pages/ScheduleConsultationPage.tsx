@@ -365,7 +365,7 @@ const ContactPage = () => {
               {/* Cal trigger button */}
               <button
                 type="button"
-                data-cal-link="taha-uplift/30min"
+                data-cal-link="uplift-technologies/30min"
                 data-cal-namespace="30min"
                 data-cal-config='{"layout":"month_view"}'
                 className="w-full mt-3 bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 px-6 rounded-md border border-gray-600 flex items-center justify-center"
