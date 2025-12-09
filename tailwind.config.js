@@ -38,7 +38,7 @@ export default {
       },
       fontFamily: {
         'display': ['Orbitron', 'sans-serif'],
-        'body': ['Inter', 'system-ui', 'sans-serif'],
+        'body': ['Poppins', 'system-ui', 'sans-serif'],
         'poppins': ['Poppins', 'sans-serif'],
       },
       backgroundImage: {
