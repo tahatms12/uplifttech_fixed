@@ -38,7 +38,7 @@ export default {
       },
       fontFamily: {
         'display': ['Orbitron', 'sans-serif'],
-        'body': ['Inter', 'system-ui', 'sans-serif'],
+        'body': ['Poppins', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         'poppins': ['Poppins', 'sans-serif'],
       },
       backgroundImage: {

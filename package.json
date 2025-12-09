@@ -16,7 +16,6 @@
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@emailjs/browser": "^4.3.3",
-    "@fontsource/poppins": "^5.2.6",
     "@headlessui/react": "^1.7.17",
     "@supabase/supabase-js": "^2.39.7",
     "framer-motion": "^11.0.3",
