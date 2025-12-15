@@ -21,9 +21,9 @@ export const pods: PodDefinition[] = [
     title: 'Medical Benefits Pod',
     segmentLabel: 'Medical Benefits Pod',
     summary:
-      'Client Success Specialists manage payer outreach, cost estimates, and assistance enrollments so benefit decisions are clear before every appointment.',
+      'Client Success Specialists manage benefit investigations, payer preferences, assistance enrollments, and cost estimates before every appointment.',
     longDescription:
-      'Our Medical Benefits Pod keeps eligibility, payer preferences, and cost estimates up to date through structured benefit investigations. Client Success Specialists work directly in payer portals and by phone to document findings, enroll patients in assistance programs, and keep clients informed ahead of upcoming visits.',
+      'Our Medical Benefits Pod keeps eligibility, payer preferences, and cost estimates current through structured investigations and proactive communication. Specialists document findings, complete assistance enrollments, and align updates with appointment timelines so decisions stay clear for patients and providers.',
     features: [
       'Benefit investigations through portals and payer calls',
       'Payer preference checks for Buy and Bill vs Specialty Pharmacy',
@@ -65,23 +65,26 @@ export const pods: PodDefinition[] = [
       }
     ],
     imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48KsDMQ73cbMY8IewBXDN1uCftWjJZ5Rlhyg0G',
-    roleIds: ['client-success-specialist']
+    roleIds: [
+      'client-success-specialist-medical-benefits',
+      'client-success-specialist-medical-benefits-remote'
+    ]
   },
   {
     slug: 'clinical-coordination',
     title: 'Clinical Coordination Pod',
     segmentLabel: 'Clinical Coordination Pod',
     summary:
-      'Clinical Nurse Coordinators handle medication reviews, patient education calls, and schedule governance with thorough documentation.',
+      'Clinical Nurse Coordinators deliver medication reviews, patient education calls, schedule governance, and tracker-based documentation.',
     longDescription:
-      'Our Clinical Coordination Pod provides clinical coverage that keeps schedules organized and patients informed. Clinical Nurse Coordinators complete medication welcome calls, coordinate follow-ups from report reviews, file adverse event forms, and keep WeInfuse and ShiftAdmin updated so providers work from accurate calendars.',
+      'Our Clinical Coordination Pod provides clinical coverage that keeps schedules organized and patients informed. Coordinators complete medication welcome calls, route follow-ups from reports, file safety forms, and keep WeInfuse and scheduling headers updated so providers work from accurate calendars.',
     features: [
       'Medication welcome calls covering schedules, side effects, and questions',
       'Clinical reviews that follow medication-specific guidelines',
       'Follow-up coordination from reports, MRI requests, and hearing screenings',
       'Adverse event reporting with on-time form completion',
       'Biweekly schedule reviews with escalation paths',
-      'WeInfuse and ShiftAdmin updates for staffing changes',
+      'WeInfuse and shift scheduling platform updates',
       'Clinical documentation maintenance and tracker updates'
     ],
     benefits: [
@@ -95,7 +98,7 @@ export const pods: PodDefinition[] = [
       },
       {
         title: 'Governed Schedules',
-        description: 'Regular reviews and updates to WeInfuse and ShiftAdmin keep provider calendars accurate.'
+        description: 'Regular reviews and updates to clinical tools keep provider calendars accurate.'
       }
     ],
     process: [
@@ -113,27 +116,27 @@ export const pods: PodDefinition[] = [
       },
       {
         title: 'Schedule Governance',
-        description: 'Biweekly reviews and header updates keep WeInfuse and ShiftAdmin aligned to staffing changes.'
+        description: 'Biweekly reviews and header updates keep WeInfuse and scheduling tools aligned to staffing changes.'
       }
     ],
     imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48umk0e7rzSVUAW58LFw0OdkaCEGun9vJTQ37M',
-    roleIds: ['clinical-nurse-coordinator']
+    roleIds: ['clinical-nurse-coordinator', 'virtual-assistant-clinical-nurse-coordinator']
   },
   {
     slug: 'front-office',
     title: 'Intake and Order Entry Pod',
     segmentLabel: 'Intake and Order Entry Pod',
     summary:
-      'Order Entry Specialists keep medication orders, demographics, insurance, and documentation complete inside the EMR.',
+      'Order Entry Specialists and Executive Assistants keep medication orders, documentation, and executive coordination moving without bottlenecks.',
     longDescription:
-      'Our Intake and Order Entry Pod streamlines how orders move into your EMR. Order Entry Specialists capture demographics and insurance, scan and upload documentation, coordinate benefits investigations for new orders, and follow up with referral sources so prior authorization packages stay on track.',
+      'Our Intake and Order Entry Pod streamlines how orders and leadership tasks move into your EMR and workflows. Specialists capture demographics and insurance, scan and upload documentation, coordinate benefits investigations for new orders, and follow up with referral sources. Executive Assistants support leaders with scheduling, communication, and organized handoffs.',
     features: [
       'Medication order intake and accurate EMR entry',
       'Demographic and insurance data capture',
       'Scanning and uploading of required documentation',
       'Benefits investigations attached to each new order',
       'Referral follow-up for missing prior authorization details',
-      'Coordination with intake and finance for co-pay assistance enrollments'
+      'Leadership support with scheduling and coordinated communication'
     ],
     benefits: [
       {
@@ -146,7 +149,7 @@ export const pods: PodDefinition[] = [
       },
       {
         title: 'Coordinated Handoffs',
-        description: 'Collaboration with intake and finance keeps co-pay assistance and escalations aligned.'
+        description: 'Collaboration across intake, finance, and leadership keeps critical updates aligned.'
       }
     ],
     process: [
@@ -163,21 +166,21 @@ export const pods: PodDefinition[] = [
         description: 'Coverage is verified for each order to confirm readiness for next steps.'
       },
       {
-        title: 'Referral Coordination',
-        description: 'Missing prior authorization details are chased with referral sources and shared with finance and intake.'
+        title: 'Executive Support',
+        description: 'Scheduling, communications, and tracker upkeep are coordinated for leadership visibility.'
       }
     ],
     imageSrc: 'https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrgCOWBl9pUNhrWouxqs4lZ1DIam2i9Jv0zHyt',
-    roleIds: ['order-entry-specialist']
+    roleIds: ['order-entry-specialist', 'executive-assistant']
   },
   {
     slug: 'revenue-cycle',
     title: 'Claims and AR Pod',
     segmentLabel: 'Claims and AR Pod',
     summary:
-      'Patient Claims Specialists track claims, resolve denials, and manage payments with clear documentation for leadership.',
+      'Patient Claims Specialists track claims, resolve denials, manage payments, and support patient billing with documented follow-up.',
     longDescription:
-      'The Claims and AR Pod focuses on clean claims follow-up and patient-friendly billing. Patient Claims Specialists prioritize aging reports, call payers for status updates, post and reconcile payments, and manage statements, refunds, and superbills while keeping documentation current.',
+      'The Claims and AR Pod focuses on clean claims follow-up and patient-friendly billing. Specialists prioritize aging reports, call payers for status updates, post and reconcile payments, and manage statements, refunds, and superbills while keeping documentation current.',
     features: [
       'Claims tracking with payer follow-up and documentation',
       'Denial and discrepancy resolution tied to aging reports',

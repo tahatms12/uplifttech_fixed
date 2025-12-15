@@ -14,26 +14,53 @@ export interface RoleDefinition {
 
 export const roles: RoleDefinition[] = [
   {
-    id: 'client-success-specialist',
+    id: 'client-success-specialist-medical-benefits',
     name: 'Client Success Specialist (Medical Benefits)',
     podName: 'Medical Benefits Pod',
     podSlug: 'administration',
     summary:
-      'Handles benefit investigations, payer preferences, cost estimates, and client updates tied to appointments.',
+      'Handles payer outreach, preference checks, financial assistance, and cost estimates to keep benefits decisions aligned with appointments.',
     responsibilities: [
-      'Benefit investigations via payer portals and phone outreach',
-      'Determine payer preference for Buy and Bill vs Specialty Pharmacy',
-      'Maintain accurate insurance details in patient profiles',
-      'Verify financial assistance eligibility and complete enrollments',
-      'Produce cost estimates and document investigations',
-      'Monitor daily lists to keep estimates on schedule',
-      'Communicate updates to clients, especially around upcoming appointments'
+      'Benefit investigations',
+      'Payer preference determination (Buy and Bill vs Specialty Pharmacy)',
+      'Patient profile insurance maintenance',
+      'Financial assistance enrollments',
+      'Cost estimates',
+      'Daily list monitoring',
+      'Client communications'
     ],
     qualifications: [
-      'Experience in medical billing, coding, or benefits verification',
-      'Knowledge of insurance benefits, financial assistance, and prior authorizations',
-      'Strong communication, organization, and multitasking skills',
-      'Ability to work efficiently in fast-paced environments with reliable connectivity'
+      'Experience in medical benefits investigation and payer outreach',
+      'Comfort communicating findings to clients and clinical teams',
+      'Detail orientation for documenting coverage decisions'
+    ],
+    pricingTiers: [
+      { level: 'Intermediate', range: '-' },
+      { level: 'Professional', range: '$13/hour' }
+    ],
+    type: 'Virtual Assistant | Full-time Contract',
+    schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',
+    location: 'Remote'
+  },
+  {
+    id: 'client-success-specialist-medical-benefits-remote',
+    name: 'Client Success Specialist – Medical Benefits (Remote)',
+    podName: 'Medical Benefits Pod',
+    podSlug: 'administration',
+    summary:
+      'Completes benefit investigations, insurance maintenance, assistance enrollments, and cost estimates with updates tied to appointments.',
+    responsibilities: [
+      'Benefit investigations',
+      'Patient profile insurance maintenance',
+      'Financial assistance enrollments',
+      'Cost estimates',
+      'Daily list monitoring',
+      'Client updates tied to appointments'
+    ],
+    qualifications: [
+      'Experience coordinating benefits and patient communications remotely',
+      'Ability to maintain insurance records with timely updates',
+      'Proactive communication tied to visit schedules'
     ],
     pricingTiers: [
       { level: 'Intermediate', range: '-' },
@@ -49,21 +76,51 @@ export const roles: RoleDefinition[] = [
     podName: 'Clinical Coordination Pod',
     podSlug: 'clinical-coordination',
     summary:
-      'Provides clinical reviews, patient education calls, schedule governance, and documentation support across sites.',
+      'Provides clinical reviews, medication welcome calls, report-driven follow-ups, safety reporting, and scheduling governance with documentation.',
     responsibilities: [
-      'Perform clinical reviews using medication guidelines',
-      'Conduct medication welcome calls with education and schedule guidance',
-      'Coordinate follow-ups from report reviews such as MRI requests and hearing screenings',
-      'Complete adverse event reporting and required forms',
-      'Run schedule reviews and escalate based on medication complexity',
-      'Update WeInfuse and ShiftAdmin for staffing changes',
-      'Maintain documentation and trackers, including Clinical Quality Measures support'
+      'Clinical reviews using medication guidelines',
+      'Medication welcome calls',
+      'Report review and follow-up coordination (MRI requests, hearing screenings, results routing)',
+      'Adverse event reporting',
+      'Schedule reviews and escalation',
+      'WeInfuse and shift scheduling platform updates',
+      'Clinical Quality Measures reporting support',
+      'Documentation maintenance and task tracking'
     ],
     qualifications: [
-      'RN license or equivalent clinical certification with 3–5 years of experience',
-      'Background in infusion therapy or specialty medication coordination',
-      'Proficiency with EHRs, documentation, and patient education',
-      'Organized communicator comfortable managing multiple clinical priorities'
+      'Clinical background with experience coordinating patient care',
+      'Comfort handling medication-specific education and safety reporting',
+      'Organized documentation habits across clinical tools'
+    ],
+    pricingTiers: [
+      { level: 'Intermediate', range: '-' },
+      { level: 'Professional', range: '$13/hour' }
+    ],
+    type: 'Virtual Assistant | Full-time Contract',
+    schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',
+    location: 'Remote'
+  },
+  {
+    id: 'virtual-assistant-clinical-nurse-coordinator',
+    name: 'Virtual Assistant – Clinical Nurse Coordinator',
+    podName: 'Clinical Coordination Pod',
+    podSlug: 'clinical-coordination',
+    summary:
+      'Supports clinical coordination with reviews, welcome calls, follow-ups, safety documentation, schedule governance, and tracker management.',
+    responsibilities: [
+      'Clinical reviews',
+      'Medication welcome calls',
+      'Report-driven follow-ups',
+      'Adverse event forms',
+      'Schedule governance',
+      'WeInfuse and shift scheduling platform updates',
+      'Quality measure support',
+      'Documentation maintenance and tracker-based workflow management'
+    ],
+    qualifications: [
+      'Experience assisting clinical teams with documentation and follow-ups',
+      'Ability to manage schedules and safety tasks in clinical settings',
+      'Strong written communication for tracker-based workflows'
     ],
     pricingTiers: [
       { level: 'Intermediate', range: '-' },
@@ -81,18 +138,17 @@ export const roles: RoleDefinition[] = [
     summary:
       'Captures medication orders, demographics, insurance details, and documentation to keep EMR records accurate and ready.',
     responsibilities: [
-      'Intake and enter medication orders within the EMR',
-      'Capture demographics and insurance details accurately',
-      'Scan and upload required documentation to patient records',
-      'Run benefits investigations for each new order',
-      'Follow up with referral sources for prior authorization documentation',
-      'Coordinate with intake and finance, including co-pay assistance enrollments'
+      'Medication order intake and entry in EMR',
+      'Demographic and insurance entry',
+      'Documentation scanning and uploading',
+      'Benefits investigations per new order',
+      'Referral source follow-up for missing prior auth documentation',
+      'Coordination with intake and finance including co-pay assistance enrollments'
     ],
     qualifications: [
       '1–2 years working in EMR systems for order entry',
       'Pharmacy-oriented background with strong attention to detail',
-      'Customer service mindset for internal and external coordination',
-      'Ability to manage documentation, scanning, and insurance workflows'
+      'Customer service mindset for internal and external coordination'
     ],
     pricingTiers: [
       { level: 'Intermediate', range: '-' },
@@ -108,25 +164,43 @@ export const roles: RoleDefinition[] = [
     podName: 'Claims and AR Pod',
     podSlug: 'revenue-cycle',
     summary:
-      'Tracks claims, resolves denials, posts payments, and manages patient billing with clear documentation.',
+      'Tracks claims, resolves denials, posts payments, and manages patient billing with clear documentation and escalation.',
     responsibilities: [
-      'Track insurance claims and follow up with payers',
-      'Resolve denials, discrepancies, and payment issues',
-      'Prioritize aging reports and collection activities',
-      'Post payments and reconcile to expected reimbursement',
-      'Support patient billing questions, EOBs, refunds, and superbills',
-      'Coordinate with billing tools to apply balances to estimates',
-      'Document collection activities while staying current on payer updates'
+      'Claim tracking and payer follow-up',
+      'Denials and discrepancy resolution',
+      'Aging report management',
+      'Payment posting and reconciliation',
+      'Patient billing and EOB support',
+      'Weekly balance accuracy in R2',
+      'Refunds and superbills',
+      'Lucent coordination for estimate applications',
+      'Statement management and leadership escalation for high-balance cases',
+      'Documentation of collection activities and compliance with payer and coding updates'
     ],
     qualifications: [
-      '1–2 years in medical billing or claims processing with knowledge of ICD-10',
-      'Experience posting payments and reconciling against expected reimbursement',
-      'Proficiency with billing software and strong attention to detail',
-      'Clear communicator who can manage patient financial questions professionally'
+      'Experience in medical billing, claims follow-up, and reconciliation',
+      'Ability to manage aging reports with documented payer outreach',
+      'Clear communication for patient billing support and escalations'
     ],
     pricingTiers: [
       { level: 'Intermediate', range: '-' },
       { level: 'Professional', range: '$15/hour' }
+    ],
+    type: 'Virtual Assistant | Full-time Contract',
+    schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',
+    location: 'Remote'
+  },
+  {
+    id: 'executive-assistant',
+    name: 'Executive Assistant',
+    podName: 'Intake and Order Entry Pod',
+    podSlug: 'front-office',
+    summary: 'Supports leaders with coordination and communication for remote operations.',
+    responsibilities: ['Details shared during screening'],
+    qualifications: ['Details shared during screening'],
+    pricingTiers: [
+      { level: 'Intermediate', range: '-' },
+      { level: 'Professional', range: '$13/hour' }
     ],
     type: 'Virtual Assistant | Full-time Contract',
     schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',
