@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { fadeUpVariants } from "../../hooks/useAnimationConfig";
+import { useFadeUpVariants } from "../../hooks/useAnimationConfig";
 
 interface AnimateOnScrollProps {
   children: React.ReactNode;
@@ -16,6 +16,7 @@ const AnimateOnScroll: React.FC<AnimateOnScrollProps> = ({
 }) => {
   const [ref, isVisible] = useIntersectionObserver();
   const [hasBeenVisible, setHasBeenVisible] = useState(false);
+  const variants = useFadeUpVariants(delay);
 
   // Prevent re-hiding once the element has been visible at least once
   useEffect(() => {
@@ -30,7 +31,7 @@ const AnimateOnScroll: React.FC<AnimateOnScrollProps> = ({
       className={className}
       initial="hidden"
       animate={hasBeenVisible ? "visible" : "hidden"}
-      variants={fadeUpVariants(delay)}
+      variants={variants}
     >
       {children}
     </motion.div>

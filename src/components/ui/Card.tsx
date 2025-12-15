@@ -1,18 +1,19 @@
 import React, { useRef, memo } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   children: React.ReactNode;
   hoverEffect?: boolean;
   delay?: number;
 }
 
-const Card: React.FC<CardProps> = memo(({ 
-  className = '', 
-  children, 
+const Card: React.FC<CardProps> = memo(({
+  className = '',
+  children,
   hoverEffect = true,
-  delay = 0
+  delay = 0,
+  ...rest
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
@@ -58,6 +59,7 @@ const Card: React.FC<CardProps> = memo(({
         ...cardVariants,
         ...hoverVariants
       }}
+      {...rest}
     >
       {children}
     </motion.div>

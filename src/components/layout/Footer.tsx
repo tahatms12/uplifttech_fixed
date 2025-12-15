@@ -69,9 +69,8 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Company</h4>
             <ul className="space-y-2 sm:space-y-3">
-              {[
+              {[ 
                 { name: 'About Us', path: '/about' },
-                { name: 'Creative Direction', path: '/creative-direction' },
                 { name: 'Case Studies', path: '/case-studies' },
                 { name: 'Careers', path: '/careers' },
                 { name: 'Contact', path: '/book' },

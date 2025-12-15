@@ -24,15 +24,15 @@ export const useAnimationConfig = (isExit = false): AnimationConfig => {
   return isExit ? { ...baseConfig, ...baseConfig.exit } : baseConfig;
 };
 
-export const fadeUpVariants = (delay = 0) => {
+export const useFadeUpVariants = (delay = 0) => {
   const shouldReduceMotion = useReducedMotion();
-  
+
   return {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: shouldReduceMotion ? 0 : 20
     },
-    visible: { 
+    visible: {
       opacity: 1,
       y: 0,
       transition: {

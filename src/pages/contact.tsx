@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Clock, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, CheckCircle2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Section from '../components/ui/Section';
 import Card from '../components/ui/Card';

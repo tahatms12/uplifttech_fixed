@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import SitemapGenerator from './components/seo/SitemapGenerator';
@@ -17,6 +17,7 @@ const CandidatesPage = lazy(() => import('./pages/CandidatesPage')); // Talent p
 const CandidateDetailPage = lazy(() => import('./pages/CandidateDetailPage')); // Individual candidate
 const CareersPage = lazy(() => import('./pages/CareersPage')); // Remote Jobs
 const CandidateAcknowledgementPage = lazy(() => import('./pages/CandidateAcknowledgementForm')); // Candidate Declaration
+const RoleDetailPage = lazy(() => import('./pages/RoleDetailPage'));
 
 const CaseStudies = lazy(() => import('./pages/CaseStudiesPage'));
 
@@ -25,7 +26,6 @@ const PaymentPage = lazy(() => import('./pages/PaymentPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const ApplyPage = lazy(() => import('./pages/ApplyPage'));
 
-const CreativeDirectionPage = lazy(() => import('./pages/CreativeDirectionPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultationPage'));
 
@@ -73,6 +73,11 @@ function App() {
               <CareersPage />
             </Suspense>
           } />
+          <Route path="careers/:slug" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <RoleDetailPage />
+            </Suspense>
+          } />
           <Route path="apply" element={
             <Suspense fallback={<LoadingSpinner />}>
               <ApplyPage />
@@ -83,11 +88,8 @@ function App() {
               <CandidateAcknowledgementPage />
             </Suspense>
           } />
-          <Route path="creative-direction" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <CreativeDirectionPage />
-            </Suspense>
-          } />
+          <Route path="creative-direction" element={<Navigate to="/services" replace />} />
+          <Route path="creative-operations" element={<Navigate to="/services" replace />} />
           <Route path="case-studies" element={
             <Suspense fallback={<LoadingSpinner />}>
               <CaseStudies />

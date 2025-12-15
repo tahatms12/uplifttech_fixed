@@ -82,7 +82,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     <td className="border border-neutral-700 px-4 py-2">Ticket tracking, troubleshooting</td>
                   </tr>
                   <tr>
-                    <td className="border border-neutral-700 px-4 py-2">Marketing communications</td>
+                    <td className="border border-neutral-700 px-4 py-2">Promotional communications</td>
                     <td className="border border-neutral-700 px-4 py-2">1(a) consent</td>
                     <td className="border border-neutral-700 px-4 py-2">Opt-in newsletters, product updates</td>
                   </tr>
@@ -109,7 +109,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <ul className="list-disc pl-6 space-y-2">
               <li>Authentication logs: 12 months.</li>
               <li>Financial records: 5 years from fiscal year-end.</li>
-              <li>Marketing lists: until consent withdrawn.</li>
+              <li>Promotional lists: until consent withdrawn.</li>
               <li>Support data: 3 years after resolution.</li>
             </ul>
             <p>Data are deleted or irreversibly anonymised on expiry.</p>

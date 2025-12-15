@@ -98,5 +98,5 @@ export const useNeonEffect = ({
       texture.dispose();
       renderer.dispose();
     };
-  }, [enabled, colors]);
+  }, [canvasRef, imageRef, enabled, colors]);
 };

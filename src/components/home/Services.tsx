@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Users, TrendingUp, BadgeDollarSign, PhoneCall, ArrowRight } from 'lucide-react';
 import Section from '../ui/Section';
 import Card from '../ui/Card';
@@ -76,7 +75,7 @@ const services = [
 const Services: React.FC = memo(() => {
   return (
     <Section
-      title="Clinical and Independent Practice Solutions"
+      title="Independent Practice Solutions"
       subtitle="Comprehensive healthcare support services tailored for HIPAA and PIPEDA compliant markets, combining expert talent with cutting-edge technology."
       centered
     >

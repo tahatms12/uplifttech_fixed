@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Clock, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
 // Mock Section and Card components for demonstration
@@ -39,45 +39,52 @@ const ContactPage = () => {
 
   // Cal element click embed code adapted to React
   useEffect(() => {
-    (function (C, A, L) {
-      let p = function (a, ar) {
-        a.q.push(ar);
+    type CalNamespace = (...args: unknown[]) => void;
+    type CalEmbed = CalNamespace & { q?: unknown[][]; ns?: Record<string, CalNamespace>; loaded?: boolean };
+    type CalClient = { Cal?: CalEmbed; document: Document };
+
+    const initCal = (client: CalClient, scriptSrc: string, initLabel: string) => {
+      const enqueue = (api: CalEmbed, args: unknown[]) => {
+        api.q = api.q || [];
+        api.q.push(args);
       };
-      let d = C.document;
-      C.Cal =
-        C.Cal ||
-        function () {
-          let cal = C.Cal;
-          let ar = arguments;
+      const doc = client.document;
+      const cal: CalEmbed =
+        client.Cal ||
+        (function (...args: unknown[]) {
           if (!cal.loaded) {
             cal.ns = {};
             cal.q = cal.q || [];
-            d.head.appendChild(d.createElement('script')).src = A;
+            doc.head.appendChild(doc.createElement('script')).src = scriptSrc;
             cal.loaded = true;
           }
-          if (ar[0] === L) {
-            const api = function () {
-              p(api, arguments);
-            };
-            const namespace = ar[1];
+          if (args[0] === initLabel) {
+            const namespace = args[1];
+            const api = ((...rest: unknown[]) => enqueue(api, rest)) as CalEmbed;
             api.q = api.q || [];
             if (typeof namespace === 'string') {
+              cal.ns = cal.ns || {};
               cal.ns[namespace] = cal.ns[namespace] || api;
-              p(cal.ns[namespace], ar);
-              p(cal, ['initNamespace', namespace]);
+              enqueue(cal.ns[namespace], args);
+              enqueue(cal, ['initNamespace', namespace]);
             } else {
-              p(cal, ar);
+              enqueue(cal, args);
             }
             return;
           }
-          p(cal, ar);
-        };
-    })(window, 'https://app.cal.com/embed/embed.js', 'init');
+          enqueue(cal, args);
+        } as CalEmbed);
 
-    // Queue init and UI config calls
-    if (window.Cal) {
-      window.Cal('init', '30min', { origin: 'https://app.cal.com' });
-      window.Cal.ns['30min']('ui', {
+      client.Cal = cal;
+    };
+
+    const calWindow = window as unknown as CalClient;
+
+    initCal(calWindow, 'https://app.cal.com/embed/embed.js', 'init');
+
+    if (calWindow.Cal) {
+      calWindow.Cal('init', '30min', { origin: 'https://app.cal.com' });
+      calWindow.Cal.ns?.['30min']?.('ui', {
         hideEventTypeDetails: false,
         layout: 'month_view',
       });
@@ -94,7 +101,7 @@ const ContactPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('idle'); // 'idle' | 'success' | 'error'
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -152,7 +159,7 @@ const ContactPage = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

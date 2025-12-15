@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import Section from '../components/ui/Section';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -29,7 +29,7 @@ const CaseStudiesPage: React.FC = () => {
     document.title = 'Case Studies | UPLIFT Technologies';
   }, []);
   
-   const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [activeFilter, setActiveFilter] = useState<string>('all');
   
   const caseStudies: CaseStudy[] = [
     {
@@ -142,20 +142,20 @@ const CaseStudiesPage: React.FC = () => {
     },
     {
       id: 7,
-      title: "Brand Evolution & Creative Strategy",
-      category: "Creative Direction",
-      description: "Complete brand transformation and creative strategy development for a technology startup.",
-      challenge: "A growing tech startup needed to evolve their brand identity and creative direction to better reflect their market position and attract enterprise clients.",
-      solution: "We developed a comprehensive brand strategy, including new visual identity, brand voice, and creative guidelines. This was followed by a series of targeted campaigns that showcased their new positioning.",
+      title: "Brand Evolution & Experience Strategy",
+      category: "Operations",
+      description: "Complete brand transformation and experience strategy development for a technology startup.",
+      challenge: "A growing tech startup needed to evolve their brand identity and narrative to better reflect their market position and attract enterprise clients.",
+      solution: "We developed a comprehensive brand system, including new visual identity, refreshed voice, and experience guidelines. Targeted outreach programs showcased the new positioning to enterprise buyers.",
       results: [
         "48% increase in enterprise lead generation",
         "Brand recognition improved by 65%",
-        "Marketing campaign engagement up 83%",
+        "Engagement with refreshed assets up 83%",
         "Successfully entered 2 new market segments"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr29eCfrOIXq0JBeTNSsrEFDjm8bYxAHK13tzV",
       testimonial: {
-        quote: "The creative direction and brand strategy provided by Uplift Technologies transformed how our market perceives us. We've seen immediate impact in both lead quality and customer engagement.",
+        quote: "The updated brand system and clear positioning from Uplift Technologies transformed how our market perceives us. We've seen immediate impact in both lead quality and customer engagement.",
         author: "Sarah Chen",
         position: "CMO",
         company: "TechVision Solutions"
@@ -163,11 +163,11 @@ const CaseStudiesPage: React.FC = () => {
     },
     {
       id: 8,
-      title: "Integrated Marketing Campaign",
-      category: "Marketing",
-      description: "Multi channel marketing campaign combining traditional and digital strategies for maximum impact.",
-      challenge: "A dental lab struggled to stand out in a crowded market and needed a comprehensive marketing approach to increase market share.",
-      solution: "We created an integrated marketing campaign that combined content marketing, social media, email automation, and targeted advertising, all unified by strong creative direction.",
+      title: "Integrated Outreach Program",
+      category: "Operations",
+      description: "Multi-channel outreach combining content, social, and targeted communications for maximum impact.",
+      challenge: "A dental lab struggled to stand out in a crowded market and needed a comprehensive outreach approach to increase market share.",
+      solution: "We created an integrated outreach program that combined thought leadership content, social presence, lifecycle emails, and targeted advertising, all unified by a single narrative and design system.",
       results: [
         "156% increase in qualified leads",
         "89% improvement in social engagement",
@@ -176,9 +176,9 @@ const CaseStudiesPage: React.FC = () => {
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrrIXNSKFdfMxj3N4Ltv1KoiqPgbEIWwUAFmSh",
       testimonial: {
-        quote: "The marketing and creative team at Uplift Technologies delivered beyond our expectations. Their integrated approach not only increased our leads but also established us as a market leader in our space.",
+        quote: "The integrated outreach team at Uplift Technologies delivered beyond our expectations. Their cohesive approach increased our leads and positioned us as a leader in our space.",
         author: "Michael Roberts",
-        position: "VP Marketing",
+        position: "VP Growth",
         company: "Confidential Dental Labs"
       }
     }
@@ -221,7 +221,7 @@ const CaseStudiesPage: React.FC = () => {
     <>
       <MetaTags 
         title="Case Studies - Client Success Stories"
-        description="Discover how UPLIFT Technologies transforms businesses through expert outsourcing solutions. Real results, real impact across sales, marketing, collections and more."
+        description="Discover how UPLIFT Technologies transforms businesses through expert outsourcing solutions. Real results across sales, collections, and more."
         image="https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48gUJycDW4KQobNdljuvhf3x8ZICL0FDiO2aUY"
         type="article"
       />

@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
     <AnimatePresenceGroup className="overflow-x-hidden">
       <Helmet>
         <title>UPLIFT Technologies | People-Powered Outsourcing Partner</title>
-        <meta name="description" content="Transform your operations with UPLIFT Technologies. Expert outsourcing solutions across sales, marketing, collections & more. Available 24/7 in US & Canada." />
+        <meta name="description" content="Transform your operations with UPLIFT Technologies. Expert outsourcing solutions across sales, collections, and more. Available 24/7 in US & Canada." />
       </Helmet>
 
       {/* Hero section loads immediately */}

@@ -6,7 +6,8 @@ import Button from '../components/ui/Button';
 import CallToAction from '../components/home/CallToAction';
 import MetaTags from '../components/seo/MetaTags';
 import StructuredData from '../components/seo/StructuredData';
-import { podBySlug, rolesById } from '../data/pods';
+import { podBySlug } from '../data/pods';
+import { rolesById } from '../data/roles';
 
 const iconMap: Record<string, JSX.Element> = {
   administration: <TrendingUp size={32} />,
@@ -101,9 +102,9 @@ const ServiceDetailPage: React.FC = () => {
             <h3 className="text-2xl font-semibold mb-4">Roles in this pod</h3>
             {rolesInPod.map((role) => (
               <div key={role.id} className="mb-6 last:mb-0">
-                <h4 className="text-lg font-semibold mb-2">{role.name}</h4>
+                <h4 className="text-lg font-semibold mb-2">{role.title}</h4>
                 <ul className="space-y-2 text-white/80 list-disc list-inside">
-                  {role.responsibilities.map((item) => (
+                  {role.sections.responsibilities.flatMap((group) => group.items).map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
