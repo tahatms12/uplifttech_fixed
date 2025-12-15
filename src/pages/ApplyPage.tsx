@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Section from '../components/ui/Section';
+import MetaTags from '../components/seo/MetaTags';
 
 
 const ApplyPage: React.FC = () => {
   const [iframeHeight, setIframeHeight] = useState('2820px');
-  
+
   useEffect(() => {
-    document.title = 'Apply | UPLIFT Technologies';
-    
     // Handle iframe resizing
     const handleResize = () => {
       if (window.innerWidth <= 768) {
@@ -28,6 +27,7 @@ const ApplyPage: React.FC = () => {
 
   return (
     <>
+      <MetaTags title="Apply to Uplift" description="Submit your application to join Uplift Technologies." />
       <div className="pt-32 pb-20 gradient-bg relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-electric-violet/20 rounded-full filter blur-[100px] animate-glow"></div>
         

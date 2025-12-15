@@ -72,6 +72,7 @@ const Footer: React.FC = () => {
               {[ 
                 { name: 'About Us', path: '/about' },
                 { name: 'Case Studies', path: '/case-studies' },
+                { name: 'Compliance & Security', path: '/compliance-security' },
                 { name: 'Careers', path: '/careers' },
                 { name: 'Contact', path: '/book' },
               ].map((item) => (
@@ -131,7 +132,7 @@ const Footer: React.FC = () => {
         <div className="mt-10 sm:mt-12 md:mt-16 pt-4 sm:pt-6 border-t border-neutral-800 text-xs sm:text-sm text-white/50 flex flex-col sm:flex-row justify-between items-center">
           <p>© {currentYear} Uplift Technologies. All rights reserved.</p>
           <div className="mt-3 sm:mt-0 flex space-x-4 sm:space-x-6">
-            <Link to="/privacy-policy" className="hover:text-white transition-colors duration-300">
+            <Link to="/privacy" className="hover:text-white transition-colors duration-300">
               Privacy Policy
             </Link>
             <Link to="/terms-of-service" className="hover:text-white transition-colors duration-300">

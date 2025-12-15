@@ -54,9 +54,8 @@ const ServiceDetailPage: React.FC = () => {
   return (
     <>
       <MetaTags
-        title={`${pod.title} | UPLIFT Technologies`}
+        title={pod.title}
         description={pod.summary}
-        url={`https://uplift-technologies.com/services/${pod.slug}`}
       />
       <StructuredData data={structuredData} />
 

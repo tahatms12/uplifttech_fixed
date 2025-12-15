@@ -9,6 +9,14 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const location = useLocation();
+
+  const handleServicesBlur = (event: React.FocusEvent<HTMLElement>) => {
+    const nextFocus = event.relatedTarget as HTMLElement | null;
+    if (nextFocus && nextFocus.closest('.services-menu')) {
+      return;
+    }
+    setIsServicesOpen(false);
+  };
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -65,10 +73,12 @@ const Navbar: React.FC = () => {
           <nav className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-8">
             {/* Mobile Menu Button (Left) */}
             <div className="lg:hidden">
-              <button 
+              <button
                 className="relative z-50 p-2 rounded-full bg-rich-black/80 backdrop-blur-md border border-neutral-700"
                 onClick={toggleMenu}
                 aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-nav"
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -86,10 +96,14 @@ const Navbar: React.FC = () => {
               {navLinks.map((link) => (
                 <div key={link.name} className="relative group">
                   {link.hasDropdown ? (
-                    <button 
+                    <button
                       className="nav-link flex items-center"
                       onMouseEnter={() => setIsServicesOpen(true)}
                       onMouseLeave={() => setIsServicesOpen(false)}
+                      onFocus={() => setIsServicesOpen(true)}
+                      onBlur={handleServicesBlur}
+                      aria-haspopup="true"
+                      aria-expanded={isServicesOpen}
                     >
                       {link.name}
                       <ChevronDown size={16} className="ml-1" />
@@ -113,9 +127,10 @@ const Navbar: React.FC = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute left-0 mt-2 w-64 bg-rich-black/95 backdrop-blur-md border border-neutral-800 rounded-md shadow-lg overflow-hidden"
+                          className="services-menu absolute left-0 mt-2 w-64 bg-rich-black/95 backdrop-blur-md border border-neutral-800 rounded-md shadow-lg overflow-hidden"
                           onMouseEnter={() => setIsServicesOpen(true)}
                           onMouseLeave={() => setIsServicesOpen(false)}
+                          onBlur={handleServicesBlur}
                         >
                           <div className="py-2">
                             {serviceLinks.map((service) => (
@@ -156,11 +171,12 @@ const Navbar: React.FC = () => {
               className="fixed inset-0 bg-rich-black/95 backdrop-blur-md z-40"
               onClick={closeMenu}
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.3 }}
+              id="mobile-nav"
               className="fixed inset-0 bg-rich-black/98 backdrop-blur-md lg:hidden flex flex-col pt-24 px-6 z-40"
               style={{
                 backgroundImage: `url('https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48LYcCDZiUMZzX7lfxvW3hEk5JKuRtbm1dNVHP')`,

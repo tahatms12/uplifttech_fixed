@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Filter, User } from 'lucide-react';
-import { Helmet } from 'react-helmet';
 import CandidateCard from '../components/candidates/CandidateCard';
 import PageHero from '../components/shared/PageHero';
 import SectionBlock from '../components/shared/SectionBlock';
@@ -10,6 +9,7 @@ import CTAButton from '../components/shared/CTAButton';
 import MotionSection from '../components/shared/MotionSection';
 import Card from '../components/ui/Card';
 import { candidates, type Candidate } from '../data/candidates';
+import MetaTags from '../components/seo/MetaTags';
 
 interface GridState {
   q: string;
@@ -179,13 +179,10 @@ const CandidatesPage: React.FC = () => {
 
   return (
     <main className="bg-rich-black text-white">
-      <Helmet>
-        <title>Available Healthcare Outsourcing Candidates | UPLIFT Technologies</title>
-        <meta
-          name="description"
-          content="Browse available candidates, refine by skills, and request interviews for healthcare outsourcing roles."
-        />
-      </Helmet>
+      <MetaTags
+        title="Available healthcare candidates"
+        description="Browse available candidates, refine by skills, and request interviews for clinical support and revenue cycle roles."
+      />
       <PageHero
         title="Available Candidates"
         subtitle="Search and refine to find a candidate who fits your workflows. Use filters to focus by skill, seniority, and timezone."

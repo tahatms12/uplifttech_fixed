@@ -5,6 +5,7 @@ import { BadgeDollarSign, PhoneCall, Users, TrendingUp, ArrowRight } from 'lucid
 import Section from '../components/ui/Section';
 import { pods } from '../data/pods';
 import { roles, rolesById } from '../data/roles';
+import MetaTags from '../components/seo/MetaTags';
 
 const iconMap: Record<string, JSX.Element> = {
   administration: <TrendingUp size={32} />,
@@ -16,6 +17,10 @@ const iconMap: Record<string, JSX.Element> = {
 const ServicesPage: React.FC = () => {
   return (
     <div className="bg-rich-black text-white min-h-screen pt-32 pb-20">
+      <MetaTags
+        title="Healthcare service pods"
+        description="Explore Uplift Technologies pods for medical benefits support, clinical coordination, intake, and revenue cycle." 
+      />
       <div className="container-custom px-4">
         <div className="max-w-4xl mb-12">
           <h1 className="text-4xl sm:text-5xl font-semibold mb-4">Services Pods Built for Healthcare</h1>

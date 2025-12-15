@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Briefcase, MapPin, Clock, ChevronsUpDown, Check, ArrowRight } from 'lucide-react';
 import Button from '../ui/Button';
 
@@ -65,61 +65,58 @@ const JobPosting: React.FC<JobPostingProps> = ({ job }) => {
         </div>
       </button>
       
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            id={`job-details-${job.id}`}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="px-6 pb-6"
-          >
-            <div className="pt-6 border-t border-neutral-800">
-              <p className="mb-6">{job.description}</p>
-              
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-3">Responsibilities:</h3>
-                <ul 
-                  className="space-y-2"
-                  data-testid="responsibilities-list"
-                >
-                  {job.responsibilities.map((item, index) => (
-                    <li key={index} className="flex items-start">
-                      <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-                      <span className="text-white/80">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              
-              <div className="mb-8">
-                <h3 className="text-lg font-medium mb-3">Requirements:</h3>
-                <ul 
-                  className="space-y-2"
-                  data-testid="requirements-list"
-                >
-                  {job.requirements.map((item, index) => (
-                    <li key={index} className="flex items-start">
-                      <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
-                      <span className="text-white/80">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              
-              <Button 
-                to="/apply" 
-                className="group"
-                aria-label="Apply now for this position"
+      {isExpanded && (
+        <motion.div
+          id={`job-details-${job.id}`}
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="px-6 pb-6"
+        >
+          <div className="pt-6 border-t border-neutral-800">
+            <p className="mb-6">{job.description}</p>
+
+            <div className="mb-6">
+              <h3 className="text-lg font-medium mb-3">Responsibilities:</h3>
+              <ul
+                className="space-y-2"
+                data-testid="responsibilities-list"
               >
-                Apply Now
-                <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+                {job.responsibilities.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
+                    <span className="text-white/80">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            <div className="mb-8">
+              <h3 className="text-lg font-medium mb-3">Requirements:</h3>
+              <ul
+                className="space-y-2"
+                data-testid="requirements-list"
+              >
+                {job.requirements.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <Check size={18} className="text-electric-violet mt-1 mr-2 flex-shrink-0" />
+                    <span className="text-white/80">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <Button
+              to="/apply"
+              className="group"
+              aria-label="Apply now for this position"
+            >
+              Apply Now
+              <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 };

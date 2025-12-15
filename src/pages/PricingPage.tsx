@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { Disclosure } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, ShoppingCart, X, Trash2 } from 'lucide-react';
@@ -7,6 +6,7 @@ import Button from '../components/ui/Button';
 import ClientLogos from '../components/trust/ClientLogos';
 import TrustBadges from '../components/trust/TrustBadges';
 import { roles } from '../data/roles';
+import MetaTags from '../components/seo/MetaTags';
 
 interface CartItem {
   id: string;
@@ -119,13 +119,10 @@ const PricingPage: React.FC = () => {
 
   return (
     <main className="bg-rich-black pb-20 text-white">
-      <Helmet>
-        <title>Transparent Outsourcing Pricing | UPLIFT Technologies</title>
-        <meta
-          name="description"
-          content="Clear hourly pricing for clinical support roles across medical benefits, clinical coordination, order entry, and claims. No setup fees with flexible coverage aligned to your workflows."
-        />
-      </Helmet>
+      <MetaTags
+        title="Pricing"
+        description="Clear pricing for clinical support pods across coverage verification, coordination, intake, and revenue cycle roles."
+      />
 
       <section className="bg-[linear-gradient(160deg,_rgba(155,29,255,0.35),_transparent)] pt-32 pb-20">
         <div className="container-custom grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">

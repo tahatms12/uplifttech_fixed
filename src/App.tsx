@@ -26,7 +26,9 @@ const PaymentPage = lazy(() => import('./pages/PaymentPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const ApplyPage = lazy(() => import('./pages/ApplyPage'));
 
-const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPage'));
+const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
+const ComplianceSecurityPage = lazy(() => import('./pages/ComplianceSecurityPage'));
 const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultationPage'));
 
 function App() {
@@ -101,9 +103,20 @@ function App() {
               <PaymentPage />
             </Suspense>
           } />
-          <Route path="privacy-policy" element={
+          <Route path="privacy" element={
             <Suspense fallback={<LoadingSpinner />}>
               <PrivacyPolicyPage />
+            </Suspense>
+          } />
+          <Route path="privacy-policy" element={<Navigate to="/privacy" replace />} />
+          <Route path="terms-of-service" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <TermsOfServicePage />
+            </Suspense>
+          } />
+          <Route path="compliance-security" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <ComplianceSecurityPage />
             </Suspense>
           } />
           <Route path="book" element={

@@ -1,22 +1,19 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { ArrowRight, Briefcase, Clock, MapPin } from 'lucide-react';
 import PageHero from '../components/shared/PageHero';
 import SectionBlock from '../components/shared/SectionBlock';
 import Card from '../components/ui/Card';
 import CTAButton from '../components/shared/CTAButton';
 import { roles } from '../data/roles';
+import MetaTags from '../components/seo/MetaTags';
 
 const CareersPage: React.FC = () => {
   return (
     <main className="bg-rich-black text-white min-h-screen">
-      <Helmet>
-        <title>Careers | UPLIFT Technologies</title>
-        <meta
-          name="description"
-          content="Join UPLIFT Technologies. Explore remote healthcare operations roles and apply to open positions."
-        />
-      </Helmet>
+      <MetaTags
+        title="Careers"
+        description="Explore remote healthcare operations roles at Uplift Technologies and apply to join our team."
+      />
 
       <PageHero
         title="Remote Jobs"

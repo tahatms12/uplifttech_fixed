@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Trophy, Users, Zap } from 'lucide-react';
 import Section from '../components/ui/Section';
 import Card from '../components/ui/Card';
+import MetaTags from '../components/seo/MetaTags';
 
 const AboutPage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'About Us | UPLIFT Technologies';
-  }, []);
-
   const values = [
     {
       icon: <Shield size={32} />,
@@ -55,6 +52,10 @@ const AboutPage: React.FC = () => {
 
   return (
     <>
+      <MetaTags
+        title="About Uplift Technologies"
+        description="Meet the Uplift Technologies team delivering clinical support, coordination, and revenue cycle expertise." 
+      />
       {/* Hero Section */}
       <div className="pt-32 pb-20 relative overflow-hidden">
         <div
