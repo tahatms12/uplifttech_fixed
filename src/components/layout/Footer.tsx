@@ -46,14 +46,19 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Services</h4>
             <ul className="space-y-2 sm:space-y-3">
-              {['Front Office', 'Revenue Cycle', 'Administration', 'Clinical Coordination'].map((service) => (
-                <li key={service}>
+              {[
+                { name: 'Medical Benefits Pod', path: '/services/administration' },
+                { name: 'Clinical Coordination Pod', path: '/services/clinical-coordination' },
+                { name: 'Intake and Order Entry Pod', path: '/services/front-office' },
+                { name: 'Claims and AR Pod', path: '/services/revenue-cycle' }
+              ].map((service) => (
+                <li key={service.name}>
                   <Link
-                    to={`/services/${service.toLowerCase().replace(' ', '-')}`}
+                    to={service.path}
                     className="text-white/70 hover:text-electric-violet transition-colors duration-300 flex items-center"
                   >
                     <ArrowRight size={14} className="mr-2" />
-                    {service}
+                    {service.name}
                   </Link>
                 </li>
               ))}

@@ -4,6 +4,7 @@ import { Briefcase, MapPin, Clock, ChevronsUpDown, X, Check, ArrowRight } from '
 import Section from '../components/ui/Section';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import { roles } from '../data/roles';
 
 interface JobPosition {
   id: number;
@@ -24,118 +25,16 @@ const CareersPage: React.FC = () => {
   const [activeJob, setActiveJob] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('all');
   
-  const jobPositions: JobPosition[] = [
-    {
-      id: 1,
-      title: "Sales Development Representative",
-      department: "Sales",
-      location: "Remote",
-      type: "Full-time",
-      description: "We're looking for ambitious Sales Development Representatives to help drive our business growth. In this role, you'll identify and qualify new business opportunities through outbound prospecting and lead qualification.",
-      responsibilities: [
-        "Conduct outbound calls and emails to potential clients",
-        "Qualify leads and schedule appointments for Account Executives",
-        "Research accounts, identify key decision makers, and generate interest",
-        "Maintain accurate records in our CRM system",
-        "Meet or exceed monthly quotas for calls, emails, and appointments"
-      ],
-      requirements: [
-        "Previous sales or customer service experience preferred",
-        "Excellent communication skills in English",
-        "Self-motivated with a strong desire to succeed",
-        "Ability to work independently in a remote environment",
-        "Comfortable with technology and learning new systems"
-      ]
-    },
-    {
-      id: 2,
-      title: "Collections Specialist",
-      department: "Collections",
-      location: "Remote",
-      type: "Full-time",
-      description: "We're seeking detail-oriented Collections Specialists to help our clients recover outstanding accounts receivable. This role requires excellent communication skills and a professional approach to collections.",
-      responsibilities: [
-        "Contact customers regarding past-due accounts via phone and email",
-        "Negotiate payment arrangements and follow up on commitments",
-        "Document all collection activities in the system",
-        "Adhere to all compliance requirements including HIPAA, FDCPA, and TCPA",
-        "Meet or exceed monthly collection targets"
-      ],
-      requirements: [
-        "Previous collections or accounts receivable experience preferred",
-        "Strong negotiation and communication skills",
-        "Detail-oriented with excellent record-keeping abilities",
-        "Knowledge of collections regulations and compliance requirements",
-        "Ability to maintain professionalism in challenging conversations"
-      ]
-    },
-    {
-      id: 3,
-      title: "Front Desk Coordinator",
-      department: "Front Desk",
-      location: "Remote",
-      type: "Part-time",
-      description: "Join our virtual front desk team and be the voice of our clients' businesses. You'll handle incoming calls, schedule appointments, and ensure exceptional customer service for various industries.",
-      responsibilities: [
-        "Answer incoming calls professionally according to client scripts",
-        "Schedule and manage appointments using various systems",
-        "Respond to customer inquiries and provide information",
-        "Take detailed messages and route to appropriate departments",
-        "Maintain accurate records of all interactions"
-      ],
-      requirements: [
-        "Previous customer service or receptionist experience",
-        "Excellent phone etiquette and communication skills",
-        "Ability to learn multiple scheduling systems",
-        "Strong attention to detail and multitasking abilities",
-        "Quiet home office environment with reliable internet"
-      ]
-    },
-    {
-      id: 4,
-      title: "Digital Marketing Specialist",
-      department: "Marketing",
-      location: "Remote",
-      type: "Full-time",
-      description: "We're looking for a creative Digital Marketing Specialist to join our team. You'll help create and implement marketing strategies across multiple channels for our clients.",
-      responsibilities: [
-        "Create and schedule content for social media platforms",
-        "Develop and execute email marketing campaigns",
-        "Monitor and report on campaign performance metrics",
-        "Optimize campaigns based on data and client feedback",
-        "Collaborate with cross-functional teams on integrated marketing efforts"
-      ],
-      requirements: [
-        "1-3 years of digital marketing experience",
-        "Proficiency with social media platforms and marketing tools",
-        "Experience with email marketing and content creation",
-        "Basic understanding of SEO and analytics",
-        "Strong written and verbal communication skills"
-      ]
-    },
-    {
-      id: 5,
-      title: "Software Developer",
-      department: "Software Development",
-      location: "Remote",
-      type: "Full-time",
-      description: "Join our development team to build innovative solutions for our clients. You'll work on a variety of projects across different industries, focusing on creating efficient and scalable applications.",
-      responsibilities: [
-        "Develop and maintain web applications using modern frameworks",
-        "Collaborate with cross-functional teams to define and implement new features",
-        "Write clean, maintainable, and well-documented code",
-        "Participate in code reviews and contribute to technical discussions",
-        "Troubleshoot and resolve software defects"
-      ],
-      requirements: [
-        "2+ years of experience in web development",
-        "Proficiency in JavaScript/TypeScript and modern frameworks (React, Angular, etc.)",
-        "Experience with backend technologies (Node.js, Python, etc.)",
-        "Understanding of database design and query optimization",
-        "Strong problem-solving skills and attention to detail"
-      ]
-    }
-  ];
+  const jobPositions: JobPosition[] = roles.map((role, index) => ({
+    id: index + 1,
+    title: role.name,
+    department: role.podName,
+    location: role.location,
+    type: `${role.type} | ${role.schedule}`,
+    description: `${role.summary} Send your resume to hr@uplift-technologies.com.`,
+    responsibilities: role.responsibilities,
+    requirements: role.qualifications
+  }));
   
   const departments = ['all', ...Array.from(new Set(jobPositions.map(job => job.department)))];
   
