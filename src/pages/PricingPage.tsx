@@ -5,15 +5,11 @@ import { ChevronDown, ShoppingCart, X, Trash2 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import ClientLogos from '../components/trust/ClientLogos';
 import TrustBadges from '../components/trust/TrustBadges';
+import { roles } from '../data/roles';
 
 interface PricingTier {
   level: 'Intermediate' | 'Professional';
   range: string;
-}
-
-interface PricingRow {
-  category: string;
-  tiers: PricingTier[];
 }
 
 interface CartItem {
@@ -27,85 +23,10 @@ interface CartItem {
   maxCost?: number;
 }
 
-const pricingData: PricingRow[] = [
-  {
-    category: 'Executive Assistant',
-    tiers: [
-      { level: 'Intermediate', range: '$9.50/hour' },
-      { level: 'Professional', range: '$13/hour' }
-    ]
-  },
-  // {
-  //   category: 'Sales Reps',
-  //   tiers: [
-  //     { level: 'Intermediate', range: '$9.50/hour' },
-  //     { level: 'Professional', range: '$13/hour' }
-  //   ]
-  // },
-  {
-    category: 'Marketing',
-    tiers: [
-      { level: 'Intermediate', range: '$9.50/hour' },
-      { level: 'Professional', range: '$13/hour' }
-    ]
-  },
-  {
-    category: 'AR Specialist',
-    tiers: [
-      { level: 'Intermediate', range: '$9.50/hour' },
-      { level: 'Professional', range: '$15/hour' }
-    ]
-  },
-  {
-    category: 'Admin',
-    tiers: [
-      { level: 'Intermediate', range: '$9.50/hour' },
-      { level: 'Professional', range: '$13/hour' }
-    ]
-  },
-  {
-    category: 'PT/Treatment Coordinator',
-    tiers: [
-        { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$15/hour'}
-    ]
-  },
-  {
-    category: 'Client Success Specialist',
-    tiers: [
-        { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$13/hour'}
-    ]
-  },
-  {
-    category: 'Clinical Nurse Coordinator',
-    tiers: [
-        { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$13/hour'}
-    ]
-  },
-  {
-    category: 'Order Entry Specialist',
-    tiers: [
-        { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$13/hour'}
-    ]
-  },
-  {
-    category: 'Claims Specialist',
-    tiers: [
-        { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$15/hour'}
-    ]
-  },
-  {
-    category: 'Insurance Support Specialist',
-    tiers: [
-        { level: 'Intermediate', range: '-'},
-        { level: 'Professional', range: '$15/hour'}
-    ]
-  }
-];
+const pricingData = roles.map((role) => ({
+  category: role.name,
+  tiers: role.pricingTiers
+}));
 
 const faqs = [
   {
@@ -204,7 +125,7 @@ const PricingPage: React.FC = () => {
         <title>Transparent Outsourcing Pricing | UPLIFT Technologies</title>
         <meta
           name="description"
-          content="Clear hourly pricing for virtual assistants, sales reps, marketing experts, collections specialists, and admin support. No setup fees and a 2-week satisfaction guarantee."
+          content="Clear hourly pricing for clinical support roles across medical benefits, clinical coordination, order entry, and claims. No setup fees and a 2-week satisfaction guarantee."
         />
       </Helmet>
 
@@ -213,7 +134,7 @@ const PricingPage: React.FC = () => {
           <div>
             <h1 className="text-4xl font-semibold text-white">Pricing that scales with your goals</h1>
             <p className="mt-4 text-lg text-text-muted">
-              Build the exact team you need with hourly specialists across sales, marketing, collections, and admin. No setup fees.
+              Build the exact team you need with hourly specialists across medical benefits, clinical coordination, order entry, and claims. No setup fees.
               Cancel anytime. 2-week satisfaction guarantee.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">

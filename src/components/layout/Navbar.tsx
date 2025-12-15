@@ -49,10 +49,10 @@ const Navbar: React.FC = () => {
   ];
 
   const serviceLinks = [
-    { name: 'Administration', path: '/services/administration' },
-    { name: 'Clinical Coordination', path: '/services/clinical-coordination' },
-    { name: 'Revenue Cycle', path: '/services/revenue-cycle' },
-    { name: 'Front Office', path: '/services/front-office' },
+    { name: 'Medical Benefits Pod', path: '/services/administration' },
+    { name: 'Clinical Coordination Pod', path: '/services/clinical-coordination' },
+    { name: 'Claims and AR Pod', path: '/services/revenue-cycle' },
+    { name: 'Intake and Order Entry Pod', path: '/services/front-office' },
   ];
   
   return (
