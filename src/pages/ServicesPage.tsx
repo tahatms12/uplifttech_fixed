@@ -19,7 +19,7 @@ const ServicesPage: React.FC = () => {
         <div className="max-w-4xl mb-12">
           <h1 className="text-4xl sm:text-5xl font-semibold mb-4">Services Pods Built for Healthcare</h1>
           <p className="text-lg text-white/75">
-            Each pod focuses on one specialty role so you know exactly who is doing the work. Explore how our teams cover medical benefits, clinical coordination, order entry, and claims with clearly assigned specialists.
+            Each pod focuses on one specialty role so you know exactly who is doing the work. Explore how our teams cover medical benefits, clinical coordination, order entry, and claims without adding Admin or Marketing layers.
           </p>
         </div>
 
