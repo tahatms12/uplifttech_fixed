@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import Button from '../components/ui/Button';
+import MetaTags from '../components/seo/MetaTags';
 
 const NotFoundPage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Page Not Found | UPLIFT Technologies';
-  }, []);
-  
   return (
     <div className="min-h-screen flex items-center justify-center gradient-bg">
+      <MetaTags title="Page not found" description="The requested page could not be located." noIndex />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-electric-violet/20 rounded-full filter blur-[100px] animate-glow"></div>
       
       <div className="container-custom relative z-10 text-center max-w-3xl">

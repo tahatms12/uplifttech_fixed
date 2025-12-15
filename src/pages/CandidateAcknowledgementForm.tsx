@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { CheckCircle2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import MetaTags from '../components/seo/MetaTags';
 
 const CandidateAcknowledgementForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -89,9 +89,7 @@ const CandidateAcknowledgementForm: React.FC = () => {
   if (submitted) {
     return (
       <main className="min-h-screen bg-rich-black px-4 py-12 text-white">
-        <Helmet>
-          <title>Acknowledgement Submitted | UPLIFT Technologies</title>
-        </Helmet>
+        <MetaTags title="Acknowledgement submitted" description="Interview acknowledgement submitted." />
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-6 flex justify-center">
             <CheckCircle2 className="h-20 w-20 text-green-500" />
@@ -107,13 +105,10 @@ const CandidateAcknowledgementForm: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-rich-black px-4 py-12 text-white">
-      <Helmet>
-        <title>Candidate Acknowledgement Form | UPLIFT Technologies</title>
-        <meta
-          name="description"
-          content="Review and confirm your understanding of interview guidelines and requirements."
-        />
-      </Helmet>
+      <MetaTags
+        title="Candidate acknowledgement form"
+        description="Review and confirm your understanding of interview guidelines and requirements."
+      />
 
       <div className="mx-auto max-w-3xl">
         {/* Header */}
@@ -128,6 +123,9 @@ const CandidateAcknowledgementForm: React.FC = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
+          <p className="text-sm text-gray-200 bg-gray-900/70 border border-gray-800 rounded-md p-3" role="note">
+            Do not submit medical or sensitive information through this form.
+          </p>
           {/* Section 1: Technical Requirements */}
           <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-6">
             <h2 className="mb-4 text-xl font-semibold text-white">

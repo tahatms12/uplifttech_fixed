@@ -179,6 +179,9 @@ const ContactPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <form onSubmit={handleSubmit} className="space-y-6">
+              <p className="text-sm text-white/80 bg-surface-alt/70 border border-white/10 rounded-md p-3" role="note">
+                Do not submit medical or sensitive information through this form.
+              </p>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
                   Full Name *
@@ -191,6 +194,8 @@ const ContactPage: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={isSubmitting && !formData.name.trim()}
                   className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ colorScheme: 'dark' }}
                 />
@@ -208,6 +213,8 @@ const ContactPage: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={isSubmitting && !formData.email.trim()}
                   className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ colorScheme: 'dark' }}
                 />
@@ -241,6 +248,8 @@ const ContactPage: React.FC = () => {
                   value={formData.message}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={isSubmitting && !formData.message.trim()}
                   className="w-full rounded-md border border-white/20 bg-surface-alt/80 px-4 py-3 text-sm text-white focus-visible:border-electric-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/40 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ colorScheme: 'dark' }}
                 />

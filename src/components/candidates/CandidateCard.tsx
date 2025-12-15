@@ -31,7 +31,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ candidate, onClick }) => 
 
   return (
     <Card
-      className="h-full cursor-pointer flex flex-col gap-4"
+      className="h-full cursor-pointer flex flex-col gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black"
       hoverEffect
       onClick={onClick}
       role="button"

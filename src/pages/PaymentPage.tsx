@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { CreditCard, LockIcon, Shield, CheckCircle } from 'lucide-react';
 import Section from '../components/ui/Section';
 import Button from '../components/ui/Button';
+import MetaTags from '../components/seo/MetaTags';
 
 const PaymentPage: React.FC = () => {
   useEffect(() => {
-    document.title = 'Secure Payment | UPLIFT Technologies';
+    console.log('Payment page loaded');
   }, []);
   
   const [formData, setFormData] = useState({
@@ -35,9 +36,10 @@ const PaymentPage: React.FC = () => {
       setPaymentComplete(true);
     }, 1500);
   };
-  
+
   return (
     <div className="pt-32 pb-20">
+      <MetaTags title="Secure payment" description="Submit invoice payments securely to Uplift Technologies." noIndex />
       <Section className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <motion.div
@@ -84,49 +86,56 @@ const PaymentPage: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="flex items-center justify-between border-b border-neutral-700 pb-4 mb-6">
-                  <h2 className="text-xl font-medium flex items-center">
-                    <CreditCard size={24} className="mr-2 text-electric-violet" />
-                    Payment Details
-                  </h2>
-                  <div className="flex items-center text-white/60 text-sm">
-                    <LockIcon size={16} className="mr-2" />
-                    Secure Payment
-                  </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="flex items-center justify-between border-b border-neutral-700 pb-4 mb-6">
+                <h2 className="text-xl font-medium flex items-center">
+                  <CreditCard size={24} className="mr-2 text-electric-violet" />
+                  Payment Details
+                </h2>
+                <div className="flex items-center text-white/60 text-sm">
+                  <LockIcon size={16} className="mr-2" />
+                  Secure Payment
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="invoiceNumber" className="block text-sm font-medium text-white/80 mb-2">
-                      Invoice Number*
-                    </label>
-                    <input
-                      type="text"
-                      id="invoiceNumber"
-                      name="invoiceNumber"
-                      required
-                      value={formData.invoiceNumber}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
-                      placeholder="INV-XXXXX"
-                    />
-                  </div>
-                  <div>
+              </div>
+              <p className="text-sm text-white/80 bg-neutral-800/60 border border-neutral-700 rounded-md p-3" role="note">
+                Do not submit medical or sensitive information through this form.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="invoiceNumber" className="block text-sm font-medium text-white/80 mb-2">
+                    Invoice Number*
+                  </label>
+                  <input
+                    type="text"
+                    id="invoiceNumber"
+                    name="invoiceNumber"
+                    required
+                    value={formData.invoiceNumber}
+                    onChange={handleChange}
+                    aria-required="true"
+                    aria-invalid={isSubmitting && !formData.invoiceNumber.trim()}
+                    className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                    placeholder="INV-XXXXX"
+                  />
+                </div>
+                <div>
                     <label htmlFor="amount" className="block text-sm font-medium text-white/80 mb-2">
                       Payment Amount (USD)*
                     </label>
                     <input
                       type="text"
-                      id="amount"
-                      name="amount"
-                      required
-                      value={formData.amount}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
-                      placeholder="0.00"
-                    />
-                  </div>
+                    id="amount"
+                    name="amount"
+                    required
+                    value={formData.amount}
+                    onChange={handleChange}
+                    aria-required="true"
+                    aria-invalid={isSubmitting && !formData.amount.trim()}
+                    className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                    placeholder="0.00"
+                  />
+                </div>
                 </div>
                 
                 <div className="border-t border-neutral-700 pt-6">
@@ -140,14 +149,16 @@ const PaymentPage: React.FC = () => {
                       <input
                         type="text"
                         id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
-                        placeholder="Your name"
-                      />
-                    </div>
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      aria-required="true"
+                      aria-invalid={isSubmitting && !formData.name.trim()}
+                      className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                      placeholder="Your name"
+                    />
+                  </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
                         Email Address*
@@ -155,14 +166,16 @@ const PaymentPage: React.FC = () => {
                       <input
                         type="email"
                         id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      aria-required="true"
+                      aria-invalid={isSubmitting && !formData.email.trim()}
+                      className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
                   </div>
                 </div>
                 
@@ -180,6 +193,8 @@ const PaymentPage: React.FC = () => {
                       required
                       value={formData.cardNumber}
                       onChange={handleChange}
+                      aria-required="true"
+                      aria-invalid={isSubmitting && !formData.cardNumber.trim()}
                       className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                       placeholder="1234 5678 9012 3456"
                     />
@@ -197,6 +212,8 @@ const PaymentPage: React.FC = () => {
                         required
                         value={formData.expiryDate}
                         onChange={handleChange}
+                        aria-required="true"
+                        aria-invalid={isSubmitting && !formData.expiryDate.trim()}
                         className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                         placeholder="MM/YY"
                       />
@@ -212,6 +229,8 @@ const PaymentPage: React.FC = () => {
                         required
                         value={formData.cvv}
                         onChange={handleChange}
+                        aria-required="true"
+                        aria-invalid={isSubmitting && !formData.cvv.trim()}
                         className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent text-white"
                         placeholder="123"
                       />

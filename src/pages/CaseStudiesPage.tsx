@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 import Section from '../components/ui/Section';
@@ -25,10 +25,6 @@ interface CaseStudy {
 }
 
 const CaseStudiesPage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Case Studies | UPLIFT Technologies';
-  }, []);
-  
   const [activeFilter, setActiveFilter] = useState<string>('all');
   
   const caseStudies: CaseStudy[] = [
@@ -303,6 +299,9 @@ const CaseStudiesPage: React.FC = () => {
                   <p className="text-white/70 mb-4">{study.solution}</p>
                   
                   <h3 className="text-lg font-medium mb-2">Results:</h3>
+                  <p className="text-sm text-white/70 mb-2">
+                    Outcomes shown are historical examples and are not guarantees of future results.
+                  </p>
                   <ul className="space-y-2">
                     {study.results.map((result, index) => (
                       <li key={index} className="flex items-start">

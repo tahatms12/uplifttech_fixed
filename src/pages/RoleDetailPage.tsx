@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import { rolesBySlug } from '../data/roles';
 import PageHero from '../components/shared/PageHero';
 import SectionBlock from '../components/shared/SectionBlock';
 import CTAButton from '../components/shared/CTAButton';
 import Card from '../components/ui/Card';
+import MetaTags from '../components/seo/MetaTags';
 
 const RoleDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -17,13 +17,10 @@ const RoleDetailPage: React.FC = () => {
 
   return (
     <main className="bg-rich-black text-white min-h-screen">
-      <Helmet>
-        <title>{`${role.title} | Careers at UPLIFT Technologies`}</title>
-        <meta
-          name="description"
-          content={`Learn more about the ${role.title} role at UPLIFT Technologies including responsibilities, qualifications, and how to apply.`}
-        />
-      </Helmet>
+      <MetaTags
+        title={`${role.title} role`}
+        description={`Learn more about the ${role.title} role at Uplift Technologies including responsibilities, qualifications, and how to apply.`}
+      />
 
       <PageHero
         title={role.title}

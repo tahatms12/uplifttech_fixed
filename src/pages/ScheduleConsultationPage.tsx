@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import MetaTags from '../components/seo/MetaTags';
 
 // Mock Section and Card components for demonstration
 const Section = ({ title, subtitle, centered, className = '', maxWidth = 'max-w-6xl', children }) => (
@@ -33,10 +34,6 @@ const Card = ({ children, delay = 0 }) => (
 );
 
 const ContactPage = () => {
-  useEffect(() => {
-    document.title = 'Contact Us | UPLIFT Technologies';
-  }, []);
-
   // Cal element click embed code adapted to React
   useEffect(() => {
     type CalNamespace = (...args: unknown[]) => void;
@@ -189,6 +186,10 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      <MetaTags
+        title="Book a consultation"
+        description="Contact Uplift Technologies to discuss clinical support and revenue cycle services."
+      />
       {/* Hero Section */}
       <div className="pt-32 pb-20 relative overflow-hidden">
         <div
@@ -275,6 +276,9 @@ const ContactPage = () => {
             transition={{ duration: 0.6 }}
           >
             <form onSubmit={handleSubmit} className="space-y-6">
+              <p className="text-sm text-gray-300 bg-gray-800/60 border border-gray-700 rounded-md p-3" role="note">
+                Do not submit medical or sensitive information through this form.
+              </p>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                   Full Name *
@@ -287,6 +291,8 @@ const ContactPage = () => {
                   value={formData.name}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={isSubmitting && !formData.name.trim()}
                   className="w-full rounded-md border border-gray-600 bg-gray-800/80 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
@@ -303,6 +309,8 @@ const ContactPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={isSubmitting && !formData.email.trim()}
                   className="w-full rounded-md border border-gray-600 bg-gray-800/80 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
@@ -334,6 +342,8 @@ const ContactPage = () => {
                   value={formData.message}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={isSubmitting && !formData.message.trim()}
                   className="w-full rounded-md border border-gray-600 bg-gray-800/80 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>

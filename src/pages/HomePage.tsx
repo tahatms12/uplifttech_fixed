@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react';
-import { Helmet } from 'react-helmet';
 import Hero from '../components/home/Hero';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { AnimatePresenceGroup } from '../components/motion';
+import MetaTags from '../components/seo/MetaTags';
 
 // Lazy load below-the-fold components
 const Services = lazy(() => 
@@ -21,10 +21,10 @@ const CallToAction = lazy(() =>
 const HomePage: React.FC = () => {
   return (
     <AnimatePresenceGroup className="overflow-x-hidden">
-      <Helmet>
-        <title>UPLIFT Technologies | People-Powered Outsourcing Partner</title>
-        <meta name="description" content="Transform your operations with UPLIFT Technologies. Expert outsourcing solutions across sales, collections, and more. Available 24/7 in US & Canada." />
-      </Helmet>
+      <MetaTags
+        title="Uplift Technologies | Clinical support and operations partner"
+        description="People-powered clinical support pods, coordination, and revenue cycle teams built for 24/7 operations." 
+      />
 
       {/* Hero section loads immediately */}
       <Hero />
