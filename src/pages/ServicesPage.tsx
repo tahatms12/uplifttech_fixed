@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BadgeDollarSign, PhoneCall, Users, TrendingUp, ArrowRight } from 'lucide-react';
 import Section from '../components/ui/Section';
-import { pods, rolesById } from '../data/pods';
+import { pods } from '../data/pods';
+import { rolesById } from '../data/roles';
 
 const iconMap: Record<string, JSX.Element> = {
   administration: <TrendingUp size={32} />,
@@ -19,7 +20,7 @@ const ServicesPage: React.FC = () => {
         <div className="max-w-4xl mb-12">
           <h1 className="text-4xl sm:text-5xl font-semibold mb-4">Services Pods Built for Healthcare</h1>
           <p className="text-lg text-white/75">
-            Each pod focuses on one specialty role so you know exactly who is doing the work. Explore how our teams cover medical benefits, clinical coordination, order entry, and claims without adding Admin or Marketing layers.
+            Each pod focuses on one specialty role so you know exactly who is doing the work. Explore how our teams cover medical benefits, clinical coordination, order entry, and claims without adding extra management layers.
           </p>
         </div>
 
@@ -41,7 +42,7 @@ const ServicesPage: React.FC = () => {
                 <h3 className="text-sm font-semibold text-white/80 mb-2">Roles in this pod</h3>
                 <ul className="list-disc list-inside space-y-1 text-white/70">
                   {pod.roleIds.map((roleId) => (
-                    <li key={roleId}>{rolesById[roleId]?.name}</li>
+                    <li key={roleId}>{rolesById[roleId]?.title}</li>
                   ))}
                 </ul>
               </div>
@@ -77,7 +78,7 @@ const ServicesPage: React.FC = () => {
               title: 'Transparent pricing',
               description: 'Hourly ranges stay consistent across pods so you can model coverage by hours and weeks.'
             }
-          ].map((item, idx) => (
+          ].map((item) => (
             <div
               key={item.title}
               className="rounded-2xl border border-border-muted/60 bg-surface/60 p-6"

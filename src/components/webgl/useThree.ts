@@ -38,6 +38,8 @@ export const useThree = ({
   useEffect(() => {
     if (!isWebGLAvailable || !containerRef.current) return;
 
+    const container = containerRef.current;
+
     // Initialize Three.js scene
     const scene = new THREE.Scene();
     sceneRef.current = scene;
@@ -115,7 +117,7 @@ export const useThree = ({
     handleResize();
 
     // Mount renderer
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
     // Animation loop
     let lastTime = 0;
@@ -158,12 +160,12 @@ export const useThree = ({
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current);
       }
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement);
       }
       geometry.dispose();
       material.dispose();
       renderer.dispose();
     };
-  }, [isWebGLAvailable, isReducedMotion, isMobile, config]);
+  }, [containerRef, isWebGLAvailable, isReducedMotion, isMobile, config]);
 };

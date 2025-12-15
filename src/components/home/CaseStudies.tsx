@@ -61,7 +61,7 @@ const CaseStudies: React.FC = () => {
   const caseStudies = [
     {
       title: "Brand Evolution & Strategy",
-      category: "Creative Direction",
+      category: "Operations",
       description: "Complete brand transformation and creative strategy development for a technology startup.",
       stats: [
         { label: "Brand Recognition", value: "+65%" },
@@ -80,9 +80,9 @@ const CaseStudies: React.FC = () => {
       imageUrl: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr1nZS9eKKpXVWvs9SzonqPt04iFJaeUgRD85u"
     },
     {
-      title: "Integrated Marketing Campaign",
-      category: "Marketing",
-      description: "Multi-channel marketing campaign combining traditional and digital strategies for maximum impact.",
+      title: "Integrated Outreach Program",
+      category: "Operations",
+      description: "Multi-channel outreach combining content, social, and targeted communications for measurable impact.",
       stats: [
         { label: "Qualified Leads", value: "+156%" },
         { label: "Social Engagement", value: "+89%" }

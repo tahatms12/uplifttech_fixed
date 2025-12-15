@@ -35,7 +35,7 @@ Large Language Models (LLMs) are advanced AI systems trained on vast amounts of 
 ## Applications in Business
 
 - **Customer Service**: Powering chatbots and virtual assistants
-- **Content Creation**: Generating marketing copy, blog posts, and reports
+- **Content Creation**: Generating outreach copy, blog posts, and reports
 - **Research Assistance**: Summarizing literature and extracting insights
 - **Code Development**: Assisting with programming tasks and debugging
 - **Data Analysis**: Interpreting and explaining data patterns

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Briefcase, MapPin, Clock, ChevronsUpDown, Check, ArrowRight } from 'lucide-react';
 import Button from '../ui/Button';
@@ -30,10 +29,11 @@ const JobPosting: React.FC<JobPostingProps> = ({ job }) => {
       transition={{ duration: 0.5 }}
     >
       <button 
-        className="w-full flex flex-col md:flex-row md:items-center justify-between p-6"
+      className="w-full flex flex-col md:flex-row md:items-center justify-between p-6"
         onClick={() => setIsExpanded(!isExpanded)}
         aria-expanded={isExpanded}
         aria-controls={`job-details-${job.id}`}
+        aria-label={`View job details for ${job.title}`}
       >
         <div className="flex-1">
           <h2 className="text-xl font-medium mb-2">{job.title}</h2>

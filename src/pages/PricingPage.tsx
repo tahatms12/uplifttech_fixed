@@ -7,11 +7,6 @@ import ClientLogos from '../components/trust/ClientLogos';
 import TrustBadges from '../components/trust/TrustBadges';
 import { roles } from '../data/roles';
 
-interface PricingTier {
-  level: 'Intermediate' | 'Professional';
-  range: string;
-}
-
 interface CartItem {
   id: string;
   category: string;
@@ -24,7 +19,7 @@ interface CartItem {
 }
 
 const pricingData = roles.map((role) => ({
-  category: role.name,
+  category: role.title,
   tiers: role.pricingTiers
 }));
 
@@ -109,15 +104,6 @@ const PricingPage: React.FC = () => {
     setCart([]);
     setIsCartOpen(false);
   };
-
-  const cartTotal = useMemo(() => {
-    return cart.reduce((total, item) => {
-      if (item.isSinglePrice) {
-        return total + item.cost;
-      }
-      return total;
-    }, 0);
-  }, [cart]);
 
   return (
     <main className="bg-rich-black pb-20 text-white">

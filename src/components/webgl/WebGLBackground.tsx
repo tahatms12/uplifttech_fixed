@@ -18,7 +18,7 @@ const WebGLBackground: React.FC<WebGLBackgroundProps> = ({ className = '' }) => 
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
       setIsWebGLAvailable(!!gl);
-    } catch (e) {
+    } catch {
       setIsWebGLAvailable(false);
     }
 

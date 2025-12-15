@@ -20,7 +20,7 @@ const Testimonials: React.FC = () => {
     },
     {
       quote: "Their collections team recovered $2M in outstanding accounts receivable that we had almost written off. Within the first month, they brought in $25K and continued to deliver exceptional results.",
-      author: "Dr A. Porcina",
+      author: "Dr A. James",
       position: "President",
       company: "Confidential Dental"
     },

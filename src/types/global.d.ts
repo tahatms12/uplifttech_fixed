@@ -3,9 +3,9 @@
 // Cal.com global object
 interface Window {
   Cal?: {
-    (action: string, ...args: any[]): void;
-    q?: any[];
-    ns?: Record<string, any>;
+    (action: string, ...args: unknown[]): void;
+    q?: unknown[][];
+    ns?: Record<string, (...args: unknown[]) => void>;
     loaded?: boolean;
   };
 }

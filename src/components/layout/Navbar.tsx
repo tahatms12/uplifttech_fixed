@@ -42,7 +42,6 @@ const Navbar: React.FC = () => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services', hasDropdown: true },
-    { name: 'Creative Direction', path: '/creative-direction' },
     { name: 'Pricing', path: '/pricing' },
     //{ name: 'Talent', path: '/candidates' },
     { name: 'Remote Jobs', path: '/careers' },

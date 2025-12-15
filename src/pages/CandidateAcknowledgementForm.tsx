@@ -160,10 +160,10 @@ const CandidateAcknowledgementForm: React.FC = () => {
             </h2>
             <div className="mb-4 space-y-3 text-gray-300">
               <p>
-                I acknowledge that UPLIFT Technologies functions as a staffing partner and that representatives 
-                of the client will not discuss employment-related matters (e.g., pay rates, benefits, or leave 
-                policies) during the interview. Any such questions should be directed to my UPLIFT representative 
-                after the meeting.
+                I acknowledge that UPLIFT Technologies functions as a staffing partner and that representatives
+                of the client will not discuss employment-specific terms (including role policies or time off
+                frameworks) during the interview. Any such questions should be directed to my UPLIFT
+                representative after the meeting.
               </p>
               <p>
                 I understand that the client's representative(s) will conduct the interview, focusing solely on 

@@ -2,8 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Filter, User } from 'lucide-react';
+import { Helmet } from 'react-helmet';
 import CandidateCard from '../components/candidates/CandidateCard';
-import { CANDIDATES, type Candidate } from '../data/candidate';
+import PageHero from '../components/shared/PageHero';
+import SectionBlock from '../components/shared/SectionBlock';
+import CTAButton from '../components/shared/CTAButton';
+import MotionSection from '../components/shared/MotionSection';
+import Card from '../components/ui/Card';
+import { candidates, type Candidate } from '../data/candidates';
 
 interface GridState {
   q: string;
@@ -30,7 +36,7 @@ const applySearchTokens = (candidate: Candidate, queryParts: string[]) => {
     return true;
   }
 
-  const tokens = candidate._tokens ?? [];
+  const tokens = candidate.searchTokens ?? [];
   return queryParts.every((part) => tokens.includes(part));
 };
 
@@ -54,13 +60,13 @@ const CandidatesPage: React.FC = () => {
   }, [searchParams]);
 
   const primaryOptions = useMemo(() => {
-    return Array.from(new Set(CANDIDATES.map((candidate) => candidate.primarySkill))).sort((a, b) =>
+    return Array.from(new Set(candidates.map((candidate) => candidate.primarySkill))).sort((a, b) =>
       a.localeCompare(b)
     );
   }, []);
 
   const timezoneOptions = useMemo(() => {
-    return Array.from(new Set(CANDIDATES.map((candidate) => candidate.timezone))).sort((a, b) =>
+    return Array.from(new Set(candidates.map((candidate) => candidate.timezone))).sort((a, b) =>
       a.localeCompare(b)
     );
   }, []);
@@ -68,7 +74,7 @@ const CandidatesPage: React.FC = () => {
   const filteredCandidates = useMemo(() => {
     const query = state.q.trim().toLowerCase();
     const parts = query.split(/\s+/).filter(Boolean);
-    let list = CANDIDATES.filter((candidate) => applySearchTokens(candidate, parts));
+    let list = candidates.filter((candidate) => applySearchTokens(candidate, parts));
 
     if (state.seniority.length) {
       const allowed = new Set(state.seniority);
@@ -171,208 +177,183 @@ const CandidatesPage: React.FC = () => {
     updateQuery({ ...DEFAULT_STATE });
   };
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
   return (
-    <main className="pt-28 sm:pt-32 pb-12 container-custom">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-8"
-      >
-        <h1 className="mb-4">Available Candidates</h1>
-        <p className="text-neutral-400">Search and refine to find a match. Press Enter on a card to open a profile.</p>
-      </motion.div>
+    <main className="bg-rich-black text-white">
+      <Helmet>
+        <title>Available Healthcare Outsourcing Candidates | UPLIFT Technologies</title>
+        <meta
+          name="description"
+          content="Browse available candidates, refine by skills, and request interviews for healthcare outsourcing roles."
+        />
+      </Helmet>
+      <PageHero
+        title="Available Candidates"
+        subtitle="Search and refine to find a candidate who fits your workflows. Use filters to focus by skill, seniority, and timezone."
+        actions={
+          <>
+            <CTAButton variant="primary" href="#filters">Refine search</CTAButton>
+            <CTAButton variant="outline" to="/services">Explore services</CTAButton>
+          </>
+        }
+      />
 
-      <motion.section
-        className="glass-card mb-8 p-4 sm:p-6"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-      >
-        <div className="flex flex-col gap-4 mb-6" role="group" aria-label="Search and filters">
-          {/* Search Input */}
-          <label className="flex flex-col gap-2">
-            <span className="flex items-center gap-2 text-sm font-semibold text-base">
-              <Search size={16} />
-              Search
-            </span>
-            <input
-              id="q"
-              className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
-              type="search"
-              value={state.q}
-              onChange={handleSearchChange}
-              placeholder="Name, skill, title, city, country"
-            />
-          </label>
+      <SectionBlock id="filters" className="pt-0">
+        <MotionSection>
+          <Card className="space-y-6" hoverEffect={false}>
+            <div className="grid gap-4" role="group" aria-label="Search and filters">
+              <label className="flex flex-col gap-2">
+                <span className="flex items-center gap-2 text-sm font-semibold">
+                  <Search size={16} />
+                  Search
+                </span>
+                <input
+                  id="q"
+                  className="w-full px-4 py-3 bg-gray-900 border border-neutral-800 rounded-md text-base placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                  type="search"
+                  value={state.q}
+                  onChange={handleSearchChange}
+                  placeholder="Name, skill, title, city, country"
+                />
+              </label>
 
-          {/* Filters Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <label className="flex flex-col gap-2">
-              <span className="flex items-center gap-2 text-sm font-semibold text-base">
-                <Filter size={16} />
-                Seniority
-              </span>
-              <select 
-                id="seniority" 
-                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
-                value={state.seniority[0] || ''} 
-                onChange={handleFilterChange}
-              >
-                <option value="">Any</option>
-                <option value="Junior">Junior</option>
-                <option value="Mid">Mid</option>
-                <option value="Senior">Senior</option>
-              </select>
-            </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <label className="flex flex-col gap-2">
+                  <span className="flex items-center gap-2 text-sm font-semibold">
+                    <Filter size={16} />
+                    Seniority
+                  </span>
+                  <select
+                    id="seniority"
+                    className="w-full px-4 py-3 bg-gray-900 border border-neutral-800 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                    value={state.seniority[0] || ''}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="">Any</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Mid">Mid</option>
+                    <option value="Senior">Senior</option>
+                  </select>
+                </label>
 
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-base">Primary Skill</span>
-              <select 
-                id="primary" 
-                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
-                value={state.primary[0] || ''} 
-                onChange={handleFilterChange}
-              >
-                <option value="">Any</option>
-                {primaryOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold">Primary Skill</span>
+                  <select
+                    id="primary"
+                    className="w-full px-4 py-3 bg-gray-900 border border-neutral-800 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                    value={state.primary[0] || ''}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="">Any</option>
+                    {primaryOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
 
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-base">Timezone</span>
-              <select 
-                id="tz" 
-                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
-                value={state.tz} 
-                onChange={handleFilterChange}
-              >
-                <option value="">Any</option>
-                {timezoneOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold">Timezone</span>
+                  <select
+                    id="tz"
+                    className="w-full px-4 py-3 bg-gray-900 border border-neutral-800 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                    value={state.tz}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="">Any</option>
+                    {timezoneOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
 
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-base">Sort</span>
-              <select 
-                id="sort" 
-                className="w-full px-4 py-3 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
-                value={state.sort} 
-                onChange={handleFilterChange}
-              >
-                <option value="relevance">Relevance</option>
-                <option value="exp">Years of experience desc</option>
-                <option value="name">Name A–Z</option>
-              </select>
-            </label>
-          </div>
-        </div>
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold">Sort</span>
+                  <select
+                    id="sort"
+                    className="w-full px-4 py-3 bg-gray-900 border border-neutral-800 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet focus:border-transparent transition-all"
+                    value={state.sort}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="relevance">Relevance</option>
+                    <option value="exp">Years of experience desc</option>
+                    <option value="name">Name A–Z</option>
+                  </select>
+                </label>
+              </div>
+            </div>
 
-        {/* Results Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-gray-800/50 border border-neutral-700 rounded-lg">
-          <div className="flex items-center gap-2 font-bold text-base">
-            <User size={18} />
-            <span>Showing {currentItems.length} of {filteredCandidates.length} candidates</span>
-          </div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <label className="flex items-center gap-2 text-sm text-neutral-400">
-              Per page
-              <select
-                id="per-page"
-                className="px-3 py-2 bg-gray-800 border border-neutral-700 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet transition-all"
-                value={state.per}
-                onChange={handlePerPageChange}
-              >
-                <option value="12">12</option>
-                <option value="24">24</option>
-                <option value="48">48</option>
-              </select>
-            </label>
-            <button 
-              type="button" 
-              className="px-4 py-2 text-sm bg-transparent border border-neutral-700 text-neutral-400 hover:text-base hover:bg-gray-800 rounded-md transition-all"
-              onClick={clearFilters}
-            >
-              Clear
-            </button>
-          </div>
-        </div>
-      </motion.section>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-gray-900 border border-neutral-800 rounded-lg">
+              <div className="flex items-center gap-2 font-semibold text-base">
+                <User size={18} />
+                <span>
+                  Showing {currentItems.length} of {filteredCandidates.length} candidates
+                </span>
+              </div>
+              <div className="flex items-center gap-3 flex-wrap">
+                <label className="flex items-center gap-2 text-sm text-white/70">
+                  Per page
+                  <select
+                    id="per-page"
+                    className="px-3 py-2 bg-gray-900 border border-neutral-800 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-electric-violet transition-all"
+                    value={state.per}
+                    onChange={handlePerPageChange}
+                  >
+                    <option value="12">12</option>
+                    <option value="24">24</option>
+                    <option value="48">48</option>
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  className="px-4 py-2 text-sm bg-transparent border border-neutral-800 text-white/80 hover:text-white hover:bg-gray-900 rounded-md transition-all"
+                  onClick={clearFilters}
+                >
+                  Clear filters
+                </button>
+              </div>
+            </div>
+          </Card>
+        </MotionSection>
+      </SectionBlock>
 
-      {/* Candidates Grid */}
-      <motion.section
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        role="grid"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {currentItems.map((candidate, index) => (
-          <motion.div
-            key={candidate.id}
-            variants={itemVariants}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
+      <SectionBlock className="pt-0">
+        <MotionSection className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="grid">
+          {currentItems.map((candidate) => (
+            <CandidateCard key={candidate.id} candidate={candidate} onClick={() => navigate(`/candidates/${candidate.id}`)} />
+          ))}
+        </MotionSection>
+
+        <motion.nav
+          className="flex items-center justify-end gap-4 mt-8 flex-wrap"
+          aria-label="Pagination controls"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <button
+            type="button"
+            className="px-4 py-2 text-sm bg-transparent border border-neutral-800 text-electric-violet hover:border-electric-violet hover:bg-electric-violet/10 rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => handlePageChange('prev')}
+            disabled={currentPage <= 1}
           >
-            <CandidateCard
-              candidate={candidate}
-              onClick={() => navigate(`/candidates/${candidate.id}`)}
-            />
-          </motion.div>
-        ))}
-      </motion.section>
-
-      {/* Pagination */}
-      <motion.nav
-        className="flex items-center justify-end gap-4 mt-8 flex-wrap"
-        aria-label="Pagination controls"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.6 }}
-      >
-        <button
-          type="button"
-          className="px-4 py-2 text-sm bg-transparent border border-neutral-700 text-electric-violet hover:border-electric-violet hover:bg-electric-violet/10 rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => handlePageChange('prev')}
-          disabled={currentPage <= 1}
-        >
-          &larr; Previous
-        </button>
-        <span className="text-sm text-neutral-400">
-          Page {currentPage} of {pages}
-        </span>
-        <button
-          type="button"
-          className="px-4 py-2 text-sm bg-transparent border border-neutral-700 text-electric-violet hover:border-electric-violet hover:bg-electric-violet/10 rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => handlePageChange('next')}
-          disabled={currentPage >= pages}
-        >
-          Next &rarr;
-        </button>
-      </motion.nav>
+            &larr; Previous
+          </button>
+          <span className="text-sm text-white/70">
+            Page {currentPage} of {pages}
+          </span>
+          <button
+            type="button"
+            className="px-4 py-2 text-sm bg-transparent border border-neutral-800 text-electric-violet hover:border-electric-violet hover:bg-electric-violet/10 rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => handlePageChange('next')}
+            disabled={currentPage >= pages}
+          >
+            Next &rarr;
+          </button>
+        </motion.nav>
+      </SectionBlock>
     </main>
   );
 };
