@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Users, TrendingUp, BadgeDollarSign, Megaphone, PhoneCall, Palette, ArrowRight } from 'lucide-react';
+import { Users, TrendingUp, BadgeDollarSign, PhoneCall, ArrowRight } from 'lucide-react';
 import Section from '../ui/Section';
 import Card from '../ui/Card';
 
@@ -44,39 +44,32 @@ ServiceCard.displayName = 'ServiceCard';
 
 const services = [
   {
+    icon: <TrendingUp size={32} />,
+    title: "Medical Benefits Pod",
+    description: "Benefit investigations, payer preference checks, financial assistance enrollments, and cost estimates ahead of appointments.",
+    link: "/services/administration",
+    linkText: "View Medical Benefits Pod"
+  },
+  {
+    icon: <Users size={32} />,
+    title: "Clinical Coordination Pod",
+    description: "Clinical Nurse Coordinators manage medication welcome calls, follow-up coordination, and schedule governance.",
+    link: "/services/clinical-coordination",
+    linkText: "View Clinical Coordination"
+  },
+  {
     icon: <PhoneCall size={32} />,
-    title: "Front Office Reception",
-    description: "24/7 professional customer service and virtual reception coverage for US & Canadian businesses.",
-    link: "/services/front-Office",
-    linkText: "Explore Professional Reception Services"
+    title: "Intake and Order Entry Pod",
+    description: "Order entry support covering demographics, insurance capture, documentation uploads, and benefits checks per new order.",
+    link: "/services/front-office",
+    linkText: "View Intake & Order Entry"
   },
   {
     icon: <BadgeDollarSign size={32} />,
-    title: "AR Collections Services",
-    description: "Recover outstanding accounts receivable with our compliant collection strategies for healthcare and B2B sectors.",
-    link: "/services/Revenue-cycle",
-    linkText: "Learn About Debt Collection Services"
-  },
-  {
-    icon: <Palette size={32} />,
-    title: "Marketing And Creative Operations",
-    description: "Drive growth with comprehensive marketing services, from content creation to campaign management in your target markets.",
-    link: "/creative-direction",
-    linkText: "View Strategic Marketing Services"
-  },
-  {
-    icon: <Megaphone size={32} />,
-    title: "Recall Services",
-    description: "Expert outbound customer development and bookings tailored for healthcare presence.",
-    link: "/services/front-office",
-    linkText: "See How Our Front Office Can Help You"
-  },
-  {
-    icon: <TrendingUp size={32} />,
-    title: "Office Quality Management",
-    description: "Optimize your Clinic's efficiency with meaningful coordination and management.",
-    link: "/services/administration",
-    linkText: "Discover Supply Chain & Logistics Solutions"
+    title: "Claims and AR Pod",
+    description: "Claims tracking, denial resolution, payment posting, and patient billing support with clear documentation.",
+    link: "/services/revenue-cycle",
+    linkText: "View Claims & AR"
   }
 ];
 
