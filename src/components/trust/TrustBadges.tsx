@@ -4,18 +4,29 @@ import { ShieldCheck, BadgeCheck, Clock } from 'lucide-react';
 const badges = [
   {
     icon: ShieldCheck,
-    title: 'GDPR & HIPAA ready',
-    description: 'Processes reviewed quarterly for compliance and data privacy.'
+    title: 'Security and privacy controls',
+    description: (
+      <span>
+        Documented access reviews and minimum necessary permissions. Read our{' '}
+        <a
+          href="/compliance-security"
+          className="font-semibold text-electric-violet underline decoration-electric-violet/50 decoration-2 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/60 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        >
+          compliance overview
+        </a>
+        .
+      </span>
+    )
   },
   {
     icon: BadgeCheck,
-    title: 'Satisfaction Guaranteed',
-    description: '2-week satisfaction guarantee with flexible scaling.'
+    title: 'Documented workflows',
+    description: 'Playbooks, QA steps, and reporting cadences are aligned before launch and refreshed with client input.'
   },
   {
     icon: Clock,
     title: '24/7 Coverage',
-    description: 'Follow-the-sun support with 99.9% uptime SLA.'
+    description: 'Follow-the-sun support available with shift coverage planned against your critical queues.'
   }
 ];
 

@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Disclosure } from '@headlessui/react';
-import { ChevronDown, ShoppingCart, X, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronDown, ShoppingCart, X, Trash2 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import ClientLogos from '../components/trust/ClientLogos';
 import TrustBadges from '../components/trust/TrustBadges';
@@ -20,7 +21,10 @@ interface CartItem {
 
 const pricingData = roles.map((role) => ({
   category: role.title,
-  tiers: role.pricingTiers
+  tiers: role.pricingTiers,
+  slug: role.slug,
+  summary: role.summary,
+  serviceLine: role.serviceLine
 }));
 
 const faqs = [
@@ -30,9 +34,9 @@ const faqs = [
       'We invoice bi-weekly in USD with clear breakdowns by role, hours, and outcomes. You can pause or adjust allocations at any time before the next cycle.'
   },
   {
-    question: 'What is included in the satisfaction guarantee?',
+    question: 'How do you handle security and compliance?',
     answer:
-      'If the match is not perfect within the first two weeks, we will replace the talent or credit your invoice. No setup fees, no hidden charges.'
+      'We follow written procedures for access controls, documentation, and incident response. Review our approach at /compliance-security and request artifacts during onboarding.'
   },
   {
     question: 'Can we scale down or cancel?',
@@ -52,6 +56,7 @@ const PricingPage: React.FC = () => {
   const [weeks, setWeeks] = useState(4);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({});
 
   const estimatedRange = useMemo(() => {
     // Get valid prices (not '-')
@@ -105,23 +110,29 @@ const PricingPage: React.FC = () => {
     setIsCartOpen(false);
   };
 
+  const toggleAccordion = (slug: string) => {
+    setOpenAccordions((previous) => ({
+      ...previous,
+      [slug]: !previous[slug]
+    }));
+  };
+
   return (
     <main className="bg-rich-black pb-20 text-white">
       <Helmet>
         <title>Transparent Outsourcing Pricing | UPLIFT Technologies</title>
         <meta
           name="description"
-          content="Clear hourly pricing for clinical support roles across medical benefits, clinical coordination, order entry, and claims. No setup fees and a 2-week satisfaction guarantee."
+          content="Clear hourly pricing for clinical support roles across medical benefits, clinical coordination, order entry, and claims. No setup fees with flexible coverage aligned to your workflows."
         />
       </Helmet>
 
       <section className="bg-[linear-gradient(160deg,_rgba(155,29,255,0.35),_transparent)] pt-32 pb-20">
         <div className="container-custom grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
-            <h1 className="text-4xl font-semibold text-white">Pricing that scales with your goals</h1>
+            <h1 className="text-4xl font-semibold text-white">Pricing that scales with you</h1>
             <p className="mt-4 text-lg text-text-muted">
-              Build the exact team you need with hourly specialists across medical benefits, clinical coordination, order entry, and claims. No setup fees.
-              Cancel anytime. 2-week satisfaction guarantee.
+              Build the exact team you need with hourly specialists across medical benefits, clinical coordination, order entry, and claims. No setup fees and coverage you can adjust as needs change.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
               <Button to="/book" size="lg" analyticsLabel="pricing_schedule_call">
@@ -129,6 +140,16 @@ const PricingPage: React.FC = () => {
               </Button>
               <p className="text-sm text-text-muted">Average onboarding time: 3 business days</p>
             </div>
+            <p className="mt-4 text-sm text-text-muted">
+              We keep security and privacy controls documented and reviewed. Learn more in our{' '}
+              <a
+                href="/compliance-security"
+                className="font-semibold text-electric-violet underline decoration-electric-violet/50 decoration-2 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet/60 focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black"
+              >
+                compliance and security overview
+              </a>
+              .
+            </p>
           </div>
           <div className="rounded-3xl border border-border-muted/60 bg-surface/85 p-6 shadow-card">
             <h2 className="text-lg font-semibold text-white">Estimate your investment</h2>
@@ -241,47 +262,118 @@ const PricingPage: React.FC = () => {
                     {tier}
                   </th>
                 ))}
+                <th scope="col" className="px-6 py-4">Roles included</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border-muted/60 text-sm">
-              {pricingData.map((row) => (
-                <tr key={row.category}>
-                  <th scope="row" className="whitespace-nowrap px-6 py-5 text-left text-base font-semibold text-white">
-                    {row.category}
-                  </th>
-                  {row.tiers.map((tier) => (
-                    <td key={`${row.category}-${tier.level}`} className="px-6 py-5 text-text-muted">
-                      <span className="font-semibold text-white">{tier.level}</span>
-                      <p className="text-sm text-text-muted">{tier.range}</p>
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {pricingData.map((row) => {
+                const panelId = `${row.slug}-roles-panel`;
+                return (
+                  <React.Fragment key={row.slug}>
+                    <tr key={row.category}>
+                      <th scope="row" className="whitespace-nowrap px-6 py-5 text-left text-base font-semibold text-white">
+                        {row.category}
+                      </th>
+                      {row.tiers.map((tier) => (
+                        <td key={`${row.category}-${tier.level}`} className="px-6 py-5 text-text-muted">
+                          <span className="font-semibold text-white">{tier.level}</span>
+                          <p className="text-sm text-text-muted">{tier.range}</p>
+                        </td>
+                      ))}
+                      <td className="px-6 py-5 text-right align-middle">
+                        <button
+                          type="button"
+                          onClick={() => toggleAccordion(row.slug)}
+                          aria-expanded={Boolean(openAccordions[row.slug])}
+                          aria-controls={panelId}
+                          className="inline-flex items-center gap-2 rounded-lg border border-border-muted/60 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                        >
+                          Roles included
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform ${openAccordions[row.slug] ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
+                            aria-hidden="true"
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                    <tr className={openAccordions[row.slug] ? 'table-row' : 'hidden'}>
+                      <td colSpan={4} className="bg-surface-alt/60 px-6 pb-6 pt-0 text-sm text-text-muted">
+                        <div
+                          id={panelId}
+                          className="mt-3 rounded-2xl border border-border-muted/60 bg-surface/70 p-4"
+                        >
+                          <h4 className="text-base font-semibold text-white">{row.category}</h4>
+                          <p className="mt-2 text-text-muted">
+                            {row.summary} This role supports {row.serviceLine.toLowerCase()} workflows with documented steps and quality checks.
+                          </p>
+                          <Link
+                            to={`/careers/${row.slug}`}
+                            className="mt-3 inline-flex items-center text-sm font-semibold text-electric-violet"
+                          >
+                            View role details
+                            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                );
+              })}
             </tbody>
           </table>
         </div>
 
         <div className="mt-8 space-y-4 lg:hidden" aria-label="Pricing tiers">
-          {pricingData.map((row) => (
-            <article key={row.category} className="rounded-2xl border border-border-muted/60 bg-surface-alt/80 p-5">
-              <h3 className="text-lg font-semibold text-white">{row.category}</h3>
-              <dl className="mt-4 space-y-3">
-                {row.tiers.map((tier) => (
-                  <div key={`${row.category}-${tier.level}`} className="flex items-baseline justify-between">
-                    <dt className="text-sm text-text-muted">{tier.level}</dt>
-                    <dd className="text-base font-semibold text-white">{tier.range}</dd>
-                  </div>
-                ))}
-              </dl>
-            </article>
-          ))}
+          {pricingData.map((row) => {
+            const panelId = `${row.slug}-roles-panel-mobile`;
+            return (
+              <article key={row.category} className="rounded-2xl border border-border-muted/60 bg-surface-alt/80 p-5">
+                <h3 className="text-lg font-semibold text-white">{row.category}</h3>
+                <dl className="mt-4 space-y-3">
+                  {row.tiers.map((tier) => (
+                    <div key={`${row.category}-${tier.level}`} className="flex items-baseline justify-between">
+                      <dt className="text-sm text-text-muted">{tier.level}</dt>
+                      <dd className="text-base font-semibold text-white">{tier.range}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion(row.slug)}
+                  aria-expanded={Boolean(openAccordions[row.slug])}
+                  aria-controls={panelId}
+                  className="mt-4 flex w-full items-center justify-between rounded-lg border border-border-muted/60 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black"
+                >
+                  Roles included
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${openAccordions[row.slug] ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
+                    aria-hidden="true"
+                  />
+                </button>
+                <div
+                  id={panelId}
+                  className={`${openAccordions[row.slug] ? 'mt-3 block' : 'hidden'} rounded-2xl border border-border-muted/60 bg-surface/70 p-4 text-sm text-text-muted`}
+                >
+                  <h4 className="text-base font-semibold text-white">{row.category}</h4>
+                  <p className="mt-2">{row.summary} This role supports {row.serviceLine.toLowerCase()} workflows with documented steps and quality checks.</p>
+                  <Link
+                    to={`/careers/${row.slug}`}
+                    className="mt-3 inline-flex items-center text-sm font-semibold text-electric-violet"
+                  >
+                    View role details
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
       <section className="container-custom py-16" aria-labelledby="pricing-faq-heading">
         <div className="max-w-3xl">
           <h2 id="pricing-faq-heading" className="text-3xl font-semibold text-white">Pricing FAQs</h2>
-          <p className="mt-2 text-text-muted">Answers to the most common questions about billing, coverage, and satisfaction.</p>
+          <p className="mt-2 text-text-muted">Answers to the most common questions about billing, coverage, and how we work.</p>
         </div>
         <div className="mt-8 space-y-4">
           {faqs.map((faq) => (
