@@ -44,35 +44,6 @@ export const roles: RoleDefinition[] = [
     location: 'Remote'
   },
   {
-    id: 'client-success-specialist-remote',
-    name: 'Client Success Specialist – Medical Benefits (Remote)',
-    podName: 'Medical Benefits Pod',
-    podSlug: 'administration',
-    summary:
-      'Remote benefit specialists who keep insurance data current, enroll patients in assistance programs, and share cost updates tied to appointments.',
-    responsibilities: [
-      'Benefit investigations',
-      'Patient profile insurance maintenance',
-      'Financial assistance enrollments',
-      'Cost estimates',
-      'Daily list monitoring',
-      'Client updates tied to appointments'
-    ],
-    qualifications: [
-      'Experience in medical billing, coding, or benefits verification',
-      'Knowledge of insurance benefits, financial assistance, and prior authorizations',
-      'Strong communication, organization, and multitasking skills',
-      'Ability to work efficiently in fast-paced environments with reliable connectivity'
-    ],
-    pricingTiers: [
-      { level: 'Intermediate', range: '-' },
-      { level: 'Professional', range: '$13/hour' }
-    ],
-    type: 'Remote | Full-time Contract',
-    schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',
-    location: 'Remote'
-  },
-  {
     id: 'clinical-nurse-coordinator',
     name: 'Clinical Nurse Coordinator',
     podName: 'Clinical Coordination Pod',
@@ -87,37 +58,6 @@ export const roles: RoleDefinition[] = [
       'Run schedule reviews and escalate based on medication complexity',
       'Update WeInfuse and ShiftAdmin for staffing changes',
       'Maintain documentation and trackers, including Clinical Quality Measures support'
-    ],
-    qualifications: [
-      'RN license or equivalent clinical certification with 3–5 years of experience',
-      'Background in infusion therapy or specialty medication coordination',
-      'Proficiency with EHRs, documentation, and patient education',
-      'Organized communicator comfortable managing multiple clinical priorities'
-    ],
-    pricingTiers: [
-      { level: 'Intermediate', range: '-' },
-      { level: 'Professional', range: '$13/hour' }
-    ],
-    type: 'Virtual Assistant | Full-time Contract',
-    schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',
-    location: 'Remote'
-  },
-  {
-    id: 'virtual-clinical-nurse-coordinator',
-    name: 'Virtual Assistant – Clinical Nurse Coordinator',
-    podName: 'Clinical Coordination Pod',
-    podSlug: 'clinical-coordination',
-    summary:
-      'Virtual clinical coordinators who manage medication welcome calls, schedule governance, and report-driven follow-ups with documented workflows.',
-    responsibilities: [
-      'Clinical reviews',
-      'Medication welcome calls',
-      'Report-driven follow-ups',
-      'Adverse event forms',
-      'Schedule governance',
-      'WeInfuse and ShiftAdmin updates',
-      'Quality measure support',
-      'Documentation maintenance and tracker-based workflow management'
     ],
     qualifications: [
       'RN license or equivalent clinical certification with 3–5 years of experience',
@@ -187,22 +127,6 @@ export const roles: RoleDefinition[] = [
     pricingTiers: [
       { level: 'Intermediate', range: '-' },
       { level: 'Professional', range: '$15/hour' }
-    ],
-    type: 'Virtual Assistant | Full-time Contract',
-    schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',
-    location: 'Remote'
-  },
-  {
-    id: 'executive-assistant',
-    name: 'Executive Assistant',
-    podName: 'Intake and Order Entry Pod',
-    podSlug: 'front-office',
-    summary: 'Details available upon request.',
-    responsibilities: ['Details available upon request.'],
-    qualifications: ['Details available upon request.'],
-    pricingTiers: [
-      { level: 'Intermediate', range: '-' },
-      { level: 'Professional', range: '$13/hour' }
     ],
     type: 'Virtual Assistant | Full-time Contract',
     schedule: 'Mon–Fri, 9:00 AM–5:00 PM U.S. Eastern',

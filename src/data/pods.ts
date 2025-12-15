@@ -65,7 +65,7 @@ export const pods: PodDefinition[] = [
       }
     ],
     imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48KsDMQ73cbMY8IewBXDN1uCftWjJZ5Rlhyg0G',
-    roleIds: ['client-success-specialist', 'client-success-specialist-remote']
+    roleIds: ['client-success-specialist']
   },
   {
     slug: 'clinical-coordination',
@@ -117,7 +117,7 @@ export const pods: PodDefinition[] = [
       }
     ],
     imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48umk0e7rzSVUAW58LFw0OdkaCEGun9vJTQ37M',
-    roleIds: ['clinical-nurse-coordinator', 'virtual-clinical-nurse-coordinator']
+    roleIds: ['clinical-nurse-coordinator']
   },
   {
     slug: 'front-office',
@@ -168,7 +168,7 @@ export const pods: PodDefinition[] = [
       }
     ],
     imageSrc: 'https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrgCOWBl9pUNhrWouxqs4lZ1DIam2i9Jv0zHyt',
-    roleIds: ['order-entry-specialist', 'executive-assistant']
+    roleIds: ['order-entry-specialist']
   },
   {
     slug: 'revenue-cycle',
