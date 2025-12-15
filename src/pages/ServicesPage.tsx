@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { BadgeDollarSign, PhoneCall, Users, TrendingUp, ArrowRight } from 'lucide-react';
 import Section from '../components/ui/Section';
 import { pods } from '../data/pods';
-import { rolesById } from '../data/roles';
+import { roles, rolesById } from '../data/roles';
 
 const iconMap: Record<string, JSX.Element> = {
   administration: <TrendingUp size={32} />,
@@ -58,6 +58,76 @@ const ServicesPage: React.FC = () => {
           ))}
         </div>
       </div>
+
+      <Section
+        title="Roles we staff"
+        subtitle="Every role links to a dedicated pod and career profile so you can review responsibilities and workflows."
+      >
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {roles.map((role) => (
+            <Link
+              key={role.id}
+              to={`/careers/${role.slug}`}
+              className="group flex h-full flex-col justify-between rounded-2xl border border-border-muted/60 bg-surface/70 p-5 transition-colors hover:border-electric-violet"
+            >
+              <div>
+                <p className="text-xs uppercase tracking-widest text-text-muted">{role.serviceLine}</p>
+                <h3 className="mt-2 text-lg font-semibold text-white">{role.title}</h3>
+                <p className="mt-2 text-sm text-white/70">{role.summary}</p>
+              </div>
+              <span className="mt-4 inline-flex items-center text-sm font-semibold text-electric-violet">
+                View role
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="How pods integrate with your workflows"
+        subtitle="Operational steps stay documented from onboarding through ongoing delivery."
+      >
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: 'Onboarding and credentialing',
+              description:
+                'We align start dates with your intake, background, and credentialing steps, sharing checklists and completion proofs before go-live.'
+            },
+            {
+              title: 'Access provisioning',
+              description:
+                'Access requests follow minimum necessary permissions with approvals logged and renewals tracked to keep systems tidy.'
+            },
+            {
+              title: 'Workflow alignment',
+              description:
+                'Pod leads map daily routines to your EHR, billing, and communication tools with measurable SLAs tied to your queues.'
+            },
+            {
+              title: 'QA and audits',
+              description:
+                'Quality checks sample work weekly with documented findings, remediation steps, and shared updates during reviews.'
+            },
+            {
+              title: 'Reporting cadence',
+              description:
+                'Scorecards and backlog metrics are sent on an agreed cadence covering throughput, accuracy, and blockers.'
+            },
+            {
+              title: 'Escalation paths',
+              description:
+                'Named contacts handle incident routing with clear timelines for acknowledgement, mitigation, and client communication.'
+            }
+          ].map((item) => (
+            <div key={item.title} className="rounded-2xl border border-border-muted/60 bg-surface/60 p-6">
+              <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+              <p className="text-white/70">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
 
       <Section
         title="Why Pods"
