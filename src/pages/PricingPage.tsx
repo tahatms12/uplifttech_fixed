@@ -5,7 +5,7 @@ import { ArrowRight, ChevronDown, ShoppingCart, X, Trash2 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import ClientLogos from '../components/trust/ClientLogos';
 import TrustBadges from '../components/trust/TrustBadges';
-import { roles } from '../data/roles';
+import { roles, defaultHourlyRates, medicalScribeHourlyRates } from '../data/roles';
 import MetaTags from '../components/seo/MetaTags';
 
 interface CartItem {
@@ -19,13 +19,32 @@ interface CartItem {
   maxCost?: number;
 }
 
-const pricingData = roles.map((role) => ({
-  category: role.title,
-  tiers: role.pricingTiers,
-  slug: role.slug,
-  summary: role.summary,
-  serviceLine: role.serviceLine
-}));
+type PricingTierLevel = 'Intermediate' | 'Professional';
+
+interface PricingTier {
+  level: PricingTierLevel;
+  rate: number;
+}
+
+const formatHourlyRate = (rate: number) => `$${rate.toFixed(2)}`;
+
+const pricingData = roles.map((role) => {
+  const hourlyRates = role.hourlyRates ?? defaultHourlyRates;
+  const tiers: PricingTier[] = [
+    { level: 'Intermediate', rate: hourlyRates.intermediate },
+    { level: 'Professional', rate: hourlyRates.professional }
+  ];
+
+  return {
+    category: role.title,
+    displayName: role.shortTitle ?? role.title,
+    tiers,
+    slug: role.slug,
+    summary: role.summary,
+    serviceLine: role.serviceLine,
+    hourlyRates
+  };
+});
 
 const faqs = [
   {
@@ -59,32 +78,31 @@ const PricingPage: React.FC = () => {
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({});
 
   const estimatedRange = useMemo(() => {
-    // Get valid prices (not '-')
-    const validTiers = selectedCategory.tiers.filter(tier => tier.range !== '-');
-    
-    if (validTiers.length === 0) {
-      return { minTotal: 0, maxTotal: 0, isSinglePrice: false };
+    const baseRates =
+      selectedCategory.slug === 'medical-scribe-mbbs'
+        ? medicalScribeHourlyRates
+        : selectedCategory.hourlyRates ?? defaultHourlyRates;
+
+    if (
+      selectedCategory.slug === 'medical-scribe-mbbs' &&
+      (baseRates.intermediate !== medicalScribeHourlyRates.intermediate ||
+        baseRates.professional !== medicalScribeHourlyRates.professional)
+    ) {
+      console.assert(
+        baseRates.intermediate === medicalScribeHourlyRates.intermediate &&
+          baseRates.professional === medicalScribeHourlyRates.professional,
+        'Medical Scribe (MBBS) hourly rates must remain 11 and 14 USD.'
+      );
     }
-    
-    // Extract prices
-    const prices = validTiers.map(tier => {
-      const priceStr = tier.range.replace(/\$/g, '').replace('/hour', '').trim();
-      return Number(priceStr);
-    });
-    
-    // If only one price is available
-    if (prices.length === 1) {
-      const total = prices[0] * hoursPerWeek * weeks;
-      return { minTotal: total, maxTotal: total, isSinglePrice: true };
-    }
-    
-    // If two prices are available, create a range
+
+    const prices = [baseRates.intermediate, baseRates.professional];
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
     const minTotal = minPrice * hoursPerWeek * weeks;
     const maxTotal = maxPrice * hoursPerWeek * weeks;
-    
-    return { minTotal, maxTotal, isSinglePrice: false };
+    const isSinglePrice = minPrice === maxPrice;
+
+    return { minTotal, maxTotal, isSinglePrice };
   }, [selectedCategory, hoursPerWeek, weeks]);
 
   const addToCart = () => {
@@ -163,17 +181,17 @@ const PricingPage: React.FC = () => {
                   style={{
                     colorScheme: 'dark'
                   }}
-                  value={selectedCategory.category}
+                  value={selectedCategory.slug}
                   onChange={(event) => {
-                    const category = pricingData.find((row) => row.category === event.target.value);
+                    const category = pricingData.find((row) => row.slug === event.target.value);
                     if (category) {
                       setSelectedCategory(category);
                     }
                   }}
                 >
                   {pricingData.map((row) => (
-                    <option key={row.category} value={row.category}>
-                      {row.category}
+                    <option key={row.slug} value={row.slug}>
+                      {row.displayName}
                     </option>
                   ))}
                 </select>
@@ -259,7 +277,7 @@ const PricingPage: React.FC = () => {
                     {tier}
                   </th>
                 ))}
-                <th scope="col" className="px-6 py-4">Roles included</th>
+                <th scope="col" className="px-6 py-4">Details</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border-muted/60 text-sm">
@@ -274,7 +292,7 @@ const PricingPage: React.FC = () => {
                       {row.tiers.map((tier) => (
                         <td key={`${row.category}-${tier.level}`} className="px-6 py-5 text-text-muted">
                           <span className="font-semibold text-white">{tier.level}</span>
-                          <p className="text-sm text-text-muted">{tier.range}</p>
+                          <p className="text-sm text-text-muted">{formatHourlyRate(tier.rate)}</p>
                         </td>
                       ))}
                       <td className="px-6 py-5 text-right align-middle">
@@ -285,7 +303,7 @@ const PricingPage: React.FC = () => {
                           aria-controls={panelId}
                           className="inline-flex items-center gap-2 rounded-lg border border-border-muted/60 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                         >
-                          Roles included
+                          Details
                           <ChevronDown
                             className={`h-4 w-4 transition-transform ${openAccordions[row.slug] ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
                             aria-hidden="true"
@@ -330,7 +348,7 @@ const PricingPage: React.FC = () => {
                   {row.tiers.map((tier) => (
                     <div key={`${row.category}-${tier.level}`} className="flex items-baseline justify-between">
                       <dt className="text-sm text-text-muted">{tier.level}</dt>
-                      <dd className="text-base font-semibold text-white">{tier.range}</dd>
+                      <dd className="text-base font-semibold text-white">{formatHourlyRate(tier.rate)}</dd>
                     </div>
                   ))}
                 </dl>
@@ -341,7 +359,7 @@ const PricingPage: React.FC = () => {
                   aria-controls={panelId}
                   className="mt-4 flex w-full items-center justify-between rounded-lg border border-border-muted/60 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-violet focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black"
                 >
-                  Roles included
+                  Details
                   <ChevronDown
                     className={`h-4 w-4 transition-transform ${openAccordions[row.slug] ? 'rotate-180 text-electric-violet' : 'text-text-muted'}`}
                     aria-hidden="true"
