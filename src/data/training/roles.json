@@ -1,0 +1,20 @@
+[
+  {
+    "id": "operations-manager",
+    "name": "operations manager",
+    "description": "operations manager training pathway",
+    "active": true
+  },
+  {
+    "id": "hr-specialist",
+    "name": "hr specialist",
+    "description": "hr specialist training pathway",
+    "active": true
+  },
+  {
+    "id": "security-champion",
+    "name": "security champion",
+    "description": "security champion training pathway",
+    "active": true
+  }
+]

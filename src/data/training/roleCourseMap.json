@@ -1,0 +1,20 @@
+{
+  "operations-manager": {
+    "requiredCourses": [],
+    "recommendedCourses": [
+      "security-privacy-onboarding"
+    ]
+  },
+  "hr-specialist": {
+    "requiredCourses": [],
+    "recommendedCourses": [
+      "security-privacy-onboarding"
+    ]
+  },
+  "security-champion": {
+    "requiredCourses": [],
+    "recommendedCourses": [
+      "security-privacy-onboarding"
+    ]
+  }
+}
