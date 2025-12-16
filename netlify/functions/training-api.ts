@@ -1,10 +1,12 @@
 import crypto from 'crypto';
 import type { Handler, HandlerEvent, HandlerResponse, Config } from '@netlify/functions';
-import { badRequest, jsonResponse, methodNotAllowed, notFound, parseJsonBody, serverError } from './_lib/http';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { jsonResponse, methodNotAllowed, notFound, parseJsonBody, serverError } from './_lib/http';
 import { getAdminEmails, getEnv } from './_lib/env';
 import { appendRow, readAll, upsertBy } from './_lib/csvStore';
 import {
   AuthenticatedUser,
+  CertificateRow,
   CompletionRow,
   LessonTimeRow,
   QuizAttemptRow,
@@ -21,6 +23,8 @@ import {
   verifyJwt,
   verifyOrigin,
 } from './_lib/security';
+import { courseTitle, getQuiz, listCatalogCourses } from './_lib/catalog';
+import { buildProgress, getCourseProgress, loadTrainingData, type CourseProgressSummary } from './_lib/completion';
 
 const jwtSecret = getEnv('TRAINING_JWT_SECRET', true) as string;
 const demoKey = (getEnv('demo_key') || getEnv('DEMO_KEY')) as string | undefined;
@@ -37,11 +41,15 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
+function errorResponse(status: number, message: string): HandlerResponse {
+  return jsonResponse(status, { ok: false, error: message });
+}
+
 function failureResponse(start: number): Promise<HandlerResponse> {
   const elapsed = Date.now() - start;
   const wait = Math.max(0, 350 - elapsed);
   return new Promise((resolve) =>
-    setTimeout(() => resolve(jsonResponse(401, { error: 'Invalid credentials' })), wait)
+    setTimeout(() => resolve(jsonResponse(401, { ok: false, error: 'Invalid credentials' })), wait)
   );
 }
 
@@ -78,7 +86,7 @@ async function enforceRateLimit(key: string, windowSeconds: number, maxCount: nu
 
 function requireOrigin(event: HandlerEvent): HandlerResponse | null {
   if (!verifyOrigin(event, trainingOrigin)) {
-    return jsonResponse(403, { error: 'forbidden' });
+    return jsonResponse(403, { ok: false, error: 'forbidden' });
   }
   return null;
 }
@@ -106,7 +114,7 @@ async function handleLogin(event: HandlerEvent): Promise<HandlerResponse> {
   const emailRaw = typeof body.email === 'string' ? body.email : '';
   const passwordInput = typeof body.password === 'string' ? body.password : typeof body.key === 'string' ? body.key : '';
   if (!demoKey) {
-    return jsonResponse(500, { error: 'server_error' });
+    return jsonResponse(500, { ok: false, error: 'server_error' });
   }
   if (!emailRaw || !passwordInput || !emailValid(emailRaw)) {
     return failureResponse(start);
@@ -193,7 +201,7 @@ async function handleLogout(event: HandlerEvent): Promise<HandlerResponse> {
 async function handleMe(event: HandlerEvent): Promise<HandlerResponse> {
   const auth = parseAuth(event);
   if (!auth) {
-    return jsonResponse(401, { error: 'unauthorized' });
+    return jsonResponse(401, { ok: false, error: 'unauthorized' });
   }
   return jsonResponse(200, { user: auth });
 }
@@ -202,14 +210,14 @@ async function handleEvents(event: HandlerEvent): Promise<HandlerResponse> {
   const originError = requireOrigin(event);
   if (originError) return originError;
   const auth = parseAuth(event);
-  if (!auth) return jsonResponse(401, { error: 'unauthorized' });
+  if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
   const ip = getClientIp(event) || 'unknown';
   const ipHash = hashIp(ip, jwtSecret);
   try {
     await enforceRateLimit(`events:${ipHash}`, 60, 120);
     await enforceRateLimit(`events-user:${auth.id}`, 60, 120);
   } catch (err: any) {
-    if (err?.statusCode === 429) return jsonResponse(429, { error: 'rate_limited' });
+    if (err?.statusCode === 429) return jsonResponse(429, { ok: false, error: 'rate_limited' });
     throw err;
   }
 
@@ -219,7 +227,7 @@ async function handleEvents(event: HandlerEvent): Promise<HandlerResponse> {
   const lessonId = body.lessonId || body.lesson_id || body.stepId || '';
   const eventType = body.eventType || body.type || 'event';
   if (!courseId || !lessonId) {
-    return badRequest('invalid_event');
+    return errorResponse(400, 'invalid_event');
   }
   const tsValue = typeof body.ts === 'string' ? body.ts : new Date().toISOString();
   const tsDate = new Date(tsValue);
@@ -269,14 +277,14 @@ async function handleQuizSubmit(event: HandlerEvent): Promise<HandlerResponse> {
   const originError = requireOrigin(event);
   if (originError) return originError;
   const auth = parseAuth(event);
-  if (!auth) return jsonResponse(401, { error: 'unauthorized' });
+  if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
   const ip = getClientIp(event) || 'unknown';
   const ipHash = hashIp(ip, jwtSecret);
   try {
     await enforceRateLimit(`quiz:${ipHash}`, 300, 20);
     await enforceRateLimit(`quiz-user:${auth.id}`, 300, 20);
   } catch (err: any) {
-    if (err?.statusCode === 429) return jsonResponse(429, { error: 'rate_limited' });
+    if (err?.statusCode === 429) return jsonResponse(429, { ok: false, error: 'rate_limited' });
     throw err;
   }
 
@@ -284,12 +292,35 @@ async function handleQuizSubmit(event: HandlerEvent): Promise<HandlerResponse> {
   const courseId = body.courseId || body.course_id;
   const quizId = body.quizId || body.quiz_id;
   if (!courseId || !quizId) {
-    return badRequest('invalid_quiz_payload');
+    return errorResponse(400, 'invalid_quiz_payload');
   }
   const startedAt = typeof body.startedAt === 'string' ? body.startedAt : new Date().toISOString();
   const answers = body.answers ?? {};
-  const scorePercent = typeof body.scorePercent === 'number' ? body.scorePercent : 0;
-  const passed = typeof body.passed === 'boolean' ? body.passed : scorePercent > 0 ? scorePercent >= 70 : false;
+
+  const quizDefinition = getQuiz(String(courseId), String(quizId));
+  if (!quizDefinition || !quizDefinition.questions?.length) {
+    return errorResponse(400, 'quiz_not_configured');
+  }
+
+  const normalize = (value: unknown) => String(value ?? '').trim().toLowerCase();
+  const scoreCandidates = quizDefinition.questions.map((q, idx) => {
+    const expected = quizDefinition.answerKey[idx];
+    const answer = (answers as any)[q.id ?? idx] ?? (answers as any)[idx] ?? (answers as any)[String(idx)] ?? '';
+    if (Array.isArray(expected) && expected.length > 0) {
+      return expected.some((opt) => normalize(opt) === normalize(answer));
+    }
+    if (typeof expected === 'string' && expected.trim().length > 0) {
+      return normalize(expected) === normalize(answer);
+    }
+    return String(answer || '').trim().length > 0;
+  });
+
+  const correctCount = scoreCandidates.filter(Boolean).length;
+  const scorePercent = quizDefinition.questions.length
+    ? Math.round((correctCount / quizDefinition.questions.length) * 1000) / 10
+    : 0;
+  const threshold = quizDefinition.passingThresholdPercent ?? 80;
+  const passed = scorePercent >= threshold;
 
   const attempts = await readAll('quiz_attempts.csv');
   const attemptsForQuiz = attempts.filter((a) => a.user_id === auth.id && a.quiz_id === String(quizId));
@@ -319,110 +350,228 @@ async function handleQuizSubmit(event: HandlerEvent): Promise<HandlerResponse> {
 async function handleProgress(event: HandlerEvent): Promise<HandlerResponse> {
   const auth = parseAuth(event);
   if (!auth) return jsonResponse(401, { error: 'unauthorized' });
-  const lessonRows = (await readAll('lesson_time.csv')) as LessonTimeRow[];
-  const lessons = lessonRows.filter((row) => row.user_id === auth.id);
-  const quizRows = (await readAll('quiz_attempts.csv')) as QuizAttemptRow[];
-  const quizzes = quizRows.filter((row) => row.user_id === auth.id);
-  const completionRows = (await readAll('completions.csv')) as CompletionRow[];
-  const completions = completionRows.filter((row) => row.user_id === auth.id);
+  const progress = await buildProgress(auth.id, { persistCompletions: true });
 
-  const courses = new Map<
-    string,
-    {
-      courseId: string;
-      totalTimeSeconds: number;
-      lessons: {
-        moduleId: string;
-        lessonId: string;
-        secondsActive: number;
-        lastActive: string;
-      }[];
-      quizzes: {
-        quizId: string;
-        attemptNumber: number;
-        scorePercent: number;
-        passed: boolean;
-        submittedAt: string;
-      }[];
-      completion?: {
-        completedAt: string;
-        finalScore: string;
-        certificateId: string;
-      };
+  return jsonResponse(200, progress);
+}
+
+function requireAdmin(event: HandlerEvent): { auth: AuthenticatedUser | null; error?: HandlerResponse } {
+  const auth = parseAuth(event);
+  if (!auth) {
+    return { auth: null, error: jsonResponse(401, { ok: false, error: 'unauthorized' }) };
+  }
+  if (!auth.is_admin) {
+    return { auth, error: jsonResponse(403, { ok: false, error: 'forbidden' }) };
+  }
+  return { auth };
+}
+
+async function handleAdminUsers(event: HandlerEvent): Promise<HandlerResponse> {
+  const { error } = requireAdmin(event);
+  if (error) return error;
+  const q = (event.queryStringParameters?.q || '').toLowerCase();
+  const users = (await readAll('users.csv')) as UserRow[];
+  const filtered = users.filter((u) =>
+    q ? u.email.toLowerCase().includes(q) || (u.full_name || '').toLowerCase().includes(q) : true
+  );
+  const mapped = filtered.map((u) => ({ id: u.id, email: u.email, full_name: u.full_name, last_login_at: u.last_login_at }));
+  return jsonResponse(200, { ok: true, users: mapped });
+}
+
+async function handleAdminUserProgress(event: HandlerEvent, userId: string): Promise<HandlerResponse> {
+  const { error } = requireAdmin(event);
+  if (error) return error;
+  const targetId = userId || '';
+  if (!targetId) return errorResponse(400, 'invalid_user');
+  const progress = await buildProgress(targetId, { persistCompletions: true });
+  return jsonResponse(200, progress);
+}
+
+async function handleAdminExport(event: HandlerEvent): Promise<HandlerResponse> {
+  const { error } = requireAdmin(event);
+  if (error) return error;
+  const users = (await readAll('users.csv')) as UserRow[];
+  const data = await loadTrainingData();
+  const courses = listCatalogCourses();
+  const headers = [
+    'user_email',
+    'user_full_name',
+    'course_id',
+    'course_name',
+    'completion',
+    'final_score',
+    'total_time_seconds',
+    'last_active',
+    'certificate_code',
+  ];
+
+  const rows: string[] = [headers.join(',')];
+  for (const user of users) {
+    const progress = await buildProgress(user.id, { persistCompletions: false, data });
+    for (const course of courses) {
+      const summary = progress.find((p) => p.courseId === course.id) as CourseProgressSummary | undefined;
+      const completion = summary?.completed ? summary.completedAt || '' : '';
+      const totalTime = summary?.totalTimeSeconds ?? 0;
+      const finalScore = summary?.finalScore ?? '';
+      const lastActiveCandidates = [
+        ...data.lessons
+          .filter((l) => l.user_id === user.id && l.course_id === course.id)
+          .map((l) => l.updated_at)
+          .filter(Boolean),
+        ...data.quizzes
+          .filter((q) => q.user_id === user.id && q.course_id === course.id)
+          .map((q) => q.submitted_at)
+          .filter(Boolean),
+      ]
+        .filter(Boolean)
+        .sort();
+      const lastActive = lastActiveCandidates[lastActiveCandidates.length - 1] || '';
+      const certificateCode = summary?.certificateCode || '';
+      rows.push([
+        user.email,
+        user.full_name,
+        course.id,
+        course.title,
+        completion,
+        String(finalScore ?? ''),
+        String(totalTime ?? 0),
+        lastActive,
+        certificateCode,
+      ]
+        .map((value) => {
+          const needsQuote = /[",\n\r]/.test(value || '');
+          const escaped = String(value || '').replace(/"/g, '""');
+          return needsQuote ? `"${escaped}"` : escaped;
+        })
+        .join(','));
     }
-  >();
-
-  for (const lesson of lessons) {
-    const courseEntry = courses.get(lesson.course_id) || {
-      courseId: lesson.course_id,
-      totalTimeSeconds: 0,
-      lessons: [],
-      quizzes: [],
-    };
-    const seconds = parseInt(lesson.seconds_active || '0', 10);
-    courseEntry.totalTimeSeconds += seconds;
-    courseEntry.lessons.push({
-      moduleId: lesson.module_id,
-      lessonId: lesson.lesson_id,
-      secondsActive: seconds,
-      lastActive: lesson.updated_at,
-    });
-    courses.set(lesson.course_id, courseEntry);
   }
 
-  for (const quiz of quizzes) {
-    const courseEntry = courses.get(quiz.course_id) || {
-      courseId: quiz.course_id,
-      totalTimeSeconds: 0,
-      lessons: [],
-      quizzes: [],
-    };
-    courseEntry.quizzes.push({
-      quizId: quiz.quiz_id,
-      attemptNumber: parseInt(quiz.attempt_number || '0', 10),
-      scorePercent: parseFloat(quiz.score_percent || '0'),
-      passed: quiz.passed === 'true',
-      submittedAt: quiz.submitted_at,
-    });
-    courses.set(quiz.course_id, courseEntry);
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'text/csv; charset=utf-8',
+      'Cache-Control': 'no-store',
+    },
+    body: rows.join('\n'),
+  };
+}
+
+async function handleCertificateIssue(event: HandlerEvent): Promise<HandlerResponse> {
+  const originError = requireOrigin(event);
+  if (originError) return originError;
+  const auth = parseAuth(event);
+  if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
+  const body = parseJsonBody<any>(event) || {};
+  const courseId = String(body.courseId || '');
+  if (!courseId) return errorResponse(400, 'invalid_request');
+
+  const courseProgress = await getCourseProgress(auth.id, courseId, { persistCompletions: true });
+  if (!courseProgress || !courseProgress.completed) {
+    return errorResponse(403, 'course_incomplete');
   }
 
-  for (const completion of completions) {
-    const courseEntry = courses.get(completion.course_id) || {
-      courseId: completion.course_id,
-      totalTimeSeconds: 0,
-      lessons: [],
-      quizzes: [],
-    };
-    courseEntry.completion = {
-      completedAt: completion.completed_at,
-      finalScore: completion.final_score,
-      certificateId: completion.certificate_id,
-    };
-    courses.set(completion.course_id, courseEntry);
+  const certificates = (await readAll('certificates.csv')) as CertificateRow[];
+  const existing = certificates.find((c) => c.user_id === auth.id && c.course_id === courseId);
+  if (existing) {
+    return jsonResponse(200, { ok: true, certificateCode: existing.certificate_code });
   }
 
-  const response = Array.from(courses.values()).map((course) => ({
-    ...course,
-    steps: course.lessons.map((l) => ({
-      stepId: `${l.moduleId}:${l.lessonId}`,
-      completed: l.secondsActive > 0,
-      completedAt: l.lastActive,
-    })),
-  }));
+  const certificateId = crypto.randomUUID();
+  const certificateCode = crypto.randomBytes(16).toString('hex');
+  const issuedAt = new Date().toISOString();
 
-  return jsonResponse(200, response);
+  await appendRow('certificates.csv', {
+    id: certificateId,
+    certificate_code: certificateCode,
+    user_id: auth.id,
+    course_id: courseId,
+    issued_at: issuedAt,
+  });
+
+  await upsertBy(
+    'completions.csv',
+    (row) => row.user_id === auth.id && row.course_id === courseId,
+    (row) => ({
+      ...(row as CompletionRow | null),
+      id: row?.id || crypto.randomUUID(),
+      user_id: auth.id,
+      course_id: courseId,
+      completed_at: row?.completed_at || courseProgress.completedAt || issuedAt,
+      final_score: row?.final_score || (courseProgress.finalScore !== null ? String(courseProgress.finalScore) : ''),
+      certificate_id: certificateId,
+    }) as CompletionRow
+  );
+
+  return jsonResponse(200, { ok: true, certificateCode });
+}
+
+async function handleCertificatePdf(event: HandlerEvent): Promise<HandlerResponse> {
+  const auth = parseAuth(event);
+  if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
+  const courseId = event.queryStringParameters?.courseId;
+  if (!courseId) return errorResponse(400, 'invalid_request');
+  const [certificates, completions] = await Promise.all([
+    readAll('certificates.csv') as Promise<CertificateRow[]>,
+    readAll('completions.csv') as Promise<CompletionRow[]>,
+  ]);
+  const certificate = certificates.find((c) => c.user_id === auth.id && c.course_id === courseId);
+  if (!certificate) return jsonResponse(403, { ok: false, error: 'forbidden' });
+  const completion = completions.find((c) => c.user_id === auth.id && c.course_id === courseId);
+  const courseName = courseTitle(courseId);
+
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([612, 792]);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const drawLine = (text: string, y: number, size = 16) => {
+    page.drawText(text, { x: 72, y, size, font, color: rgb(0.1, 0.1, 0.1) });
+  };
+  const issuedAt = completion?.completed_at || certificate.issued_at;
+  drawLine('Certificate of Completion', 700, 24);
+  drawLine('Uplift Technologies', 660, 18);
+  drawLine(`Awarded to: ${auth.full_name || auth.email}`, 620);
+  drawLine(`Course: ${courseName}`, 590);
+  drawLine(`Completed on: ${issuedAt}`, 560);
+  drawLine(`Certificate code: ${certificate.certificate_code}`, 530);
+  drawLine(`Verify at /training/verify?code=${certificate.certificate_code}`, 500, 12);
+
+  const pdfBytes = await doc.save();
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Cache-Control': 'no-store',
+      'Content-Disposition': 'inline; filename="Uplift-Technologies-Certificate.pdf"',
+    },
+    body: Buffer.from(pdfBytes).toString('base64'),
+    isBase64Encoded: true,
+  };
+}
+
+async function handleCertificateVerify(event: HandlerEvent): Promise<HandlerResponse> {
+  const code = event.queryStringParameters?.code;
+  if (!code) return errorResponse(400, 'invalid_request');
+  const [certificates, users] = await Promise.all([
+    readAll('certificates.csv') as Promise<CertificateRow[]>,
+    readAll('users.csv') as Promise<UserRow[]>,
+  ]);
+  const certificate = certificates.find((c) => c.certificate_code === code);
+  if (!certificate) {
+    return jsonResponse(200, { valid: false });
+  }
+  const user = users.find((u) => u.id === certificate.user_id);
+  return jsonResponse(200, {
+    valid: true,
+    full_name: user?.full_name,
+    course_name: courseTitle(certificate.course_id),
+    issued_at: certificate.issued_at,
+  });
 }
 
 const handler: Handler = async (event) => {
   try {
     const path = event.path || '';
     const method = event.httpMethod || 'GET';
-
-    if (path.startsWith('/api/training/admin') || path.startsWith('/api/training/certificates')) {
-      return notFound();
-    }
-
     if (path === '/api/training/auth/login') {
       if (method !== 'POST') return methodNotAllowed();
       return await handleLogin(event);
@@ -453,10 +602,41 @@ const handler: Handler = async (event) => {
       return await handleProgress(event);
     }
 
+    if (path === '/api/training/admin/users') {
+      if (method !== 'GET') return methodNotAllowed();
+      return await handleAdminUsers(event);
+    }
+
+    if (path.startsWith('/api/training/admin/user/')) {
+      if (method !== 'GET') return methodNotAllowed();
+      const userId = path.replace('/api/training/admin/user/', '').replace('/progress', '').replace(/\/$/, '');
+      return await handleAdminUserProgress(event, userId);
+    }
+
+    if (path === '/api/training/admin/export.csv') {
+      if (method !== 'GET') return methodNotAllowed();
+      return await handleAdminExport(event);
+    }
+
+    if (path === '/api/training/certificates/issue') {
+      if (method !== 'POST') return methodNotAllowed();
+      return await handleCertificateIssue(event);
+    }
+
+    if (path === '/api/training/certificates/pdf') {
+      if (method !== 'GET') return methodNotAllowed();
+      return await handleCertificatePdf(event);
+    }
+
+    if (path === '/api/training/certificates/verify') {
+      if (method !== 'GET') return methodNotAllowed();
+      return await handleCertificateVerify(event);
+    }
+
     return notFound();
   } catch (err: any) {
     if (err?.statusCode === 429) {
-      return jsonResponse(429, { error: 'rate_limited' });
+      return jsonResponse(429, { ok: false, error: 'rate_limited' });
     }
     return serverError();
   }
