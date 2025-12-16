@@ -1,0 +1,2480 @@
+PART 1 of 4
+
+## 1) PROGRAM OVERVIEW
+
+### 1.1 Program name
+
+UPLIFT TECHNOLOGIES HEALTHCARE COMPLIANCE TRAINING PROGRAM
+
+### 1.2 Intended audience and roles
+
+* Client Success Specialist (Medical Benefits)
+* Clinical Nurse Coordinator
+* Order Entry Specialist (OES)
+* Patient Claims Specialist (PCS)
+* Patient Accounts Receivable Specialist
+* Executive Assistant
+* Medical Scribe (MBBS)
+* Accounts Receivable Executive (Patient Balance Collections)
+
+### 1.3 Delivery modes
+
+* Self-Paced Track: Asynchronous modules with embedded activities, quizzes, and scenario simulations. Learner controls pacing within completion deadline windows.
+* Instructor-Led Track: Virtual classroom sessions delivered synchronously with live scenario practice, Q&A, and group troubleshooting. Requires scheduled attendance.
+* Blended Track: Combination of self-paced foundation modules followed by instructor-led capstone and practical evaluation.
+
+### 1.4 Passing standards
+
+* Pre-test: No minimum score required. Used for baseline assessment and learning path customization.
+* Module quizzes: 80% minimum to advance to next module. Unlimited attempts with 24-hour cooling period after third failure.
+* Final exam: 85% minimum. Two attempts permitted. Third attempt requires manager approval and remediation plan.
+* Practical evaluation: Must demonstrate competency on all critical tasks in rubric. Binary pass/fail per task. Failed tasks must be repeated until competency achieved.
+
+### 1.5 Training records fields
+
+Store these fields in HR/LMS for each completed training:
+
+* Employee ID and full name
+* Role at time of training
+* Course title and version number
+* Completion date and time (UTC and local)
+* Pre-test score
+* Module quiz scores (each module separately)
+* Final exam score and attempt number
+* Practical evaluation results with evaluator name
+* Instructor name (if instructor-led track)
+* Training delivery mode
+* Next refresher due date
+* Acknowledgment of sanctions policy (boolean flag with timestamp)
+* Training certificate issued (boolean flag with certificate ID)
+
+### 1.6 Refresher cadence logic
+
+* Annual Baseline: All roles complete full refresher every 12 months from last completion date. System generates notification at 11 months.
+* Role Change: Employee moving to new role completes training for new role within 5 business days of role change effective date. Previous role training remains on record but new baseline starts.
+* Policy Change: When client policy changes affect workflows documented in training, impacted modules must be completed within 10 business days of policy effective date. System flags modules by policy mapping.
+* Incident-Triggered: Employee involved in privacy incident, security incident, or quality failure completes remediation training within 3 business days of incident closure. Remediation scope determined by incident type and root cause.
+* Client-Specific: When employee assigned to new client account, completes client-specific addendum within 3 business days. Core training not repeated unless client requirements exceed baseline.
+
+### 1.7 Sanctions process language
+
+Failure to complete required training by deadline or failure to maintain passing standards results in progressive response:
+
+* First Occurrence: Verbal coaching with training coordinator. Extended deadline granted (3 business days). Incident documented in employee file.
+* Second Occurrence: Written warning. Manager develops performance improvement plan including supervised training completion. Access to production systems may be suspended until training complete.
+* Third Occurrence: Final written warning. Escalation to operations leadership. Immediate suspension from client-facing work until training complete and competency demonstrated.
+* Fourth Occurrence: Termination or contract non-renewal per employment agreement.
+  Sanctions apply regardless of role or tenure. Uplift reserves right to accelerate sanctions process for high-severity training failures involving PHI exposure or compliance violations.
+
+### 1.8 Definitions
+
+* PHI (Protected Health Information): Any information about a patient that can identify them, combined with information about their health, treatment, or payment. Examples: name with diagnosis, medical record number with procedure, phone number with appointment reason, insurance ID with claim detail.
+* ePHI (Electronic Protected Health Information): PHI in electronic form. Includes data in EHRs, emails, billing systems, spreadsheets, screenshots, databases, and any digital format.
+* Minimum Necessary: Use and disclose only the smallest amount of PHI needed to complete the specific task. Default to less information rather than more. When in doubt, ask supervisor for scope guidance.
+* Incident: Any use, access, or disclosure of PHI that violates policy or creates risk, regardless of whether harm occurred. Includes wrong-person errors, unauthorized access, lost devices, phishing clicks, policy violations, and near-misses.
+* Breach: An incident involving unsecured PHI that poses significant risk of harm to patients. Not all incidents are breaches. Breach determination made by client privacy officer, not by Uplift staff.
+
+---
+
+## 2) ROLE-BASED ASSIGNMENT MAP
+
+### 2.1 Extracted role map table (reproduced)
+
+| Role                                                        | Pod/Function                   | Core Tasks                                                                                                                                     | Systems Touched                                                                               | PHI Exposure Level | Evidence                                                                                                                                                                                                                                                                                                     |
+| ----------------------------------------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Client Success Specialist (Medical Benefits)                | Revenue Cycle                  | Benefit investigations, payer portal checks, Buy and Bill vs Specialty Pharmacy documentation, cost estimates, financial assistance enrollment | Payer portals, clinic scheduling systems, benefit verification platforms                      | High               | "Complete payer checks through portals and phone outreach to confirm eligibility and preferences. Document Buy and Bill versus Specialty Pharmacy guidance for upcoming appointments."                                                                                                                       |
+| Clinical Nurse Coordinator                                  | Clinical and Care Coordination | Medication welcome calls, patient education, clinical review follow-ups, adverse event documentation, clinical tracker updates                 | EHR, clinical tracking systems, adverse event reporting systems                               | High               | "Complete medication welcome calls with education and schedule guidance. Coordinate follow-ups from report reviews including imaging and screenings. File adverse event forms on time and maintain clinical trackers."                                                                                       |
+| Order Entry Specialist (OES)                                | Front Office                   | Medication order entry, demographics capture, insurance detail entry, documentation scanning/upload, benefits investigation for new orders     | EMR/EHR, order management systems, document management systems                                | High               | "Enter medication orders, demographics, and insurance details according to site standards. Scan and upload required documentation to patient records. Run benefits investigations for new orders."                                                                                                           |
+| Patient Claims Specialist (PCS)                             | Revenue Cycle                  | Claims tracking, payer follow-up, denial resolution, payment posting, reconciliation, patient billing questions                                | Billing software, claims platforms, payer portals, payment systems                            | High               | "Track claims and contact payers for status updates. Resolve denials and discrepancies with documented actions. Post payments and reconcile against expectations. Handle patient questions about balances and statements with clear notes."                                                                  |
+| Patient Accounts Receivable Specialist                      | Revenue Cycle                  | Outbound patient contact, billing question resolution, payment arrangement setup, aged receivables reduction, account note maintenance         | Billing systems, payment platforms, worklist management tools                                 | High               | "Contact patients via approved channels to reduce aged receivables. Explain statements, charges, and payment options while addressing objections respectfully. Set up and track approved payment plans with documented commitments."                                                                         |
+| Executive Assistant                                         | Operations                     | Calendar management, meeting coordination, inbox triage, document preparation, action item tracking, expense reports                           | Google Workspace/Microsoft Office, task trackers, calendar systems, email                     | Medium             | "Manage calendars, schedule meetings, and coordinate attendees across time zones. Triage email and messages and route requests to the right owner. Create and format documents, spreadsheets, and simple presentations."                                                                                     |
+| Medical Scribe (MBBS)                                       | Clinical and Care Coordination | Real-time clinical documentation, chart preparation, problem list updates, medication/allergy documentation, history capture                   | EHR systems, clinical documentation platforms                                                 | High               | "Document patient encounters including history, exam findings, diagnostics, assessment, and plan in the EHR. Prepare charts before visits by organizing relevant history and results. Update problem lists, medications, allergies, and past history as directed by the provider."                           |
+| Accounts Receivable Executive (Patient Balance Collections) | Revenue Cycle                  | Patient-facing collections, outbound contact cadence, payment plan setup/tracking, secure payment processing, billing objection handling       | Practice management systems, billing platforms, payment processing tools, AR worklist systems | High               | "Contact patients via phone and approved channels to collect outstanding balances and reduce aged AR. Explain statements, charges, and payment options; address common billing objections. Set up and track payment plans when approved; document commitments. Take payments securely using approved tools." |
+
+### 2.2 Role-based training matrix (reproduced)
+
+| Role                                                        | Required Courses                                                   | Required Modules                                                      | Refresher Cadence                                                                                           |
+| ----------------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Client Success Specialist (Medical Benefits)                | Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6     | All modules from assigned courses                                     | Annual baseline + role change + policy change + incident-triggered                                          |
+| Clinical Nurse Coordinator                                  | Course 1 (Clinical Support variant), Course 3, Course 6            | All modules from assigned courses                                     | Annual baseline + role change + policy change + incident-triggered                                          |
+| Order Entry Specialist (OES)                                | Course 1 (Front Office variant), Course 2, Course 3, Course 6      | All modules from assigned courses                                     | Annual baseline + role change + policy change + incident-triggered                                          |
+| Patient Claims Specialist (PCS)                             | Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6     | All modules from assigned courses                                     | Annual baseline + role change + policy change + incident-triggered                                          |
+| Patient Accounts Receivable Specialist                      | Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6     | All modules from assigned courses                                     | Annual baseline + role change + policy change + incident-triggered                                          |
+| Executive Assistant                                         | Course 1 (Executive Support variant), Course 3, Course 5, Course 6 | All modules from assigned courses                                     | Annual baseline + role change + policy change + incident-triggered                                          |
+| Medical Scribe (MBBS)                                       | Course 1 (Clinical Support variant), Course 3, Course 4, Course 6  | All modules from assigned courses + specialty templates from Course 4 | Annual baseline + role change + policy change + incident-triggered + quarterly clinical documentation audit |
+| Accounts Receivable Executive (Patient Balance Collections) | Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6     | All modules from assigned courses                                     | Annual baseline + role change + policy change + incident-triggered                                          |
+
+### 2.3 LMS enrollment rule summary per role
+
+Applies to every role below: assign at hire per matrix; assign on role change per “Role Change” cadence; assign on policy change per “Policy Change” cadence with impacted modules only; assign on incident per “Incident-Triggered” cadence with scope determined by incident type and root cause; assign client-specific addendum on new client assignment per “Client-Specific” cadence.
+
+* Client Success Specialist (Medical Benefits)
+
+  * At hire: Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6 (all modules from assigned courses)
+  * Role change: add new role’s required courses/modules within 5 business days; new baseline starts
+  * Policy change: impacted modules within 10 business days; module flagged by policy mapping
+  * Incident: remediation within 3 business days of incident closure; scope per type and root cause
+  * Client assignment: client-specific addendum within 3 business days
+
+* Clinical Nurse Coordinator
+
+  * At hire: Course 1 (Clinical Support variant), Course 3, Course 6 (all modules)
+  * Role change, policy change, incident, client assignment: same rules above
+
+* Order Entry Specialist (OES)
+
+  * At hire: Course 1 (Front Office variant), Course 2, Course 3, Course 6 (all modules)
+  * Role change, policy change, incident, client assignment: same rules above
+
+* Patient Claims Specialist (PCS)
+
+  * At hire: Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6 (all modules)
+  * Role change, policy change, incident, client assignment: same rules above
+
+* Patient Accounts Receivable Specialist
+
+  * At hire: Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6 (all modules)
+  * Role change, policy change, incident, client assignment: same rules above
+
+* Executive Assistant
+
+  * At hire: Course 1 (Executive Support variant), Course 3, Course 5, Course 6 (all modules)
+  * Role change, policy change, incident, client assignment: same rules above
+
+* Medical Scribe (MBBS)
+
+  * At hire: Course 1 (Clinical Support variant), Course 3, Course 4, Course 6 (all modules from assigned courses + specialty templates from Course 4)
+  * Role change, policy change, incident, client assignment: same rules above
+  * Additional cadence: quarterly clinical documentation audit (as stated in matrix)
+
+* Accounts Receivable Executive (Patient Balance Collections)
+
+  * At hire: Course 1 (Revenue Cycle variant), Course 2, Course 3, Course 6 (all modules)
+  * Role change, policy change, incident, client assignment: same rules above
+
+---
+
+## 3) COURSE CATALOG (COURSE-BY-COURSE)
+
+### 3.1 COURSE 1: HIPAA PRIVACY, SECURITY, AND BREACH RESPONSE (ROLE-BASED)
+
+#### 3.1.0 Course Overview
+
+* Audience: All Uplift roles: Client Success Specialist (Medical Benefits), Clinical Nurse Coordinator, Order Entry Specialist, Patient Claims Specialist, Patient Accounts Receivable Specialist, Executive Assistant, Medical Scribe, Accounts Receivable Executive. Training includes common core plus role-specific variants.
+* Prerequisites: None. This is foundational training completed before any other course.
+* Duration options and tracks
+
+  * Essentials Track: 6 hours (foundation only, no role variants). For roles with indirect PHI exposure or temporary assignments.
+  * Standard Track: 10 hours (common core + role variant + standard scenarios). Required for most operational roles.
+  * Intensive Track: 16 hours (common core + role variant + all scenarios + live simulations + policy writing workshop). Required for supervisors, trainers, and high-risk roles.
+* Learning outcomes (preserved, reorganized by domain only)
+
+  * PHI identification and minimum necessary
+
+    1. Identify PHI and ePHI in all formats encountered in their role (verbal, written, electronic, visual)
+    2. Apply minimum necessary principle to routine tasks without supervisor consultation
+  * Verification and permitted disclosures
+    3. Verify patient identity using approved methods before discussing PHI by phone or in writing
+    4. Recognize permitted uses and disclosures that do not require patient authorization
+    13. Escalate unclear situations to supervisor before proceeding with PHI disclosure
+  * Access controls and security hygiene
+    5. Execute access controls including password management, MFA enrollment, and session timeout discipline
+    6. Detect phishing attempts, suspicious emails, and social engineering tactics targeting healthcare data
+    7. Maintain workstation security in remote Pakistan-based environment including clean screen, clean desk, and secure network practices
+    14. Maintain confidentiality expectations under Pakistan-based operations constraints
+  * Documentation discipline and audit readiness
+    8. Document PHI-related activities in compliance with client requirements and audit readiness standards
+  * Incident and breach response
+    9. Identify incidents requiring immediate escalation and execute containment steps
+    10. Follow breach response playbook including evidence preservation and do-not-delete rules
+    15. Execute handoff protocols that protect PHI during shift changes and coverage situations
+  * Accountability and role-specific application
+    11. Explain sanctions policy and accountability framework to peers
+    12. Apply role-specific privacy and security controls for their assigned function
+
+#### 3.1.1 Modular Architecture
+
+Course ID and naming baseline: UT-HC-C1-v1
+
+Common core modules (C1-M01 to C1-M12), plus role variants (C1-M13 to C1-M16), plus Intensive-only capstone element (C1-CAP).
+
+Each lesson is 10 to 25 minutes.
+
+---
+
+##### C1-M01 PHI Fundamentals and Identification (60 min)
+
+* Objectives: Define PHI/ePHI; identify PHI in mixed content; distinguish direct vs indirect identifiers
+* Key topics: 18 HIPAA identifiers; combined vs standalone data; de-identification principles; role-based examples
+* Activity/Lab: Review 15 work artifacts (emails, tickets, notes), highlight all PHI, submit redacted versions
+* Knowledge check: 15-item quiz: identify PHI in screenshots, flag inappropriate disclosures, select minimum necessary option
+* Lessons
+
+  * C1-M01-L01 (20): PHI vs ePHI in all formats (verbal, written, electronic, visual)
+
+    * Objectives: Define PHI/ePHI; recognize formats encountered in roles
+    * Outline: PHI definition; ePHI definition; examples by format; role-based examples anchor
+    * Activity steps: Artifact set orientation; label format type per artifact
+    * Knowledge check mapping: Pre-test domain PHI identification; Module 1 quiz items
+  * C1-M01-L02 (20): Identifiers and mixed-content detection
+
+    * Objectives: Identify PHI in mixed content; distinguish direct vs indirect identifiers
+    * Outline: 18 identifiers; direct vs indirect; combined vs standalone data; mixed-content scanning method
+    * Activity steps: Highlight PHI in 8 artifacts; mark direct vs indirect identifiers
+    * Knowledge check mapping: Module 1 quiz screenshots and inappropriate disclosure flags
+  * C1-M01-L03 (20): De-identification principles and redaction readiness
+
+    * Objectives: Apply de-identification principles; prepare redacted versions for submission
+    * Outline: De-identification principles; minimum-necessary mindset preview; redaction expectations for lab submission
+    * Activity steps: Redact remaining artifacts; submit redacted versions
+    * Knowledge check mapping: Module 1 quiz minimum necessary option selection
+
+##### C1-M02 Permitted Uses and Disclosures Framework (75 min)
+
+* Objectives: Recognize treatment, payment, operations boundaries; identify when patient authorization not required; escalate ambiguous requests
+* Key topics: TPO framework; business associate relationships; permitted disclosures to family/representatives; minimum necessary in TPO contexts
+* Activity/Lab: Case studies deciding approve/deny/escalate disclosures; justify reasoning
+* Knowledge check: 12-item scenario quiz: approve/deny/escalate with justification
+* Lessons
+
+  * C1-M02-L01 (25): TPO boundaries and disclosure decision points
+
+    * Outline: Treatment vs payment vs operations boundaries; decision points; escalation triggers
+    * Activity: Case set 1 with justification notes
+    * Knowledge check: Module 2 scenario items
+  * C1-M02-L02 (25): Business associate relationships and permitted disclosures
+
+    * Outline: Business associate relationships; permitted disclosures to family/representatives; authorization not required contexts
+    * Activity: Case set 2, identify relationship and allowed disclosure
+    * Knowledge check: Module 2 scenario items
+  * C1-M02-L03 (25): Minimum necessary inside TPO and ambiguity escalation
+
+    * Outline: Minimum necessary in TPO contexts; ambiguous request handling; supervisor escalation rule
+    * Activity: Case set 3, label minimum necessary and escalation rationale
+    * Knowledge check: Module 2 justification scoring
+
+##### C1-M03 Minimum Necessary and Access Controls (90 min)
+
+* Objectives: Apply minimum necessary to routine workflows; configure and maintain access controls; recognize access creep and role drift
+* Key topics: Need-to-know; role-based access; least privilege; access request procedures; periodic access reviews; prohibition on curiosity browsing
+* Activity/Lab: Audit own access list; draft removal request; review peer access scenario and flag violations
+* Knowledge check: 10-item quiz + practical: 8 access scenarios; mock access request form
+* Lessons
+
+  * C1-M03-L01 (20): Need-to-know, least privilege, role-based access
+
+    * Outline: Need-to-know basis; role-based access; least privilege principle; access creep and role drift
+    * Activity: Map own tasks to minimum access set
+    * Knowledge check: Pre-test access controls; Module 3 quiz
+  * C1-M03-L02 (25): Access request procedures and periodic access reviews
+
+    * Outline: Access request procedures; periodic access reviews; removal request expectations
+    * Activity: Audit own access list; identify unnecessary permissions
+    * Knowledge check: Module 3 practical mock request form
+  * C1-M03-L03 (20): Curiosity browsing prohibition and logged audit awareness
+
+    * Outline: Prohibition on curiosity browsing; audit log awareness; examples
+    * Activity: Peer scenario review and violation flagging
+    * Knowledge check: Module 3 scenario items
+  * C1-M03-L04 (25): Minimum necessary application to routine workflows
+
+    * Outline: Apply minimum necessary to routine workflows; default-to-less rule; supervisor scope guidance rule
+    * Activity: Evaluate 8 access scenarios for minimum necessary violations
+    * Knowledge check: Module 3 quiz and practical scenario scoring
+
+##### C1-M04 Patient Identity Verification and Caller Authentication (45 min)
+
+* Objectives: Execute approved identity verification procedures; handle verification failures; document verification attempts
+* Key topics: Demographic matching requirements; DOB usage; last-four SSN protocols; verbal password systems; unverifiable caller scripts; wrong-person prevention
+* Activity/Lab: Role play with increasing difficulty (cooperative patient, rushed patient, family member, potential impersonator)
+* Knowledge check: 8-item quiz + verbal authentication simulation graded on script adherence and handling verification failure
+* Lessons
+
+  * C1-M04-L01 (20): Approved verification steps and demographic matching
+
+    * Outline: Demographic matching requirements; DOB usage; last-four SSN protocols; verbal password systems
+    * Activity: Script walk-through and guided practice
+    * Knowledge check: Module 4 quiz
+  * C1-M04-L02 (25): Verification failures, unverifiable callers, wrong-person prevention documentation
+
+    * Outline: Unverifiable caller scripts; termination rules; wrong-person prevention; document verification attempts
+    * Activity: Role play escalation in difficulty; document attempts
+    * Knowledge check: Module 4 simulation rubric
+
+##### C1-M05 Remote Workstation Security (Pakistan Operations) (90 min)
+
+* Objectives: Secure remote work environment; prevent physical and technical breaches; maintain device controls; respond to home office compromise
+* Key topics: Clean screen policies; privacy filters; visitor protocols; family member boundaries; device-only-use rules; home network security; VPN discipline; secure disposal; Pakistan cybercrime awareness
+* Activity/Lab: Photograph workspace; complete checklist; identify 5 remediations; complete mock security incident report for compromised home device
+* Knowledge check: 12-item quiz + workspace self-audit submission with photographic evidence and remediation plan
+* Lessons
+
+  * C1-M05-L01 (20): Physical privacy controls in Pakistan-based remote environment
+
+    * Outline: Clean screen; privacy filters; visitor protocols; family member boundaries
+    * Activity: Workspace checklist draft
+    * Knowledge check: Module 5 quiz items
+  * C1-M05-L02 (25): Network and device controls
+
+    * Outline: Device-only-use rules; home network security; VPN discipline
+    * Activity: Identify device and network control gaps
+    * Knowledge check: Module 5 quiz items
+  * C1-M05-L03 (25): Secure disposal and Pakistan cybercrime awareness (awareness level)
+
+    * Outline: Secure disposal; Pakistan cybercrime awareness; local risk recognition
+    * Activity: Remediation list (5 items) aligned to identified risks
+    * Knowledge check: Module 5 quiz items
+  * C1-M05-L04 (20): Home office compromise response and reporting
+
+    * Outline: Respond to home office compromise; mock security incident report components
+    * Activity: Complete mock security incident report
+    * Knowledge check: Module 5 audit submission rubric
+
+##### C1-M06 Authentication, Passwords, and MFA (60 min)
+
+* Objectives: Create compliant passwords; enroll in MFA; recognize and prevent password sharing; respond to account compromise
+* Key topics: Password complexity rules; password managers (if approved); password rotation cadence; MFA types and setup; prohibition on sharing credentials; session timeout compliance; logout discipline
+* Activity/Lab: Change password; enroll in MFA using test system; force session timeout and verify auto-lock
+* Knowledge check: 8-item quiz + MFA enrollment verification + password strength assessment
+* Lessons
+
+  * C1-M06-L01 (20): Password complexity, rotation cadence, and password managers (if approved)
+
+    * Activity: Build compliant password examples; identify weak-but-compliant pitfalls
+    * Knowledge check: Module 6 quiz + password strength assessment
+  * C1-M06-L02 (20): MFA types, setup, and verification
+
+    * Activity: Enroll in MFA in test system; capture enrollment verification
+    * Knowledge check: Module 6 MFA verification
+  * C1-M06-L03 (20): Session timeout, logout discipline, credential sharing prohibition, compromise response
+
+    * Activity: Force session timeout; re-authenticate; scenario discussion on credential sharing
+    * Knowledge check: Module 6 quiz + practicals
+
+##### C1-M07 Email, Messaging, and Communication Hygiene (75 min)
+
+* Objectives: Compose PHI-safe emails; use approved channels; prevent auto-complete errors; apply encryption when required
+* Key topics: Subject line rules; attachment encryption; auto-complete risks; reply-all dangers; forwarding restrictions; banned channels (SMS, WhatsApp, personal email); approved platforms only
+* Activity/Lab: Rewrite 10 unsafe emails; identify channel violations in mixed-channel scenario
+* Knowledge check: 10-item quiz + email rewrite exercise scored on PHI removal from subject lines and proper channel usage
+* Lessons
+
+  * C1-M07-L01 (25): Subject line rules and PHI-safe email construction
+
+    * Activity: Rewrite set A (subject lines) from unsafe to PHI-safe
+    * Knowledge check: Module 7 quiz subject line items
+  * C1-M07-L02 (25): Attachments, encryption when required, and forwarding restrictions
+
+    * Activity: Rewrite set B (body and attachments) with encryption decision notes
+    * Knowledge check: Module 7 quiz encryption and forwarding items
+  * C1-M07-L03 (25): Recipient risks and channel discipline
+
+    * Outline: Auto-complete risks; reply-all dangers; banned channels; approved platforms only
+    * Activity: Mixed-channel violation identification
+    * Knowledge check: Module 7 channel selection and recipient-risk items
+
+##### C1-M08 Phishing, Social Engineering, and Malware Defense (60 min)
+
+* Objectives: Detect phishing emails; handle suspicious calls; avoid malware; report security threats
+* Key topics: Phishing indicators; CEO fraud patterns; urgent request red flags; link inspection; attachment caution; phone-based social engineering; USB/removable media risks; reporting procedures
+* Activity/Lab: Interactive phishing simulation: review 20 emails and mark safe/phishing/suspicious; explain reasoning
+* Knowledge check: 15-item quiz + phishing simulation results; must achieve 90% detection accuracy
+* Lessons
+
+  * C1-M08-L01 (20): Phishing indicators and sender/link inspection
+
+    * Activity: Simulation set 1 with reasoning notes
+    * Knowledge check: Module 8 quiz + simulation scoring
+  * C1-M08-L02 (20): Social engineering patterns and phone-based tactics
+
+    * Activity: Call script scenarios, identify manipulation cues
+    * Knowledge check: Module 8 quiz items
+  * C1-M08-L03 (20): Malware entry points and USB/removable media risks, reporting procedures
+
+    * Activity: Simulation set 2, include attachment and USB risk cases
+    * Knowledge check: Module 8 detection accuracy threshold alignment
+
+##### C1-M09 Documentation Discipline and Audit Readiness (75 min)
+
+* Objectives: Document PHI activities to meet audit standards; avoid prohibited documentation; maintain note quality
+* Key topics: What must be documented; what must never be documented; timestamps and attribution; approved abbreviations; structured note templates; audit log awareness; documentation as evidence
+* Activity/Lab: 5 documentation exercises (log a disclosure, document an incident, write an encounter note, record a patient call); peer review
+* Knowledge check: 10-item quiz + 3 documentation submissions graded on completeness, accuracy, absence of prohibited content
+* Lessons
+
+  * C1-M09-L01 (25): Required vs prohibited documentation, audit readiness mindset
+
+    * Activity: Identify prohibited content in sample notes
+    * Knowledge check: Module 9 quiz prohibited-content items
+  * C1-M09-L02 (25): Timestamps, attribution, abbreviations, structured templates
+
+    * Activity: Complete 2 documentation exercises using template discipline
+    * Knowledge check: Module 9 quiz + submission rubric
+  * C1-M09-L03 (25): Documentation as evidence and audit log awareness
+
+    * Activity: Complete remaining documentation exercises; peer review for completeness and prohibited content
+    * Knowledge check: Module 9 submissions (3) graded
+
+##### C1-M10 Incident Identification and Immediate Response (90 min)
+
+* Objectives: Recognize incidents in real time; execute containment; escalate properly; preserve evidence
+* Key topics: Incident definition; wrong-person scenarios; unauthorized access; lost device; phishing click; data spill; misdirected fax/email; screenshot misuse; near-miss reporting; do-not-delete rules
+* Activity/Lab: Simulation responding to 8 incident scenarios in sequence, documenting response step and escalation decision
+* Knowledge check: 12-item quiz + incident response simulation graded on speed, containment actions, escalation accuracy
+* Lessons
+
+  * C1-M10-L01 (25): Incident definition and recognition patterns
+
+    * Activity: Classify scenario triggers (wrong-person, unauthorized access, lost device, phishing click, data spill, misdirected fax/email, screenshot misuse, near-miss)
+    * Knowledge check: Pre-test incident recognition; Module 10 quiz
+  * C1-M10-L02 (25): Containment steps and escalation decision mechanics
+
+    * Activity: Simulation run 1 (4 incidents) with timed decisions
+    * Knowledge check: Module 10 simulation rubric
+  * C1-M10-L03 (20): Evidence preservation and do-not-delete rules during incidents
+
+    * Activity: Simulation run 2 (2 incidents) emphasizing evidence handling
+    * Knowledge check: Module 10 quiz do-not-delete items
+  * C1-M10-L04 (20): Full sequence execution and documentation quality under pressure
+
+    * Activity: Simulation run 3 (2 incidents) focusing speed and completeness
+    * Knowledge check: Module 10 graded simulation completion
+
+##### C1-M11 Breach Response Playbook and Evidence Preservation (60 min)
+
+* Objectives: Differentiate incident from breach; follow breach escalation tree; preserve evidence; cooperate with investigation
+* Key topics: Breach vs incident criteria; escalation timelines; evidence types (logs, emails, notes, screenshots); spoliation risk; investigation cooperation; interview preparation; witness statements
+* Activity/Lab: Review breach case study; identify evidence to preserve; complete chain-of-custody log; draft witness statement
+* Knowledge check: 8-item quiz + mock breach investigation participation scored on evidence preservation and statement accuracy
+* Lessons
+
+  * C1-M11-L01 (20): Incident vs breach and escalation timelines
+
+    * Activity: Decision tree practice on sample cases
+    * Knowledge check: Module 11 quiz
+  * C1-M11-L02 (20): Evidence types, spoliation risk, chain-of-custody discipline
+
+    * Activity: Complete chain-of-custody log for case study evidence set
+    * Knowledge check: Module 11 exercise scoring
+  * C1-M11-L03 (20): Investigation cooperation, interview preparation, witness statements
+
+    * Activity: Draft witness statement aligned to evidence preserved
+    * Knowledge check: Module 11 participation scoring
+
+##### C1-M12 Sanctions, Accountability, and Reporting Culture (45 min)
+
+* Objectives: Explain sanctions framework; encourage peer reporting; model accountability; maintain confidentiality during investigations
+* Key topics: Progressive discipline process; termination scenarios; peer reporting duties; retaliation prohibition; confidentiality during investigations; culture of safety vs blame
+* Activity/Lab: Group discussion analyzing 5 discipline scenarios; determine appropriate sanction level; discuss reporting barriers and solutions
+* Knowledge check: 8-item quiz + sanctions reasoning exercise justifying discipline decisions
+* Lessons
+
+  * C1-M12-L01 (20): Sanctions framework and progressive response
+
+    * Outline: First, second, third, fourth occurrence actions; acceleration clause for high-severity failures involving PHI exposure or compliance violations
+    * Activity: Discipline scenarios set A (determine sanction level)
+    * Knowledge check: Module 12 quiz
+  * C1-M12-L02 (25): Reporting culture, confidentiality, retaliation prohibition
+
+    * Activity: Discipline scenarios set B + reporting barriers analysis
+    * Knowledge check: Module 12 reasoning exercise justification
+
+---
+
+Role variants (assign exactly one variant per learner based on role)
+
+##### C1-M13 Role Variant: Revenue Cycle (90 min)
+
+* Objectives: Apply privacy/security to claims, billing, collections, benefits; handle payer and patient financial data
+* Key topics: Claims file security; payer portal discipline; payment posting controls; patient billing calls; collection call scripts; balance disputes; EOB handling; financial assistance documentation
+* Activity/Lab: 10 role-specific scenarios (benefits call with verification failure, claim denial research with payer contact, patient collection call with dispute, financial assistance enrollment)
+* Knowledge check: 15-item role-specific quiz + 3 scenario responses graded on role-appropriate application
+* Lessons
+
+  * C1-M13-L01 (25): Payer portal discipline and claims file security
+
+    * Activity: Scenario mini-set: benefits research and claim status without over-access
+    * Knowledge check: Role-variant quiz items
+  * C1-M13-L02 (25): Patient billing and collection calls with verification and minimum necessary
+
+    * Activity: Scenario mini-set: dispute handling, professional tone, no extra PHI disclosure
+    * Knowledge check: Scenario response rubric
+  * C1-M13-L03 (20): Payment posting controls, EOB handling, reconciliation safeguards
+
+    * Activity: Identify control points and documentation requirements
+    * Knowledge check: Role-variant quiz items
+  * C1-M13-L04 (20): Financial assistance documentation and escalation boundaries
+
+    * Activity: Scenario mini-set: enrollment documentation, allowed disclosures, escalation triggers
+    * Knowledge check: Scenario response rubric
+
+Applicable roles: Client Success Specialist (Medical Benefits), Patient Claims Specialist (PCS), Patient Accounts Receivable Specialist, Accounts Receivable Executive (Patient Balance Collections)
+
+##### C1-M14 Role Variant: Clinical Support (90 min)
+
+* Objectives: Apply privacy/security to clinical documentation, patient education, care coordination
+* Key topics: EHR documentation controls; real-time scribing boundaries; clinical call scripts; medication welcome calls; imaging/lab follow-up; adverse event reporting; clinical note security
+* Activity/Lab: 10 scenarios (documentation with incomplete verification, adverse event filing, imaging result follow-up call, clinical note correction request)
+* Knowledge check: 15-item quiz + 3 scenario responses graded on clinical-specific privacy application
+* Lessons
+
+  * C1-M14-L01 (25): EHR documentation controls and clinical note security
+  * C1-M14-L02 (25): Clinical call scripts, medication welcome calls, verification failures
+  * C1-M14-L03 (20): Imaging/lab follow-up, adverse event reporting, escalation timing
+  * C1-M14-L04 (20): Note corrections, do-not-delete, documentation boundaries
+    Applicable roles: Clinical Nurse Coordinator, Medical Scribe (MBBS)
+
+##### C1-M15 Role Variant: Front Office (90 min)
+
+* Objectives: Apply privacy/security to order entry, scheduling, demographics, insurance verification
+* Key topics: Order entry workflows; demographics accuracy; insurance card handling; scheduling with PHI-safe confirmations; referral coordination; phone screening scripts
+* Activity/Lab: 10 scenarios (order entry with missing consent, scheduling confirmation with wrong number, insurance verification with unverifiable caller, referral follow-up)
+* Knowledge check: 15-item quiz + 3 scenario responses graded on front-office-specific privacy controls
+* Lessons
+
+  * C1-M15-L01 (25): Order entry workflow controls and documentation scanning/upload discipline
+  * C1-M15-L02 (25): Scheduling confirmations and wrong-number prevention
+  * C1-M15-L03 (20): Insurance verification, unverifiable caller handling, escalation
+  * C1-M15-L04 (20): Referral coordination, phone screening scripts, minimum necessary
+    Applicable roles: Order Entry Specialist (OES)
+
+##### C1-M16 Role Variant: Executive Support (60 min)
+
+* Objectives: Apply privacy/security to calendar, email, meetings, documents
+* Key topics: Calendar entries with PHI; meeting notes with redaction; email triage without reading PHI; document preparation boundaries; executive travel and mobile device security
+* Activity/Lab: 8 scenarios (calendar invitation with patient name, meeting notes with clinical details, email triage requiring PHI review, document sent to wrong recipient)
+* Knowledge check: 12-item quiz + 2 scenario responses graded on executive-support-appropriate privacy practices
+* Lessons
+
+  * C1-M16-L01 (20): Calendar PHI controls and attendee need-to-know
+  * C1-M16-L02 (20): Email triage without unnecessary PHI access, misdirected communications response
+  * C1-M16-L03 (20): Meeting notes redaction and document preparation boundaries, travel/mobile security awareness
+    Applicable roles: Executive Assistant
+
+---
+
+Intensive-only capstone element (preserved from Intensive Track definition)
+
+##### C1-CAP Policy Writing Workshop (Intensive Track only)
+
+* Placement: after completion of common core + assigned role variant and scenario coverage
+* Content boundary: workshop activity only, no new policy content introduced beyond course topics
+* Activity: policy writing workshop (as stated)
+* Evidence/assessment: instructor-led participation record stored via training records fields (Instructor name, delivery mode)
+
+---
+
+#### 3.1.2 Scenario Bank (Course 1)
+
+Risk type tags limited to: privacy, security, documentation, billing/RCM, clinical documentation, operations, social engineering, remote-work physical security
+
+Scenarios (re-listed, unchanged in meaning), with tags:
+
+1. Wrong Phone Number
+
+* Roles: Patient Accounts Receivable Specialist; Accounts Receivable Executive (Patient Balance Collections); Patient Claims Specialist (PCS); Client Success Specialist (Medical Benefits); Order Entry Specialist (OES) (caller identity and wrong-person principles apply)
+* Modules/Lessons: C1-M04-L02; C1-M10-L01 to L04; C1-M09-L01 to L03
+* Risk tag: privacy
+
+2. Spouse Requests Results
+
+* Roles: Clinical Nurse Coordinator; Medical Scribe (MBBS)
+* Modules/Lessons: C1-M02-L02 to L03; C1-M04-L02; C1-M14-L02
+* Risk tag: clinical documentation (disclosure boundary) + privacy
+
+3. Phishing Email with Client Logo
+
+* Roles: All roles
+* Modules/Lessons: C1-M08-L01 to L03; C1-M10-L01; C1-M11-L02
+* Risk tag: social engineering + security
+
+4. Family Member in Home Office During Work
+
+* Roles: Medical Scribe (MBBS); Clinical Nurse Coordinator
+* Modules/Lessons: C1-M05-L01; C1-M14-L02; C1-M09-L03
+* Risk tag: remote-work physical security + privacy
+
+5. Screenshot Request from Colleague
+
+* Roles: Order Entry Specialist (OES); all roles (screenshot prohibition principles)
+* Modules/Lessons: C1-M01-L03; C1-M07-L03; C1-M09-L01; C1-M10-L01
+* Risk tag: documentation + privacy
+
+6. USB Drive Found in Office
+
+* Roles: All roles
+* Modules/Lessons: C1-M08-L03; C1-M10-L01 to L04; C1-M11-L02
+* Risk tag: security
+
+7. Auto-Complete Sends Email to Wrong Recipient
+
+* Roles: Patient Claims Specialist (PCS); all roles (recipient verification principles)
+* Modules/Lessons: C1-M07-L03; C1-M10-L01 to L04; C1-M11-L02
+* Risk tag: documentation + privacy
+
+8. Patient Disputes Balance Aggressively
+
+* Roles: Accounts Receivable Executive (Patient Balance Collections); Patient Accounts Receivable Specialist; Patient Claims Specialist (PCS)
+* Modules/Lessons: C1-M13-L02; C1-M09-L02 to L03
+* Risk tag: billing/RCM + operations
+
+9. System Timeout During Active Work
+
+* Roles: Client Success Specialist (Medical Benefits); all roles
+* Modules/Lessons: C1-M06-L03; C1-M03-L02
+* Risk tag: security
+
+10. Calendar Invitation Shows Patient Name
+
+* Roles: Executive Assistant
+* Modules/Lessons: C1-M16-L01; C1-M10-L01 to L04; C1-M11-L02
+* Risk tag: operations + privacy
+
+11. Payer Requests Documentation Without Authorization
+
+* Roles: Patient Claims Specialist (PCS)
+* Modules/Lessons: C1-M02-L01 to L03; C1-M13-L01; C1-M09-L02
+* Risk tag: billing/RCM + privacy
+
+12. Lost Company Laptop During Travel
+
+* Roles: All roles
+* Modules/Lessons: C1-M05-L02 to L04; C1-M10-L01 to L04; C1-M11-L02
+* Risk tag: security + remote-work physical security
+
+13. Colleague Shares Password to Meet Deadline
+
+* Roles: Patient Claims Specialist (PCS); all roles
+* Modules/Lessons: C1-M06-L03; C1-M03-L01 to L03
+* Risk tag: security
+
+14. Patient Requests Copy of Records to Personal Email
+
+* Roles: Order Entry Specialist (OES)
+* Modules/Lessons: C1-M02-L01 to L03; C1-M07-L02; C1-M15-L01
+* Risk tag: privacy + documentation
+
+15. Public Wi-Fi Connection During Power Outage
+
+* Roles: Medical Scribe (MBBS); all roles
+* Modules/Lessons: C1-M05-L02; C1-M05-L04
+* Risk tag: remote-work physical security + security
+
+16. Verbal Verification Fails Three Times
+
+* Roles: Clinical Nurse Coordinator
+* Modules/Lessons: C1-M04-L02; C1-M14-L02; C1-M09-L02
+* Risk tag: clinical documentation + privacy
+
+17. Insurance Card Photograph on Personal Device
+
+* Roles: Client Success Specialist (Medical Benefits)
+* Modules/Lessons: C1-M05-L02; C1-M07-L03; C1-M13-L01
+* Risk tag: security + privacy
+
+18. Denial Resolution Requires Payer Call with Patient on Line
+
+* Roles: Patient Claims Specialist (PCS)
+* Modules/Lessons: C1-M02-L01 to L03; C1-M04-L01 to L02; C1-M13-L01
+* Risk tag: billing/RCM + privacy
+
+19. Software Update Alert During Patient Encounter
+
+* Roles: Medical Scribe (MBBS)
+* Modules/Lessons: C1-M05-L02; C1-M05-L04
+* Risk tag: security + clinical documentation
+
+20. Access to Records of Known Individual
+
+* Roles: Order Entry Specialist (OES); all roles
+* Modules/Lessons: C1-M03-L03; C1-M12-L02
+* Risk tag: privacy + security
+
+---
+
+#### 3.1.3 Job Aids and SOP Pack (Course 1)
+
+Re-listed unchanged, mapped to lesson introduction, practice, reference.
+
+1. PHI Identifier Quick Reference Card
+
+* Introduce: C1-M01-L02
+* Practice: C1-M01-L02 to L03
+* Reference: C1-M09-L01 to L03; C1-M10-L01
+
+2. Minimum Necessary Decision Tree
+
+* Introduce: C1-M03-L04
+* Practice: C1-M03-L04; C1-M02-L03; C1-M13-L02
+* Reference: C1-M09-L01; C1-M10-L02
+
+3. Phone Verification Script
+
+* Introduce: C1-M04-L01
+* Practice: C1-M04-L01 to L02; role plays
+* Reference: C1-M13-L02; C1-M14-L02; C1-M15-L03; C1-M16-L02
+
+4. Password Complexity Checker
+
+* Introduce: C1-M06-L01
+* Practice: C1-M06-L01
+* Reference: C1-M06-L03
+
+5. Phishing Email Checklist
+
+* Introduce: C1-M08-L01
+* Practice: C1-M08-L01 to L03 simulation
+* Reference: C1-M10-L01; C1-M11-L02
+
+6. Clean Desk Daily Checklist
+
+* Introduce: C1-M05-L01
+* Practice: C1-M05-L01 workspace audit
+* Reference: C1-M05-L04 incident reporting
+
+7. Incident Escalation Tree
+
+* Introduce: C1-M10-L02
+* Practice: C1-M10-L02 to L04 simulations
+* Reference: C1-M11-L01
+
+8. Do-Not-Delete Evidence Checklist
+
+* Introduce: C1-M10-L03
+* Practice: C1-M11-L02
+* Reference: C1-M10-L04; C1-M11-L03
+
+9. Email Subject Line Template Library
+
+* Introduce: C1-M07-L01
+* Practice: C1-M07-L01 rewrite
+* Reference: C1-M07-L03; C1-M16-L02
+
+10. Workstation Security Setup Guide
+
+* Introduce: C1-M05-L01 to L02
+* Practice: C1-M05-L01 to L04 workspace setup and remediation
+* Reference: C1-M05-L04
+
+11. MFA Enrollment Job Aid
+
+* Introduce: C1-M06-L02
+* Practice: C1-M06-L02
+* Reference: C1-M06-L03
+
+12. Disclosure Log Template
+
+* Introduce: C1-M09-L02
+* Practice: C1-M09-L02 to L03 documentation exercises
+* Reference: C1-M11-L03 investigation cooperation artifacts
+
+---
+
+#### 3.1.4 Assessment Package (Course 1)
+
+Pre-test blueprint (present)
+
+* Topics and item counts: PHI identification (5), minimum necessary (3), access controls (3), incident recognition (4). Total 15. Baseline only, no pass/fail.
+* Placement: before C1-M01
+
+Module quiz mapping (module by module, preserved)
+
+* Module 1: 15 items (PHI identification, direct identifiers, combined data scenarios)
+* Module 2: 12 items (permitted uses, authorization requirements, escalation triggers)
+* Module 3: 10 items + 1 practical (minimum necessary application, access controls)
+* Module 4: 8 items + 1 simulation (verification procedures, caller authentication)
+* Module 5: 12 items + 1 audit (workstation security, remote work controls, Pakistan-specific risks)
+* Module 6: 8 items + 2 practicals (password creation, MFA enrollment)
+* Module 7: 10 items + 1 exercise (email hygiene, channel selection, subject line rules)
+* Module 8: 15 items + 1 simulation (phishing detection, social engineering recognition)
+* Module 9: 10 items + 3 submissions (documentation completeness, audit readiness, note quality)
+* Module 10: 12 items + 1 simulation (incident recognition, containment, escalation)
+* Module 11: 8 items + 1 exercise (breach differentiation, evidence preservation, investigation cooperation)
+* Module 12: 8 items + 1 reasoning exercise (sanctions framework, peer reporting, accountability)
+* Modules 13-16 (Role Variants): 12-15 items + 2-3 scenarios per variant
+
+Final exam blueprint (present)
+
+* 100 items total. 25 items per domain: PHI identification and handling; access and security controls; incident and breach response; role-specific application.
+* Pass score: 85%.
+* Two attempts permitted.
+* 120-minute time limit.
+
+Practical evaluation rubric (present)
+Skills checklist for role-appropriate demonstrations:
+
+* Execute phone verification procedure with simulated patient (pass/fail per script adherence)
+* Identify PHI in 10 work artifacts and propose minimum necessary redactions (8/10 minimum)
+* Detect 15/18 phishing indicators in email simulation (minimum 83% accuracy)
+* Complete workstation security audit and remediation plan (all critical items addressed)
+* Respond to simulated incident with proper containment and escalation (all steps completed in sequence)
+* Document incident in required format with all mandatory fields (100% completeness)
+* Apply role-specific privacy controls to 5 scenarios (4/5 minimum correctness)
+
+Remediation Routing table (derived strictly from Trainer Guide remediation plan content and assessment structure)
+
+| Failure condition (as stated)                   | Required action (as stated)                                                                                                                                                                                                                                                       | Domain focus                      | Repeat these lessons (exact targets)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Module quiz below 80% after second attempt      | Schedule 1:1 coaching; review missed items; identify gap vs misunderstanding vs reading errors; additional scenario practice targeting gaps; third attempt after minimum 24-hour gap                                                                                              | Mapped to failed quiz domain(s)   | PHI identification: C1-M01-L01 to L03. Minimum necessary/access controls: C1-M03-L01 to L04. Permitted disclosures: C1-M02-L01 to L03. Verification: C1-M04-L01 to L02. Remote security: C1-M05-L01 to L04. Password/MFA: C1-M06-L01 to L03. Email hygiene: C1-M07-L01 to L03. Phishing: C1-M08-L01 to L03. Documentation: C1-M09-L01 to L03. Incident response: C1-M10-L01 to L04. Breach playbook: C1-M11-L01 to L03. Sanctions: C1-M12-L01 to L02. Role variant failures: repeat assigned variant lessons (C1-M13 or C1-M14 or C1-M15 or C1-M16). |
+| Final exam below 85% on first attempt           | Review item analysis; assign targeted re-study of specific modules; require notes on weak domains before second attempt                                                                                                                                                           | Weak domain(s) from item analysis | PHI handling: C1-M01. Access/security: C1-M03, C1-M06, C1-M07, C1-M08, C1-M05. Incident/breach: C1-M10, C1-M11. Role-specific application: assigned variant module lessons.                                                                                                                                                                                                                                                                                                                                                                          |
+| Second final exam failure                       | Escalate to operations manager and HR for performance plan                                                                                                                                                                                                                        | Persistent exam deficiency        | Repeat mapped weak-domain lessons above plus coaching session record captured in training record fields                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Practical evaluation failed tasks               | Break skills into smaller components; coach each to mastery before re-attempt full evaluation; remedial scenarios with decreasing complexity until baseline competency achieved                                                                                                   | Failed skill(s)                   | Phone verification: C1-M04-L01 to L02. PHI artifact ID and redaction: C1-M01-L02 to L03 + C1-M03-L04. Phishing detection: C1-M08-L01 to L03. Workstation audit: C1-M05-L01 to L04. Incident response: C1-M10-L01 to L04 + C1-M11-L02. Documentation completeness: C1-M09-L01 to L03. Role-specific controls: assigned variant lessons.                                                                                                                                                                                                               |
+| Persistent failures across multiple assessments | Investigate root cause (language barriers, technical access issues, role mismatch, confidence issues); may require role reassignment or additional prerequisite training (e.g., medical terminology if healthcare knowledge gap, English language support if communication issue) | Root cause category               | Repeat lessons aligned to identified gaps above; document root cause outcome in remediation plan artifacts                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+
+#### 3.1.5 Trainer Guide (Operational) (Course 1)
+
+Common failure modes (re-listed)
+
+* Minimum necessary over-application: Learners withhold information needed for care coordination out of excessive caution. Coach to distinguish operational need from curiosity.
+* Verification script abandonment: Learners skip verification steps when patient seems frustrated or time-pressured. Emphasize that verification protects patient, not staff convenience.
+* Password complexity shortcuts: Learners create passwords meeting letter of policy but easy to guess. Provide password manager education and passphrases guidance.
+* Phishing false negatives: Learners trust sophisticated phishing emails with correct logos and formatting. Focus on sender verification and link inspection, not appearance.
+* Incident under-reporting: Learners fail to report near-misses or minor incidents out of fear of consequences. Reinforce reporting culture and non-punitive investigation approach for honest mistakes.
+* Documentation incompleteness: Learners document actions but omit critical details like timestamps, verification results, escalation decisions. Provide templates that prompt for required fields.
+* Role-variant confusion: Learners apply controls from wrong role variant. Ensure clear labeling and role-appropriate scenario selection.
+
+Coaching tips (re-listed)
+
+* Use real incidents from healthcare (anonymized) to illustrate consequences. Abstract scenarios lack emotional impact.
+* Pair minimum necessary teaching with examples of under-disclosure causing care delays. Balance needed.
+* During phone verification practice, increase difficulty progressively. Start with cooperative patient, advance to impersonator attempts.
+* For remote workstation security, review learner workspace photos individually. Public group review creates defensiveness. Private review enables honest conversation.
+* Phishing simulation: don't penalize first failure. Treat as learning moment. Require re-take after coaching.
+* Incident response simulation: use timer to create urgency. Escalation decisions under time pressure reveal knowledge gaps.
+* For role variants, assign scenarios in learner's actual role first, then expose to other roles' scenarios to build empathy for cross-functional challenges.
+
+Remediation plan (re-listed)
+
+* Learners failing module quizzes (below 80%) after second attempt: Schedule 1:1 coaching session with trainer. Review missed items. Identify knowledge gaps vs misunderstanding vs reading errors. Provide additional scenario practice targeting gap areas. Require third attempt after minimum 24-hour gap for processing.
+* Learners failing final exam (below 85%) on first attempt: Review item analysis to identify weak domains. Assign targeted re-study of specific modules. Require learner to submit notes on weak domains before second attempt. If second attempt fails, escalate to operations manager and HR for performance plan.
+* Learners failing practical evaluation: Break skills into smaller components. Coach each component to mastery before re-attempting full evaluation. Use remedial scenarios with decreasing complexity until baseline competency achieved.
+* Persistent failures across multiple assessments: Investigate root cause - language barriers, technical access issues, role mismatch, confidence issues. May require role reassignment or additional prerequisite training (e.g., medical terminology if healthcare knowledge gap, English language support if communication issue).
+
+---
+
+## 5) FINAL COVERAGE AUDIT (PART 1 SCOPE ONLY)
+
+### 5.1 Topic Inventory (extracted list, PART 1 scope)
+
+Program-level standards
+
+* Delivery modes: Self-Paced Track; Instructor-Led Track; Blended Track
+* Minimum passing standards: Pre-test baseline only; module quizzes 80% with unlimited attempts and 24-hour cooling after third failure; final exam 85% with two attempts and third requiring manager approval + remediation plan; practical evaluation binary pass/fail per task with repeat until competency
+* Required training records fields (13 fields listed)
+* Refresher cadence logic: Annual Baseline (11-month notification); Role Change (5 business days); Policy Change (10 business days, flagged modules by policy mapping); Incident-Triggered (3 business days after closure, scope by type/root cause); Client-Specific (3 business days, core not repeated unless exceeds baseline)
+* Enforcement sanctions process language: First (verbal coaching + 3 business day extension + documented); Second (written warning + PIP + possible system suspension); Third (final written warning + escalation + suspension from client-facing work); Fourth (termination or non-renewal); acceleration clause; applies regardless of role/tenure
+* Definitions: PHI; ePHI; Minimum Necessary; Incident; Breach; breach determination by client privacy officer
+
+Role map and assignment rules
+
+* Role map fields: Role; Pod/Function; Core Tasks; Systems Touched; PHI Exposure Level; Evidence (for 8 roles)
+* Role-based training matrix rows for 8 roles including required courses, modules rule, refresher cadence strings
+* Enrollment rule summary triggers: hire; role change; policy change; incident; client assignment; quarterly clinical documentation audit (scribe)
+
+Course 1 elements
+
+* Audience statement
+* Duration options: Essentials 6 hours foundation only no role variants; Standard 10 hours; Intensive 16 hours including all scenarios + live simulations + policy writing workshop
+* Prerequisites: none
+* Learning outcomes 1 to 15 (verbatim)
+* Modules 1 to 16: titles, times, objectives, key topics, activity/lab, knowledge check
+* Scenario library 1 to 20 (titles and required response intents preserved)
+* Job aids and SOP pack 1 to 12
+* Assessment blueprint: pre-test domains/items; module quizzes per module; final exam structure/domains/pass/attempts/time; practical evaluation rubric items and thresholds
+* Trainer guide notes: common failure modes; coaching tips; remediation plan items
+
+### 5.2 Coverage Ledger (Topic Inventory item -> exact location in new structure, PART 1 scope)
+
+Program-level standards
+
+* Delivery modes -> Section 1.3
+* Passing standards -> Section 1.4; reinforced in Course 1 Assessment Package
+* Training records fields -> Section 1.5; referenced in C1-CAP evidence and assessment records
+* Refresher cadence logic -> Section 1.6; enrollment summary Section 2.3
+* Sanctions process language -> Section 1.7; Course 1 module C1-M12 lessons; Course 1 assessments include sanctions acknowledgment field reference in records
+* Definitions -> Section 1.8; applied throughout Course 1 modules C1-M01, C1-M03, C1-M10, C1-M11
+
+Role map and assignment rules
+
+* Role map table -> Section 2.1
+* Training matrix -> Section 2.2
+* Enrollment rule summary per role -> Section 2.3
+
+Course 1
+
+* Audience/durations/prereqs/outcomes -> Section 3.1.0
+* Module 1 content -> C1-M01-L01 to C1-M01-L03
+* Module 2 content -> C1-M02-L01 to C1-M02-L03
+* Module 3 content -> C1-M03-L01 to C1-M03-L04
+* Module 4 content -> C1-M04-L01 to C1-M04-L02
+* Module 5 content -> C1-M05-L01 to C1-M05-L04
+* Module 6 content -> C1-M06-L01 to C1-M06-L03
+* Module 7 content -> C1-M07-L01 to C1-M07-L03
+* Module 8 content -> C1-M08-L01 to C1-M08-L03
+* Module 9 content -> C1-M09-L01 to C1-M09-L03
+* Module 10 content -> C1-M10-L01 to C1-M10-L04
+* Module 11 content -> C1-M11-L01 to C1-M11-L03
+* Module 12 content -> C1-M12-L01 to C1-M12-L02
+* Role variant Revenue Cycle -> C1-M13-L01 to C1-M13-L04
+* Role variant Clinical Support -> C1-M14-L01 to C1-M14-L04
+* Role variant Front Office -> C1-M15-L01 to C1-M15-L04
+* Role variant Executive Support -> C1-M16-L01 to C1-M16-L03
+* Intensive policy writing workshop -> C1-CAP
+* Scenario library 1-20 -> Section 3.1.2 (each scenario mapped to modules/lessons)
+* Job aids 1-12 -> Section 3.1.3 (each job aid mapped to lessons)
+* Assessment blueprint -> Section 3.1.4
+* Trainer guide failure modes/coaching/remediation -> Section 3.1.5
+* Remediation routing -> Section 3.1.4 table (mapped to lesson IDs)
+
+### 5.3 Confirmation line (PART 1 scope)
+
+Coverage complete: 0 unmapped items.
+## PART 2 of 4
+
+### 3.2 COURSE 2: ICD-10 CODING OVERVIEW FOR OPERATIONS TEAMS (NON-CODER, WORKFLOW-SAFE)
+
+#### 3.2.0 Course Overview
+
+* **Audience**
+
+  * Client Success Specialist (Medical Benefits)
+  * Order Entry Specialist
+  * Patient Claims Specialist
+  * Patient Accounts Receivable Specialist
+  * Accounts Receivable Executive
+  * Medical Scribe attends if assigned to documentation workflows requiring diagnosis awareness but not independent coding
+* **Prerequisites**
+
+  * Course 1 (HIPAA Privacy, Security, and Breach Response) must be completed first
+* **Duration options and tracks (Essentials, Standard, Intensive) with included modules**
+
+  * **Essentials Track (4 hours)**: Modules 1, 2, 3, 8, 10, 12
+  * **Standard Track (8 hours)**: Modules 1-12 (full curriculum)
+  * **Intensive Track (12 hours)**: Modules 1-12 plus deeper practice emphasis within Modules 7-9 and Module 8 denial analysis lab (same topics, increased volume and complexity as permitted by the existing labs and scenarios)
+* **Learning outcomes (preserved verbatim)**
+
+  1. Explain ICD-10-CM purpose in revenue cycle and clinical workflows without performing independent coding
+  2. Identify code structure components including category, etiology, anatomic site, severity, laterality, and encounter type
+  3. Recognize unspecified codes and understand their impact on claim processing and medical necessity determination
+  4. Read clinical documentation and identify missing details required for diagnosis specificity
+  5. Differentiate acute vs chronic conditions and recognize when both descriptors present
+  6. Apply laterality concepts to bilateral structures and understand placeholder usage
+  7. Spot documentation-to-code mismatches that trigger denials
+  8. Understand medical necessity framework and how diagnosis selection affects authorization and payment
+  9. Identify common denial drivers related to diagnosis coding including medical necessity failures, unspecified codes, and diagnosis-procedure mismatches
+  10. Execute safe boundaries - know what non-coders can do vs cannot do in diagnosis-related workflows
+  11. Use QA checklists to identify diagnosis-related data hygiene issues in tickets and notes without assigning codes
+  12. Escalate coding questions appropriately to certified coders or clinical staff
+  13. Communicate diagnosis-related denial reasons to patients and providers in plain language
+
+#### 3.2.1 Modular Architecture
+
+**Course ID standard**: C2
+**Lesson ID format**: C2-M##-L## (example: C2-M03-L02)
+
+---
+
+##### Module 1 (C2-M01) ICD-10-CM Purpose and Role in Healthcare Operations (45 min)
+
+* **Objectives (preserved)**
+
+  * Define ICD-10-CM purpose
+  * Identify where diagnosis codes appear in workflows
+  * Understand non-coder boundaries
+* **Key topics (preserved)**
+
+  * ICD-10 vs ICD-10-CM vs ICD-10-PCS
+  * Diagnosis coding vs procedure coding
+  * Claims processing role
+  * Medical necessity determination
+  * Authorization requirements
+  * Statistical reporting
+  * Role boundaries for non-coders
+* **Activity/Lab (preserved)**
+
+  * Map diagnosis code touchpoints in specific role workflows; identify where codes appear but learners do not assign them
+* **Knowledge check (preserved)**
+
+  * 8-item quiz: purpose, boundaries, workflow touchpoints
+* **Lessons**
+
+  * **C2-M01-L01 (15 min)** ICD-10 family and where codes show up
+
+    * Objectives: define ICD-10 variants; identify workflow touchpoints
+    * Content outline: ICD-10 vs ICD-10-CM vs ICD-10-PCS; where diagnosis codes appear; claims/authorization/reporting appearances
+    * Activity steps: start workflow map draft (role-specific touchpoints list)
+    * Knowledge check mapping: Module 1 quiz items on purpose and touchpoints
+  * **C2-M01-L02 (15 min)** Purpose in revenue cycle and clinical workflows
+
+    * Objectives: define purpose; connect to processing/necessity/authorization
+    * Content outline: claims processing role; medical necessity determination; authorization requirements; statistical reporting
+    * Activity steps: add purpose notes to workflow map
+    * Knowledge check mapping: Module 1 quiz items on purpose
+  * **C2-M01-L03 (15 min)** Non-coder boundaries (foundation)
+
+    * Objectives: understand boundaries; identify “do not assign” rule
+    * Content outline: non-coder boundaries; what “without performing independent coding” means operationally
+    * Activity steps: mark “view-only / flag-only / escalate” points on workflow map
+    * Knowledge check mapping: Module 1 quiz items on boundaries
+
+---
+
+##### Module 2 (C2-M02) Code Structure and Format Basics (60 min)
+
+* Objectives: parse structure; identify character purposes; recognize valid vs invalid formats
+* Key topics: 3-7 characters; category; characters 4-6; 7th; placeholder X; decimal placement; combination codes; code first/use additional code notes
+* Activity: identify category/specificity/laterality/extension/structure for 20 codes
+* Knowledge check: 12-item quiz
+* Lessons
+
+  * **C2-M02-L01 (20 min)** 3-7 characters and category basics
+  * **C2-M02-L02 (20 min)** Characters 4-6: etiology/site/severity; combination codes
+  * **C2-M02-L03 (20 min)** 7th character, placeholder X, decimals, “code first / use additional code,” valid vs invalid formats
+  * Activity steps distributed across L01-L03: code set worksheet (20 codes) parsed per lesson segment
+  * Knowledge check mapping: Module 2 quiz items by subtopic
+
+---
+
+##### Module 3 (C2-M03) Specificity and Unspecified Codes (75 min)
+
+* Objectives: specified vs unspecified; specificity requirements; impact on claims
+* Key topics: unspecified definition (.9 common not universal); “NOS”; payer requirements; necessity link; denial risk
+* Activity: classify 15 codes; match to documentation; identify provider query needs
+* Knowledge check: 15-item quiz + 10-pair matching
+* Lessons
+
+  * **C2-M03-L01 (25 min)** Specificity ladder and “unspecified” patterns
+  * **C2-M03-L02 (25 min)** Impact: claims processing, medical necessity, denial risk
+  * **C2-M03-L03 (25 min)** Documentation-to-code alignment without assigning codes
+  * Activity steps: code classification (L01), impact reasoning (L02), 10-pair matching + query triggers (L03)
+  * Knowledge check mapping: Module 3 quiz + matching
+
+---
+
+##### Module 4 (C2-M04) Laterality and Bilateral Coding (60 min)
+
+* Objectives: apply laterality; identify bilateral structures; recognize when laterality required
+* Key topics: left/right; bilateral concept vs two unilateral; structures requiring laterality; documentation requirements; unspecified laterality last resort
+* Activity: diagrams + statements; flag missing laterality; provider query flags
+* Knowledge check: 10-item quiz + 8 scenarios
+* Lessons
+
+  * **C2-M04-L01 (20 min)** Laterality triggers and required documentation
+  * **C2-M04-L02 (20 min)** Bilateral vs unilateral logic; common structures list
+  * **C2-M04-L03 (20 min)** Laterality gap spotting in clinical statements
+  * Activity steps: diagram review (L02), 8-scenario analysis (L03)
+
+---
+
+##### Module 5 (C2-M05) Acute vs Chronic Conditions (60 min)
+
+* Objectives: distinguish; recognize when both present; identify documentation gaps
+* Key topics: definitions; both codes when both present; sequencing (acute first typically); cues; authorization impact
+* Activity: 10 scenarios classify acute/chronic/both; propose documentation improvement
+* Knowledge check: 12-item quiz + 10-case exercise
+* Lessons: **C2-M05-L01**, **L02**, **L03** (20 min each) aligned to definitions, cues, classification practice
+
+---
+
+##### Module 6 (C2-M06) Encounter Type and Extensions (45 min)
+
+* Objectives: recognize encounter indicators; understand 7th extensions; apply to workflows
+* Key topics: initial/subsequent/sequela; A/D/S; fracture care; pregnancy; external cause; documentation support
+* Activity: claim scenarios determine encounter type; extension required vs optional
+* Knowledge check: 10-item quiz
+* Lessons
+
+  * **C2-M06-L01 (15 min)** Encounter types and documentation cues
+  * **C2-M06-L02 (15 min)** 7th character rules and common extensions
+  * **C2-M06-L03 (15 min)** Workflow-safe application and escalation triggers
+
+---
+
+##### Module 7 (C2-M07) Medical Necessity and Diagnosis Selection (90 min)
+
+* Objectives: framework; connect diagnosis-procedure appropriateness; recognize necessity denials
+* Key topics: definition; LCD/NCD basics; diagnosis supporting necessity; experimental exclusions; diagnosis as justification
+* Activity: 12 prior auth scenarios predict approval/denial with justification; review payer rationale
+* Knowledge check: 15-item quiz + 12-scenario exercise
+* Lessons
+
+  * **C2-M07-L01 (25 min)** Medical necessity definition and LCD/NCD basics
+  * **C2-M07-L02 (25 min)** Diagnosis-procedure relationship logic
+  * **C2-M07-L03 (20 min)** Prior auth prediction method (workflow-safe)
+  * **C2-M07-L04 (20 min)** Scenario lab run-through (12 scenarios)
+
+---
+
+##### Module 8 (C2-M08) Common Denial Drivers Related to Diagnosis Coding (75 min)
+
+* Objectives: identify denial types; recognize documentation issues; prevent errors
+* Key topics: necessity denials; mismatch; unspecified; missing dx; sequencing; invalid combos; not covered
+* Activity: 15 denial letters identify dx issue; propose resolution path (query/amend/appeal)
+* Knowledge check: 15-item quiz + 10 denial scenarios
+* Lessons: **C2-M08-L01 (25)** denial taxonomy; **L02 (25)** root cause patterns; **L03 (25)** resolution paths
+
+---
+
+##### Module 9 (C2-M09) Reading Clinical Documentation for Specificity (90 min)
+
+* Objectives: extract details; identify gaps; recognize query triggers
+* Key topics: statement components; chief complaint; HPI; A/P; problem list reconciliation; laterality; acute/chronic indicators
+* Activity: 10 notes identify present vs missing details; draft provider query questions
+* Knowledge check: 10-item quiz + 5-note analysis
+* Lessons: **C2-M09-L01 (30)** mining for specificity; **L02 (30)** gap identification; **L03 (30)** query drafting without suggesting codes
+
+---
+
+##### Module 10 (C2-M10) Safe Boundaries: What Non-Coders Can and Cannot Do (60 min)
+
+* Objectives: define scope; recognize when to escalate; avoid independent assignment; maintain compliance
+* Key topics: prohibited (assign/change/select options); permitted (review/flag/route/communicate reasons); escalation triggers; role-specific guidelines from careers page
+* Activity: 20 situations classify in-scope/out-of-scope/escalate; justify
+* Knowledge check: 20-item quiz
+* Lessons: **C2-M10-L01**, **L02**, **L03** (20 min each) covering prohibited vs permitted, escalation triggers, classification practice
+
+---
+
+##### Module 11 (C2-M11) Diagnosis-Related Data Hygiene in Tickets and Notes (45 min)
+
+* Objectives: QA checklists; identify data quality issues; escalate
+* Key topics: requirements across systems; note quality; errors (truncated/invalid/outdated/mistyped); QA sampling process
+* Activity: review 15 tickets/notes apply checklist; flag issues; propose corrections without coding
+* Knowledge check: 10-item quiz + 5 tickets graded
+* Lessons: **C2-M11-L01 (15)** hygiene checklist; **L02 (15)** error patterns; **L03 (15)** QA drill
+
+---
+
+##### Module 12 (C2-M12) Communicating Diagnosis-Related Issues in Plain Language (45 min)
+
+* Objectives: translate terminology; explain denial reasons; avoid jargon
+* Key topics: plain-language explanations (unspecified, necessity, mismatch, laterality); translating denial letters; avoiding blame; provider documentation role
+* Activity: rewrite 10 denial letters in plain language; peer review
+* Knowledge check: 8-item quiz + 5 translations
+* Lessons: **C2-M12-L01 (15)** plain-language rules; **L02 (15)** translation method; **L03 (15)** practice and peer review criteria
+
+---
+
+#### 3.2.2 Scenario Bank (Course 2)
+
+(Each scenario retains original meaning. Tags: roles, modules/lessons, risk type.)
+
+1. **Scenario 1** (CSS Medical Benefits) E11.9 unspecified vs neuropathy mentioned; flag specificity gap; route to coder.
+
+   * Roles: Client Success Specialist (Medical Benefits)
+   * Lessons: C2-M03-L01 to L03; C2-M10-L01
+   * Risk: billing/RCM, documentation
+2. **Scenario 2** (OES) “knee pain” laterality missing; query provider.
+
+   * Roles: Order Entry Specialist
+   * Lessons: C2-M04-L01 to L03; C2-M09-L03
+   * Risk: documentation, operations
+3. **Scenario 3** (PCS) Denial necessity; 43235 with K21.9; escalate to coding for specificity review/appeal.
+
+   * Roles: Patient Claims Specialist
+   * Lessons: C2-M07-L01 to L04; C2-M08-L01 to L03; C2-M10-L02
+   * Risk: billing/RCM
+4. **Scenario 4** (AR Exec) Explain colonoscopy denial plain language; K59.00 unspecified; route to provider office/appeal path.
+
+   * Roles: Accounts Receivable Executive
+   * Lessons: C2-M12-L01 to L03; C2-M07-L02; C2-M08-L03
+   * Risk: billing/RCM, operations
+5. **Scenario 5** (CSS) Dx code change J45.50 to J45.51 affects auth validity; flag change.
+
+   * Roles: Client Success Specialist (Medical Benefits)
+   * Lessons: C2-M07-L03; C2-M11-L01; C2-M10-L03
+   * Risk: billing/RCM, documentation
+6. **Scenario 6** (OES) Lab order CKD mentioned but no code; route for selection; do not assign.
+
+   * Roles: Order Entry Specialist
+   * Lessons: C2-M10-L01 to L03; C2-M09-L01
+   * Risk: documentation, operations
+7. **Scenario 7** (PCS) S52.501A unspecified fracture; underpayment; escalate for coding review/corrected claim.
+
+   * Roles: Patient Claims Specialist
+   * Lessons: C2-M03-L02; C2-M06-L02; C2-M08-L03
+   * Risk: billing/RCM
+8. **Scenario 8** (AR Exec) Duplicate denial due to encounter type; explain and escalate.
+
+   * Roles: Accounts Receivable Executive
+   * Lessons: C2-M06-L01 to L03; C2-M12-L02
+   * Risk: billing/RCM
+9. **Scenario 9** (CSS) Bilateral dx M17.0 but right knee only procedure; verify plan to prevent mismatch.
+
+   * Roles: Client Success Specialist (Medical Benefits)
+   * Lessons: C2-M04-L02; C2-M07-L02; C2-M11-L02
+   * Risk: billing/RCM
+10. **Scenario 10** (OES) “pneumonia” vague; query for specificity.
+
+* Roles: Order Entry Specialist
+* Lessons: C2-M03-L03; C2-M09-L03
+* Risk: documentation
+
+11. **Scenario 11** (PCS) “invalid” code E11.65 appears valid; suspect wrong code year; escalate.
+
+* Roles: Patient Claims Specialist
+* Lessons: C2-M02-L03; C2-M08-L02; C2-M10-L02
+* Risk: billing/RCM, operations
+
+12. **Scenario 12** (AR Exec) Dx-gender mismatch N92.0; avoid discussing dx; route for correction.
+
+* Roles: Accounts Receivable Executive
+* Lessons: C2-M10-L02; C2-M12-L01; C2-M11-L02
+* Risk: billing/RCM, privacy
+
+13. **Scenario 13** (CSS) C50.911 vs Z85.3 contradiction; flag inconsistency.
+
+* Roles: Client Success Specialist (Medical Benefits)
+* Lessons: C2-M09-L02; C2-M11-L01; C2-M10-L03
+* Risk: documentation, operations
+
+14. **Scenario 14** (OES) Acute vs chronic inconsistency in shoulder pain; query.
+
+* Roles: Order Entry Specialist
+* Lessons: C2-M05-L02; C2-M09-L03
+* Risk: documentation
+
+15. **Scenario 15** (PCS) Laceration with specific site documented but unspecified code used; route to coder before submission.
+
+* Roles: Patient Claims Specialist
+* Lessons: C2-M03-L03; C2-M09-L01; C2-M10-L01
+* Risk: billing/RCM
+
+16. **Scenario 16** (AR Exec) Repeated initial encounter across months; duplicates; escalate correction.
+
+* Roles: Accounts Receivable Executive
+* Lessons: C2-M06-L01; C2-M08-L03; C2-M12-L02
+* Risk: billing/RCM
+
+17. **Scenario 17** (CSS) G81.91 unspecified etiology; payer requests docs; flag need for etiology.
+
+* Roles: Client Success Specialist (Medical Benefits)
+* Lessons: C2-M03-L02; C2-M07-L01; C2-M12-L01
+* Risk: billing/RCM, documentation
+
+18. **Scenario 18** (OES) “diabetes medication” no dx; route for dx selection; do not assign.
+
+* Roles: Order Entry Specialist
+* Lessons: C2-M10-L01; C2-M11-L01
+* Risk: documentation
+
+19. **Scenario 19** (PCS) Z23 not covered; coverage policy issue; explain responsibility; no coding correction.
+
+* Roles: Patient Claims Specialist
+* Lessons: C2-M07-L01; C2-M08-L01; C2-M12-L03
+* Risk: billing/RCM
+
+20. **Scenario 20** (AR Exec) J18.9 unspecified organism underpayment factor; explain and suggest provider ask if organism identified; hospital coding team handles.
+
+* Roles: Accounts Receivable Executive
+* Lessons: C2-M03-L02; C2-M12-L02
+* Risk: billing/RCM
+
+#### 3.2.3 Job Aids and SOP Pack (Course 2)
+
+(Items preserved; mapping shows introduced, practiced, referenced.)
+
+1. **ICD-10-CM Code Structure Decoder Card**
+
+   * Introduce: C2-M02-L01
+   * Practice: C2-M02-L01 to L03
+   * Reference: C2-M06-L02, C2-M11-L02
+2. **Unspecified Code Quick Reference**
+
+   * Introduce: C2-M03-L01
+   * Practice: C2-M03-L03
+   * Reference: C2-M08-L02, scenarios 1,3,4,7,15,20
+3. **Laterality Structures Checklist**
+
+   * Introduce: C2-M04-L02
+   * Practice: C2-M04-L03
+   * Reference: scenarios 2,9,10
+4. **Acute vs Chronic Indicators**
+
+   * Introduce: C2-M05-L01
+   * Practice: C2-M05-L03
+   * Reference: scenario 14
+5. **Medical Necessity Red Flags**
+
+   * Introduce: C2-M07-L02
+   * Practice: C2-M07-L04
+   * Reference: C2-M08-L01, scenarios 3,4,19
+6. **Provider Query Template**
+
+   * Introduce: C2-M09-L03
+   * Practice: C2-M03-L03, C2-M04-L03, C2-M09-L03
+   * Reference: scenarios 2,10,14
+7. **Denial Reason Translation Guide**
+
+   * Introduce: C2-M12-L01
+   * Practice: C2-M12-L03
+   * Reference: scenarios 4,8,16,19,20
+8. **Diagnosis Data Hygiene QA Checklist**
+
+   * Introduce: C2-M11-L01
+   * Practice: C2-M11-L03
+   * Reference: scenarios 5,13,18
+9. **Non-Coder Scope Boundary Card**
+
+   * Introduce: C2-M10-L01
+   * Practice: C2-M10-L03
+   * Reference: all scenario escalations and “do not assign” decisions
+10. **Common Denial Drivers Flowchart**
+
+* Introduce: C2-M08-L01
+* Practice: C2-M08-L03
+* Reference: denial labs and scenarios 3,7,8,16
+
+11. **Encounter Type Reference**
+
+* Introduce: C2-M06-L01
+* Practice: C2-M06-L03
+* Reference: scenarios 8,16
+
+12. **Plain-Language Scripts**
+
+* Introduce: C2-M12-L01
+* Practice: C2-M12-L03
+* Reference: patient-facing explanations in scenarios 4,8,16,19,20
+
+#### 3.2.4 Assessment Package (Course 2)
+
+* **Pre-test blueprint (preserved)**
+
+  * ICD-10-CM purpose (3), code structure basics (4), specificity concepts (3), non-coder boundaries (3) = **13 items**, baseline only
+* **Module quiz mapping (preserved)**
+
+  * M1: 8 items
+  * M2: 12 items
+  * M3: 15 items + 10-pair matching
+  * M4: 10 items + 8 scenarios
+  * M5: 12 items + 10 cases
+  * M6: 10 items
+  * M7: 15 items + 12 scenarios
+  * M8: 15 items + 10 denials
+  * M9: 10 items + 5 notes
+  * M10: 20 items
+  * M11: 10 items + 5 tickets
+  * M12: 8 items + 5 translations
+* **Final exam blueprint (preserved)**
+
+  * 80 items total; 20 per domain: code structure/format, specificity/laterality, medical necessity/denials, boundaries/escalation
+  * Pass: 85% minimum; two attempts; 90-minute time limit
+* **Practical evaluation rubric (preserved)**
+
+  * Parse 10 codes (8/10)
+  * Review 5 notes identify gaps without assigning codes (4/5)
+  * Analyze 8 denial scenarios root cause (7/8)
+  * Classify 15 activities scope vs escalation (14/15)
+  * Apply QA checklist to 5 tickets flag all issues (90% accuracy)
+  * Translate 5 denial reasons plain language (all 5 jargon-free and accurate)
+* **Remediation Routing (derived strictly from Course 2 remediation plan elements)**
+
+  | Failed domain / failure type (Course 2) | Required remediation action (preserved)                                                                                     | Repeat lessons (exact)                         | Re-attempt rule (preserved)             |
+  | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------- |
+  | Code structure parsing failures         | Decoder worksheet with 50 codes; submission; 1:1 review                                                                     | C2-M02-L01 to L03                              | Re-test after corrective review         |
+  | Scope boundary violations               | Ethics module on professional boundaries; written reflection; re-test 30 boundary scenarios                                 | C2-M10-L01 to L03                              | Re-test before re-attempt               |
+  | Specificity identification gaps         | 10 additional notes with answer key; then 5 new notes graded                                                                | C2-M03-L01 to L03; C2-M09-L01 to L03           | Complete graded notes before proceeding |
+  | Plain-language communication failures   | Role-play coaching; 10 patient explanations with trainer feedback                                                           | C2-M12-L01 to L03                              | Repeat translations after coaching      |
+  | Medical necessity concept confusion     | Case studies distinguishing necessity vs coverage; 15 scenarios classify concept                                            | C2-M07-L01 to L04; C2-M08-L01                  | Complete 15-scenario set                |
+  | Persistent failures                     | Evaluate whether role needs depth; Essentials track may be sufficient; consider reassignment if Standard exceeds role needs | Track-dependent: C2-M01/02/03/08/10/12 minimum | Track adjustment per plan language      |
+
+#### 3.2.5 Trainer Guide (Operational) (Course 2)
+
+* **Common failure modes (preserved)**
+
+  * Code structure memorization without application
+  * Over-confidence in scope
+  * Unspecified code tolerance
+  * Laterality blind spots
+  * Medical necessity confusion with coverage
+  * Plain-language regression to jargon
+* **Coaching tips (preserved)**
+
+  * Use claim examples from learner’s actual role
+  * Frame escalation as professional skill
+  * Color-coding overlays for code structure
+  * Matched-pairs teaching for medical necessity
+  * Remove code books/resources during documentation review exercises
+  * Laterality practice with diagrams/models
+* **Remediation plan (preserved)**
+
+  * Code structure parsing failures: 50-code decoder worksheet + 1:1
+  * Scope boundary violations: ethics module + reflection + 30-scenario retest
+  * Specificity gaps: additional notes with answer key then graded notes
+  * Plain-language failures: role-play coaching with immediate feedback
+  * Medical necessity confusion: case studies + 15 scenarios
+  * Persistent failures: evaluate role depth, Essentials-only possibility, reassignment consideration if Standard exceeds role needs
+
+---
+
+### 3.3 COURSE 3: DAY-TO-DAY DOCUMENT HYGIENE AND DATA HANDLING (OPERATIONAL SECURITY)
+
+#### 3.3.0 Course Overview
+
+* **Audience**
+
+  * All Uplift roles. Universal requirement.
+* **Prerequisites**
+
+  * Course 1 (HIPAA Privacy, Security, and Breach Response) must be completed first
+* **Duration options and tracks with included modules**
+
+  * **Essentials Track (5 hours)**: Modules 1, 4, 5, 6, 8, 10, 12, 16
+  * **Standard Track (8 hours)**: Modules 1-18 (full curriculum)
+  * **Intensive Track (12 hours)**: Modules 1-18 plus deeper practice emphasis within existing drills (spot-the-violation and rewrite drills), Pakistan-based constraints and supervisor QA techniques as already present in Modules 16-18
+* **Learning outcomes (preserved verbatim)**
+
+  1. Maintain clean screen discipline during work and breaks to prevent unauthorized viewing
+  2. Apply clean desk protocols at end of shift and during absences
+  3. Execute secure printing, faxing, and disposal procedures
+  4. Use file naming conventions that minimize PHI exposure in file lists and system logs
+  5. Apply redaction techniques to documents requiring PHI removal
+  6. Store documents only in approved locations and avoid local hoarding
+  7. Compose PHI-safe email subject lines and manage attachment encryption
+  8. Prevent email auto-complete errors and distribution list mistakes
+  9. Use approved messaging channels exclusively and avoid banned platforms
+  10. Control screenshots and screen recordings according to policy
+  11. Maintain remote workstation security including updates, antivirus, patching, and browser profile separation
+  12. Recognize clipboard risks and USB device restrictions
+  13. Apply minimum necessary principle to ticketing and CRM note-writing
+  14. Use templated entries in systems to reduce free-text PHI exposure
+  15. Follow data retention rules and execute do-not-delete discipline during incidents
+  16. Complete "spot the violation" drills and rewrite unsafe documentation
+
+#### 3.3.1 Modular Architecture
+
+**Course ID standard**: C3
+**Lesson ID format**: C3-M##-L##
+
+---
+
+##### Module 1 (C3-M01) Clean Screen and Clean Desk Discipline (60 min)
+
+* Objectives: apply privacy filters; lock screens; maintain clean desk
+* Key topics: privacy filter installation/positioning; auto-lock; manual lock; visitor protocols; overnight clearing; paper storage; shared workspace
+* Activity: photo workspace audit + checklist + remediation plan
+* Knowledge check: 10-item quiz + audit submission
+* Lessons
+
+  * **C3-M01-L01 (20 min)** Clean screen rules: lock discipline + visitor protocols
+  * **C3-M01-L02 (20 min)** Clean desk rules: shift-end clearing + paper storage
+  * **C3-M01-L03 (20 min)** Workspace audit submission method: photo evidence + remediation plan steps
+
+##### Module 2 (C3-M02) Secure Printing, Faxing, and Disposal (45 min)
+
+* Key topics: pull-printing; monitoring; fax cover sheet; recipient verification; misdirected fax response; crosscut shredding; bin security; no-trash-PHI
+* Activity: printing/fax drill + shredding demonstration
+* Lessons: **L01 (15)** pull-print/fax verification; **L02 (15)** misdirected response; **L03 (15)** disposal standards
+
+##### Module 3 (C3-M03) File Naming Conventions and Redaction (60 min)
+
+* Key topics: PHI-free naming; date/time stamps; generic identifiers; redaction permanence; metadata stripping
+* Activity: redact 5 docs; verify copy-test; rename files to convention
+* Lessons: **L01 (20)** naming convention; **L02 (20)** redaction tool types + permanence; **L03 (20)** metadata stripping + verification workflow
+
+##### Module 4 (C3-M04) Approved Storage Locations and No-Local-Hoarding (45 min)
+
+* Key topics: approved hierarchy; prohibited locations; retention periods; cleanup policies; end-of-shift file check
+* Activity: local storage audit and cleanup; before/after counts
+* Lessons: **L01 (15)** approved vs prohibited; **L02 (15)** cleanup process; **L03 (15)** reporting before/after evidence
+
+##### Module 5 (C3-M05) Email Subject Line Hygiene (45 min)
+
+* Key topics: no names/diagnoses/specifics; generic subjects; email vs phone sensitivity
+* Activity: rewrite 15 unsafe subject lines
+* Lessons: **L01 (15)** rules; **L02 (15)** template application; **L03 (15)** rewrite drill + peer review criteria
+
+##### Module 6 (C3-M06) Email Attachment Encryption and Auto-Complete Prevention (60 min)
+
+* Key topics: encryption requirements by content type; tools/procedures; recipient verification checklist; auto-complete risks; To/CC/BCC; reply-all dangers
+* Activity: 10 email tasks with attachments; identify auto-complete traps
+* Lessons: **L01 (20)** encryption triggers and steps; **L02 (20)** recipient verification checklist; **L03 (20)** auto-complete risk patterns + To/CC/BCC
+
+##### Module 7 (C3-M07) Forwarding, Reply-All, and Distribution List Risks (45 min)
+
+* Key topics: forwarding restrictions; reply-all prevention; distribution list review; removing recipients; thread history review
+* Activity: 10 situations determine safe action
+* Lessons: **L01 (15)** forwarding and thread review; **L02 (15)** reply-all error prevention; **L03 (15)** distribution list controls
+
+##### Module 8 (C3-M08) Messaging Platform Hygiene: Approved vs Banned Channels (60 min)
+
+* Key topics: approved platforms client-specific check; banned (SMS, WhatsApp, personal email, social media, unapproved chat); cross-platform risks; handling requests
+* Activity: 20 channel decisions
+* Lessons: **L01 (20)** approved vs banned definitions; **L02 (20)** refusal/redirect handling; **L03 (20)** scenario drill and escalation logic
+
+##### Module 9 (C3-M09) Screenshot and Screen Recording Prohibitions (45 min)
+
+* Key topics: prohibition scope; exceptions needing approval; alternatives; tools to avoid (Loom); client recording features
+* Activity: 15 situations decide permitted/approval/prohibited; propose alternatives
+* Lessons: **L01 (15)** prohibition rules; **L02 (15)** exception request process; **L03 (15)** alternatives toolkit
+
+##### Module 10 (C3-M10) Remote Workstation: Updates, Antivirus, and Patching (60 min)
+
+* Key topics: OS updates; automatic vs manual; antivirus definitions; patch Tuesday awareness; restart; deferral limits; outage handling
+* Activity: check update status; document evidence
+* Lessons: **L01 (20)** update rules and deferral limits; **L02 (20)** antivirus and patching; **L03 (20)** compliance evidence capture
+
+##### Module 11 (C3-M11) Browser Profile Separation and Clipboard Risks (45 min)
+
+* Key topics: separate profiles; no personal browsing in work profile; clipboard persistence; clearing methods; paste-into-wrong-window
+* Activity: profile setup; clipboard clearing; 5 clipboard scenarios
+* Lessons: **L01 (15)** profile separation; **L02 (15)** clipboard risk mechanics; **L03 (15)** clearing methods + scenarios
+
+##### Module 12 (C3-M12) USB and Removable Media Restrictions (30 min)
+
+* Key topics: malware/exfil rationale; authorized vs unauthorized; whitelisting; found device protocol; no personal USB
+* Activity: 10 USB situations decide action
+* Lessons: **L01 (15)** restrictions + rationale; **L02 (15)** found device protocol + reporting
+
+##### Module 13 (C3-M13) Ticketing and CRM Note Discipline: Minimum Necessary (60 min)
+
+* Key topics: minimum necessary in notes; templates vs free-text; what must vs never be documented; continuity vs audit risk; redacting prior notes when necessary
+* Activity: rewrite 10 unsafe notes
+* Lessons: **L01 (20)** minimum necessary in notes; **L02 (20)** templates vs free-text boundaries; **L03 (20)** rewrite drill rubric
+
+##### Module 14 (C3-M14) Templated Entries and Structured Documentation (45 min)
+
+* Key topics: template benefits; libraries by role; customization boundaries; when free-text required; template version control
+* Activity: create 5 templates; submit; use in mock tasks
+* Lessons: **L01 (15)** why templates; **L02 (15)** building PHI-minimizing templates; **L03 (15)** version control and use cases
+
+##### Module 15 (C3-M15) Data Retention and Deletion Discipline (45 min)
+
+* Key topics: retention by type; auto deletion; manual deletion; verification; do-not-delete triggers; legal hold compliance
+* Activity: 15 document scenarios decide actions
+* Lessons: **L01 (15)** retention schedule logic; **L02 (15)** deletion verification + do-not-delete triggers; **L03 (15)** scenario drill
+
+##### Module 16 (C3-M16) Pakistan Remote Operations: Confidentiality and Cyber Risk (60 min)
+
+* Key topics: Pakistan cybercrime laws awareness; data misuse consequences; family/friend boundaries; internet cafe risks; public Wi-Fi prohibitions; cross-border handling discipline
+* Activity: discussion; workplace agreements; confidentiality pledge; 3 breach case studies
+* Lessons: **L01 (20)** Pakistan context confidentiality expectations; **L02 (20)** local cyber risk patterns + prohibitions; **L03 (20)** pledge + case study analysis method
+
+##### Module 17 (C3-M17) Spot the Violation Drills (60 min)
+
+* Key topics: violation categories (privacy, security, documentation quality, data hygiene); severity classification; correction proposals; escalation determination
+* Activity: review 20 artifacts identify violations, categorize severity, propose corrections
+* Lessons: **L01 (20)** categories and severity; **L02 (20)** identification method; **L03 (20)** correction + escalation decisions
+
+##### Module 18 (C3-M18) Rewrite Unsafe Documentation Drills (60 min)
+
+* Key topics: rewriting strategies; PHI minimization without losing clarity; approved terminology; template integration; before/after comparison
+* Activity: rewrite 15 unsafe artifacts across channels and doc types
+* Lessons: **L01 (20)** rewrite rules; **L02 (20)** multi-channel application (email/notes/tickets); **L03 (20)** before/after QA rubric
+
+---
+
+#### 3.3.2 Scenario Bank (Course 3)
+
+(Scenarios preserved; tags provided.)
+
+1. **Scenario 1** Family member enters during scribing; screen visible; clean screen failure; correct by blanking/pausing/securing.
+
+   * Roles: Medical Scribe (MBBS)
+   * Lessons: C3-M01-L01; C3-M16-L01
+   * Risk: privacy, remote-work physical security
+2. **Scenario 2** Print job abandoned; pull-print required.
+
+   * Roles: Patient Claims Specialist
+   * Lessons: C3-M02-L01; C3-M02-L03
+   * Risk: privacy, operations
+3. **Scenario 3** Desktop filename with patient name; personal cloud sync; rename and move to approved location; disable personal sync.
+
+   * Roles: Order Entry Specialist
+   * Lessons: C3-M03-L01; C3-M04-L01 to L03
+   * Risk: privacy, security, documentation
+4. **Scenario 4** EA forwards thread without review; over-disclosure; must review and trim/summarize.
+
+   * Roles: Executive Assistant
+   * Lessons: C3-M07-L01; C3-M07-L03
+   * Risk: privacy, documentation
+5. **Scenario 5** Diagnosis in subject line; use generic subject.
+
+   * Roles: Client Success Specialist (Medical Benefits)
+   * Lessons: C3-M05-L01 to L03
+   * Risk: privacy
+6. **Scenario 6** Auto-complete wrong recipient; balance statement misdirected; verify recipient checklist.
+
+   * Roles: Accounts Receivable Executive
+   * Lessons: C3-M06-L02; C3-M06-L03
+   * Risk: privacy, security
+7. **Scenario 7** WhatsApp for patient updates; banned; use approved channel.
+
+   * Roles: Clinical Nurse Coordinator
+   * Lessons: C3-M08-L01 to L03
+   * Risk: privacy, security
+8. **Scenario 8** Screenshot EHR with PHI emailed; must use approval process/redacted tools or alternatives.
+
+   * Roles: Order Entry Specialist
+   * Lessons: C3-M09-L01 to L03
+   * Risk: privacy, security
+9. **Scenario 9** Clipboard patient name pasted into Slack lunch plan; clear clipboard.
+
+   * Roles: Patient Claims Specialist
+   * Lessons: C3-M11-L02; C3-M11-L03
+   * Risk: privacy, security
+10. **Scenario 10** Updates postponed beyond limits; restart promptly.
+
+* Roles: Medical Scribe (MBBS)
+* Lessons: C3-M10-L01 to L03
+* Risk: security
+
+11. **Scenario 11** Personal Gmail in work profile; cross-contamination paste; separate profiles.
+
+* Roles: Executive Assistant
+* Lessons: C3-M11-L01
+* Risk: security, privacy
+
+12. **Scenario 12** Found USB inserted, malware; never insert; report and document.
+
+* Roles: Order Entry Specialist
+* Lessons: C3-M12-L01; C3-M12-L02
+* Risk: security
+
+13. **Scenario 13** Ticket note overshares PHI; rewrite minimum necessary.
+
+* Roles: Patient Accounts Receivable Specialist
+* Lessons: C3-M13-L01 to L03
+* Risk: documentation, privacy
+
+14. **Scenario 14** Template includes patient name and diagnosis fields; unnecessary exposure; use MRN/account and generic categories.
+
+* Roles: Client Success Specialist (Medical Benefits)
+* Lessons: C3-M14-L02; C3-M13-L02
+* Risk: documentation, privacy
+
+15. **Scenario 15** Deleted old notes prematurely; retention failure; check retention schedules and holds.
+
+* Roles: Clinical Nurse Coordinator
+* Lessons: C3-M15-L01 to L03
+* Risk: documentation, operations
+
+16. **Scenario 16** Internet cafe plan; unsecured network; do not work publicly; notify supervisor; backup procedures.
+
+* Roles: Order Entry Specialist
+* Lessons: C3-M16-L02; C3-M10-L01
+* Risk: remote-work physical security, security
+
+17. **Scenario 17** Reply-all to 40-person list with patient balances; verify recipients and list membership.
+
+* Roles: Accounts Receivable Executive
+* Lessons: C3-M07-L02; C3-M06-L02
+* Risk: privacy
+
+18. **Scenario 18** Loom recording with real patient chart; unauthorized screen recording; decline, report, use approved materials.
+
+* Roles: Medical Scribe (MBBS)
+* Lessons: C3-M09-L01; C3-M09-L03
+* Risk: privacy, security
+
+19. **Scenario 19** Denial letter in trash; must crosscut shred.
+
+* Roles: Patient Claims Specialist
+* Lessons: C3-M02-L03
+* Risk: privacy
+
+20. **Scenario 20** Patient names in subject/body schedule email; over-disclosure; generic subject and minimal identifiers.
+
+* Roles: Executive Assistant
+* Lessons: C3-M05-L01; C3-M06-L01; C3-M07-L03
+* Risk: privacy, documentation
+
+#### 3.3.3 Job Aids and SOP Pack (Course 3)
+
+1. Clean Screen/Clean Desk Daily Checklist
+
+   * Introduce/Practice: C3-M01-L02 to L03; Reference: C3-M17
+2. Privacy Filter Installation Guide
+
+   * Introduce: C3-M01-L01; Practice: C3-M01 activity; Reference: C3-M16
+3. Secure Printing Procedure Card
+
+   * Introduce/Practice: C3-M02-L01 to L03
+4. File Naming Convention Guide
+
+   * Introduce: C3-M03-L01; Practice: C3-M03 activity; Reference: C3-M04
+5. Redaction Tool Quick Start
+
+   * Introduce: C3-M03-L02; Practice: C3-M03 activity; Reference: C3-M18
+6. Email Subject Line Template Library (25)
+
+   * Introduce/Practice: C3-M05-L02 to L03; Reference: C3-M18
+7. Recipient Verification Checklist (5-step)
+
+   * Introduce/Practice: C3-M06-L02; Reference: C3-M07
+8. Approved vs Banned Messaging Platforms Chart
+
+   * Introduce: C3-M08-L01; Practice: C3-M08-L03; Reference: C3-M17
+9. Screenshot Approval Request Form
+
+   * Introduce: C3-M09-L02; Practice: C3-M09-L03
+10. Browser Profile Setup Guide
+
+* Introduce/Practice: C3-M11-L01 to L03
+
+11. Clipboard Clearing Shortcuts
+
+* Introduce/Practice: C3-M11-L03; Reference: C3-M17
+
+12. Ticket Note Template Library (15 role-specific)
+
+* Introduce: C3-M13-L02; Practice: C3-M14-L03; Reference: C3-M18
+
+#### 3.3.4 Assessment Package (Course 3)
+
+* **Pre-test blueprint (preserved)**
+
+  * Clean screen/desk (4), email hygiene (4), messaging channels (3), workstation security (4) = **15 items**, baseline only
+* **Module quiz mapping (preserved)**
+
+  * M1: 10 + workspace audit
+  * M2: 8 + printing/fax simulation
+  * M3: 10 + 5 redactions
+  * M4: 8 + storage cleanup report
+  * M5: 10 + 15 subject rewrites
+  * M6: 12 + 10-task email simulation
+  * M7: 10
+  * M8: 15 + 20 channel decisions
+  * M9: 10 + 15 screenshot decisions
+  * M10: 10 + update status report
+  * M11: 8 + profile setup + 5 clipboard scenarios
+  * M12: 8
+  * M13: 12 + 10 note rewrites
+  * M14: 8 + 5 template submissions
+  * M15: 10 + 15 retention decisions
+  * M16: 10 + pledge + 3 case studies
+  * M17: 20-item drill
+  * M18: 15 rewrites
+* **Final exam blueprint (preserved)**
+
+  * 100 items; 25 per domain: physical security/workstation hygiene, email/messaging discipline, documentation/data handling, remote operations and Pakistan-specific risks
+  * Pass 85%; two attempts; 120-minute limit
+* **Practical evaluation rubric (preserved)**
+
+  * Workspace audit photos; redact 5 docs permanence; rewrite 10 artifacts (8/10); identify violations 15 samples (13/15); 10 email/messaging scenarios (9/10); browser profile separation pass/fail
+* **Remediation Routing (derived strictly from Course 3 remediation plan)**
+
+  | Failure type                      | Remediation action (preserved)                                                                | Repeat lessons (exact)                                  |
+  | --------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+  | Workspace audit failures          | Daily photo submissions for 5 days; feedback; approve final setup                             | C3-M01-L01 to L03; C3-M16-L01                           |
+  | Email hygiene failures            | 30 additional email scenarios; written explanation of each error                              | C3-M05-L01 to L03; C3-M06-L01 to L03; C3-M07-L01 to L03 |
+  | Redaction failures                | Remedial training; redact 10 docs with trainer verification                                   | C3-M03-L02 to L03                                       |
+  | Documentation rewrite failures    | Answer key for failed rewrites; 20 additional rewrites with decreasing guidance               | C3-M13-L01 to L03; C3-M18-L01 to L03                    |
+  | Violation identification failures | Annotated samples study; new set without annotations                                          | C3-M17-L01 to L03                                       |
+  | Channel selection failures        | Diagram approved workflows for role; verify understanding                                     | C3-M08-L01 to L03                                       |
+  | Persistent failures               | Evaluate language proficiency; translated materials if available; additional language support | Course-wide as implicated by failure evidence           |
+
+#### 3.3.5 Trainer Guide (Operational) (Course 3)
+
+* **Common failure modes (preserved)**
+
+  * Clean screen complacency; email subject line creativity harming ops; template resistance; auto-complete blindness; screenshot prohibition frustration; update postponement rationalization; Pakistan risk minimization
+* **Coaching tips (preserved)**
+
+  * Use learner workspace photos; high-repetition email drills; redaction failure examples and copy-test; explain “why” behind channel bans; provide alternatives and exception process; frame Pakistan module as operational risk management
+* **Remediation plan (preserved)**
+
+  * Workspace photos 5 days; 30 email scenarios + explanations; 10 verified redactions; 20 additional rewrites; annotated samples then new set; workflow diagramming; language proficiency evaluation and support
+
+---
+
+## PART 3 of 4
+
+### 3.4 COURSE 4: MEDICAL SCRIBE TRAINING (REMOTE, CLINICAL DOCUMENTATION QUALITY)
+
+### 3.5 COURSE 5: EXECUTIVE ASSISTANT TRAINING FOR HEALTHCARE OPERATIONS (COMPLIANCE-SAFE)
+
+(Continued in Part 3 per the requested sequence.)
+## PART 3 of 4
+
+### 3.4 COURSE 4: MEDICAL SCRIBE TRAINING (REMOTE, CLINICAL DOCUMENTATION QUALITY)
+
+#### 3.4.0 Course Overview
+
+* **Audience**
+
+  * Medical Scribe (MBBS)
+* **Prerequisites**
+
+  * Course 1 (HIPAA Privacy, Security, and Breach Response)
+  * Course 3 (Day-to-Day Document Hygiene and Data Handling)
+* **Duration tracks**
+
+  * **Essentials Track (8 hours)**: Modules 1, 2, 3, 4, 7, 9, 12, 14
+  * **Standard Track (16 hours)**: Modules 1-16 (full curriculum)
+  * **Intensive Track (24 hours)**: Modules 1-16 with expanded practice volume in Modules 5-8 and 13-16 (same topics, higher repetition)
+* **Learning outcomes**
+
+  1. Produce complete, consistent outpatient visit documentation using approved structures (SOAP and problem-oriented formats)
+  2. Capture HPI accurately with timeline, severity, modifiers, context, and response to prior therapy
+  3. Document ROS, PE, and vitals with appropriate specificity and without fabrication
+  4. Support MDM documentation quality by capturing clinical reasoning cues and clinically relevant negatives
+  5. Maintain a clean, standardized problem list, medication list, allergy list, and history sections
+  6. Document procedures, orders, results, and follow-ups using the correct EHR workflow and templates
+  7. Apply “minimum necessary” and privacy controls while documenting and communicating
+  8. Use safe clinical abbreviations and avoid prohibited shorthand and ambiguous terms
+  9. Identify documentation gaps and route clarification requests to providers without leading or suggesting diagnoses
+  10. Execute time-stamping, attestation workflows, and note finalization rules per client configuration
+  11. Reduce downstream billing and denial risk by improving clarity, completeness, and internal consistency of notes
+  12. Maintain remote scribe operational discipline: audio hygiene, latency handling, handoffs, and interruptions
+
+#### 3.4.1 Modular Architecture
+
+**Course ID**: C4
+**Lesson ID format**: C4-M##-L##
+
+---
+
+##### Module 1 (C4-M01) Scribe Role, Boundaries, and Clinical Documentation Standards (60 min)
+
+* Key topics: scribe scope; prohibited behaviors; no independent clinical decisions; accuracy rules; “no fabrication” discipline; escalation triggers
+* Activity: 20-situation scope classification (scribe vs provider vs coder)
+* Knowledge check: 15-item quiz
+* Lessons
+
+  * **C4-M01-L01 (20 min)** Scribe scope and prohibited actions
+  * **C4-M01-L02 (20 min)** Accuracy standards and “no fabrication” discipline
+  * **C4-M01-L03 (20 min)** Escalation triggers and clarification etiquette
+
+##### Module 2 (C4-M02) Note Frameworks: SOAP, Problem-Oriented, and Specialty Templates (75 min)
+
+* Key topics: SOAP structure; problem-based charting; visit types (new, follow-up, urgent); specialty templates; template version control
+* Activity: convert 3 transcripts into SOAP; 2 into problem-oriented format
+* Knowledge check: 10-item quiz + 2 graded notes
+* Lessons
+
+  * **C4-M02-L01 (25 min)** SOAP anatomy and section quality rules
+  * **C4-M02-L02 (25 min)** Problem-oriented notes and visit type differences
+  * **C4-M02-L03 (25 min)** Template selection and version discipline
+
+##### Module 3 (C4-M03) HPI Mastery: Timeline, Modifiers, Negatives, and Clinical Precision (90 min)
+
+* Key topics: OPQRST; timeline logic; modifiers; red flags; relevant negatives; symptom qualifiers; patient quote capture rules
+* Activity: 10 HPI drills from transcripts with scoring rubric
+* Knowledge check: 15-item quiz + 5 HPIs graded
+* Lessons
+
+  * **C4-M03-L01 (30 min)** OPQRST and timeline structuring
+  * **C4-M03-L02 (30 min)** Relevant negatives and red flag capture
+  * **C4-M03-L03 (30 min)** Precision language and avoiding ambiguity
+
+##### Module 4 (C4-M04) ROS, PE, Vitals, and Objective Data (75 min)
+
+* Key topics: ROS completeness vs bloat; PE phrasing; normal vs abnormal capture; vitals; objective data placement; avoiding copy-forward errors
+* Activity: rewrite 5 ROS sections to reduce noise; document 5 PE segments from audio
+* Knowledge check: 12-item quiz + 3 PE graded
+* Lessons
+
+  * **C4-M04-L01 (25 min)** ROS rules: completeness, relevance, and brevity
+  * **C4-M04-L02 (25 min)** PE documentation: standard phrasing and abnormalities
+  * **C4-M04-L03 (25 min)** Vitals and objective data consistency checks
+
+##### Module 5 (C4-M05) Problem List, Histories, Meds, and Allergies (75 min)
+
+* Key topics: problem list hygiene; PMH/PSH/FH/SH; med reconciliation; allergy capture; contraindication cues; duplications
+* Activity: reconcile 3 charts; fix problem list duplication and stale items
+* Knowledge check: 10-item quiz + chart hygiene practical
+* Lessons: **L01 (25)** problem list hygiene; **L02 (25)** histories; **L03 (25)** meds/allergies reconciliation
+
+##### Module 6 (C4-M06) Assessment and Plan Quality: Clarity Without Practicing Medicine (90 min)
+
+* Key topics: capturing provider statements; linking plan to problem; follow-up instructions; patient education notes; referrals; return precautions; avoid adding clinical reasoning not stated
+* Activity: 6 A/P captures from transcripts; compare to rubric
+* Knowledge check: 15-item quiz + 2 graded A/P notes
+* Lessons
+
+  * **C4-M06-L01 (30 min)** Capturing provider assessment statements accurately
+  * **C4-M06-L02 (30 min)** Plan structure: follow-ups, orders, referrals, precautions
+  * **C4-M06-L03 (30 min)** Avoiding overreach: what not to add
+
+##### Module 7 (C4-M07) Orders, Labs, Imaging, Referrals, and Results Documentation (75 min)
+
+* Key topics: order entry workflows; pending vs resulted; documenting results; patient notification tasks; tracking and reminders
+* Activity: 12 order and result scenarios; correct documentation placement
+* Knowledge check: 12-item quiz
+* Lessons: **L01 (25)** orders and referrals; **L02 (25)** results capture; **L03 (25)** tracking and follow-up tasks
+
+##### Module 8 (C4-M08) Clinical Abbreviations, Terminology, and Error Prevention (60 min)
+
+* Key topics: safe abbreviation list; prohibited abbreviations; ambiguous terms; look-alike sound-alike risk; numeric/unit errors
+* Activity: clean 3 notes for unsafe abbreviations and unit risks
+* Knowledge check: 15-item quiz
+* Lessons: **L01 (20)** safe vs unsafe abbreviations; **L02 (20)** ambiguity and terminology; **L03 (20)** unit and numeric error prevention
+
+##### Module 9 (C4-M09) Documentation for Telehealth and Remote Encounters (60 min)
+
+* Key topics: telehealth context; location and modality fields; limitations of exam; consent fields where configured; audio/video interruptions; identity verification fields when present
+* Activity: create 3 telehealth notes with correct modality and limitations
+* Knowledge check: 10-item quiz + 1 graded telehealth note
+* Lessons: **L01 (20)** telehealth note structure; **L02 (20)** limitations and interruptions; **L03 (20)** workflow-safe completion rules
+
+##### Module 10 (C4-M10) Note Finalization, Attestations, Addenda, and Time Discipline (60 min)
+
+* Key topics: drafts vs signed; attestation text usage; addenda rules; late entries; time-stamping; locking; audit trail respect
+* Activity: 12 situations choose correct action (edit, addendum, route)
+* Knowledge check: 12-item quiz
+* Lessons: **L01 (20)** finalization states and routing; **L02 (20)** addenda and late entry rules; **L03 (20)** time discipline and audit trail
+
+##### Module 11 (C4-M11) Privacy, Minimum Necessary, and Safe Communication for Scribes (60 min)
+
+* Key topics: minimum necessary in notes; avoiding copying PHI into external tools; secure messaging; no screenshots; handoff protocols
+* Activity: rewrite 10 unsafe messages into compliant internal notes
+* Knowledge check: 10-item quiz
+* Lessons: **L01 (20)** minimum necessary in documentation; **L02 (20)** safe internal communication; **L03 (20)** handoffs and escalation
+
+##### Module 12 (C4-M12) Quality Assurance: Consistency, Completeness, and Internal Logic (90 min)
+
+* Key topics: internal consistency checks; contradictions; missing sections; copy-forward risk; templated bloat; clinical plausibility flags without adding content
+* Activity: QA 8 notes; identify 5 issues per note; propose corrections by routing
+* Knowledge check: 10-item quiz + QA practical graded
+* Lessons: **L01 (30)** consistency checks; **L02 (30)** template bloat control; **L03 (30)** QA practical workflow
+
+##### Module 13 (C4-M13) Specialty Adaptation Framework (60 min)
+
+* Key topics: how to adapt templates across specialties without inventing; common specialty sections; specialty vocabulary expansion method
+* Activity: choose one specialty template and adapt from transcript
+* Knowledge check: 8-item quiz + 1 graded adapted note
+* Lessons: **L01 (20)** specialty sections map; **L02 (20)** vocabulary and phrasing; **L03 (20)** adaptation practical
+
+##### Module 14 (C4-M14) Clarification Requests: Provider Queries Without Leading (45 min)
+
+* Key topics: when to clarify; neutral phrasing; avoid suggesting diagnoses; concise questions; timing and batching
+* Activity: draft 15 provider clarification messages from gaps
+* Knowledge check: 10-item quiz
+* Lessons: **L01 (15)** query triggers; **L02 (15)** neutral phrasing; **L03 (15)** batching and timing
+
+##### Module 15 (C4-M15) Workflow Ops: Handoffs, Coverage, and Incident Handling (45 min)
+
+* Key topics: shift handoff checklist; coverage coordination; audio loss; downtime procedures; incident reporting linkage to Course 1
+* Activity: run 3 downtime scenarios and document correct action chain
+* Knowledge check: 10-item quiz
+* Lessons: **L01 (15)** handoffs; **L02 (15)** downtime and latency; **L03 (15)** incident handling workflow
+
+##### Module 16 (C4-M16) Capstone: Full Encounter Simulation and Scoring (120 min)
+
+* Activity: 2 full simulated encounters from audio/transcripts, each with full note, QA pass, and provider clarification set
+* Grading rubric: completeness, accuracy, structure, minimum necessary, no fabrication, escalation correctness
+
+---
+
+#### 3.4.2 Scenario Bank (Course 4)
+
+1. Audio drops during medication list update; do not guess; route clarification; document limitation. (C4-M09, C4-M05, C4-M14)
+2. Provider mentions symptom laterality; template default is blank; capture laterality, avoid contradictions. (C4-M03, C4-M12)
+3. Patient uses non-standard term; scribe translates to clinical term only if provider confirms; otherwise quote. (C4-M03, C4-M08)
+4. ROS copied forward contains unrelated positives; remove bloat and correct with visit-specific content only. (C4-M04, C4-M12)
+5. Provider changes plan after lab result; use addendum rules, preserve audit trail. (C4-M10)
+6. Referral placed but no reason captured; request neutral clarification. (C4-M07, C4-M14)
+7. Telehealth visit with limited exam; document limitations and modality; avoid PE fabrication. (C4-M09, C4-M01)
+8. Contradiction: “no allergies” and later “penicillin allergy”; reconcile and route. (C4-M05, C4-M12)
+9. Abbreviation “U” used in insulin dose; replace with explicit units; confirm dose as stated. (C4-M08)
+10. Patient asks scribe clinical question; scribe routes to provider and documents communication appropriately. (C4-M01, C4-M11)
+
+#### 3.4.3 Job Aids and SOP Pack (Course 4)
+
+1. SOAP Quality Checklist (section-by-section rubric)
+2. HPI OPQRST Capture Guide
+3. ROS Noise Reduction Rules
+4. PE Standard Phrasing Library (client-approved)
+5. Med and Allergy Reconciliation Checklist
+6. Orders and Results Documentation Map (where to chart what)
+7. Safe Abbreviation List and Prohibited Shorthand List
+8. Telehealth Documentation Template and Limitations Script
+9. Provider Clarification Message Templates (neutral, non-leading)
+10. Note QA Consistency Checklist (contradictions, copy-forward, missing fields)
+11. Finalization and Addendum Decision Tree
+12. Handoff Checklist and Downtime Protocol Card
+
+#### 3.4.4 Assessment Package (Course 4)
+
+* Pre-test: 20 items (scope, SOAP, HPI, privacy, no fabrication)
+* Module quizzes: per module as listed
+* Final exam: 80 items total across domains
+
+  * Structure and quality standards (20)
+  * HPI/ROS/PE accuracy and precision (20)
+  * Workflow and finalization rules (20)
+  * Privacy, minimum necessary, and escalation (20)
+  * Pass: 90% minimum; two attempts; 90-minute limit
+* Practical evaluation rubric (capstone)
+
+  * Two full notes: each must pass all gating checks
+
+    * No fabrication (mandatory)
+    * Correct structure (mandatory)
+    * Internal consistency (mandatory)
+    * Correct use of telehealth limitations when applicable
+    * Appropriate clarification messages without leading
+  * QA pass required before completion
+
+#### 3.4.5 Trainer Guide (Course 4)
+
+* Common failure modes: adding unstated content; bloated ROS; template copy-forward; weak HPI timeline; unsafe abbreviations; missing limitations in telehealth; inconsistent meds/allergies
+* Coaching tips: transcript-first discipline; “quote vs translate” rule; contradiction hunting; unit safety drills; addendum decision practice; repeated full-note reps with QA gates
+* Remediation routing
+
+  * Fabrication or overreach: repeat C4-M01 and C4-M06; submit 5 corrected notes
+  * HPI weakness: repeat C4-M03; 20 HPI drills graded
+  * ROS/PE bloat: repeat C4-M04; 10 rewrite drills
+  * Workflow errors: repeat C4-M07 and C4-M10; 15 scenario retest
+  * Privacy errors: repeat C4-M11; 20 communication rewrites
+
+---
+
+### 3.5 COURSE 5: EXECUTIVE ASSISTANT TRAINING FOR HEALTHCARE OPERATIONS (COMPLIANCE-SAFE)
+
+#### 3.5.0 Course Overview
+
+* **Audience**
+
+  * Executive Assistant supporting clinical leadership and operations
+* **Prerequisites**
+
+  * Course 1 (HIPAA Privacy, Security, and Breach Response)
+  * Course 3 (Day-to-Day Document Hygiene and Data Handling)
+* **Duration tracks**
+
+  * **Essentials Track (6 hours)**: Modules 1, 2, 3, 6, 8, 10, 12
+  * **Standard Track (12 hours)**: Modules 1-14 (full curriculum)
+  * **Intensive Track (18 hours)**: Modules 1-14 with expanded simulations in Modules 4-12
+* **Learning outcomes**
+
+  1. Manage provider and leadership calendars with healthcare-specific constraints and confidentiality
+  2. Apply minimum necessary principles to email, scheduling notes, meeting notes, and task tickets
+  3. Build and maintain operational documentation systems with approved storage and retention discipline
+  4. Execute inbox triage workflows without misrouting sensitive information
+  5. Produce meeting agendas, minutes, and action tracking with PHI-minimized structure
+  6. Coordinate travel, procurement, and vendors using secure workflows and least disclosure
+  7. Maintain stakeholder communications with clear escalation rules and error-prevention steps
+  8. Prevent common high-risk errors: auto-complete, reply-all, attachments, distribution lists
+  9. Run incident-aligned response steps when mis-sends or exposure risks occur
+  10. Support operational reporting and KPI documents without inserting sensitive patient details
+
+#### 3.5.1 Modular Architecture
+
+**Course ID**: C5
+**Lesson ID format**: C5-M##-L##
+
+---
+
+##### Module 1 (C5-M01) EA Role in Healthcare Operations and Boundaries (45 min)
+
+* Key topics: scope; confidentiality; separation of admin vs clinical decisions; escalation boundaries
+* Activity: 20-situation scope classification
+* Knowledge check: 10-item quiz
+
+##### Module 2 (C5-M02) Calendar Management: Clinics, Providers, and Operational Constraints (75 min)
+
+* Key topics: appointment types; buffer rules; time zones; clinic blocks; on-call scheduling; confidentiality in titles; shared calendars
+* Activity: build a weekly calendar with constraints; correct unsafe event titles
+* Knowledge check: 10-item quiz + calendar practical
+
+##### Module 3 (C5-M03) Inbox Triage, Routing, and Tagging Without Over-Disclosure (75 min)
+
+* Key topics: routing matrix; labels; “need to know”; summarization rules; thread hygiene; triage SLAs; escalation thresholds
+* Activity: triage 30 emails; route, summarize, and redact as needed
+* Knowledge check: 12-item quiz
+
+##### Module 4 (C5-M04) Email Error Prevention: Attachments, Recipients, Reply-All, and Lists (60 min)
+
+* Key topics: recipient verification; To/CC/BCC rules; attachment checks; thread review; distribution list governance
+* Activity: 15 high-risk email simulations
+* Knowledge check: 12-item quiz
+
+##### Module 5 (C5-M05) Meeting Operations: Agendas, Minutes, and Action Tracking (75 min)
+
+* Key topics: agenda templates; minutes structure; decision logs; action owners; due dates; minimizing sensitive details; attendee governance
+* Activity: produce minutes for 2 meeting recordings; generate action register
+* Knowledge check: minutes graded + 10-item quiz
+
+##### Module 6 (C5-M06) Document Systems: Storage, Versioning, Naming Conventions, and Retention (60 min)
+
+* Key topics: approved storage; naming conventions; version control; access controls; retention schedules; audit-ready organization
+* Activity: reorganize a sample folder structure; rename 25 files to convention
+* Knowledge check: 10-item quiz + practical
+
+##### Module 7 (C5-M07) Task and Ticket Hygiene: Templates and Minimum Necessary Notes (60 min)
+
+* Key topics: templated tickets; concise notes; removing identifiers; status updates; escalation fields
+* Activity: rewrite 15 unsafe tickets; convert 10 free-text notes to templates
+* Knowledge check: 10-item quiz + rewrite graded
+
+##### Module 8 (C5-M08) Vendor, Procurement, and External Communications (60 min)
+
+* Key topics: vendor vetting workflow; least disclosure; NDAs workflow handling; invoice data minimization; sharing constraints
+* Activity: 10 vendor email scenarios choose safe wording and attachments
+* Knowledge check: 10-item quiz
+
+##### Module 9 (C5-M09) Travel and Logistics for Healthcare Leadership (45 min)
+
+* Key topics: travel data sensitivity; itinerary storage; sharing limits; calendar privacy; emergency contact workflows
+* Activity: build an itinerary and sharing plan using minimum necessary
+* Knowledge check: 8-item quiz
+
+##### Module 10 (C5-M10) Reporting and KPI Documents Without Sensitive Payloads (60 min)
+
+* Key topics: KPI reporting; de-identification principles; aggregate vs individual; safe examples; redaction and metadata stripping
+* Activity: convert a sensitive report into a safe operational report
+* Knowledge check: 10-item quiz + report graded
+
+##### Module 11 (C5-M11) Incident-Linked Response: Mis-sends, Exposure Risks, and Rapid Containment (45 min)
+
+* Key topics: immediate containment steps; notify chain; preserve evidence; do-not-delete discipline; documentation of incident
+* Activity: 8 incident drills with timed steps
+* Knowledge check: 10-item quiz
+
+##### Module 12 (C5-M12) Communication Standards: Tone, Clarity, and Escalation Discipline (45 min)
+
+* Key topics: plain language; avoiding clinical claims; escalation framing; internal vs external tone; reducing ambiguity
+* Activity: rewrite 20 messages for clarity and minimal disclosure
+* Knowledge check: 10-item quiz
+
+##### Module 13 (C5-M13) Coordination with Revenue Cycle and Clinical Teams (45 min)
+
+* Key topics: handoffs; role-based routing; what to include vs exclude; meeting coordination patterns
+* Activity: build routing map for 12 scenarios
+* Knowledge check: 8-item quiz
+
+##### Module 14 (C5-M14) Capstone: Full Week EA Simulation (120 min)
+
+* Activity: calendar + inbox + meeting minutes + document filing + 2 incident drills in one integrated simulation
+* Grading rubric: routing accuracy, disclosure discipline, error prevention, documentation quality, incident handling
+
+---
+
+#### 3.5.2 Scenario Bank (Course 5)
+
+1. Calendar event titled with patient name; replace with safe title and correct attendees. (C5-M02)
+2. Reply-all risk on distribution list with sensitive attachment; stop, recompose, verify recipients. (C5-M04)
+3. Vendor requests sample records; deny and route to approved process; provide non-sensitive alternatives. (C5-M08)
+4. CEO asks for meeting minutes with too much detail; rewrite to decision/action log without sensitive content. (C5-M05, C5-M12)
+5. Mis-sent email to wrong domain; execute containment and incident reporting steps. (C5-M11)
+6. Inbox triage: clinical question arrives in EA inbox; route to clinical channel without adding interpretation. (C5-M03, C5-M01)
+7. KPI deck contains identifiers; convert to aggregate metrics and strip metadata. (C5-M10, C5-M06)
+8. Travel itinerary shared broadly; restrict access and remove unnecessary fields. (C5-M09)
+9. Ticket notes include diagnosis details; rewrite to minimum necessary and template-based updates. (C5-M07)
+10. Procurement invoice includes sensitive data; store in approved location with restricted access and safe filename. (C5-M06, C5-M08)
+
+#### 3.5.3 Job Aids and SOP Pack (Course 5)
+
+1. Calendar Privacy Rules and Safe Event Title Library
+2. Inbox Routing Matrix (by sender type and urgency)
+3. Recipient Verification Checklist (5-step)
+4. Attachment Safety Checklist (format, encryption trigger, naming, access)
+5. Meeting Agenda Template and Minutes Template (PHI-minimized)
+6. Decision Log and Action Register Template
+7. File Naming Convention Guide and Folder Architecture Standard
+8. Ticket Note Templates (10) and “minimum necessary” rewrite rules
+9. Vendor Communication Templates (least disclosure)
+10. KPI Reporting Redaction Guide and Metadata Stripping Steps
+11. Incident Response Quick Card for Mis-sends and Exposure Risks
+12. Weekly EA Operations Checklist (calendar, inbox, meetings, filing, QA)
+
+#### 3.5.4 Assessment Package (Course 5)
+
+* Pre-test: 15 items (privacy, email risk, routing, storage)
+* Final exam: 60 items across domains
+
+  * Calendar and inbox discipline (15)
+  * Email risk controls (15)
+  * Document systems and retention (15)
+  * Incident response and escalation (15)
+  * Pass: 85% minimum; two attempts; 75-minute limit
+* Practical evaluation (capstone): must pass all gating items
+
+  * No high-risk recipient errors
+  * All calendar titles safe
+  * Minutes are PHI-minimized and action-focused
+  * Files stored correctly with compliant names
+  * Incident drill handled with correct chain and do-not-delete discipline
+
+#### 3.5.5 Trainer Guide (Course 5)
+
+* Common failure modes: over-sharing in minutes; unsafe calendar titles; auto-complete errors; attachment carelessness; storing files locally; unclear escalation; vendor oversharing
+* Coaching tips: repetition of recipient verification; minutes rewriting drills; calendar hygiene audits; staged inbox triage; incident drill timing practice
+* Remediation routing
+
+  * Email safety failures: repeat C5-M04; 25 additional simulations
+  * Minutes over-disclosure: repeat C5-M05; rewrite 10 minutes sets to rubric
+  * Storage failures: repeat C5-M06; practical filing retest
+  * Incident failures: repeat C5-M11; 10 timed drills pass requirement
+## PART 4 of 4
+
+### 4.1 COURSE 6: ICD-10 CODING OVERVIEW (NON-CODER OPERATIONS TRAINING)
+
+#### 4.1.0 Course Overview
+
+* **Audience**
+
+  * Non-coder support roles who touch documentation, claims support, prior auth support, and RCM workflows
+  * Patient Coordinator, Client Success Specialist, Order Entry, Claims Support, Insurance Support, EA, Scribes (overview only)
+* **Prerequisites**
+
+  * Course 1 (HIPAA Privacy, Security, and Breach Response)
+  * Course 3 (Day-to-Day Document Hygiene and Data Handling)
+* **Purpose**
+
+  * Build operational literacy in ICD-10-CM concepts so teams can read charts, support clean documentation, and reduce avoidable rework, without practicing medical coding beyond scope.
+* **Learning outcomes**
+
+  1. Explain how ICD-10 supports claims and documentation workflows
+  2. Identify the difference between ICD-10-CM diagnosis coding and CPT/HCPCS procedure coding (high level)
+  3. Recognize key ICD-10-CM structure elements: categories, subcategories, extensions, laterality, encounter types
+  4. Use safe lookup and verification workflows inside client-approved tools without inventing diagnoses
+  5. Detect common documentation gaps that block accurate coding and route clarification correctly
+  6. Avoid high-risk behavior: “coding by guessing,” upcoding, and altering clinical meaning
+  7. Interpret medical necessity signals in documentation at a non-coder level
+  8. Understand denials that relate to diagnosis coding mismatch, specificity, or documentation insufficiency
+
+#### 4.1.1 Modular Architecture
+
+**Course ID**: C6
+**Lesson ID format**: C6-M##-L##
+
+---
+
+##### Module 1 (C6-M01) Scope, Ethics, and Compliance Boundaries (60 min)
+
+* Key topics: what non-coders can and cannot do; integrity; never invent; never change provider intent; escalation and audit trail
+* Activity: 25-scenario boundary classification
+* Knowledge check: 15-item quiz
+* Lessons
+
+  * **C6-M01-L01 (20 min)** Coding vs documentation support: role boundaries
+  * **C6-M01-L02 (20 min)** Ethics, fraud/abuse risk signals, and “do not guess”
+  * **C6-M01-L03 (20 min)** Escalation and audit trail discipline
+
+##### Module 2 (C6-M02) ICD-10-CM Fundamentals: Structure and Format (75 min)
+
+* Key topics: chapters; alphanumeric structure; 3-7 characters; placeholders (X); decimals; code specificity
+* Activity: dissect 20 codes into meaning components
+* Knowledge check: 12-item quiz
+* Lessons: **L01 (25)** code anatomy; **L02 (25)** chapters; **L03 (25)** specificity and placeholders
+
+##### Module 3 (C6-M03) Laterality, Severity, and Encounter Extensions (75 min)
+
+* Key topics: right/left/bilateral; acute vs chronic; initial/subsequent/sequela; injury codes; 7th character extensions
+* Activity: map 15 short chart notes to the missing specificity fields (no code assignment)
+* Knowledge check: 12-item quiz
+* Lessons: **L01 (25)** laterality; **L02 (25)** encounter types; **L03 (25)** severity and chronicity signals
+
+##### Module 4 (C6-M04) Documentation Quality for ICD-10: What Must Be Present (90 min)
+
+* Key topics: diagnosis statements; rule-out vs confirmed; symptoms vs conditions; cause and context; complications; comorbidities; status codes
+* Activity: identify missing elements in 20 note excerpts; draft neutral provider queries
+* Knowledge check: 15-item quiz + query writing graded
+* Lessons: **L01 (30)** diagnosis vs symptom language; **L02 (30)** context and causality; **L03 (30)** provider query drafting
+
+##### Module 5 (C6-M05) High-Frequency Categories for Outpatient Operations (90 min)
+
+* Key topics: common outpatient themes (respiratory, MSK, endocrine, mental health, HTN, diabetes, infections) at concept level, not code memorization
+* Activity: categorize 30 scenarios into ICD-10 chapter buckets and required specificity fields
+* Knowledge check: 12-item quiz
+* Lessons: **L01 (30)** chapter buckets; **L02 (30)** specificity fields; **L03 (30)** operational mapping to workflows
+
+##### Module 6 (C6-M06) Denials and Rework: Diagnosis-Related Failure Modes (75 min)
+
+* Key topics: unspecified codes; mismatch with documentation; medical necessity mismatch; coverage policies (concept level); resubmission workflow; documentation requests
+* Activity: analyze 10 denial reasons; map to corrective action
+* Knowledge check: 10-item quiz + denial mapping practical
+* Lessons: **L01 (25)** common denial patterns; **L02 (25)** corrective actions; **L03 (25)** resubmission and documentation request workflows
+
+##### Module 7 (C6-M07) Safe Lookup Workflows and Tool Discipline (60 min)
+
+* Key topics: approved coding tools; version control; never use unapproved sources; avoiding copy-paste errors; keeping evidence of source; audit trace
+* Activity: perform 10 “lookup and verify” drills (no final code selection required) using simulated tool screens
+* Knowledge check: 12-item quiz
+* Lessons: **L01 (20)** approved tools and versions; **L02 (20)** lookup workflow steps; **L03 (20)** audit-safe documentation of the lookup
+
+##### Module 8 (C6-M08) Provider Query and Clarification Protocol (60 min)
+
+* Key topics: when to query; neutral phrasing; no leading; query templates; turnaround expectations; where to document queries
+* Activity: write 20 queries from missing specificity; score against rubric
+* Knowledge check: 10-item quiz + graded queries
+* Lessons: **L01 (20)** query triggers; **L02 (20)** neutral templates; **L03 (20)** query documentation and routing
+
+##### Module 9 (C6-M09) Crosswalk Awareness: ICD-10 vs SNOMED vs Problem Lists (45 min)
+
+* Key topics: why crosswalks exist; risks; problem list hygiene; mapping errors; “closest match” traps
+* Activity: identify 10 crosswalk trap scenarios
+* Knowledge check: 8-item quiz
+
+##### Module 10 (C6-M10) Capstone: Operational ICD-10 Literacy Simulation (120 min)
+
+* Activity: end-to-end case queue with 12 charts and 12 denials
+
+  * Identify missing specificity
+  * Route clarifications
+  * Document lookup steps safely
+  * Recommend next actions (not codes) to coder/provider
+* Gating checks
+
+  * No invented diagnoses
+  * No code assignment outside scope
+  * All queries neutral and documented
+
+---
+
+#### 4.1.2 Scenario Bank (Course 6)
+
+1. “Knee pain” without laterality and chronicity; request specifics without suggesting diagnosis. (C6-M03, C6-M08)
+2. Injury note missing encounter type; route query. (C6-M03, C6-M04)
+3. Denial: unspecified diagnosis; identify missing specificity and action path. (C6-M06)
+4. Problem list contains outdated condition; propose problem list hygiene workflow. (C6-M09)
+5. “Rule out” language incorrectly treated as confirmed; correct interpretation and escalation. (C6-M04)
+6. Lookup result conflicts between two sources; follow approved tool hierarchy. (C6-M07)
+7. Denial cites medical necessity mismatch; gather documents and route appropriately. (C6-M06)
+8. Provider note includes symptoms but not diagnosis; recognize limitations and route. (C6-M04)
+9. Crosswalk suggests closest match; refuse and escalate. (C6-M09)
+10. Duplicate diagnoses in chart; propose cleanup steps. (C6-M09)
+
+#### 4.1.3 Job Aids and SOP Pack (Course 6)
+
+1. Non-Coder ICD-10 Scope Card (do/don’t list)
+2. ICD-10 Code Anatomy Cheat Sheet
+3. Specificity Fields Checklist (laterality, encounter, chronicity, severity, cause)
+4. Provider Query Templates (neutral)
+5. Denial Triage Matrix (diagnosis-related)
+6. Safe Lookup Workflow Checklist (approved tools, version, evidence)
+7. Crosswalk Trap Guide
+8. Documentation Gap Spotter Guide
+9. Capstone Rubric and Self-QA Checklist
+
+#### 4.1.4 Assessment Package (Course 6)
+
+* Pre-test: 20 items
+* Final exam: 70 items
+
+  * Structure and specificity (20)
+  * Documentation gap detection (20)
+  * Denial triage actions (15)
+  * Safe lookup and audit discipline (15)
+  * Pass: 85% minimum; two attempts; 90-minute limit
+* Practical: capstone simulation graded against gating checks
+
+---
+
+### 4.2 PROGRAM-LEVEL PACKAGING (HOW THESE COURSES SHIP AS A SINGLE TRAINING PROGRAM)
+
+#### 4.2.1 Recommended Learning Paths by Role
+
+* **Medical Scribe (MBBS)**
+
+  * C1 → C3 → C4 → (C6 overview Modules 1-4 optional)
+* **Executive Assistant**
+
+  * C1 → C3 → C5 → (C6 Modules 1, 6 optional)
+* **Revenue Cycle: Benefits / Claims / Insurance Support**
+
+  * C1 → C3 → C2 (RCM workflows, if you have it) → C6
+* **Patient Coordinator / Front Office**
+
+  * C1 → C3 → C2 (front office workflows, if you have it) → C6 Modules 1-4, 6
+
+#### 4.2.2 Completion Gates (Program Rules)
+
+* Must pass C1 final exam before touching any production client systems
+* Must pass C3 before receiving any email access and document repository access
+* Role course final exam required before role goes live (C4 scribes, C5 EAs)
+* C6 required before any denial work, coding-adjacent tasks, or claim triage
+
+#### 4.2.3 QA and Audit Artifacts (What You Store)
+
+* Learner roster with role assignment and training path
+* Pre-test and final exam scores, attempt history, completion date
+* Capstone scoring sheets (C4, C5, C6)
+* Signed training acknowledgment (no mention of waivers)
+* Incident drill completion logs (C1, C5)
+* Quarterly refresher completion status
+
+#### 4.2.4 Refresher and Recertification Cadence
+
+* **Monthly**: 15-minute micro-drill (email safety, minimum necessary, phishing)
+* **Quarterly**: 60-minute refresher + quiz (C1 and C3 core)
+* **Semiannual**: role simulation (scribe note QA or EA incident drill)
+* **Annual**: full C1 final re-certification + updated policy acknowledgment
+
+---
+
+### 4.3 SINGLE-PASS SELF-EVALUATION AND AUTO-CORRECTION MECHANISM (FOR YOUR PROMPT SYSTEM)
+
+Use this as the evaluation layer when generating or revising the training content so it corrects itself if anything is missing or inconsistent.
+
+#### 4.3.1 Validation Checklist
+
+1. Every course includes: overview, prerequisites, modular architecture, scenario bank, job aids pack, assessment package, trainer guide.
+2. Every module includes: duration, topics, one activity, one knowledge check.
+3. Every activity is feasible without external PHI and uses simulated artifacts.
+4. Privacy and security controls appear in each course where relevant (minimum necessary, secure comms, escalation).
+5. No prohibited references appear anywhere (including any mention of waivers).
+6. Capstones exist for role-critical courses (scribes, EA, ICD literacy).
+7. Assessments include pass thresholds and remediation routing.
+8. All language is operational, specific, and role-scoped (no practicing medicine/coding outside scope).
+9. All outputs are internally consistent: IDs, module counts, track durations.
+
+#### 4.3.2 Auto-Correction Procedure (Deterministic)
+
+* Step A: Generate the full curriculum draft.
+* Step B: Run the validation checklist line-by-line.
+* Step C: For each failed item, patch the missing section immediately in-place.
+* Step D: Re-run checklist until zero failures remain.
+* Step E: Output the final corrected curriculum only (no commentary).
+
+#### 4.3.3 Output Format Contract
+
+* Always output in this order:
+
+  1. Program map
+  2. Courses in sequence (C1, C3, C4, C5, C6)
+  3. Role-based learning paths
+  4. QA artifacts
+  5. Refresh cadence
+  6. Validation and auto-correction layer
+
+---
+
+### 4.4 IMPLEMENTATION PACK: TEMPLATES YOU CAN DROP INTO LMS
+
+#### 4.4.1 Module Template (Copy/Paste)
+
+* Module ID:
+* Title:
+* Duration:
+* Objectives (3-6):
+* Content outline:
+* Activity:
+* Knowledge check:
+* Job aid(s):
+* Evidence artifact produced:
+
+#### 4.4.2 Quiz Template (Copy/Paste)
+
+* Quiz ID:
+* Coverage modules:
+* Question bank size:
+* Passing score:
+* Time limit:
+* Retake rules:
+* Randomization rules:
+* Item tags (privacy, security, workflow, scope, escalation, hygiene):
+
+#### 4.4.3 Capstone Template (Copy/Paste)
+
+* Capstone ID:
+* Scenario set:
+* Inputs provided (simulated):
+* Outputs required:
+* Scoring rubric:
+* Gating checks:
+* Remediation path:
+
+#### 4.4.4 Trainer Rubric Template (Copy/Paste)
+
+* Rubric category:
+* Pass criteria:
+* Common errors:
+* Coaching guidance:
+* Remediation assignment:
+
+---

@@ -1,0 +1,16 @@
+export const PORTFOLIO = [
+  { symbol: 'DOGE', name: 'Dogecoin', id: 'dogecoin', weight: 0.152 },
+  { symbol: 'SHIB', name: 'Shiba Inu', id: 'shiba-inu', weight: 0.128 },
+  { symbol: 'PEPE', name: 'Pepe', id: 'pepe', weight: 0.115 },
+  { symbol: 'PENGU', name: 'Pudgy Penguins', id: 'pudgy-penguins', weight: 0.093 },
+  { symbol: 'BONK', name: 'Bonk', id: 'bonk', weight: 0.087 },
+  { symbol: 'SPX', name: 'SPX6900', id: 'spx6900', weight: 0.079 },
+  { symbol: 'FLOKI', name: 'FLOKI', id: 'floki', weight: 0.072 },
+  { symbol: 'FART', name: 'Fartcoin', id: 'fartcoin', weight: 0.068 },
+  { symbol: 'WIF', name: 'dogwifhat', id: 'dogwifhat', weight: 0.061 },
+  { symbol: 'DOG', name: 'Dog Bitcoin', id: 'dog', weight: 0.054 },
+  { symbol: 'TURBO', name: 'Turbo', id: 'turbo', weight: 0.049 },
+  { symbol: 'POPCAT', name: 'Popcat', id: 'popcat', weight: 0.042 },
+  { symbol: 'TOSHI', name: 'Toshi', id: 'toshi', weight: 0.038 },
+  { symbol: 'PNUT', name: 'Peanut the Squirrel', id: 'peanut-the-squirrel', weight: 0.032 },
+];

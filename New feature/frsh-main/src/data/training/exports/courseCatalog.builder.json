@@ -1,0 +1,517 @@
+{
+  "courses": [
+    {
+      "id": "course-1",
+      "slug": "hipaa-privacy-security-and-breach-response-role-based",
+      "title": "HIPAA PRIVACY, SECURITY, AND BREACH RESPONSE (ROLE-BASED)",
+      "summary": "#### 3.1.0 Course Overview",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "privacy-security"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-1-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-1-day2-step"
+        },
+        {
+          "stepId": "course-1-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-1-day1-step",
+          "nextStep": "course-1-day3-step"
+        },
+        {
+          "stepId": "course-1-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-1-day2-step",
+          "nextStep": "course-1-day4-step"
+        },
+        {
+          "stepId": "course-1-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-1-day3-step",
+          "nextStep": "course-1-day5-step"
+        },
+        {
+          "stepId": "course-1-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-1-day4-step",
+          "nextStep": "course-1-day6-step"
+        },
+        {
+          "stepId": "course-1-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-1-day5-step",
+          "nextStep": "course-1-day7-step"
+        },
+        {
+          "stepId": "course-1-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-1-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    },
+    {
+      "id": "course-2",
+      "slug": "icd-10-coding-overview-for-operations-teams-non-coder-workflow-safe",
+      "title": "ICD-10 CODING OVERVIEW FOR OPERATIONS TEAMS (NON-CODER, WORKFLOW-SAFE)",
+      "summary": "#### 3.2.0 Course Overview",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "coding-operations"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-2-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-2-day2-step"
+        },
+        {
+          "stepId": "course-2-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-2-day1-step",
+          "nextStep": "course-2-day3-step"
+        },
+        {
+          "stepId": "course-2-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-2-day2-step",
+          "nextStep": "course-2-day4-step"
+        },
+        {
+          "stepId": "course-2-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-2-day3-step",
+          "nextStep": "course-2-day5-step"
+        },
+        {
+          "stepId": "course-2-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-2-day4-step",
+          "nextStep": "course-2-day6-step"
+        },
+        {
+          "stepId": "course-2-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-2-day5-step",
+          "nextStep": "course-2-day7-step"
+        },
+        {
+          "stepId": "course-2-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-2-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    },
+    {
+      "id": "course-3",
+      "slug": "day-to-day-document-hygiene-and-data-handling-operational-security",
+      "title": "DAY-TO-DAY DOCUMENT HYGIENE AND DATA HANDLING (OPERATIONAL SECURITY)",
+      "summary": "#### 3.3.0 Course Overview",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "privacy-security",
+        "documentation"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-3-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-3-day2-step"
+        },
+        {
+          "stepId": "course-3-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-3-day1-step",
+          "nextStep": "course-3-day3-step"
+        },
+        {
+          "stepId": "course-3-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-3-day2-step",
+          "nextStep": "course-3-day4-step"
+        },
+        {
+          "stepId": "course-3-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-3-day3-step",
+          "nextStep": "course-3-day5-step"
+        },
+        {
+          "stepId": "course-3-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-3-day4-step",
+          "nextStep": "course-3-day6-step"
+        },
+        {
+          "stepId": "course-3-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-3-day5-step",
+          "nextStep": "course-3-day7-step"
+        },
+        {
+          "stepId": "course-3-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-3-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    },
+    {
+      "id": "course-4",
+      "slug": "medical-scribe-training-remote-clinical-documentation-quality",
+      "title": "MEDICAL SCRIBE TRAINING (REMOTE, CLINICAL DOCUMENTATION QUALITY)",
+      "summary": "MEDICAL SCRIBE TRAINING (REMOTE, CLINICAL DOCUMENTATION QUALITY)",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "documentation"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-4-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-4-day2-step"
+        },
+        {
+          "stepId": "course-4-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-4-day1-step",
+          "nextStep": "course-4-day3-step"
+        },
+        {
+          "stepId": "course-4-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-4-day2-step",
+          "nextStep": "course-4-day4-step"
+        },
+        {
+          "stepId": "course-4-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-4-day3-step",
+          "nextStep": "course-4-day5-step"
+        },
+        {
+          "stepId": "course-4-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-4-day4-step",
+          "nextStep": "course-4-day6-step"
+        },
+        {
+          "stepId": "course-4-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-4-day5-step",
+          "nextStep": "course-4-day7-step"
+        },
+        {
+          "stepId": "course-4-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-4-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    },
+    {
+      "id": "course-5",
+      "slug": "executive-assistant-training-for-healthcare-operations-compliance-safe",
+      "title": "EXECUTIVE ASSISTANT TRAINING FOR HEALTHCARE OPERATIONS (COMPLIANCE-SAFE)",
+      "summary": "(Continued in Part 3 per the requested sequence.)",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "general-compliance"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-5-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-5-day2-step"
+        },
+        {
+          "stepId": "course-5-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-5-day1-step",
+          "nextStep": "course-5-day3-step"
+        },
+        {
+          "stepId": "course-5-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-5-day2-step",
+          "nextStep": "course-5-day4-step"
+        },
+        {
+          "stepId": "course-5-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-5-day3-step",
+          "nextStep": "course-5-day5-step"
+        },
+        {
+          "stepId": "course-5-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-5-day4-step",
+          "nextStep": "course-5-day6-step"
+        },
+        {
+          "stepId": "course-5-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-5-day5-step",
+          "nextStep": "course-5-day7-step"
+        },
+        {
+          "stepId": "course-5-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-5-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    },
+    {
+      "id": "course-4",
+      "slug": "medical-scribe-training-remote-clinical-documentation-quality",
+      "title": "MEDICAL SCRIBE TRAINING (REMOTE, CLINICAL DOCUMENTATION QUALITY)",
+      "summary": "#### 3.4.0 Course Overview",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "documentation"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-4-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-4-day2-step"
+        },
+        {
+          "stepId": "course-4-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-4-day1-step",
+          "nextStep": "course-4-day3-step"
+        },
+        {
+          "stepId": "course-4-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-4-day2-step",
+          "nextStep": "course-4-day4-step"
+        },
+        {
+          "stepId": "course-4-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-4-day3-step",
+          "nextStep": "course-4-day5-step"
+        },
+        {
+          "stepId": "course-4-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-4-day4-step",
+          "nextStep": "course-4-day6-step"
+        },
+        {
+          "stepId": "course-4-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-4-day5-step",
+          "nextStep": "course-4-day7-step"
+        },
+        {
+          "stepId": "course-4-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-4-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    },
+    {
+      "id": "course-5",
+      "slug": "executive-assistant-training-for-healthcare-operations-compliance-safe",
+      "title": "EXECUTIVE ASSISTANT TRAINING FOR HEALTHCARE OPERATIONS (COMPLIANCE-SAFE)",
+      "summary": "#### 3.5.0 Course Overview",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "general-compliance"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-5-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-5-day2-step"
+        },
+        {
+          "stepId": "course-5-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-5-day1-step",
+          "nextStep": "course-5-day3-step"
+        },
+        {
+          "stepId": "course-5-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-5-day2-step",
+          "nextStep": "course-5-day4-step"
+        },
+        {
+          "stepId": "course-5-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-5-day3-step",
+          "nextStep": "course-5-day5-step"
+        },
+        {
+          "stepId": "course-5-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-5-day4-step",
+          "nextStep": "course-5-day6-step"
+        },
+        {
+          "stepId": "course-5-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-5-day5-step",
+          "nextStep": "course-5-day7-step"
+        },
+        {
+          "stepId": "course-5-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-5-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    },
+    {
+      "id": "course-6",
+      "slug": "icd-10-coding-overview-non-coder-operations-training",
+      "title": "ICD-10 CODING OVERVIEW (NON-CODER OPERATIONS TRAINING)",
+      "summary": "#### 4.1.0 Course Overview",
+      "roles": [
+        "client-success-specialist-medical-benefits",
+        "clinical-nurse-coordinator",
+        "order-entry-specialist-oes",
+        "patient-claims-specialist-pcs",
+        "patient-accounts-receivable-specialist",
+        "executive-assistant",
+        "medical-scribe-mbbs",
+        "accounts-receivable-executive-patient-balance-collections"
+      ],
+      "tags": [
+        "coding-operations"
+      ],
+      "navigation": [
+        {
+          "stepId": "course-6-day1-step",
+          "dayNumber": 1,
+          "previousStep": null,
+          "nextStep": "course-6-day2-step"
+        },
+        {
+          "stepId": "course-6-day2-step",
+          "dayNumber": 2,
+          "previousStep": "course-6-day1-step",
+          "nextStep": "course-6-day3-step"
+        },
+        {
+          "stepId": "course-6-day3-step",
+          "dayNumber": 3,
+          "previousStep": "course-6-day2-step",
+          "nextStep": "course-6-day4-step"
+        },
+        {
+          "stepId": "course-6-day4-step",
+          "dayNumber": 4,
+          "previousStep": "course-6-day3-step",
+          "nextStep": "course-6-day5-step"
+        },
+        {
+          "stepId": "course-6-day5-step",
+          "dayNumber": 5,
+          "previousStep": "course-6-day4-step",
+          "nextStep": "course-6-day6-step"
+        },
+        {
+          "stepId": "course-6-day6-step",
+          "dayNumber": 6,
+          "previousStep": "course-6-day5-step",
+          "nextStep": "course-6-day7-step"
+        },
+        {
+          "stepId": "course-6-day7-step",
+          "dayNumber": 7,
+          "previousStep": "course-6-day6-step",
+          "nextStep": null
+        }
+      ],
+      "completionThresholdPerDay": 1
+    }
+  ]
+}

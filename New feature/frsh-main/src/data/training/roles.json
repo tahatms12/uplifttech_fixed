@@ -1,0 +1,58 @@
+[
+  {
+    "id": "client-success-specialist-medical-benefits",
+    "name": "Client Success Specialist (Medical Benefits)",
+    "description": "Client Success Specialist (Medical Benefits) as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  },
+  {
+    "id": "clinical-nurse-coordinator",
+    "name": "Clinical Nurse Coordinator",
+    "description": "Clinical Nurse Coordinator as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  },
+  {
+    "id": "order-entry-specialist-oes",
+    "name": "Order Entry Specialist (OES)",
+    "description": "Order Entry Specialist (OES) as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  },
+  {
+    "id": "patient-claims-specialist-pcs",
+    "name": "Patient Claims Specialist (PCS)",
+    "description": "Patient Claims Specialist (PCS) as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  },
+  {
+    "id": "patient-accounts-receivable-specialist",
+    "name": "Patient Accounts Receivable Specialist",
+    "description": "Patient Accounts Receivable Specialist as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  },
+  {
+    "id": "executive-assistant",
+    "name": "Executive Assistant",
+    "description": "Executive Assistant as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  },
+  {
+    "id": "medical-scribe-mbbs",
+    "name": "Medical Scribe (MBBS)",
+    "description": "Medical Scribe (MBBS) as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  },
+  {
+    "id": "accounts-receivable-executive-patient-balance-collections",
+    "name": "Accounts Receivable Executive (Patient Balance Collections)",
+    "description": "Accounts Receivable Executive (Patient Balance Collections) as referenced in courses.txt",
+    "active": true,
+    "category": "program"
+  }
+]

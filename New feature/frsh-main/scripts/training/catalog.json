@@ -1,0 +1,29 @@
+{
+  "courses": [
+    {
+      "id": "uplift-hc-basics",
+      "slug": "uplift-hc-basics",
+      "title": "Healthcare Compliance Foundations",
+      "quizzes": [
+        {
+          "id": "module-1-quiz",
+          "title": "Orientation Quiz",
+          "passing": 80,
+          "questions": [
+            { "prompt": "What is PHI?", "correct": "Any information that can identify a patient combined with health data" },
+            { "prompt": "What is the minimum necessary rule?", "correct": "Access only what you need for the task" }
+          ]
+        },
+        {
+          "id": "module-2-quiz",
+          "title": "Incident Workflow",
+          "passing": 80,
+          "questions": [
+            { "prompt": "First step after discovering a misdirected email?", "correct": "Stop spread and file an incident" },
+            { "prompt": "How soon should incidents be filed?", "correct": "Immediately" }
+          ]
+        }
+      ]
+    }
+  ]
+}

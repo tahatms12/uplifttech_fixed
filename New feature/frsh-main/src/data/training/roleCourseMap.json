@@ -1,0 +1,106 @@
+{
+  "client-success-specialist-medical-benefits": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  },
+  "clinical-nurse-coordinator": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  },
+  "order-entry-specialist-oes": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  },
+  "patient-claims-specialist-pcs": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  },
+  "patient-accounts-receivable-specialist": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  },
+  "executive-assistant": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  },
+  "medical-scribe-mbbs": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  },
+  "accounts-receivable-executive-patient-balance-collections": {
+    "requiredCourses": [
+      "course-1",
+      "course-2",
+      "course-3",
+      "course-4",
+      "course-5",
+      "course-4",
+      "course-5",
+      "course-6"
+    ],
+    "recommendedCourses": []
+  }
+}

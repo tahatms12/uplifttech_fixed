@@ -1,0 +1,18 @@
+[
+  {
+    "id": "privacy-security",
+    "name": "privacy-security"
+  },
+  {
+    "id": "coding-operations",
+    "name": "coding-operations"
+  },
+  {
+    "id": "documentation",
+    "name": "documentation"
+  },
+  {
+    "id": "general-compliance",
+    "name": "general-compliance"
+  }
+]
