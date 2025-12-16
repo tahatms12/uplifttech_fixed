@@ -5,6 +5,7 @@ import LoadingSpinner from './components/ui/LoadingSpinner';
 import SitemapGenerator from './components/seo/SitemapGenerator';
 import ScrollToTop from './components/ScrollToTop';
 import HubSpotTracking from './components/integrations/HubSpotTracking';
+import TrainingLayout from './components/training/TrainingLayout';
 
 // Eager load HomePage for fastest initial render
 import HomePage from './pages/HomePage';
@@ -30,6 +31,11 @@ const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPage'));
 const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
 const ComplianceSecurityPage = lazy(() => import('./pages/ComplianceSecurityPage'));
 const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultationPage'));
+const TrainingEntryPage = lazy(() => import('./pages/training/TrainingEntryPage'));
+const TrainingDashboardPage = lazy(() => import('./pages/training/TrainingDashboardPage'));
+const TrainingCoursePage = lazy(() => import('./pages/training/TrainingCoursePage'));
+const TrainingAdminPage = lazy(() => import('./pages/training/TrainingAdminPage'));
+const TrainingVerifyPage = lazy(() => import('./pages/training/TrainingVerifyPage'));
 
 function App() {
   return (
@@ -129,6 +135,53 @@ function App() {
               <NotFoundPage />
             </Suspense>
           } />
+        </Route>
+        <Route
+          path="/training/*"
+          element={
+            <TrainingLayout />
+          }
+        >
+          <Route
+            index
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingEntryPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="dashboard"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingDashboardPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="course/:courseId"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingCoursePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="admin"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingAdminPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="verify"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingVerifyPage />
+              </Suspense>
+            }
+          />
         </Route>
       </Routes>
     </>

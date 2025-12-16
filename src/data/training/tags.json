@@ -1,0 +1,26 @@
+[
+  {
+    "id": "onboarding",
+    "name": "onboarding",
+    "description": "onboarding related training content",
+    "active": true
+  },
+  {
+    "id": "security",
+    "name": "security",
+    "description": "security related training content",
+    "active": true
+  },
+  {
+    "id": "privacy",
+    "name": "privacy",
+    "description": "privacy related training content",
+    "active": true
+  },
+  {
+    "id": "compliance",
+    "name": "compliance",
+    "description": "compliance related training content",
+    "active": true
+  }
+]

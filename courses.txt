@@ -1,0 +1,46 @@
+Course: Security and Privacy Onboarding
+Slug: security-privacy-onboarding
+Summary: Seven-day guided onboarding for operations and HR staff to learn how Uplift protects data, handles incidents, and documents compliance steps.
+Roles: operations manager, hr specialist, security champion
+Tags: onboarding, security, privacy, compliance
+Prerequisites: none
+Outcomes:
+- Describe the company's security posture and key policies.
+- Configure and verify role-based access for daily tools.
+- Document privacy-sensitive workflows with correct approvals.
+- Demonstrate incident reporting and containment steps.
+
+Day 1 | Orientation and Responsibilities | 45
+Step | Learn | Orientation overview | Read the security welcome note and purpose of the training. | Note two expectations you have about secure work. | Expectations captured in personal notes.
+Step | Observe | Policy library walkthrough | Browse the internal security wiki sections cited in this lesson. | List two policies that apply to your role. | Policies identified and bookmarked.
+Step | Reflect | Personal responsibility | Reflect on how access and data handling responsibilities apply to your daily tasks. | Write a short reflection in your journal. | Reflection logged.
+
+Day 2 | Access Hygiene and Accounts | 50
+Step | Learn | Account provisioning model | Review how accounts are created, approved, and terminated. | Map one example lifecycle for your role. | Lifecycle steps mapped without gaps.
+Step | Do | MFA setup verification | Confirm multi-factor authentication on required systems. | Submit screenshots or device confirmations. | MFA proof uploaded.
+Step | Document | Access request notes | Draft the access request template you would use for a teammate. | Save a template copy in your workspace. | Template stored and shares correct fields.
+
+Day 3 | Identity and Audit Trails | 55
+Step | Observe | Audit log quick scan | Open a sample audit log and identify key fields. | Highlight events that matter to your team. | Events noted with timestamps.
+Step | Simulate | Role change simulation | Walk through a simulated role change, adjusting permissions. | Capture before/after permissions. | Simulation recorded with deltas.
+Step | Check | Access review quiz | Answer short questions on least privilege and approvals. | Submit quiz responses. | Quiz score at or above 80%.
+
+Day 4 | Data Handling and Privacy | 60
+Step | Learn | Data classification levels | Study definitions for public, internal, confidential, and restricted data. | Match three work examples to levels. | Examples mapped correctly.
+Step | Do | Secure file transfer | Practice sending a confidential file using approved tooling. | Record the tool and settings used. | Transfer completed with encryption enabled.
+Step | Check | Handling safeguards quiz | Complete the day 4 quick check. | Answer all quiz items. | Score meets or exceeds threshold.
+
+Day 5 | Incident Readiness | 55
+Step | Simulate | Incident intake drill | Practice filing an incident report using the template. | Submit the draft to your reviewer. | Report draft submitted with key fields completed.
+Step | Observe | Live runbook review | Watch a walkthrough of the incident response runbook. | Note two escalation triggers. | Triggers captured in notes.
+Step | Document | Communication checklist | Update the communication checklist for your team. | Save it to the shared folder. | Checklist saved with correct audience and timing.
+
+Day 6 | Privacy Rights Requests | 50
+Step | Learn | Request categories | Review data subject request categories and timelines. | Pair each category with required owners. | Owners matched without missing categories.
+Step | Do | Intake form practice | Fill out a mock privacy request form. | Ensure required consent language is present. | Form completed with consent language.
+Step | Reflect | Improving readiness | Reflect on how your team will respond to privacy deadlines. | Share one improvement idea. | Improvement idea recorded.
+
+Day 7 | Consolidation and Certification | 50
+Step | Check | Final knowledge check | Complete the final assessment for the course. | Submit answers. | Score at or above 85%.
+Step | Document | Certification evidence | Collect proof of completion for each day. | Upload files to the training folder. | All files uploaded and labeled.
+Step | Reflect | Week in review | Summarize your top takeaways and remaining questions. | Share summary with your manager. | Summary shared and next steps logged.

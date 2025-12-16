@@ -1,0 +1,1035 @@
+{
+  "courses": [
+    {
+      "id": "security-privacy-onboarding",
+      "slug": "security-privacy-onboarding",
+      "title": "Security and Privacy Onboarding",
+      "summary": "Seven-day guided onboarding for operations and HR staff to learn how Uplift protects data, handles incidents, and documents compliance steps.",
+      "roles": [
+        "operations-manager",
+        "hr-specialist",
+        "security-champion"
+      ],
+      "tags": [
+        "onboarding",
+        "security",
+        "privacy",
+        "compliance"
+      ],
+      "durationPlan": 7,
+      "prerequisites": [],
+      "outcomes": [
+        "Describe the company's security posture and key policies.",
+        "Configure and verify role-based access for daily tools.",
+        "Document privacy-sensitive workflows with correct approvals.",
+        "Demonstrate incident reporting and containment steps."
+      ],
+      "days": [
+        {
+          "dayNumber": 1,
+          "dayTitle": "Orientation and Responsibilities",
+          "estimatedTimeMinutes": 45,
+          "steps": [
+            {
+              "stepId": "security-privacy-onboarding-day-1-step-1",
+              "title": "Orientation overview",
+              "type": "Learn",
+              "contentBlocks": [
+                "Read the security welcome note and purpose of the training."
+              ],
+              "activities": [
+                "Note two expectations you have about secure work."
+              ],
+              "acceptanceCriteria": [
+                "Expectations captured in personal notes."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  14
+                ],
+                "text": [
+                  "Step | Learn | Orientation overview | Read the security welcome note and purpose of the training. | Note two expectations you have about secure work. | Expectations captured in personal notes."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-1-step-2",
+              "title": "Policy library walkthrough",
+              "type": "Observe",
+              "contentBlocks": [
+                "Browse the internal security wiki sections cited in this lesson."
+              ],
+              "activities": [
+                "List two policies that apply to your role."
+              ],
+              "acceptanceCriteria": [
+                "Policies identified and bookmarked."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  15
+                ],
+                "text": [
+                  "Step | Observe | Policy library walkthrough | Browse the internal security wiki sections cited in this lesson. | List two policies that apply to your role. | Policies identified and bookmarked."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-1-step-3",
+              "title": "Personal responsibility",
+              "type": "Reflect",
+              "contentBlocks": [
+                "Reflect on how access and data handling responsibilities apply to your daily tasks."
+              ],
+              "activities": [
+                "Write a short reflection in your journal."
+              ],
+              "acceptanceCriteria": [
+                "Reflection logged."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  16
+                ],
+                "text": [
+                  "Step | Reflect | Personal responsibility | Reflect on how access and data handling responsibilities apply to your daily tasks. | Write a short reflection in your journal. | Reflection logged."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "dayNumber": 2,
+          "dayTitle": "Access Hygiene and Accounts",
+          "estimatedTimeMinutes": 50,
+          "steps": [
+            {
+              "stepId": "security-privacy-onboarding-day-2-step-1",
+              "title": "Account provisioning model",
+              "type": "Learn",
+              "contentBlocks": [
+                "Review how accounts are created, approved, and terminated."
+              ],
+              "activities": [
+                "Map one example lifecycle for your role."
+              ],
+              "acceptanceCriteria": [
+                "Lifecycle steps mapped without gaps."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  19
+                ],
+                "text": [
+                  "Step | Learn | Account provisioning model | Review how accounts are created, approved, and terminated. | Map one example lifecycle for your role. | Lifecycle steps mapped without gaps."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-2-step-2",
+              "title": "MFA setup verification",
+              "type": "Do",
+              "contentBlocks": [
+                "Confirm multi-factor authentication on required systems."
+              ],
+              "activities": [
+                "Submit screenshots or device confirmations."
+              ],
+              "acceptanceCriteria": [
+                "MFA proof uploaded."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  20
+                ],
+                "text": [
+                  "Step | Do | MFA setup verification | Confirm multi-factor authentication on required systems. | Submit screenshots or device confirmations. | MFA proof uploaded."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-2-step-3",
+              "title": "Access request notes",
+              "type": "Document",
+              "contentBlocks": [
+                "Draft the access request template you would use for a teammate."
+              ],
+              "activities": [
+                "Save a template copy in your workspace."
+              ],
+              "acceptanceCriteria": [
+                "Template stored and shares correct fields."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  21
+                ],
+                "text": [
+                  "Step | Document | Access request notes | Draft the access request template you would use for a teammate. | Save a template copy in your workspace. | Template stored and shares correct fields."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "dayNumber": 3,
+          "dayTitle": "Identity and Audit Trails",
+          "estimatedTimeMinutes": 55,
+          "steps": [
+            {
+              "stepId": "security-privacy-onboarding-day-3-step-1",
+              "title": "Audit log quick scan",
+              "type": "Observe",
+              "contentBlocks": [
+                "Open a sample audit log and identify key fields."
+              ],
+              "activities": [
+                "Highlight events that matter to your team."
+              ],
+              "acceptanceCriteria": [
+                "Events noted with timestamps."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  24
+                ],
+                "text": [
+                  "Step | Observe | Audit log quick scan | Open a sample audit log and identify key fields. | Highlight events that matter to your team. | Events noted with timestamps."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-3-step-2",
+              "title": "Role change simulation",
+              "type": "Simulate",
+              "contentBlocks": [
+                "Walk through a simulated role change, adjusting permissions."
+              ],
+              "activities": [
+                "Capture before/after permissions."
+              ],
+              "acceptanceCriteria": [
+                "Simulation recorded with deltas."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  25
+                ],
+                "text": [
+                  "Step | Simulate | Role change simulation | Walk through a simulated role change, adjusting permissions. | Capture before/after permissions. | Simulation recorded with deltas."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-3-step-3",
+              "title": "Access review quiz",
+              "type": "Check",
+              "contentBlocks": [
+                "Answer short questions on least privilege and approvals."
+              ],
+              "activities": [
+                "Submit quiz responses."
+              ],
+              "acceptanceCriteria": [
+                "Quiz score at or above 80%."
+              ],
+              "assessment": {
+                "questions": [
+                  {
+                    "question": "Checkpoint for Access review quiz"
+                  }
+                ]
+              },
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  26
+                ],
+                "text": [
+                  "Step | Check | Access review quiz | Answer short questions on least privilege and approvals. | Submit quiz responses. | Quiz score at or above 80%."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "dayNumber": 4,
+          "dayTitle": "Data Handling and Privacy",
+          "estimatedTimeMinutes": 60,
+          "steps": [
+            {
+              "stepId": "security-privacy-onboarding-day-4-step-1",
+              "title": "Data classification levels",
+              "type": "Learn",
+              "contentBlocks": [
+                "Study definitions for public, internal, confidential, and restricted data."
+              ],
+              "activities": [
+                "Match three work examples to levels."
+              ],
+              "acceptanceCriteria": [
+                "Examples mapped correctly."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  29
+                ],
+                "text": [
+                  "Step | Learn | Data classification levels | Study definitions for public, internal, confidential, and restricted data. | Match three work examples to levels. | Examples mapped correctly."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-4-step-2",
+              "title": "Secure file transfer",
+              "type": "Do",
+              "contentBlocks": [
+                "Practice sending a confidential file using approved tooling."
+              ],
+              "activities": [
+                "Record the tool and settings used."
+              ],
+              "acceptanceCriteria": [
+                "Transfer completed with encryption enabled."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  30
+                ],
+                "text": [
+                  "Step | Do | Secure file transfer | Practice sending a confidential file using approved tooling. | Record the tool and settings used. | Transfer completed with encryption enabled."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-4-step-3",
+              "title": "Handling safeguards quiz",
+              "type": "Check",
+              "contentBlocks": [
+                "Complete the day 4 quick check."
+              ],
+              "activities": [
+                "Answer all quiz items."
+              ],
+              "acceptanceCriteria": [
+                "Score meets or exceeds threshold."
+              ],
+              "assessment": {
+                "questions": [
+                  {
+                    "question": "Checkpoint for Handling safeguards quiz"
+                  }
+                ]
+              },
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  31
+                ],
+                "text": [
+                  "Step | Check | Handling safeguards quiz | Complete the day 4 quick check. | Answer all quiz items. | Score meets or exceeds threshold."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "dayNumber": 5,
+          "dayTitle": "Incident Readiness",
+          "estimatedTimeMinutes": 55,
+          "steps": [
+            {
+              "stepId": "security-privacy-onboarding-day-5-step-1",
+              "title": "Incident intake drill",
+              "type": "Simulate",
+              "contentBlocks": [
+                "Practice filing an incident report using the template."
+              ],
+              "activities": [
+                "Submit the draft to your reviewer."
+              ],
+              "acceptanceCriteria": [
+                "Report draft submitted with key fields completed."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  34
+                ],
+                "text": [
+                  "Step | Simulate | Incident intake drill | Practice filing an incident report using the template. | Submit the draft to your reviewer. | Report draft submitted with key fields completed."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-5-step-2",
+              "title": "Live runbook review",
+              "type": "Observe",
+              "contentBlocks": [
+                "Watch a walkthrough of the incident response runbook."
+              ],
+              "activities": [
+                "Note two escalation triggers."
+              ],
+              "acceptanceCriteria": [
+                "Triggers captured in notes."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  35
+                ],
+                "text": [
+                  "Step | Observe | Live runbook review | Watch a walkthrough of the incident response runbook. | Note two escalation triggers. | Triggers captured in notes."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-5-step-3",
+              "title": "Communication checklist",
+              "type": "Document",
+              "contentBlocks": [
+                "Update the communication checklist for your team."
+              ],
+              "activities": [
+                "Save it to the shared folder."
+              ],
+              "acceptanceCriteria": [
+                "Checklist saved with correct audience and timing."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  36
+                ],
+                "text": [
+                  "Step | Document | Communication checklist | Update the communication checklist for your team. | Save it to the shared folder. | Checklist saved with correct audience and timing."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "dayNumber": 6,
+          "dayTitle": "Privacy Rights Requests",
+          "estimatedTimeMinutes": 50,
+          "steps": [
+            {
+              "stepId": "security-privacy-onboarding-day-6-step-1",
+              "title": "Request categories",
+              "type": "Learn",
+              "contentBlocks": [
+                "Review data subject request categories and timelines."
+              ],
+              "activities": [
+                "Pair each category with required owners."
+              ],
+              "acceptanceCriteria": [
+                "Owners matched without missing categories."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  39
+                ],
+                "text": [
+                  "Step | Learn | Request categories | Review data subject request categories and timelines. | Pair each category with required owners. | Owners matched without missing categories."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-6-step-2",
+              "title": "Intake form practice",
+              "type": "Do",
+              "contentBlocks": [
+                "Fill out a mock privacy request form."
+              ],
+              "activities": [
+                "Ensure required consent language is present."
+              ],
+              "acceptanceCriteria": [
+                "Form completed with consent language."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  40
+                ],
+                "text": [
+                  "Step | Do | Intake form practice | Fill out a mock privacy request form. | Ensure required consent language is present. | Form completed with consent language."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-6-step-3",
+              "title": "Improving readiness",
+              "type": "Reflect",
+              "contentBlocks": [
+                "Reflect on how your team will respond to privacy deadlines."
+              ],
+              "activities": [
+                "Share one improvement idea."
+              ],
+              "acceptanceCriteria": [
+                "Improvement idea recorded."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  41
+                ],
+                "text": [
+                  "Step | Reflect | Improving readiness | Reflect on how your team will respond to privacy deadlines. | Share one improvement idea. | Improvement idea recorded."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "dayNumber": 7,
+          "dayTitle": "Consolidation and Certification",
+          "estimatedTimeMinutes": 50,
+          "steps": [
+            {
+              "stepId": "security-privacy-onboarding-day-7-step-1",
+              "title": "Final knowledge check",
+              "type": "Check",
+              "contentBlocks": [
+                "Complete the final assessment for the course."
+              ],
+              "activities": [
+                "Submit answers."
+              ],
+              "acceptanceCriteria": [
+                "Score at or above 85%."
+              ],
+              "assessment": {
+                "questions": [
+                  {
+                    "question": "Checkpoint for Final knowledge check"
+                  }
+                ]
+              },
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  44
+                ],
+                "text": [
+                  "Step | Check | Final knowledge check | Complete the final assessment for the course. | Submit answers. | Score at or above 85%."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-7-step-2",
+              "title": "Certification evidence",
+              "type": "Document",
+              "contentBlocks": [
+                "Collect proof of completion for each day."
+              ],
+              "activities": [
+                "Upload files to the training folder."
+              ],
+              "acceptanceCriteria": [
+                "All files uploaded and labeled."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  45
+                ],
+                "text": [
+                  "Step | Document | Certification evidence | Collect proof of completion for each day. | Upload files to the training folder. | All files uploaded and labeled."
+                ]
+              }
+            },
+            {
+              "stepId": "security-privacy-onboarding-day-7-step-3",
+              "title": "Week in review",
+              "type": "Reflect",
+              "contentBlocks": [
+                "Summarize your top takeaways and remaining questions."
+              ],
+              "activities": [
+                "Share summary with your manager."
+              ],
+              "acceptanceCriteria": [
+                "Summary shared and next steps logged."
+              ],
+              "verification": {
+                "verification_status": "needs_review",
+                "verification_notes": "Content derived from courses.txt source; pending SME verification.",
+                "recommended_correction": "Confirm accuracy of procedures and update with references."
+              },
+              "roleRelevance": [
+                "operations-manager",
+                "hr-specialist",
+                "security-champion"
+              ],
+              "source": {
+                "lines": [
+                  46
+                ],
+                "text": [
+                  "Step | Reflect | Week in review | Summarize your top takeaways and remaining questions. | Share summary with your manager. | Summary shared and next steps logged."
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "source": {
+        "lines": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47
+        ],
+        "text": [
+          "Course: Security and Privacy Onboarding",
+          "Slug: security-privacy-onboarding",
+          "Summary: Seven-day guided onboarding for operations and HR staff to learn how Uplift protects data, handles incidents, and documents compliance steps.",
+          "Roles: operations manager, hr specialist, security champion",
+          "Tags: onboarding, security, privacy, compliance",
+          "Prerequisites: none",
+          "Outcomes:",
+          "- Describe the company's security posture and key policies.",
+          "- Configure and verify role-based access for daily tools.",
+          "- Document privacy-sensitive workflows with correct approvals.",
+          "- Demonstrate incident reporting and containment steps.",
+          "",
+          "Day 1 | Orientation and Responsibilities | 45",
+          "Step | Learn | Orientation overview | Read the security welcome note and purpose of the training. | Note two expectations you have about secure work. | Expectations captured in personal notes.",
+          "Step | Observe | Policy library walkthrough | Browse the internal security wiki sections cited in this lesson. | List two policies that apply to your role. | Policies identified and bookmarked.",
+          "Step | Reflect | Personal responsibility | Reflect on how access and data handling responsibilities apply to your daily tasks. | Write a short reflection in your journal. | Reflection logged.",
+          "",
+          "Day 2 | Access Hygiene and Accounts | 50",
+          "Step | Learn | Account provisioning model | Review how accounts are created, approved, and terminated. | Map one example lifecycle for your role. | Lifecycle steps mapped without gaps.",
+          "Step | Do | MFA setup verification | Confirm multi-factor authentication on required systems. | Submit screenshots or device confirmations. | MFA proof uploaded.",
+          "Step | Document | Access request notes | Draft the access request template you would use for a teammate. | Save a template copy in your workspace. | Template stored and shares correct fields.",
+          "",
+          "Day 3 | Identity and Audit Trails | 55",
+          "Step | Observe | Audit log quick scan | Open a sample audit log and identify key fields. | Highlight events that matter to your team. | Events noted with timestamps.",
+          "Step | Simulate | Role change simulation | Walk through a simulated role change, adjusting permissions. | Capture before/after permissions. | Simulation recorded with deltas.",
+          "Step | Check | Access review quiz | Answer short questions on least privilege and approvals. | Submit quiz responses. | Quiz score at or above 80%.",
+          "",
+          "Day 4 | Data Handling and Privacy | 60",
+          "Step | Learn | Data classification levels | Study definitions for public, internal, confidential, and restricted data. | Match three work examples to levels. | Examples mapped correctly.",
+          "Step | Do | Secure file transfer | Practice sending a confidential file using approved tooling. | Record the tool and settings used. | Transfer completed with encryption enabled.",
+          "Step | Check | Handling safeguards quiz | Complete the day 4 quick check. | Answer all quiz items. | Score meets or exceeds threshold.",
+          "",
+          "Day 5 | Incident Readiness | 55",
+          "Step | Simulate | Incident intake drill | Practice filing an incident report using the template. | Submit the draft to your reviewer. | Report draft submitted with key fields completed.",
+          "Step | Observe | Live runbook review | Watch a walkthrough of the incident response runbook. | Note two escalation triggers. | Triggers captured in notes.",
+          "Step | Document | Communication checklist | Update the communication checklist for your team. | Save it to the shared folder. | Checklist saved with correct audience and timing.",
+          "",
+          "Day 6 | Privacy Rights Requests | 50",
+          "Step | Learn | Request categories | Review data subject request categories and timelines. | Pair each category with required owners. | Owners matched without missing categories.",
+          "Step | Do | Intake form practice | Fill out a mock privacy request form. | Ensure required consent language is present. | Form completed with consent language.",
+          "Step | Reflect | Improving readiness | Reflect on how your team will respond to privacy deadlines. | Share one improvement idea. | Improvement idea recorded.",
+          "",
+          "Day 7 | Consolidation and Certification | 50",
+          "Step | Check | Final knowledge check | Complete the final assessment for the course. | Submit answers. | Score at or above 85%.",
+          "Step | Document | Certification evidence | Collect proof of completion for each day. | Upload files to the training folder. | All files uploaded and labeled.",
+          "Step | Reflect | Week in review | Summarize your top takeaways and remaining questions. | Share summary with your manager. | Summary shared and next steps logged.",
+          ""
+        ]
+      },
+      "navigation": [
+        {
+          "stepId": "security-privacy-onboarding-day-1-step-1",
+          "previousStep": null,
+          "nextStep": "security-privacy-onboarding-day-1-step-2",
+          "dayNumber": 1
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-1-step-2",
+          "previousStep": "security-privacy-onboarding-day-1-step-1",
+          "nextStep": "security-privacy-onboarding-day-1-step-3",
+          "dayNumber": 1
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-1-step-3",
+          "previousStep": "security-privacy-onboarding-day-1-step-2",
+          "nextStep": "security-privacy-onboarding-day-2-step-1",
+          "dayNumber": 1
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-2-step-1",
+          "previousStep": "security-privacy-onboarding-day-1-step-3",
+          "nextStep": "security-privacy-onboarding-day-2-step-2",
+          "dayNumber": 2
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-2-step-2",
+          "previousStep": "security-privacy-onboarding-day-2-step-1",
+          "nextStep": "security-privacy-onboarding-day-2-step-3",
+          "dayNumber": 2
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-2-step-3",
+          "previousStep": "security-privacy-onboarding-day-2-step-2",
+          "nextStep": "security-privacy-onboarding-day-3-step-1",
+          "dayNumber": 2
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-3-step-1",
+          "previousStep": "security-privacy-onboarding-day-2-step-3",
+          "nextStep": "security-privacy-onboarding-day-3-step-2",
+          "dayNumber": 3
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-3-step-2",
+          "previousStep": "security-privacy-onboarding-day-3-step-1",
+          "nextStep": "security-privacy-onboarding-day-3-step-3",
+          "dayNumber": 3
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-3-step-3",
+          "previousStep": "security-privacy-onboarding-day-3-step-2",
+          "nextStep": "security-privacy-onboarding-day-4-step-1",
+          "dayNumber": 3
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-4-step-1",
+          "previousStep": "security-privacy-onboarding-day-3-step-3",
+          "nextStep": "security-privacy-onboarding-day-4-step-2",
+          "dayNumber": 4
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-4-step-2",
+          "previousStep": "security-privacy-onboarding-day-4-step-1",
+          "nextStep": "security-privacy-onboarding-day-4-step-3",
+          "dayNumber": 4
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-4-step-3",
+          "previousStep": "security-privacy-onboarding-day-4-step-2",
+          "nextStep": "security-privacy-onboarding-day-5-step-1",
+          "dayNumber": 4
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-5-step-1",
+          "previousStep": "security-privacy-onboarding-day-4-step-3",
+          "nextStep": "security-privacy-onboarding-day-5-step-2",
+          "dayNumber": 5
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-5-step-2",
+          "previousStep": "security-privacy-onboarding-day-5-step-1",
+          "nextStep": "security-privacy-onboarding-day-5-step-3",
+          "dayNumber": 5
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-5-step-3",
+          "previousStep": "security-privacy-onboarding-day-5-step-2",
+          "nextStep": "security-privacy-onboarding-day-6-step-1",
+          "dayNumber": 5
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-6-step-1",
+          "previousStep": "security-privacy-onboarding-day-5-step-3",
+          "nextStep": "security-privacy-onboarding-day-6-step-2",
+          "dayNumber": 6
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-6-step-2",
+          "previousStep": "security-privacy-onboarding-day-6-step-1",
+          "nextStep": "security-privacy-onboarding-day-6-step-3",
+          "dayNumber": 6
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-6-step-3",
+          "previousStep": "security-privacy-onboarding-day-6-step-2",
+          "nextStep": "security-privacy-onboarding-day-7-step-1",
+          "dayNumber": 6
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-7-step-1",
+          "previousStep": "security-privacy-onboarding-day-6-step-3",
+          "nextStep": "security-privacy-onboarding-day-7-step-2",
+          "dayNumber": 7
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-7-step-2",
+          "previousStep": "security-privacy-onboarding-day-7-step-1",
+          "nextStep": "security-privacy-onboarding-day-7-step-3",
+          "dayNumber": 7
+        },
+        {
+          "stepId": "security-privacy-onboarding-day-7-step-3",
+          "previousStep": "security-privacy-onboarding-day-7-step-2",
+          "nextStep": null,
+          "dayNumber": 7
+        }
+      ]
+    }
+  ],
+  "filters": {
+    "byRole": [
+      {
+        "id": "operations-manager",
+        "name": "operations manager"
+      },
+      {
+        "id": "hr-specialist",
+        "name": "hr specialist"
+      },
+      {
+        "id": "security-champion",
+        "name": "security champion"
+      }
+    ],
+    "byTag": [
+      {
+        "id": "onboarding",
+        "name": "onboarding"
+      },
+      {
+        "id": "security",
+        "name": "security"
+      },
+      {
+        "id": "privacy",
+        "name": "privacy"
+      },
+      {
+        "id": "compliance",
+        "name": "compliance"
+      }
+    ]
+  }
+}
