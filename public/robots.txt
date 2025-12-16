@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /training
+Disallow: /api/training
 Sitemap: https://uplift-technologies.com/sitemap.xml
