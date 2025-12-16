@@ -20,6 +20,11 @@
   force = true
 
 [[redirects]]
+  from = "/api/training/*"
+  to = "/.netlify/functions/training-api"
+  status = 200
+
+[[redirects]]
   from = "/creative-direction"
   to = "/services"
   status = 301
@@ -36,6 +41,14 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[functions]
+  included_files = [
+    "src/data/training/exports/courseCatalog.builder.json",
+    "src/data/training/courseCatalog.json",
+    "src/data/training/roles.json",
+    "src/data/training/tags.json"
+  ]
 
 [[headers]]
   for = "/assets/*"
