@@ -14,11 +14,9 @@ async function request<T>(url: string, options: RequestInit): Promise<ApiRespons
       },
       ...options,
     });
-    if (res.status === 401) {
-      return { data: null, status: 401, error: 'unauthorized' };
-    }
     const data = (await res.json().catch(() => null)) as T | null;
-    return { data, status: res.status };
+    const error = !res.ok ? ((data as any)?.error || (data as any)?.message || (res.status === 401 ? 'unauthorized' : undefined)) : undefined;
+    return { data, status: res.status, ...(error ? { error } : {}) };
   } catch (error: any) {
     return { data: null, status: 500, error: error?.message || 'network_error' };
   }

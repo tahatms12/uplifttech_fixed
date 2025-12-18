@@ -4,3 +4,6 @@ node_modules/
 .env.*
 !.env.example
 netlify/functions/node_modules/
+
+# Local Netlify folder
+.netlify

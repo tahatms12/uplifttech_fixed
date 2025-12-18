@@ -1,6 +1,62 @@
 import { getStore } from '@netlify/blobs';
+import type { HandlerEvent } from '@netlify/functions';
 
-const store = getStore({ name: 'training-csv', consistency: 'strong' });
+interface BlobStore {
+  get: (key: string, options: { type: 'text' }) => Promise<string | null>;
+  set: (key: string, value: string, options?: { onlyIfNew?: boolean }) => Promise<boolean | void>;
+  delete: (key: string) => Promise<void>;
+  getWithMetadata: (key: string, options: { type: 'text' }) => Promise<{ data: string | null; metadata: Record<string, unknown> }>;
+  list: (options: { prefix: string }) => Promise<{ blobs: { key: string }[] }>;
+}
+
+const localBlobs = new Map<string, string>();
+
+function createLocalStore(): BlobStore {
+  return {
+    async get(key, _options) {
+      return localBlobs.has(key) ? (localBlobs.get(key) as string) : null;
+    },
+    async set(key, value, options) {
+      if (options?.onlyIfNew && localBlobs.has(key)) return false;
+      localBlobs.set(key, value);
+      return true;
+    },
+    async delete(key) {
+      localBlobs.delete(key);
+    },
+    async getWithMetadata(key, _options) {
+      const data = localBlobs.has(key) ? (localBlobs.get(key) as string) : null;
+      return { data, metadata: {} };
+    },
+    async list({ prefix }) {
+      const blobs = Array.from(localBlobs.keys())
+        .filter((key) => key.startsWith(prefix))
+        .map((key) => ({ key }));
+      return { blobs };
+    },
+  } satisfies BlobStore;
+}
+
+let cachedStore: BlobStore | null = null;
+
+async function getTrainingStore(_event?: HandlerEvent) {
+  if (cachedStore) return cachedStore;
+
+  try {
+    cachedStore = getStore({ name: 'training-csv', consistency: 'strong' }) as unknown as BlobStore;
+    return cachedStore;
+  } catch (err) {
+    const runningLocally =
+      process.env.NETLIFY_DEV === 'true' || process.env.NETLIFY_LOCAL === 'true' || !process.env.NETLIFY;
+    if (runningLocally) {
+      cachedStore = createLocalStore();
+      return cachedStore;
+    }
+    const error = err as Error & { statusCode?: number };
+    error.statusCode = 500;
+    throw error;
+  }
+}
 
 interface CsvData {
   headers: string[];
@@ -103,7 +159,8 @@ function serializeCsv(headers: string[], rows: Record<string, string>[]): string
   return lines.join('\n');
 }
 
-async function acquireLock(key: string): Promise<string> {
+async function acquireLock(key: string, event?: HandlerEvent): Promise<string> {
+  const store = await getTrainingStore(event);
   const lockKey = `locks/${key}.lock`;
   const now = Date.now();
   for (let attempt = 0; attempt < 10; attempt++) {
@@ -121,49 +178,55 @@ async function acquireLock(key: string): Promise<string> {
   throw new Error(`Unable to acquire lock for ${key}`);
 }
 
-async function releaseLock(lockKey: string) {
+async function releaseLock(lockKey: string, event?: HandlerEvent) {
+  const store = await getTrainingStore(event);
   await store.delete(lockKey).catch(() => {});
 }
 
-async function ensureHeaders(key: string, headers: string[]) {
+async function ensureHeaders(key: string, headers: string[], event?: HandlerEvent) {
+  const store = await getTrainingStore(event);
   const existing = await store.get(key, { type: 'text' });
   if (existing === null) {
     await store.set(key, `${headers.join(',')}`);
   }
 }
 
-export async function readAll(key: string): Promise<Record<string, string>[]> {
+export async function readAll(key: string, event?: HandlerEvent): Promise<Record<string, string>[]> {
+  const store = await getTrainingStore(event);
   const headers = headersForKey(key);
-  await ensureHeaders(key, headers);
+  await ensureHeaders(key, headers, event);
   const text = (await store.get(key, { type: 'text' })) || '';
   if (!text) return [];
   const parsed = parseCsv(text, headers);
   return parsed.rows;
 }
 
-export async function appendRow(key: string, row: Record<string, string>): Promise<void> {
+export async function appendRow(key: string, row: Record<string, string>, event?: HandlerEvent): Promise<void> {
+  const store = await getTrainingStore(event);
   const headers = headersForKey(key);
-  const lockKey = await acquireLock(key);
+  const lockKey = await acquireLock(key, event);
   try {
-    await ensureHeaders(key, headers);
+    await ensureHeaders(key, headers, event);
     const text = (await store.get(key, { type: 'text' })) || headers.join(',');
     const parsed = parseCsv(text, headers);
     parsed.rows.push(row);
     await store.set(key, serializeCsv(headers, parsed.rows));
   } finally {
-    await releaseLock(lockKey);
+    await releaseLock(lockKey, event);
   }
 }
 
 export async function upsertBy(
   key: string,
   predicate: (row: Record<string, string>) => boolean,
-  updater: (row: Record<string, string> | null) => Record<string, string>
+  updater: (row: Record<string, string> | null) => Record<string, string>,
+  event?: HandlerEvent
 ): Promise<void> {
+  const store = await getTrainingStore(event);
   const headers = headersForKey(key);
-  const lockKey = await acquireLock(key);
+  const lockKey = await acquireLock(key, event);
   try {
-    await ensureHeaders(key, headers);
+    await ensureHeaders(key, headers, event);
     const text = (await store.get(key, { type: 'text' })) || headers.join(',');
     const parsed = parseCsv(text, headers);
     const idx = parsed.rows.findIndex(predicate);
@@ -174,19 +237,21 @@ export async function upsertBy(
     }
     await store.set(key, serializeCsv(headers, parsed.rows));
   } finally {
-    await releaseLock(lockKey);
+    await releaseLock(lockKey, event);
   }
 }
 
 export async function findOne(
   key: string,
-  predicate: (row: Record<string, string>) => boolean
+  predicate: (row: Record<string, string>) => boolean,
+  event?: HandlerEvent
 ): Promise<Record<string, string> | null> {
-  const rows = await readAll(key);
+  const rows = await readAll(key, event);
   return rows.find(predicate) || null;
 }
 
-export async function listKeys(prefix: string): Promise<string[]> {
+export async function listKeys(prefix: string, event?: HandlerEvent): Promise<string[]> {
+  const store = await getTrainingStore(event);
   const result = await store.list({ prefix });
   return result.blobs.map((b) => b.key);
 }
