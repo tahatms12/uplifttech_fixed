@@ -26,12 +26,16 @@ import {
 import { courseTitle, getQuiz, listCatalogCourses } from './_lib/catalog';
 import { buildProgress, getCourseProgress, loadTrainingData, type CourseProgressSummary } from './_lib/completion';
 
-const jwtSecret = getEnv('TRAINING_JWT_SECRET', true) as string;
-const demoKey = (getEnv('demo_key') || getEnv('DEMO_KEY')) as string | undefined;
-const cookieName = getEnv('TRAINING_COOKIE_NAME', false, 'training_session') as string;
-const trainingOrigins = resolveAllowedOrigins();
-const adminEmails = getAdminEmails();
+interface TrainingConfig {
+  jwtSecret: string;
+  demoKey: string;
+  cookieName: string;
+  trainingOrigins: string[];
+  adminEmails: string[];
+}
+
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+let cachedConfig: TrainingConfig | null = null;
 
 function resolveAllowedOrigins(): string[] {
   const configured = (getEnv('TRAINING_APP_ORIGIN') || '')
@@ -46,6 +50,22 @@ function resolveAllowedOrigins(): string[] {
     'http://localhost:5173',
   ].filter(Boolean) as string[];
   return Array.from(new Set([...configured, ...defaults]));
+}
+
+function loadConfig(): TrainingConfig {
+  if (cachedConfig) return cachedConfig;
+  const jwtSecret = getEnv('TRAINING_JWT_SECRET') as string | undefined;
+  const demoKey = (getEnv('demo_key') || getEnv('DEMO_KEY')) as string | undefined;
+  const cookieName = getEnv('TRAINING_COOKIE_NAME', false, 'training_session') as string;
+  const trainingOrigins = resolveAllowedOrigins();
+  const adminEmails = getAdminEmails();
+  if (!jwtSecret || !demoKey) {
+    const err = new Error('CONFIG_INCOMPLETE');
+    (err as any).statusCode = 500;
+    throw err;
+  }
+  cachedConfig = { jwtSecret, demoKey, cookieName, trainingOrigins, adminEmails } satisfies TrainingConfig;
+  return cachedConfig;
 }
 
 function emailValid(email: string): boolean {
@@ -99,18 +119,18 @@ async function enforceRateLimit(key: string, windowSeconds: number, maxCount: nu
   );
 }
 
-function requireOrigin(event: HandlerEvent): HandlerResponse | null {
-  if (!verifyOrigin(event, trainingOrigins)) {
+function requireOrigin(event: HandlerEvent, config: TrainingConfig): HandlerResponse | null {
+  if (!verifyOrigin(event, config.trainingOrigins)) {
     return jsonResponse(403, { ok: false, error: 'forbidden' });
   }
   return null;
 }
 
-function parseAuth(event: HandlerEvent): AuthenticatedUser | null {
+function parseAuth(event: HandlerEvent, config: TrainingConfig): AuthenticatedUser | null {
   const cookies = parseCookies(event.headers?.cookie || event.headers?.Cookie);
-  const token = cookies[cookieName];
+  const token = cookies[config.cookieName];
   if (!token) return null;
-  const payload = verifyJwt(token, jwtSecret);
+  const payload = verifyJwt(token, config.jwtSecret);
   if (!payload) return null;
   return {
     id: payload.sub,
@@ -121,22 +141,19 @@ function parseAuth(event: HandlerEvent): AuthenticatedUser | null {
   };
 }
 
-async function handleLogin(event: HandlerEvent): Promise<HandlerResponse> {
-  const originError = requireOrigin(event);
+async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const originError = requireOrigin(event, config);
   if (originError) return originError;
   const start = Date.now();
   const body = parseJsonBody<any>(event) || {};
   const emailRaw = typeof body.email === 'string' ? body.email : '';
   const passwordInput = typeof body.password === 'string' ? body.password : typeof body.key === 'string' ? body.key : '';
-  if (!demoKey) {
-    return jsonResponse(500, { ok: false, error: 'server_error' });
-  }
   if (!emailRaw || !passwordInput || !emailValid(emailRaw)) {
     return failureResponse(start);
   }
-  const passwordMatches = safeCompare(passwordInput, demoKey);
+  const passwordMatches = safeCompare(passwordInput, config.demoKey);
   const ip = getClientIp(event) || 'unknown';
-  const ipHash = hashIp(ip, jwtSecret);
+  const ipHash = hashIp(ip, config.jwtSecret);
   await enforceRateLimit(`login:${ipHash}`, 300, 10).catch((err: any) => {
     if (err?.statusCode === 429) {
       throw err;
@@ -179,13 +196,13 @@ async function handleLogin(event: HandlerEvent): Promise<HandlerResponse> {
     user_agent: event.headers?.['user-agent'] || event.headers?.['User-Agent'] || '',
   });
 
-  const isAdmin = adminEmails.includes(email);
+  const isAdmin = config.adminEmails.includes(email);
   const token = signJwt(
     { sub: user.id, email: user.email, is_admin: isAdmin, role: user.role, full_name: user.full_name },
-    jwtSecret,
+    config.jwtSecret,
     SESSION_TTL_SECONDS
   );
-  const cookie = serializeCookie(cookieName, token, {
+  const cookie = serializeCookie(config.cookieName, token, {
     httpOnly: true,
     secure: true,
     sameSite: 'Lax',
@@ -200,10 +217,10 @@ async function handleLogin(event: HandlerEvent): Promise<HandlerResponse> {
   );
 }
 
-async function handleLogout(event: HandlerEvent): Promise<HandlerResponse> {
-  const originError = requireOrigin(event);
+async function handleLogout(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const originError = requireOrigin(event, config);
   if (originError) return originError;
-  const expiredCookie = serializeCookie(cookieName, '', {
+  const expiredCookie = serializeCookie(config.cookieName, '', {
     httpOnly: true,
     secure: true,
     sameSite: 'Lax',
@@ -213,21 +230,21 @@ async function handleLogout(event: HandlerEvent): Promise<HandlerResponse> {
   return jsonResponse(200, { ok: true }, [expiredCookie]);
 }
 
-async function handleMe(event: HandlerEvent): Promise<HandlerResponse> {
-  const auth = parseAuth(event);
+async function handleMe(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const auth = parseAuth(event, config);
   if (!auth) {
     return jsonResponse(401, { ok: false, error: 'unauthorized' });
   }
   return jsonResponse(200, { user: auth });
 }
 
-async function handleEvents(event: HandlerEvent): Promise<HandlerResponse> {
-  const originError = requireOrigin(event);
+async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const originError = requireOrigin(event, config);
   if (originError) return originError;
-  const auth = parseAuth(event);
+  const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
   const ip = getClientIp(event) || 'unknown';
-  const ipHash = hashIp(ip, jwtSecret);
+  const ipHash = hashIp(ip, config.jwtSecret);
   try {
     await enforceRateLimit(`events:${ipHash}`, 60, 120);
     await enforceRateLimit(`events-user:${auth.id}`, 60, 120);
@@ -288,13 +305,13 @@ async function handleEvents(event: HandlerEvent): Promise<HandlerResponse> {
   return jsonResponse(200, { ok: true });
 }
 
-async function handleQuizSubmit(event: HandlerEvent): Promise<HandlerResponse> {
-  const originError = requireOrigin(event);
+async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const originError = requireOrigin(event, config);
   if (originError) return originError;
-  const auth = parseAuth(event);
+  const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
   const ip = getClientIp(event) || 'unknown';
-  const ipHash = hashIp(ip, jwtSecret);
+  const ipHash = hashIp(ip, config.jwtSecret);
   try {
     await enforceRateLimit(`quiz:${ipHash}`, 300, 20);
     await enforceRateLimit(`quiz-user:${auth.id}`, 300, 20);
@@ -362,16 +379,16 @@ async function handleQuizSubmit(event: HandlerEvent): Promise<HandlerResponse> {
   });
 }
 
-async function handleProgress(event: HandlerEvent): Promise<HandlerResponse> {
-  const auth = parseAuth(event);
+async function handleProgress(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { error: 'unauthorized' });
   const progress = await buildProgress(auth.id, { persistCompletions: true });
 
   return jsonResponse(200, progress);
 }
 
-function requireAdmin(event: HandlerEvent): { auth: AuthenticatedUser | null; error?: HandlerResponse } {
-  const auth = parseAuth(event);
+function requireAdmin(event: HandlerEvent, config: TrainingConfig): { auth: AuthenticatedUser | null; error?: HandlerResponse } {
+  const auth = parseAuth(event, config);
   if (!auth) {
     return { auth: null, error: jsonResponse(401, { ok: false, error: 'unauthorized' }) };
   }
@@ -381,8 +398,8 @@ function requireAdmin(event: HandlerEvent): { auth: AuthenticatedUser | null; er
   return { auth };
 }
 
-async function handleAdminUsers(event: HandlerEvent): Promise<HandlerResponse> {
-  const { error } = requireAdmin(event);
+async function handleAdminUsers(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const { error } = requireAdmin(event, config);
   if (error) return error;
   const q = (event.queryStringParameters?.q || '').toLowerCase();
   const users = (await readAll('users.csv')) as UserRow[];
@@ -393,8 +410,8 @@ async function handleAdminUsers(event: HandlerEvent): Promise<HandlerResponse> {
   return jsonResponse(200, { ok: true, users: mapped });
 }
 
-async function handleAdminUserProgress(event: HandlerEvent, userId: string): Promise<HandlerResponse> {
-  const { error } = requireAdmin(event);
+async function handleAdminUserProgress(event: HandlerEvent, userId: string, config: TrainingConfig): Promise<HandlerResponse> {
+  const { error } = requireAdmin(event, config);
   if (error) return error;
   const targetId = userId || '';
   if (!targetId) return errorResponse(400, 'invalid_user');
@@ -402,8 +419,8 @@ async function handleAdminUserProgress(event: HandlerEvent, userId: string): Pro
   return jsonResponse(200, progress);
 }
 
-async function handleAdminExport(event: HandlerEvent): Promise<HandlerResponse> {
-  const { error } = requireAdmin(event);
+async function handleAdminExport(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const { error } = requireAdmin(event, config);
   if (error) return error;
   const users = (await readAll('users.csv')) as UserRow[];
   const data = await loadTrainingData();
@@ -472,10 +489,10 @@ async function handleAdminExport(event: HandlerEvent): Promise<HandlerResponse> 
   };
 }
 
-async function handleCertificateIssue(event: HandlerEvent): Promise<HandlerResponse> {
-  const originError = requireOrigin(event);
+async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const originError = requireOrigin(event, config);
   if (originError) return originError;
-  const auth = parseAuth(event);
+  const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
   const body = parseJsonBody<any>(event) || {};
   const courseId = String(body.courseId || '');
@@ -521,8 +538,8 @@ async function handleCertificateIssue(event: HandlerEvent): Promise<HandlerRespo
   return jsonResponse(200, { ok: true, certificateCode });
 }
 
-async function handleCertificatePdf(event: HandlerEvent): Promise<HandlerResponse> {
-  const auth = parseAuth(event);
+async function handleCertificatePdf(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
   const courseId = event.queryStringParameters?.courseId;
   if (!courseId) return errorResponse(400, 'invalid_request');
@@ -585,62 +602,71 @@ async function handleCertificateVerify(event: HandlerEvent): Promise<HandlerResp
 
 const handler: Handler = async (event) => {
   try {
+    let config: TrainingConfig;
+    try {
+      config = loadConfig();
+    } catch (err: any) {
+      if (err?.message === 'CONFIG_INCOMPLETE') {
+        return jsonResponse(500, { ok: false, error: 'training_config_missing' });
+      }
+      throw err;
+    }
     const path = event.path || '';
     const method = event.httpMethod || 'GET';
     if (path === '/api/training/auth/login') {
       if (method !== 'POST') return methodNotAllowed();
-      return await handleLogin(event);
+      return await handleLogin(event, config);
     }
 
     if (path === '/api/training/auth/logout') {
       if (method !== 'POST') return methodNotAllowed();
-      return await handleLogout(event);
+      return await handleLogout(event, config);
     }
 
     if (path === '/api/training/auth/me') {
       if (method !== 'GET') return methodNotAllowed();
-      return await handleMe(event);
+      return await handleMe(event, config);
     }
 
     if (path === '/api/training/events') {
       if (method !== 'POST') return methodNotAllowed();
-      return await handleEvents(event);
+      return await handleEvents(event, config);
     }
 
     if (path === '/api/training/quizzes/submit') {
       if (method !== 'POST') return methodNotAllowed();
-      return await handleQuizSubmit(event);
+      return await handleQuizSubmit(event, config);
     }
 
     if (path === '/api/training/progress') {
       if (method !== 'GET') return methodNotAllowed();
-      return await handleProgress(event);
+      return await handleProgress(event, config);
     }
 
     if (path === '/api/training/admin/users') {
       if (method !== 'GET') return methodNotAllowed();
-      return await handleAdminUsers(event);
+      return await handleAdminUsers(event, config);
     }
 
     if (path.startsWith('/api/training/admin/user/')) {
       if (method !== 'GET') return methodNotAllowed();
       const userId = path.replace('/api/training/admin/user/', '').replace('/progress', '').replace(/\/$/, '');
-      return await handleAdminUserProgress(event, userId);
+      return await handleAdminUserProgress(event, userId, config);
     }
 
     if (path === '/api/training/admin/export.csv') {
       if (method !== 'GET') return methodNotAllowed();
-      return await handleAdminExport(event);
+      return await handleAdminExport(event, config);
     }
 
     if (path === '/api/training/certificates/issue') {
       if (method !== 'POST') return methodNotAllowed();
-      return await handleCertificateIssue(event);
+      return await handleCertificateIssue(event, config);
     }
 
     if (path === '/api/training/certificates/pdf') {
       if (method !== 'GET') return methodNotAllowed();
-      return await handleCertificatePdf(event);
+      return await handleCertificatePdf(event, config);
     }
 
     if (path === '/api/training/certificates/verify') {
