@@ -25,6 +25,11 @@
   status = 200
 
 [[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
   from = "/creative-direction"
   to = "/services"
   status = 301
@@ -49,6 +54,11 @@
     "src/data/training/roles.json",
     "src/data/training/tags.json"
   ]
+
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  functions = "netlify/functions"
 
 [[headers]]
   for = "/assets/*"
