@@ -29,6 +29,7 @@ import { buildProgress, getCourseProgress, loadTrainingData, type CourseProgress
 interface TrainingConfig {
   jwtSecret: string;
   demoKey: string;
+  demoUsername: string;
   cookieName: string;
   trainingOrigins: string[];
   adminEmails: string[];
@@ -56,39 +57,41 @@ function loadConfig(): TrainingConfig {
   if (cachedConfig) return cachedConfig;
   const jwtSecret = getEnv('TRAINING_JWT_SECRET') as string | undefined;
   const demoKey = (getEnv('demo_key') || getEnv('DEMO_KEY')) as string | undefined;
+  const demoUsername = getEnv('DEMO_USERNAME') as string | undefined;
   const cookieName = getEnv('TRAINING_COOKIE_NAME', false, 'training_session') as string;
   const trainingOrigins = resolveAllowedOrigins();
   const adminEmails = getAdminEmails();
-  if (!jwtSecret || !demoKey) {
+  if (!jwtSecret || !demoKey || !demoUsername) {
     const err = new Error('CONFIG_INCOMPLETE');
     (err as any).statusCode = 500;
     throw err;
   }
-  cachedConfig = { jwtSecret, demoKey, cookieName, trainingOrigins, adminEmails } satisfies TrainingConfig;
+  cachedConfig = { jwtSecret, demoKey, demoUsername, cookieName, trainingOrigins, adminEmails } satisfies TrainingConfig;
   return cachedConfig;
 }
 
-function emailValid(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function normalizeEmail(email: string): string {
-  return email.trim().toLowerCase();
+function normalizeUsername(username: string): string {
+  return username.trim().toLowerCase();
 }
 
 function errorResponse(status: number, message: string): HandlerResponse {
   return jsonResponse(status, { ok: false, error: message });
 }
 
-function failureResponse(start: number): Promise<HandlerResponse> {
+function failureResponse(start: number, code: string, message: string): Promise<HandlerResponse> {
   const elapsed = Date.now() - start;
   const wait = Math.max(0, 350 - elapsed);
   return new Promise((resolve) =>
-    setTimeout(() => resolve(jsonResponse(401, { ok: false, error: 'Invalid credentials' })), wait)
+    setTimeout(() => resolve(jsonResponse(401, { ok: false, code, message })), wait)
   );
 }
 
-async function enforceRateLimit(key: string, windowSeconds: number, maxCount: number): Promise<void> {
+async function enforceRateLimit(
+  event: HandlerEvent,
+  key: string,
+  windowSeconds: number,
+  maxCount: number
+): Promise<void> {
   const now = new Date();
   const windowStart = Math.floor(now.getTime() / 1000 / windowSeconds) * windowSeconds;
   await upsertBy(
@@ -115,7 +118,8 @@ async function enforceRateLimit(key: string, windowSeconds: number, maxCount: nu
         count: '1',
         updated_at: now.toISOString(),
       } satisfies RateLimitRow;
-    }
+    },
+    event
   );
 }
 
@@ -146,44 +150,59 @@ async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise
   if (originError) return originError;
   const start = Date.now();
   const body = parseJsonBody<any>(event) || {};
-  const emailRaw = typeof body.email === 'string' ? body.email : '';
+  const usernameRaw =
+    typeof body.username === 'string' ? body.username : typeof body.email === 'string' ? body.email : '';
   const passwordInput = typeof body.password === 'string' ? body.password : typeof body.key === 'string' ? body.key : '';
-  if (!emailRaw || !passwordInput || !emailValid(emailRaw)) {
-    return failureResponse(start);
-  }
-  const passwordMatches = safeCompare(passwordInput, config.demoKey);
+  const username = usernameRaw.trim();
+
   const ip = getClientIp(event) || 'unknown';
   const ipHash = hashIp(ip, config.jwtSecret);
-  await enforceRateLimit(`login:${ipHash}`, 300, 10).catch((err: any) => {
+  await enforceRateLimit(event, `login:${ipHash}`, 300, 10).catch((err: any) => {
     if (err?.statusCode === 429) {
       throw err;
     }
     throw err;
   });
-  if (!passwordMatches) {
-    return failureResponse(start);
+
+  if (!username) {
+    return failureResponse(start, 'INVALID_USERNAME', 'Username is incorrect');
   }
 
-  const email = normalizeEmail(emailRaw);
+  const usernameMatches = safeCompare(normalizeUsername(username), normalizeUsername(config.demoUsername));
+  if (!usernameMatches) {
+    return failureResponse(start, 'INVALID_USERNAME', 'Username is incorrect');
+  }
+
+  if (!passwordInput) {
+    return failureResponse(start, 'INVALID_PASSWORD', 'Password is incorrect');
+  }
+
+  const passwordMatches = safeCompare(passwordInput, config.demoKey);
+  if (!passwordMatches) {
+    return failureResponse(start, 'INVALID_PASSWORD', 'Password is incorrect');
+  }
+
+  const normalizedUsername = normalizeUsername(username);
   const fullName = typeof body.fullName === 'string' ? body.fullName.trim() : '';
-  const users = await readAll('users.csv');
-  let user = users.find((u) => normalizeEmail(u.email) === email) as UserRow | undefined;
+  const users = await readAll('users.csv', event);
+  let user = users.find((u) => normalizeUsername(u.email) === normalizedUsername) as UserRow | undefined;
   const nowIso = new Date().toISOString();
   if (!user) {
     user = {
       id: crypto.randomUUID(),
-      email,
+      email: normalizedUsername,
       full_name: fullName,
       role: 'user',
       created_at: nowIso,
       last_login_at: nowIso,
     };
-    await appendRow('users.csv', user);
+    await appendRow('users.csv', user, event);
   } else {
     await upsertBy(
       'users.csv',
-      (row) => normalizeEmail(row.email) === email,
-      (row) => ({ ...row!, last_login_at: nowIso, full_name: fullName || row!.full_name }) as UserRow
+      (row) => normalizeUsername(row.email) === normalizedUsername,
+      (row) => ({ ...row!, last_login_at: nowIso, full_name: fullName || row!.full_name }) as UserRow,
+      event
     );
     user = { ...user, last_login_at: nowIso, full_name: fullName || user.full_name };
   }
@@ -194,9 +213,9 @@ async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise
     ts: nowIso,
     ip_hash: ipHash,
     user_agent: event.headers?.['user-agent'] || event.headers?.['User-Agent'] || '',
-  });
+  }, event);
 
-  const isAdmin = config.adminEmails.includes(email);
+  const isAdmin = config.adminEmails.includes(normalizedUsername);
   const token = signJwt(
     { sub: user.id, email: user.email, is_admin: isAdmin, role: user.role, full_name: user.full_name },
     config.jwtSecret,
@@ -246,8 +265,8 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
   const ip = getClientIp(event) || 'unknown';
   const ipHash = hashIp(ip, config.jwtSecret);
   try {
-    await enforceRateLimit(`events:${ipHash}`, 60, 120);
-    await enforceRateLimit(`events-user:${auth.id}`, 60, 120);
+    await enforceRateLimit(event, `events:${ipHash}`, 60, 120);
+    await enforceRateLimit(event, `events-user:${auth.id}`, 60, 120);
   } catch (err: any) {
     if (err?.statusCode === 429) return jsonResponse(429, { ok: false, error: 'rate_limited' });
     throw err;
@@ -266,16 +285,20 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
   const year = Number.isNaN(tsDate.getTime()) ? new Date().getUTCFullYear() : tsDate.getUTCFullYear();
   const meta = typeof body.meta === 'object' && body.meta !== null ? body.meta : {};
 
-  await appendRow(`events-${year}.csv`, {
-    id: crypto.randomUUID(),
-    user_id: auth.id,
-    course_id: String(courseId),
-    module_id: String(moduleId ?? ''),
-    lesson_id: String(lessonId ?? ''),
-    event_type: String(eventType),
-    ts: Number.isNaN(tsDate.getTime()) ? new Date().toISOString() : tsDate.toISOString(),
-    meta_json: JSON.stringify(meta || {}),
-  });
+  await appendRow(
+    `events-${year}.csv`,
+    {
+      id: crypto.randomUUID(),
+      user_id: auth.id,
+      course_id: String(courseId),
+      module_id: String(moduleId ?? ''),
+      lesson_id: String(lessonId ?? ''),
+      event_type: String(eventType),
+      ts: Number.isNaN(tsDate.getTime()) ? new Date().toISOString() : tsDate.toISOString(),
+      meta_json: JSON.stringify(meta || {}),
+    },
+    event
+  );
 
   if (eventType === 'heartbeat') {
     const deltaRaw = typeof meta?.secondsDelta === 'number' ? meta.secondsDelta : 15;
@@ -298,7 +321,8 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
           seconds_active: String(current + delta),
           updated_at: nowIso,
         } as LessonTimeRow;
-      }
+      },
+      event
     );
   }
 
@@ -313,8 +337,8 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
   const ip = getClientIp(event) || 'unknown';
   const ipHash = hashIp(ip, config.jwtSecret);
   try {
-    await enforceRateLimit(`quiz:${ipHash}`, 300, 20);
-    await enforceRateLimit(`quiz-user:${auth.id}`, 300, 20);
+    await enforceRateLimit(event, `quiz:${ipHash}`, 300, 20);
+    await enforceRateLimit(event, `quiz-user:${auth.id}`, 300, 20);
   } catch (err: any) {
     if (err?.statusCode === 429) return jsonResponse(429, { ok: false, error: 'rate_limited' });
     throw err;
@@ -354,22 +378,26 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
   const threshold = quizDefinition.passingThresholdPercent ?? 80;
   const passed = scorePercent >= threshold;
 
-  const attempts = await readAll('quiz_attempts.csv');
+  const attempts = await readAll('quiz_attempts.csv', event);
   const attemptsForQuiz = attempts.filter((a) => a.user_id === auth.id && a.quiz_id === String(quizId));
   const attemptNumber = attemptsForQuiz.reduce((max, row) => Math.max(max, parseInt(row.attempt_number || '0', 10)), 0) + 1;
 
-  await appendRow('quiz_attempts.csv', {
-    id: crypto.randomUUID(),
-    user_id: auth.id,
-    course_id: String(courseId),
-    quiz_id: String(quizId),
-    attempt_number: String(attemptNumber),
-    score_percent: String(scorePercent || 0),
-    passed: passed ? 'true' : 'false',
-    started_at: startedAt,
-    submitted_at: new Date().toISOString(),
-    answers_json: JSON.stringify(answers),
-  });
+  await appendRow(
+    'quiz_attempts.csv',
+    {
+      id: crypto.randomUUID(),
+      user_id: auth.id,
+      course_id: String(courseId),
+      quiz_id: String(quizId),
+      attempt_number: String(attemptNumber),
+      score_percent: String(scorePercent || 0),
+      passed: passed ? 'true' : 'false',
+      started_at: startedAt,
+      submitted_at: new Date().toISOString(),
+      answers_json: JSON.stringify(answers),
+    },
+    event
+  );
 
   return jsonResponse(200, {
     ok: true,
@@ -382,7 +410,7 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
 async function handleProgress(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
   const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { error: 'unauthorized' });
-  const progress = await buildProgress(auth.id, { persistCompletions: true });
+  const progress = await buildProgress(auth.id, { persistCompletions: true, event });
 
   return jsonResponse(200, progress);
 }
@@ -402,7 +430,7 @@ async function handleAdminUsers(event: HandlerEvent, config: TrainingConfig): Pr
   const { error } = requireAdmin(event, config);
   if (error) return error;
   const q = (event.queryStringParameters?.q || '').toLowerCase();
-  const users = (await readAll('users.csv')) as UserRow[];
+  const users = (await readAll('users.csv', event)) as UserRow[];
   const filtered = users.filter((u) =>
     q ? u.email.toLowerCase().includes(q) || (u.full_name || '').toLowerCase().includes(q) : true
   );
@@ -415,15 +443,15 @@ async function handleAdminUserProgress(event: HandlerEvent, userId: string, conf
   if (error) return error;
   const targetId = userId || '';
   if (!targetId) return errorResponse(400, 'invalid_user');
-  const progress = await buildProgress(targetId, { persistCompletions: true });
+  const progress = await buildProgress(targetId, { persistCompletions: true, event });
   return jsonResponse(200, progress);
 }
 
 async function handleAdminExport(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
   const { error } = requireAdmin(event, config);
   if (error) return error;
-  const users = (await readAll('users.csv')) as UserRow[];
-  const data = await loadTrainingData();
+  const users = (await readAll('users.csv', event)) as UserRow[];
+  const data = await loadTrainingData(event);
   const courses = listCatalogCourses();
   const headers = [
     'user_email',
@@ -439,7 +467,7 @@ async function handleAdminExport(event: HandlerEvent, config: TrainingConfig): P
 
   const rows: string[] = [headers.join(',')];
   for (const user of users) {
-    const progress = await buildProgress(user.id, { persistCompletions: false, data });
+    const progress = await buildProgress(user.id, { persistCompletions: false, data, event });
     for (const course of courses) {
       const summary = progress.find((p) => p.courseId === course.id) as CourseProgressSummary | undefined;
       const completion = summary?.completed ? summary.completedAt || '' : '';
@@ -498,12 +526,12 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
   const courseId = String(body.courseId || '');
   if (!courseId) return errorResponse(400, 'invalid_request');
 
-  const courseProgress = await getCourseProgress(auth.id, courseId, { persistCompletions: true });
+  const courseProgress = await getCourseProgress(auth.id, courseId, { persistCompletions: true, event });
   if (!courseProgress || !courseProgress.completed) {
     return errorResponse(403, 'course_incomplete');
   }
 
-  const certificates = (await readAll('certificates.csv')) as CertificateRow[];
+  const certificates = (await readAll('certificates.csv', event)) as CertificateRow[];
   const existing = certificates.find((c) => c.user_id === auth.id && c.course_id === courseId);
   if (existing) {
     return jsonResponse(200, { ok: true, certificateCode: existing.certificate_code });
@@ -513,13 +541,17 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
   const certificateCode = crypto.randomBytes(16).toString('hex');
   const issuedAt = new Date().toISOString();
 
-  await appendRow('certificates.csv', {
-    id: certificateId,
-    certificate_code: certificateCode,
-    user_id: auth.id,
-    course_id: courseId,
-    issued_at: issuedAt,
-  });
+  await appendRow(
+    'certificates.csv',
+    {
+      id: certificateId,
+      certificate_code: certificateCode,
+      user_id: auth.id,
+      course_id: courseId,
+      issued_at: issuedAt,
+    },
+    event
+  );
 
   await upsertBy(
     'completions.csv',
@@ -532,7 +564,8 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
       completed_at: row?.completed_at || courseProgress.completedAt || issuedAt,
       final_score: row?.final_score || (courseProgress.finalScore !== null ? String(courseProgress.finalScore) : ''),
       certificate_id: certificateId,
-    }) as CompletionRow
+    }) as CompletionRow,
+    event
   );
 
   return jsonResponse(200, { ok: true, certificateCode });
@@ -544,8 +577,8 @@ async function handleCertificatePdf(event: HandlerEvent, config: TrainingConfig)
   const courseId = event.queryStringParameters?.courseId;
   if (!courseId) return errorResponse(400, 'invalid_request');
   const [certificates, completions] = await Promise.all([
-    readAll('certificates.csv') as Promise<CertificateRow[]>,
-    readAll('completions.csv') as Promise<CompletionRow[]>,
+    readAll('certificates.csv', event) as Promise<CertificateRow[]>,
+    readAll('completions.csv', event) as Promise<CompletionRow[]>,
   ]);
   const certificate = certificates.find((c) => c.user_id === auth.id && c.course_id === courseId);
   if (!certificate) return jsonResponse(403, { ok: false, error: 'forbidden' });
@@ -584,8 +617,8 @@ async function handleCertificateVerify(event: HandlerEvent): Promise<HandlerResp
   const code = event.queryStringParameters?.code;
   if (!code) return errorResponse(400, 'invalid_request');
   const [certificates, users] = await Promise.all([
-    readAll('certificates.csv') as Promise<CertificateRow[]>,
-    readAll('users.csv') as Promise<UserRow[]>,
+    readAll('certificates.csv', event) as Promise<CertificateRow[]>,
+    readAll('users.csv', event) as Promise<UserRow[]>,
   ]);
   const certificate = certificates.find((c) => c.certificate_code === code);
   if (!certificate) {
@@ -607,11 +640,12 @@ const handler: Handler = async (event) => {
       config = loadConfig();
     } catch (err: any) {
       if (err?.message === 'CONFIG_INCOMPLETE') {
-        return jsonResponse(500, { ok: false, error: 'training_config_missing' });
+        return jsonResponse(500, { ok: false, code: 'CONFIG_INCOMPLETE', message: 'Training configuration missing' });
       }
       throw err;
     }
-    const path = event.path || '';
+    let path = event.path || '';
+    path = path.replace(/^\/?\.netlify\/functions\/training-api/, '') || path;
     const method = event.httpMethod || 'GET';
     if (path === '/api/training/auth/login') {
       if (method !== 'POST') return methodNotAllowed();

@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import type { HandlerEvent } from '@netlify/functions';
 import { CompletionRow, LessonTimeRow, QuizAttemptRow, CertificateRow } from './types';
 import { appendRow, readAll, upsertBy } from './csvStore';
 import { CatalogStep, getCourse, listCatalogCourses } from './catalog';
@@ -126,7 +127,8 @@ async function persistCompletion(
   courseId: string,
   completedAt: string,
   finalScore: number | null,
-  existing: CompletionRow | undefined
+  existing: CompletionRow | undefined,
+  event?: HandlerEvent
 ) {
   const finalScoreValue = finalScore === null || Number.isNaN(finalScore) ? '' : String(finalScore);
   if (existing) {
@@ -142,27 +144,32 @@ async function persistCompletion(
           id: row?.id || existing.id,
           user_id: userId,
           course_id: courseId,
-        })
+        }),
+        event
       );
     }
     return;
   }
-  await appendRow('completions.csv', {
-    id: crypto.randomUUID(),
-    user_id: userId,
-    course_id: courseId,
-    completed_at: completedAt,
-    final_score: finalScoreValue,
-    certificate_id: '',
-  });
+  await appendRow(
+    'completions.csv',
+    {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      course_id: courseId,
+      completed_at: completedAt,
+      final_score: finalScoreValue,
+      certificate_id: '',
+    },
+    event
+  );
 }
 
-export async function loadTrainingData(): Promise<TrainingData> {
+export async function loadTrainingData(event?: HandlerEvent): Promise<TrainingData> {
   const [lessons, quizzes, completions, certificates] = await Promise.all([
-    readAll('lesson_time.csv') as Promise<LessonTimeRow[]>,
-    readAll('quiz_attempts.csv') as Promise<QuizAttemptRow[]>,
-    readAll('completions.csv') as Promise<CompletionRow[]>,
-    readAll('certificates.csv') as Promise<CertificateRow[]>,
+    readAll('lesson_time.csv', event) as Promise<LessonTimeRow[]>,
+    readAll('quiz_attempts.csv', event) as Promise<QuizAttemptRow[]>,
+    readAll('completions.csv', event) as Promise<CompletionRow[]>,
+    readAll('certificates.csv', event) as Promise<CertificateRow[]>,
   ]);
   return { lessons, quizzes, completions, certificates };
 }
@@ -173,10 +180,10 @@ function withDayNumber(step: CatalogStep, dayNumber?: number): CatalogStep {
 
 export async function buildProgress(
   userId: string,
-  options: { persistCompletions?: boolean; data?: TrainingData } = {}
+  options: { persistCompletions?: boolean; data?: TrainingData; event?: HandlerEvent } = {}
 ): Promise<CourseProgressSummary[]> {
-  const { persistCompletions = true, data: providedData } = options;
-  const data = providedData || (await loadTrainingData());
+  const { persistCompletions = true, data: providedData, event } = options;
+  const data = providedData || (await loadTrainingData(event));
   const courses: CourseProgressSummary[] = [];
   const catalogCourses = listCatalogCourses();
 
@@ -233,7 +240,7 @@ export async function buildProgress(
       : undefined;
 
     if (completed && persistCompletions) {
-      await persistCompletion(userId, course.id, completedAt as string, courseFinalScore, completionRow);
+      await persistCompletion(userId, course.id, completedAt as string, courseFinalScore, completionRow, event);
     }
 
     const certificateId = completionRow?.certificate_id || certificateRow?.id || '';
@@ -261,7 +268,7 @@ export async function buildProgress(
 export async function getCourseProgress(
   userId: string,
   courseId: string,
-  options: { persistCompletions?: boolean } = {}
+  options: { persistCompletions?: boolean; event?: HandlerEvent } = {}
 ): Promise<CourseProgressSummary | null> {
   const course = getCourse(courseId);
   if (!course) return null;
