@@ -115,8 +115,15 @@ export function hashIp(ip: string, secret: string): string {
   return crypto.createHmac('sha256', secret).update(ip).digest('hex');
 }
 
-export function verifyOrigin(event: HandlerEvent, allowedOrigin: string): boolean {
+export function verifyOrigin(event: HandlerEvent, allowedOrigin: string | string[]): boolean {
   const origin = event.headers?.origin || event.headers?.Origin || '';
   if (!origin) return false;
-  return origin === allowedOrigin;
+  const allowedList = Array.isArray(allowedOrigin)
+    ? allowedOrigin
+    : allowedOrigin
+        .split(',')
+        .map((entry) => entry.trim())
+        .filter(Boolean);
+  if (!allowedList.length) return false;
+  return allowedList.some((candidate) => candidate === origin);
 }

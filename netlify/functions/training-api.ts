@@ -29,9 +29,24 @@ import { buildProgress, getCourseProgress, loadTrainingData, type CourseProgress
 const jwtSecret = getEnv('TRAINING_JWT_SECRET', true) as string;
 const demoKey = (getEnv('demo_key') || getEnv('DEMO_KEY')) as string | undefined;
 const cookieName = getEnv('TRAINING_COOKIE_NAME', false, 'training_session') as string;
-const trainingOrigin = getEnv('TRAINING_APP_ORIGIN', true) as string;
+const trainingOrigins = resolveAllowedOrigins();
 const adminEmails = getAdminEmails();
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+
+function resolveAllowedOrigins(): string[] {
+  const configured = (getEnv('TRAINING_APP_ORIGIN') || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+  const defaults = [
+    process.env.URL,
+    process.env.DEPLOY_PRIME_URL,
+    'https://uplift-technologies.com',
+    'http://localhost:8888',
+    'http://localhost:5173',
+  ].filter(Boolean) as string[];
+  return Array.from(new Set([...configured, ...defaults]));
+}
 
 function emailValid(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -85,7 +100,7 @@ async function enforceRateLimit(key: string, windowSeconds: number, maxCount: nu
 }
 
 function requireOrigin(event: HandlerEvent): HandlerResponse | null {
-  if (!verifyOrigin(event, trainingOrigin)) {
+  if (!verifyOrigin(event, trainingOrigins)) {
     return jsonResponse(403, { ok: false, error: 'forbidden' });
   }
   return null;

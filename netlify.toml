@@ -50,6 +50,11 @@
     "src/data/training/tags.json"
   ]
 
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  functions = "netlify/functions"
+
 [[headers]]
   for = "/assets/*"
   [headers.values]
