@@ -20,9 +20,10 @@
   force = true
 
 [[redirects]]
-  from = "/api/training/*"
-  to = "/.netlify/functions/training-api"
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/creative-direction"
@@ -34,6 +35,18 @@
   from = "/creative-operations"
   to = "/services"
   status = 301
+  force = true
+
+[[redirects]]
+  from = "/xmlrpc.php"
+  to = "/gone.html"
+  status = 410
+  force = true
+
+[[redirects]]
+  from = "/.well-known/acme-challenge/*"
+  to = "/gone.html"
+  status = 410
   force = true
 
 # THIS IS THE IMPORTANT ONE - Add this at the end
