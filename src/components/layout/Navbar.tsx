@@ -49,10 +49,9 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services', hasDropdown: true },
+    { name: 'Services', path: '/services/administration', hasDropdown: true },
     { name: 'Pricing', path: '/pricing' },
     //{ name: 'Talent', path: '/candidates' },
-    { name: 'Remote Jobs', path: '/careers' },
   ];
 
   const serviceLinks = [

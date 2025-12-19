@@ -29,7 +29,7 @@ const ServiceDetailPage: React.FC = () => {
       <div className="min-h-screen bg-rich-black text-white flex items-center justify-center">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-semibold">Service not found</h1>
-          <Link to="/services" className="text-electric-violet font-semibold inline-flex items-center">
+          <Link to="/services/administration" className="text-electric-violet font-semibold inline-flex items-center">
             Return to services
             <ArrowRight size={16} className="ml-2" />
           </Link>
