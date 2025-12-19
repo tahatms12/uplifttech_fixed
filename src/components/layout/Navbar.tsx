@@ -49,16 +49,16 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services/administration', hasDropdown: true },
+    { name: 'Services', path: '/services', hasDropdown: true },
     { name: 'Pricing', path: '/pricing' },
     //{ name: 'Talent', path: '/candidates' },
   ];
 
   const serviceLinks = [
-    { name: 'Medical Benefits Pod', path: '/services/administration' },
-    { name: 'Clinical Coordination Pod', path: '/services/clinical-coordination' },
-    { name: 'Claims and AR Pod', path: '/services/revenue-cycle' },
-    { name: 'Intake and Order Entry Pod', path: '/services/front-office' },
+    { name: 'Front Office Support', path: '/services/front-office' },
+    { name: 'Clinical and Care Coordination Support', path: '/services/clinical-coordination' },
+    { name: 'Revenue Cycle Support', path: '/services/revenue-cycle' },
+    { name: 'Medical Scribes', path: '/services/medical-scribes' }
   ];
   
   return (

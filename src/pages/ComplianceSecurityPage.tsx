@@ -25,7 +25,7 @@ const ComplianceSecurityPage: React.FC = () => {
               Compliance &amp; <span className="gradient-text">Security</span>
             </h1>
             <p className="text-xl text-white/80">
-              Uplift Technologies follows HIPAA-aligned practices for client projects and clarifies the controls we manage versus those managed by clients.
+              Uplift Technologies maintains a licensed and HIPAA compliant workforce and a 12 step HIPAA compliance program aligned with HIPAA, PIPEDA, and GDPR.
             </p>
           </motion.div>
         </div>
@@ -36,8 +36,15 @@ const ComplianceSecurityPage: React.FC = () => {
           <div className="prose prose-invert max-w-none space-y-6">
             <h2 className="text-2xl font-semibold text-electric-violet">Program Overview</h2>
             <p>
-              We operate with layered safeguards: workforce training, access management, encryption in transit, incident response runbooks, vendor oversight, and device requirements for team members.
+              We operate with layered safeguards across our 12 step HIPAA compliance program, combining workforce training, access management, encryption in transit, incident response runbooks, vendor oversight, and device requirements for team members.
             </p>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>Access control with granular permissions and minimum necessary assignments.</li>
+              <li>Encrypted communications and data handling standards.</li>
+              <li>Workforce training and standardized policies and workflows.</li>
+              <li>Monitoring, audits, and incident response playbooks.</li>
+              <li>Weekly reporting to keep clients informed and aligned.</li>
+            </ul>
 
             <h3 className="text-xl font-semibold text-electric-violet">Access Controls</h3>
             <ul className="list-disc pl-6 space-y-2">

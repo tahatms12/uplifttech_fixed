@@ -1,145 +1,183 @@
-import { rolesById } from './roles';
-
 export interface PodDefinition {
   slug: string;
   title: string;
+  heroTitle: string;
   segmentLabel: string;
   summary: string;
   longDescription: string;
   features: string[];
+  roles: { title: string; description: string }[];
   benefits: { title: string; description: string }[];
   process: { title: string; description: string }[];
   imageSrc: string;
-  roleIds: string[];
 }
 
 export const pods: PodDefinition[] = [
   {
-    slug: 'administration',
-    title: 'Medical Benefits Pod',
-    segmentLabel: 'Medical Benefits Pod',
+    slug: 'front-office',
+    title: 'Front Office Support',
+    heroTitle: 'Front office support',
+    segmentLabel: 'Front Office Support',
     summary:
-      'Client Success Specialists verify coverage, assistance options, and payer preferences so clinics have clear guidance before visits.',
+      'Specialists handle intake, demographics and insurance capture, benefits eligibility investigations, cost estimates, and order entry so teams stay prepared.',
     longDescription:
-      'Our Medical Benefits Pod keeps eligibility, payer preferences, and assistance decisions current through structured benefit investigations. Specialists work directly in payer portals and by phone to document findings, prepare estimate references, and keep clinics informed.',
+      'Our front-office support teams handle intake, demographics and insurance capture, benefits and eligibility investigations, cost estimate preparation and order entry. Specialists work directly in payer portals, EMR and communication systems to ensure data is captured accurately and authorizations stay on track.',
     features: [
-      'Benefit investigations through portals and payer calls',
-      'Payer preference checks for Buy and Bill versus Specialty Pharmacy',
-      'Financial assistance eligibility reviews and enrollments',
-      'Cost estimate references with documented sources',
-      'Daily list monitoring tied to upcoming appointments',
-      'Clinic updates aligned to scheduling needs'
+      'Capturing patient demographics and insurance',
+      'Verifying benefits and eligibility',
+      'Preparing cost estimates',
+      'Medication and order intake with accurate EMR entry',
+      'Scanning and uploading documentation',
+      'Coordinating benefits checks tied to new orders',
+      'Following up with referral sources and scheduling',
+      'Supporting leadership with administrative tasks'
     ],
-    benefits: [
+    roles: [
       {
-        title: 'Accurate Coverage Decisions',
-        description: 'Insurance details, preferences, and assistance notes are confirmed before patients arrive.'
+        title: 'Patient Coordinator',
+        description:
+          'Patient Coordinators manage intake workflows, demographics capture, and scheduling communication so appointments stay aligned to clinic protocols.'
       },
       {
-        title: 'Prepared Appointments',
-        description: 'Clinics receive benefit outcomes tied to appointment timelines for smoother visits.'
+        title: 'Client Success Specialist',
+        description:
+          'Client Success Specialists verify benefits, eligibility, and payer preferences while documenting findings in client systems for accurate cost guidance.'
       },
       {
-        title: 'Documented Evidence',
-        description: 'Each investigation is logged for easy review and follow-up.'
+        title: 'Order Entry Specialist',
+        description:
+          'Order Entry Specialists input medication orders, capture documentation, and coordinate benefits checks to keep authorizations moving.'
       }
     ],
-    process: [
-      { title: 'Benefit Intake', description: 'Investigations are submitted and tracked with payer references.' },
-      { title: 'Assistance Review', description: 'Eligibility is checked and enrollments are completed when approved.' },
-      { title: 'Estimate Support', description: 'Coverage findings feed into cost estimate references for clinics.' },
-      { title: 'Ongoing Monitoring', description: 'Lists are reviewed daily to keep data current.' }
+    benefits: [
+      { title: 'Accurate coverage decisions', description: 'Eligibility findings are documented in the right systems at the right time.' },
+      { title: 'Prepared appointments', description: 'Teams see complete intake data before patients arrive.' },
+      { title: 'Complete orders', description: 'Documentation and order details are captured accurately in the EMR.' },
+      { title: 'Coordinated support', description: 'Referral and scheduling follow-ups stay organized and timely.' }
     ],
-    imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48KsDMQ73cbMY8IewBXDN1uCftWjJZ5Rlhyg0G',
-    roleIds: ['client-success-specialist']
+    process: [
+      { title: 'Intake capture', description: 'Demographics and insurance details are recorded inside client systems.' },
+      { title: 'Benefit validation', description: 'Eligibility and payer checks confirm coverage before scheduling.' },
+      { title: 'Order readiness', description: 'Documentation and EMR entry keep orders complete and compliant.' },
+      { title: 'Ongoing coordination', description: 'Work happens inside client EHR, revenue cycle systems, and communication platforms to keep referral sources and leadership requests aligned to timelines.' }
+    ],
+    imageSrc: 'https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrgCOWBl9pUNhrWouxqs4lZ1DIam2i9Jv0zHyt'
   },
   {
     slug: 'clinical-coordination',
-    title: 'Clinical Coordination Pod',
-    segmentLabel: 'Clinical Coordination Pod',
-    summary: 'Clinical teams provide welcome calls, documentation, and charting support for providers.',
+    title: 'Clinical and Care Coordination Support',
+    heroTitle: 'Clinical and care coordination support',
+    segmentLabel: 'Clinical and Care Coordination Support',
+    summary: 'Nurses and scribes coordinate outreach, follow-ups, and charting to keep clinical workflows moving.',
     longDescription:
-      'Our Clinical Coordination Pod delivers clinical outreach, chart preparation, and documentation support so providers can focus on care. Coordinators and scribes manage welcome calls, follow-ups from clinical reviews, and complete structured notes inside the EHR.',
+      'Our clinical and care coordination teams deliver outreach, education, follow-up and documentation so providers can focus on care. Nurses and scribes manage welcome calls, coordinate follow-ups from reports, document adverse events and complete structured notes in the EHR.',
     features: [
-      'Medication welcome calls with education and schedules',
-      'Follow-ups from report reviews and ordered screenings',
-      'Adverse event documentation and escalation paths',
-      'EHR-ready charting with accurate histories and plans',
-      'Schedule governance with updates to clinical tools'
+      'Medication welcome calls with education',
+      'Coordinating follow-ups from report reviews and ordered screenings',
+      'Documenting adverse events and escalation paths',
+      'Completing EHR-ready charting with accurate histories and plans',
+      'Managing schedule governance and updates to clinical tools',
+      'Supporting providers with clinical documentation'
+    ],
+    roles: [
+      {
+        title: 'Clinical Nurse Coordinator',
+        description:
+          'Clinical Nurse Coordinators handle outreach, education, and follow-up coordination while documenting outcomes in clinical tools.'
+      },
+      {
+        title: 'Medical Scribe',
+        description:
+          'Medical Scribes capture histories, plans, and structured notes in the EHR to keep charts complete and audit-ready.'
+      }
     ],
     benefits: [
-      { title: 'Prepared Patients', description: 'Patients receive clear guidance and expectations before appointments.' },
-      { title: 'Accurate Charts', description: 'Notes stay structured, legible, and ready for provider review.' },
-      { title: 'Documented Safety', description: 'Events and follow-ups are tracked with escalation steps.' }
+      { title: 'Prepared patients', description: 'Welcome calls and education align patients to care plans.' },
+      { title: 'Accurate charts', description: 'Structured documentation keeps histories and plans clear.' },
+      { title: 'Documented safety', description: 'Adverse events and escalation steps are captured consistently.' }
     ],
     process: [
-      { title: 'Clinical Review', description: 'Welcome calls and medication guidance follow defined protocols.' },
-      { title: 'Documentation', description: 'EHR entries capture histories, exam elements, and plans accurately.' },
-      { title: 'Follow-Up', description: 'Ordered actions and screenings are tracked through completion.' },
-      { title: 'Schedule Governance', description: 'Clinical tools are updated to match staffing and visit needs.' }
+      { title: 'Clinical outreach', description: 'Welcome calls and education follow clinical protocols.' },
+      { title: 'Charting support', description: 'Notes are captured directly in the EHR.' },
+      { title: 'Follow-up coordination', description: 'Reports and screenings are tracked through completion.' },
+      { title: 'Schedule governance', description: 'Work happens within client EHR and care coordination tools to keep schedules aligned with provider availability.' }
     ],
-    imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48umk0e7rzSVUAW58LFw0OdkaCEGun9vJTQ37M',
-    roleIds: ['clinical-nurse-coordinator', 'medical-scribe-mbbs']
-  },
-  {
-    slug: 'front-office',
-    title: 'Intake and Order Entry Pod',
-    segmentLabel: 'Intake and Order Entry Pod',
-    summary: 'Order Entry Specialists and support staff keep demographics, insurance, and documentation complete inside your systems.',
-    longDescription:
-      'The Intake and Order Entry Pod streamlines how orders move into your records. Specialists capture demographics and insurance, upload documentation, coordinate benefit checks, and follow up with referral sources so authorizations stay on track.',
-    features: [
-      'Medication order intake with accurate EMR entry',
-      'Demographic and insurance capture for each order',
-      'Scanning and uploading of required documentation',
-      'Benefits investigations linked to new orders',
-      'Referral follow-up for missing authorization details',
-      'Administrative support for leadership scheduling and documentation'
-    ],
-    benefits: [
-      { title: 'Complete Orders', description: 'Demographics, insurance, and documents are attached before review.' },
-      { title: 'Faster Prep', description: 'Benefit checks reduce delays in authorization workflows.' },
-      { title: 'Coordinated Support', description: 'Executive support keeps leadership calendars and documentation organized.' }
-    ],
-    process: [
-      { title: 'Order Capture', description: 'New orders and required details are entered according to site standards.' },
-      { title: 'Documentation', description: 'Paperwork is scanned, uploaded, and linked to patient records.' },
-      { title: 'Benefit Verification', description: 'Coverage is confirmed for each new order.' },
-      { title: 'Administrative Support', description: 'Scheduling, note taking, and follow-up tasks are managed for leaders.' }
-    ],
-    imageSrc: 'https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrgCOWBl9pUNhrWouxqs4lZ1DIam2i9Jv0zHyt',
-    roleIds: ['order-entry-specialist', 'executive-assistant']
+    imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48umk0e7rzSVUAW58LFw0OdkaCEGun9vJTQ37M'
   },
   {
     slug: 'revenue-cycle',
-    title: 'Claims and AR Pod',
-    segmentLabel: 'Claims and AR Pod',
-    summary: 'Claims and patient billing coverage including denials, payment posting, and patient-facing collections.',
+    title: 'Revenue Cycle Support',
+    heroTitle: 'Revenue cycle support',
+    segmentLabel: 'Revenue Cycle Support',
+    summary: 'Specialists manage claims follow-up, denials, payment posting, and patient billing with clear documentation.',
     longDescription:
-      'The Claims and AR Pod focuses on clean claims follow-up and patient-friendly billing. Specialists prioritize aging reports, contact payers, reconcile payments, and manage statements while handling patient outreach with clear documentation.',
+      'Our revenue cycle specialists focus on clean claims follow-up and patient-friendly billing. They prioritize aging reports, contact payers, resolve denials, post payments, manage statements and answer patient questions.',
     features: [
-      'Claims tracking with payer follow-up',
-      'Denial resolution tied to aging reports',
-      'Payment posting and reconciliation',
-      'Patient billing support and statements',
-      'Patient outreach for balances and payment plans',
-      'Documented notes for reporting'
+      'Tracking claims and following up with payers',
+      'Resolving denials',
+      'Posting payments and reconciliation',
+      'Handling patient billing questions and statements',
+      'Contacting patients for balances and payment plans',
+      'Maintaining documented notes for reporting'
+    ],
+    roles: [
+      {
+        title: 'Claims Specialist',
+        description:
+          'Claims Specialists track submissions, resolve denials, and document payer follow-ups inside revenue cycle systems.'
+      },
+      {
+        title: 'Insurance Support Specialist',
+        description:
+          'Insurance Support Specialists answer billing questions, post payments, and support patient outreach for balances and payment plans.'
+      }
     ],
     benefits: [
-      { title: 'Recovered Revenue', description: 'Structured claim follow-up reduces denials and delays.' },
-      { title: 'Clear Patient Billing', description: 'Patients receive clear answers on balances and arrangements.' },
-      { title: 'Documented Actions', description: 'All outreach and resolutions are logged for review.' }
+      { title: 'Recovered revenue', description: 'Follow-ups and reconciliations keep claims moving to resolution.' },
+      { title: 'Clear patient billing', description: 'Statements and balances are explained with documented notes.' },
+      { title: 'Documented actions', description: 'Billing activity stays visible for reporting and audits.' }
     ],
     process: [
-      { title: 'Claim Intake', description: 'Claims are monitored with payer outreach and notes for each step.' },
-      { title: 'Resolution', description: 'Discrepancies are worked and payments are reconciled.' },
-      { title: 'Patient Support', description: 'Statements, refunds, and balance questions are handled professionally.' },
-      { title: 'Reporting', description: 'Aging, balance accuracy, and escalations are shared with leadership.' }
+      { title: 'Claim monitoring', description: 'Aging reports and payer queues are reviewed daily inside client revenue cycle management and billing systems.' },
+      { title: 'Denial resolution', description: 'Discrepancies are worked and documented to closure.' },
+      { title: 'Payment posting', description: 'Payments and adjustments are reconciled accurately.' },
+      { title: 'Patient outreach', description: 'Balances and statements are handled with clear communication.' }
     ],
-    imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48KsDMQ73cbMY8IewBXDN1uCftWjJZ5Rlhyg0G',
-    roleIds: ['patient-claims-specialist', 'patient-accounts-receivable-specialist']
+    imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48KsDMQ73cbMY8IewBXDN1uCftWjJZ5Rlhyg0G'
+  },
+  {
+    slug: 'medical-scribes',
+    title: 'Medical Scribes',
+    heroTitle: 'Medical scribes',
+    segmentLabel: 'Medical Scribes',
+    summary: 'Trained scribes document visits in real time to keep EHR notes complete and accurate.',
+    longDescription:
+      'Our medical scribes create accurate, structured clinical notes directly in your EHR during and after patient encounters. They ensure documentation completeness and free providers to focus on patients.',
+    features: [
+      'Documenting visits in real time',
+      'Entering histories and physicals',
+      'Capturing orders and care plans',
+      'Ensuring chart completeness and compliance'
+    ],
+    roles: [
+      {
+        title: 'Medical Scribe',
+        description:
+          'Medical Scribes are medical professionals with valid credentials that clients can verify by contacting the relevant certification body. They document encounters in the EHR to keep notes structured and complete.'
+      }
+    ],
+    benefits: [
+      { title: 'Improved documentation accuracy', description: 'Notes stay structured and complete in the EHR.' },
+      { title: 'Enhanced provider efficiency', description: 'Providers stay focused on patients while documentation keeps pace.' }
+    ],
+    process: [
+      { title: 'Encounter documentation', description: 'Visits are captured in real time and finalized after the encounter.' },
+      { title: 'Chart completion', description: 'Histories, plans, and orders are entered accurately.' },
+      { title: 'Quality review', description: 'Notes are checked for completeness and compliance.' },
+      { title: 'Provider alignment', description: 'Scribes follow the provider’s preferred documentation workflow.' }
+    ],
+    imageSrc: 'https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U489OxAJFfwdBSz7fDQec0oRvjxW8JlOaM2i6Ip'
   }
 ];
 
 export const podBySlug = Object.fromEntries(pods.map((pod) => [pod.slug, pod]));
-export const rolesByPod = (pod: PodDefinition) => pod.roleIds.map((id) => rolesById[id]).filter(Boolean);

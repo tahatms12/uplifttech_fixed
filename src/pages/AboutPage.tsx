@@ -79,7 +79,7 @@ const AboutPage: React.FC = () => {
               About <span className="gradient-text block sm:inline">UPLIFT</span> Technologies
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-white/80">
-              We are a people-powered outsourcing partner built for 24/7 operations, combining expert talent with cutting-edge technology to deliver exceptional results.
+              We are a people-powered medical support outsourcing partner built for 24/7 operations, combining expert talent with cutting-edge technology to deliver exceptional results. Our structured teams work directly inside your systems and follow a 12-step HIPAA compliance program to keep data safe.
             </p>
           </motion.div>
         </div>

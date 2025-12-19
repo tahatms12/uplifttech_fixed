@@ -56,7 +56,7 @@ const Hero: React.FC = () => {
                 className="w-full"
               >
                 <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                  Expert Growth Solutions for <br className="hidden sm:block" /><span className="gradient-text">North America</span>
+                  Expert growth solutions for <br className="hidden sm:block" /><span className="gradient-text">North America</span>
                 </h1>
               </motion.div>
 
@@ -65,7 +65,7 @@ const Hero: React.FC = () => {
                 className="w-full mt-4 sm:mt-6"
               >
                 <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
-                  Transform your business with UPLIFT Technologies&apos; comprehensive outsourcing solutions. Expert teams available 24/7 for healthcare support.
+                  Transform your business with Uplift Technologies&apos; comprehensive medical support outsourcing. Structured teams of specialized roles work inside your EHR, RCM and communication systems to provide 24/7 coverage.
                 </p>
               </motion.div>
             </motion.div>
