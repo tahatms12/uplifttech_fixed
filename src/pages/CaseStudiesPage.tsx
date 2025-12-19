@@ -31,15 +31,14 @@ const CaseStudiesPage: React.FC = () => {
     {
       id: 1,
       title: "Accounts Receivable Team Gap",
-      category: "Revenue Cycle",
-      description: "Providing a structured AR team for a Dental Company with no formal processes.",
-      challenge: "A company using outdated technology and lacking a formal AR team. They relied on their admin to do the work without structured enforcement. No optimized systems meant missed deadlines and undocumented receivables.",
-      solution: "We implemented a structured process with proper documentation standards, established QA protocols, and provided a team familiar with modern technologies.",
+      category: "Revenue Cycle Support",
+      description: "Providing a structured revenue cycle team for a dental company with limited formal processes.",
+      challenge: "A company lacked consistent AR workflows and documentation, which led to delayed follow-ups and limited visibility into receivables.",
+      solution: "We established structured documentation standards, QA protocols, and payer follow-up routines inside the client’s billing system.",
       results: [
-        "85% improvement in process efficiency",
-        "100% adherence to deadlines after implementation",
-        "Comprehensive documentation allowing for knowledge transfer",
-        "Reduced rejection rate to 3% from 11% through formalized QA"
+        "Denial reduction from 32 percent to 15 percent in revenue cycle activities",
+        "Clean claim rate of 98 percent for claims processing",
+        "Resolution of messages within 24 hours in 98 percent of cases"
       ],
       imageSrc: "https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48KsDMQ73cbMY8IewBXDN1uCftWjJZ5Rlhyg0G",
       testimonial: {
@@ -52,15 +51,14 @@ const CaseStudiesPage: React.FC = () => {
     {
       id: 2,
       title: "Accounts Receivable Recovery",
-      category: "Revenue Cycle",
-      description: "Structured collection strategies recovering $2M in outstanding accounts receivable for a healthcare provider.",
-      challenge: "A healthcare business had $2M outstanding in accounts receivable, with limited internal resources to pursue collections and no structured follow up process for unpaid invoices.",
-      solution: "We implemented a systematic collections approach with tiered strategies based on account age, deployed a dedicated team of collection specialists, and integrated with the client's billing system for seamless information flow.",
+      category: "Revenue Cycle Support",
+      description: "Structured collection strategies for a healthcare provider with aging accounts receivable.",
+      challenge: "A healthcare business needed help with payer follow-ups and consistent documentation for unpaid balances.",
+      solution: "We implemented systematic follow-up workflows, deployed a dedicated billing team, and aligned updates inside the client’s billing system.",
       results: [
-        "Recovered $25K within the first month",
-        "Full recovery of $2M in previously written off AR",
-        "Established ongoing collection protocols reducing future AR aging",
-        "Maintained positive patient relationships through professional communication"
+        "Denial reduction from 32 percent to 15 percent in revenue cycle activities",
+        "Clean claim rate of 98 percent for claims processing",
+        "Resolution of messages within 24 hours in 98 percent of cases"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrGaIbJrUXE8YTvI5L6NyoCA41xG0KlrumqD3P",
       testimonial: {
@@ -73,30 +71,27 @@ const CaseStudiesPage: React.FC = () => {
     {
       id: 3,
       title: "Call Center Optimization",
-      category: "Front Office",
-      description: "Optimizing scheduling and call management for a busy clinic to maximize efficiency and customer satisfaction.",
-      challenge: "A medical clinic struggled with managing both inbound scheduling calls and performing necessary outbound recall calls, resulting in missed appointments and scheduling inefficiencies.",
-      solution: "We implemented a dedicated virtual front desk team handling inbound calls while performing systematic outbound recall calls, optimized scheduling protocols, and introduced a quality retention program.",
+      category: "Front Office Support",
+      description: "Optimizing scheduling and call management for a busy clinic to improve patient access.",
+      challenge: "A medical clinic struggled to manage inbound scheduling calls alongside outbound recall outreach.",
+      solution: "We implemented a dedicated virtual front desk team, optimized scheduling protocols, and introduced quality checks.",
       results: [
-        "42% reduction in no show appointments",
-        "95% answer rate for all incoming calls",
-        "Full schedule utilization, maximizing provider productivity",
-        "Improved patient satisfaction scores by 38%"
+        "Schedule adherence of 95 percent in front office operations",
+        "Average speed of answer of 22 seconds for inbound calls or contacts",
+        "Resolution of messages within 24 hours in 98 percent of cases"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrgCOWBl9pUNhrWouxqs4lZ1DIam2i9Jv0zHyt"
     },
     {
       id: 4,
       title: "Professional Clinical Assistance",
-      category: "Clinical Coordination",
-      description: "Deploying professional medical agents to handle internal scheduling, reminders, and follow ups across departments.",
-      challenge: "A multi location dental organization struggled with internal staff for routine communication tasks, resulting in inconsistent customer follow up and after hours coverage gaps.",
-      solution: "We deployed Clinical Nursing Coordinators and Patient Coordination Agents to integrate with their existing systems to remove guesswork from scheduling, reminders, and follow ups across all departments, with seamless escalation to onsite staff when needed.",
+      category: "Clinical and Care Coordination Support",
+      description: "Deploying clinical support to manage scheduling reminders and follow-ups across departments.",
+      challenge: "A multi-location dental organization needed consistent outreach and follow-up documentation across clinical teams.",
+      solution: "We deployed Clinical Nurse Coordinators and Medical Scribes to work inside existing systems and escalate to onsite staff when needed.",
       results: [
-        "95% reduction in response times for routine inquiries",
-        "24/7 coverage for basic customer bookings",
-        "73% of routine scheduling handled automatically",
-        "50% reduction in staff time spent on repetitive communication tasks"
+        "Reduction of no show rates from 27 percent to 15 percent in clinical or coordination workflows",
+        "Resolution of messages within 24 hours in 98 percent of cases"
       ],
       imageSrc: "https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48umk0e7rzSVUAW58LFw0OdkaCEGun9vJTQ37M",
       testimonial: {
@@ -109,45 +104,39 @@ const CaseStudiesPage: React.FC = () => {
     {
       id: 5,
       title: "Recall Pipeline Expansion",
-      category: "Front Desk",
-      description: "Building and managing an outbound operation for a dental office opening in new markets.",
-      challenge: "A growing healthcare company needed to expand into 3 new locations at once, and they lacked the staff and training to effectively reach and convert these prospects.",
-      solution: "We created a dedicated outbound unit with healthcare booking expertise, implemented a structured process from prospecting to closing, and integrated with the client's EMR system for seamless lead management.",
+      category: "Front Office Support",
+      description: "Building and managing an outbound recall operation for a growing dental office network.",
+      challenge: "A healthcare company needed support to expand recall outreach while maintaining consistent documentation.",
+      solution: "We created a dedicated outbound unit, standardized scripts, and integrated with the client’s EMR system for seamless tracking.",
       results: [
-        "127% increase in qualified patients booked within 90 days",
-        "78% reduction in customer acquisition cost",
-        "35% higher conversion rate than previous internal efforts",
-        "Successful entry into 3 new zip codes simultaneously"
+        "Schedule adherence of 95 percent in front office operations",
+        "Average speed of answer of 22 seconds for inbound calls or contacts"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr1nZS9eKKpXVWvs9SzonqPt04iFJaeUgRD85u"
     },
     {
       id: 6,
       title: "Training Optimization",
-      category: "Admin",
-      description: "Restructuring training for operations for an endocrinology and infusion clinic to improve efficiency and reduce costs.",
-      challenge: "A clinic struggled with staff management, treatment delays, and high churn costs due to disorganized processes and limited visibility into their supply chain.",
-      solution: "We implemented end to end management training and staff training, optimized processes through data analysis, streamlined communication channels, and introduced real time reporting systems.",
+      category: "Front Office Support",
+      description: "Restructuring training operations for an endocrinology and infusion clinic to improve consistency.",
+      challenge: "A clinic needed better visibility into intake workflows and staff handoffs across departments.",
+      solution: "We implemented end-to-end workflow training, standardized documentation, and shared reporting updates.",
       results: [
-        "32% reduction in overall management costs",
-        "Employee retention costs decreased by 28%",
-        "On time delivery improved from 79% to 97%",
-        "Patient processing time reduced by 40%"
+        "Schedule adherence of 95 percent in front office operations",
+        "Resolution of messages within 24 hours in 98 percent of cases"
       ],
       imageSrc: "https://24vzlu2kzs.ufs.sh/f/4JlBnp1v6U48M2OOvk6PEBiI3RJApQHa7gjDUWtV6dYsv1l4"
     },
     {
       id: 7,
       title: "Brand Evolution & Experience Strategy",
-      category: "Operations",
-      description: "Complete brand transformation and experience strategy development for a technology startup.",
-      challenge: "A growing tech startup needed to evolve their brand identity and narrative to better reflect their market position and attract enterprise clients.",
-      solution: "We developed a comprehensive brand system, including new visual identity, refreshed voice, and experience guidelines. Targeted outreach programs showcased the new positioning to enterprise buyers.",
+      category: "Front Office Support",
+      description: "Refreshing communication workflows to improve intake experiences for a technology startup’s healthcare clients.",
+      challenge: "A growing organization needed clearer patient-facing communication and intake guidance.",
+      solution: "We aligned messaging, intake scripts, and scheduling workflows across teams to improve consistency.",
       results: [
-        "48% increase in enterprise lead generation",
-        "Brand recognition improved by 65%",
-        "Engagement with refreshed assets up 83%",
-        "Successfully entered 2 new market segments"
+        "Schedule adherence of 95 percent in front office operations",
+        "Average speed of answer of 22 seconds for inbound calls or contacts"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr29eCfrOIXq0JBeTNSsrEFDjm8bYxAHK13tzV",
       testimonial: {
@@ -160,15 +149,13 @@ const CaseStudiesPage: React.FC = () => {
     {
       id: 8,
       title: "Integrated Outreach Program",
-      category: "Operations",
-      description: "Multi-channel outreach combining content, social, and targeted communications for maximum impact.",
-      challenge: "A dental lab struggled to stand out in a crowded market and needed a comprehensive outreach approach to increase market share.",
-      solution: "We created an integrated outreach program that combined thought leadership content, social presence, lifecycle emails, and targeted advertising, all unified by a single narrative and design system.",
+      category: "Front Office Support",
+      description: "Multi-channel outreach to improve scheduling access and follow-up consistency.",
+      challenge: "A dental lab needed a unified outreach approach to keep patient communication consistent.",
+      solution: "We built an integrated outreach program with scripts, follow-ups, and tracking inside the client’s communication stack.",
       results: [
-        "156% increase in qualified leads",
-        "89% improvement in social engagement",
-        "43% reduction in customer acquisition cost",
-        "12 major B2B relationships formed"
+        "Schedule adherence of 95 percent in front office operations",
+        "Resolution of messages within 24 hours in 98 percent of cases"
       ],
       imageSrc: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhrrIXNSKFdfMxj3N4Ltv1KoiqPgbEIWwUAFmSh",
       testimonial: {
@@ -300,7 +287,7 @@ const CaseStudiesPage: React.FC = () => {
                   
                   <h3 className="text-lg font-medium mb-2">Results:</h3>
                   <p className="text-sm text-white/70 mb-2">
-                    Outcomes shown are historical examples and are not guarantees of future results.
+                    These figures are examples from our operations and are not guarantees for every engagement.
                   </p>
                   <ul className="space-y-2">
                     {study.results.map((result, index) => (

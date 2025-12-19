@@ -27,13 +27,19 @@
 
 [[redirects]]
   from = "/creative-direction"
-  to = "/services/administration"
+  to = "/services/front-office"
   status = 301
   force = true
 
 [[redirects]]
   from = "/creative-operations"
-  to = "/services/administration"
+  to = "/services/front-office"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/administration"
+  to = "/services/front-office"
   status = 301
   force = true
 

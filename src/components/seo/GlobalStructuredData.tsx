@@ -22,7 +22,7 @@ const service = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Healthcare operations support',
-  description: 'Clinical support pods, coordination teams, intake support, and revenue cycle services delivered by Uplift Technologies.',
+  description: 'Front office support, clinical and care coordination support, revenue cycle support, and medical scribe services delivered by Uplift Technologies.',
   provider: {
     '@type': 'Organization',
     name: 'Uplift Technologies',

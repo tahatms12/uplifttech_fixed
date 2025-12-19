@@ -13,19 +13,19 @@ interface Testimonial {
 const Testimonials: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
-      quote: "UPLIFT's team seamlessly integrated with our operations, providing 24/7 coverage that increased our customer satisfaction rates by 35% while reducing our operational costs.",
+      quote: "UPLIFT's team seamlessly integrated with our operations, providing 24/7 coverage and consistent communication that helped our staff focus on patients.",
       author: "Ashley S.",
       position: "Managing Director",
       company: "Confidential Dental Centres"
     },
     {
-      quote: "Their collections team recovered $2M in outstanding accounts receivable that we had almost written off. Within the first month, they brought in $25K and continued to deliver exceptional results.",
+      quote: "Their revenue cycle team brought structure and follow-through to our claims and billing workflows with clear documentation at every step.",
       author: "Dr A. James",
       position: "President",
       company: "Confidential Dental"
     },
     {
-      quote: "The AI chat agents UPLIFT implemented revolutionized our scheduling system, reducing lost leads. We've seen dramatic improvements in response times and patient satisfaction.",
+      quote: "Uplift Technologies helped us streamline scheduling and follow-ups, improving how we communicate with patients across channels.",
       author: "Z. Amiri",
       position: "Director of Operations",
       company: "Auto Enhance Hub"

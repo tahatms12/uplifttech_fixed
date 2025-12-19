@@ -56,6 +56,7 @@ function App() {
               <ServicesPage />
             </Suspense>
           } />
+          <Route path="services/administration" element={<Navigate to="/services/front-office" replace />} />
           <Route path="services/:service" element={
             <Suspense fallback={<LoadingSpinner />}>
               <ServiceDetailPage />
@@ -96,7 +97,7 @@ function App() {
               <CandidateAcknowledgementPage />
             </Suspense>
           } />
-          <Route path="creative-operations" element={<Navigate to="/services/administration" replace />} />
+          <Route path="creative-operations" element={<Navigate to="/services/front-office" replace />} />
           <Route path="case-studies" element={
             <Suspense fallback={<LoadingSpinner />}>
               <CaseStudies />

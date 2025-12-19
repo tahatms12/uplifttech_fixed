@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Users, TrendingUp, BadgeDollarSign, PhoneCall, ArrowRight, CheckCircle } from 'lucide-react';
+import { Users, BadgeDollarSign, PhoneCall, FileText, ArrowRight, CheckCircle } from 'lucide-react';
 import Section from '../components/ui/Section';
 import Button from '../components/ui/Button';
 import CallToAction from '../components/home/CallToAction';
 import MetaTags from '../components/seo/MetaTags';
 import StructuredData from '../components/seo/StructuredData';
 import { podBySlug } from '../data/pods';
-import { rolesById } from '../data/roles';
 
 const iconMap: Record<string, JSX.Element> = {
-  administration: <TrendingUp size={32} />,
   'clinical-coordination': <Users size={32} />,
   'front-office': <PhoneCall size={32} />,
-  'revenue-cycle': <BadgeDollarSign size={32} />
+  'revenue-cycle': <BadgeDollarSign size={32} />,
+  'medical-scribes': <FileText size={32} />
 };
 
 const ServiceDetailPage: React.FC = () => {
@@ -29,7 +28,7 @@ const ServiceDetailPage: React.FC = () => {
       <div className="min-h-screen bg-rich-black text-white flex items-center justify-center">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-semibold">Service not found</h1>
-          <Link to="/services/administration" className="text-electric-violet font-semibold inline-flex items-center">
+          <Link to="/services" className="text-electric-violet font-semibold inline-flex items-center">
             Return to services
             <ArrowRight size={16} className="ml-2" />
           </Link>
@@ -37,8 +36,6 @@ const ServiceDetailPage: React.FC = () => {
       </div>
     );
   }
-
-  const rolesInPod = pod.roleIds.map((id) => rolesById[id]).filter(Boolean);
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -68,7 +65,7 @@ const ServiceDetailPage: React.FC = () => {
                 {iconMap[pod.slug]}
                 <span className="text-sm uppercase tracking-widest">{pod.segmentLabel}</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl font-semibold mb-4">{pod.title}</h1>
+              <h1 className="text-4xl sm:text-5xl font-semibold mb-4">{pod.heroTitle}</h1>
               <p className="text-lg text-white/75 mb-6">{pod.longDescription}</p>
 
               <div className="flex flex-wrap gap-4">
@@ -83,7 +80,7 @@ const ServiceDetailPage: React.FC = () => {
             </div>
 
             <div className="rounded-3xl border border-border-muted/60 bg-surface/70 p-6 shadow-card">
-              <h2 className="text-xl font-semibold mb-3">What this pod delivers</h2>
+              <h2 className="text-xl font-semibold mb-3">What this service delivers</h2>
               <ul className="space-y-3 text-white/80">
                 {pod.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
@@ -98,15 +95,11 @@ const ServiceDetailPage: React.FC = () => {
 
         <section className="container-custom py-12 grid lg:grid-cols-2 gap-8 items-start">
           <div className="rounded-3xl border border-border-muted/60 bg-surface/70 p-6 shadow-card">
-            <h3 className="text-2xl font-semibold mb-4">Roles in this pod</h3>
-            {rolesInPod.map((role) => (
-              <div key={role.id} className="mb-6 last:mb-0">
+            <h3 className="text-2xl font-semibold mb-4">Roles in this support area</h3>
+            {pod.roles.map((role) => (
+              <div key={role.title} className="mb-6 last:mb-0">
                 <h4 className="text-lg font-semibold mb-2">{role.title}</h4>
-                <ul className="space-y-2 text-white/80 list-disc list-inside">
-                  {role.sections.responsibilities.flatMap((group) => group.items).map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
+                <p className="text-white/75">{role.description}</p>
               </div>
             ))}
           </div>
@@ -139,7 +132,7 @@ const ServiceDetailPage: React.FC = () => {
         </section>
 
         <Section
-          title="Start with the right pod"
+          title="Start with the right support area"
           subtitle="Tell us your targets and we will align the specialist, hours, and documentation to your workflow."
           centered
         >

@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
     <AnimatePresenceGroup className="overflow-x-hidden">
       <MetaTags
         title="Uplift Technologies | Clinical support and operations partner"
-        description="People-powered clinical support pods, coordination, and revenue cycle teams built for 24/7 operations." 
+        description="People-powered medical support outsourcing with structured teams, specialized roles, and 24/7 coverage inside client systems." 
       />
 
       {/* Hero section loads immediately */}

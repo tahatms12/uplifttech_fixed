@@ -60,12 +60,12 @@ const faqs = [
   {
     question: 'Can we scale down or cancel?',
     answer:
-      'Yes. You may scale down to a smaller pod or cancel with a seven day notice. Our team will support knowledge transfer for a smooth transition.'
+      'Yes. You may scale down coverage or cancel with a seven day notice. Our team will support knowledge transfer for a smooth transition.'
   },
   {
     question: 'How your future team is selected?',
     answer:
-      'Every specialist passes language, compliance, and scenario-based assessments. Only 3% of applicants become part of our remote bench.'
+      'Every specialist passes language, compliance, and scenario-based assessments. We select candidates who consistently meet our quality and documentation standards.'
   }
 ];
 
@@ -139,7 +139,7 @@ const PricingPage: React.FC = () => {
     <main className="bg-rich-black pb-20 text-white">
       <MetaTags
         title="Pricing"
-        description="Clear pricing for clinical support pods across coverage verification, coordination, intake, and revenue cycle roles."
+        description="Clear pricing for front-office support, clinical and care coordination support, revenue cycle support, and medical scribe roles."
       />
 
       <section className="bg-[linear-gradient(160deg,_rgba(155,29,255,0.35),_transparent)] pt-32 pb-20">
@@ -147,13 +147,13 @@ const PricingPage: React.FC = () => {
           <div>
             <h1 className="text-4xl font-semibold text-white">Pricing that scales with you</h1>
             <p className="mt-4 text-lg text-text-muted">
-              Build the exact team you need with hourly specialists across medical benefits, clinical coordination, order entry, and claims. No setup fees and coverage you can adjust as needs change.
+              Build the exact team you need with hourly specialists across front-office support, clinical and care coordination support, revenue cycle support and medical scribes. No setup fees and coverage you can adjust as needs change.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
               <Button to="/book" size="lg" analyticsLabel="pricing_schedule_call">
                 Ready to start? Schedule a call
               </Button>
-              <p className="text-sm text-text-muted">Average onboarding time: 3 business days</p>
+              <p className="text-sm text-text-muted">Onboarding timelines are shared during discovery.</p>
             </div>
             <p className="mt-4 text-sm text-text-muted">
               We keep security and privacy controls documented and reviewed. Learn more in our{' '}
@@ -416,7 +416,7 @@ const PricingPage: React.FC = () => {
         <div className="container-custom flex flex-col items-center gap-6 text-center">
           <h2 className="text-3xl font-semibold text-white">Ready to start? Schedule a call</h2>
           <p className="max-w-2xl text-text-muted">
-            Tell us your targets and we will share a tailored roadmap, vetted talent shortlist, and onboarding plan within 72 hours.
+            Tell us your targets and we will share a tailored roadmap, vetted talent shortlist, and onboarding plan after your discovery call.
           </p>
           <Button to="/book" size="lg" analyticsLabel="pricing_footer_schedule">
             Schedule discovery call

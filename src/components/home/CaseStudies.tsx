@@ -60,32 +60,32 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
 const CaseStudies: React.FC = () => {
   const caseStudies = [
     {
-      title: "Brand Evolution & Strategy",
-      category: "Operations",
-      description: "Complete brand transformation and creative strategy development for a technology startup.",
+      title: "Front Office Access Improvements",
+      category: "Front Office Support",
+      description: "Streamlined scheduling and intake workflows to improve patient access and follow-up consistency.",
       stats: [
-        { label: "Brand Recognition", value: "+65%" },
-        { label: "Lead Generation", value: "+48%" }
+        { label: "Schedule adherence", value: "95%" },
+        { label: "Average speed of answer", value: "22 seconds" }
       ],
       imageUrl: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr29eCfrOIXq0JBeTNSsrEFDjm8bYxAHK13tzV"
     },
     {
       title: "Accounts Receivable Recovery",
-      category: "Collections",
-      description: "Structured collection strategies recovering $2M in outstanding accounts receivable.",
+      category: "Revenue Cycle Support",
+      description: "Structured follow-up routines that keep claims and billing queues moving inside client systems.",
       stats: [
-        { label: "First Month", value: "$25K" },
-        { label: "Total Recovered", value: "$2M" }
+        { label: "Denial reduction", value: "32% to 15%" },
+        { label: "Clean claim rate", value: "98%" }
       ],
       imageUrl: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr1nZS9eKKpXVWvs9SzonqPt04iFJaeUgRD85u"
     },
     {
-      title: "Integrated Outreach Program",
-      category: "Operations",
-      description: "Multi-channel outreach combining content, social, and targeted communications for measurable impact.",
+      title: "Clinical Coordination Coverage",
+      category: "Clinical and Care Coordination Support",
+      description: "Coordinated outreach and documentation that keeps clinical follow-ups on track.",
       stats: [
-        { label: "Qualified Leads", value: "+156%" },
-        { label: "Social Engagement", value: "+89%" }
+        { label: "No-show reduction", value: "27% to 15%" },
+        { label: "Messages resolved", value: "98% within 24 hours" }
       ],
       imageUrl: "https://cplyjoeqd4.ufs.sh/f/gAmqiT9pUNhr70PfYCJoqhwKnVTQZaEAGCsP4eUcDWl2dOm1"
     }
@@ -111,6 +111,10 @@ const CaseStudies: React.FC = () => {
           />
         ))}
       </div>
+
+      <p className="mt-6 text-sm text-white/70 text-center">
+        These figures are examples from our operations and are not guarantees for every engagement.
+      </p>
       
       <motion.div 
         className="text-center mt-12"

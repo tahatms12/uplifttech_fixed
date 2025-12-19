@@ -47,10 +47,10 @@ const Footer: React.FC = () => {
             <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Services</h4>
             <ul className="space-y-2 sm:space-y-3">
               {[
-                { name: 'Medical Benefits Pod', path: '/services/administration' },
-                { name: 'Clinical Coordination Pod', path: '/services/clinical-coordination' },
-                { name: 'Intake and Order Entry Pod', path: '/services/front-office' },
-                { name: 'Claims and AR Pod', path: '/services/revenue-cycle' }
+                { name: 'Front Office Support', path: '/services/front-office' },
+                { name: 'Clinical and Care Coordination Support', path: '/services/clinical-coordination' },
+                { name: 'Revenue Cycle Support', path: '/services/revenue-cycle' },
+                { name: 'Medical Scribes', path: '/services/medical-scribes' }
               ].map((service) => (
                 <li key={service.name}>
                   <Link
