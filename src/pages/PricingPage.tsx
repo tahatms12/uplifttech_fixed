@@ -418,7 +418,7 @@ const PricingPage: React.FC = () => {
           <p className="max-w-2xl text-text-muted">
             Tell us your targets and we will share a tailored roadmap, vetted talent shortlist, and onboarding plan within 72 hours.
           </p>
-          <Button to="/contact" size="lg" analyticsLabel="pricing_footer_schedule">
+          <Button to="/book" size="lg" analyticsLabel="pricing_footer_schedule">
             Schedule discovery call
           </Button>
         </div>

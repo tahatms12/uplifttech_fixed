@@ -22,10 +22,8 @@ const candidates = extractUnique(readText('src/data/candidates.ts'), /id:\s*'([^
 const staticPaths = [
   '/',
   '/about',
-  '/services',
   '/pricing',
   '/case-studies',
-  '/careers',
   '/book',
   '/privacy',
   '/terms-of-service',

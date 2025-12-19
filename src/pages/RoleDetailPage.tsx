@@ -12,7 +12,7 @@ const RoleDetailPage: React.FC = () => {
   const role = slug ? rolesBySlug[slug] : undefined;
 
   if (!role) {
-    return <Navigate to="/careers" replace />;
+    return <Navigate to="/apply" replace />;
   }
 
   return (

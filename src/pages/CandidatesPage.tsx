@@ -189,7 +189,7 @@ const CandidatesPage: React.FC = () => {
         actions={
           <>
             <CTAButton variant="primary" href="#filters">Refine search</CTAButton>
-            <CTAButton variant="outline" to="/services">Explore services</CTAButton>
+            <CTAButton variant="outline" to="/services/administration">Explore services</CTAButton>
           </>
         }
       />
