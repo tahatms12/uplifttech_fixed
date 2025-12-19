@@ -124,6 +124,21 @@ const CandidateDetailTemplate: React.FC<CandidateDetailTemplateProps> = ({ candi
       <div className="container-custom pb-14">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
           <div className="space-y-8">
+            <SectionBlock title="Sample Work">
+              <div className="media">
+                {candidate.videoUrl ? (
+                  <iframe
+                    src={candidate.videoUrl}
+                    title="Sample work video"
+                    allowFullScreen
+                    style={{ width: '100%', height: '100%', border: 'none' }}
+                  />
+                ) : (
+                  'Video or demo can be shown here during live call'
+                )}
+              </div>
+            </SectionBlock>
+
             <SectionBlock title="Overview">
               <p className="text-white/80 leading-relaxed">{candidate.overview || candidate.summary}</p>
             </SectionBlock>
