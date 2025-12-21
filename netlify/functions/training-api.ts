@@ -29,7 +29,7 @@ import { buildProgress, getCourseProgress, loadTrainingData, type CourseProgress
 
 interface TrainingConfig {
   jwtSecret: string;
-  demoKey: string;
+  demoKey?: string;
   demoUsernames: string[];
   cookieName: string;
   trainingOrigins: string[];
@@ -37,6 +37,7 @@ interface TrainingConfig {
 }
 
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+const DEMO_SESSION_TTL_SECONDS = 60 * 60 * 8;
 let cachedConfig: TrainingConfig | null = null;
 
 function resolveAllowedOrigins(): string[] {
@@ -50,6 +51,8 @@ function resolveAllowedOrigins(): string[] {
     'https://uplift-technologies.com',
     'http://localhost:8888',
     'http://127.0.0.1:8888',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
   ].filter(Boolean) as string[];
   return Array.from(new Set([...configured, ...defaults]));
 }
@@ -72,8 +75,6 @@ function loadConfig(): TrainingConfig {
   const adminEmails = getAdminEmails();
   const missing: string[] = [];
   if (!jwtSecret) missing.push('TRAINING_JWT_SECRET');
-  if (!demoKey) missing.push('DEMO_KEY (or demo_key)');
-  if (demoUsernames.length === 0) missing.push('DEMO_USERNAME');
   if (missing.length) {
     const err = new Error('CONFIG_INCOMPLETE');
     (err as any).statusCode = 503;
@@ -163,6 +164,17 @@ async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise
   const originError = requireOrigin(event, config);
   if (originError) return originError;
   const start = Date.now();
+  if (!config.demoKey || config.demoUsernames.length === 0) {
+    return jsonResponse(503, {
+      ok: false,
+      code: 'CONFIG_INCOMPLETE',
+      message: 'Training login is not configured',
+      missing: [
+        ...(config.demoKey ? [] : ['DEMO_KEY (or demo_key)']),
+        ...(config.demoUsernames.length === 0 ? ['DEMO_USERNAME'] : []),
+      ],
+    });
+  }
   const body = parseJsonBody<any>(event) || {};
   const usernameRaw =
     typeof body.username === 'string' ? body.username : typeof body.email === 'string' ? body.email : '';
@@ -263,6 +275,66 @@ async function handleLogout(event: HandlerEvent, config: TrainingConfig): Promis
     maxAge: 0,
   });
   return jsonResponse(200, { ok: true }, [expiredCookie]);
+}
+
+async function handleDemoLogin(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
+  const originError = requireOrigin(event, config);
+  if (originError) return originError;
+  const demoEmail = 'demo@uplift-technologies.com';
+  const demoFullName = 'Demo Learner';
+  const normalizedDemo = normalizeUsername(demoEmail);
+  const users = (await readAll('users.csv', event)) as UserRow[];
+  const nowIso = new Date().toISOString();
+  let user = users.find((u) => normalizeUsername(u.email) === normalizedDemo);
+  if (!user) {
+    user = {
+      id: 'demo-user',
+      email: demoEmail,
+      full_name: demoFullName,
+      role: 'user',
+      created_at: nowIso,
+      last_login_at: nowIso,
+    };
+    await appendRow('users.csv', user, event);
+  } else {
+    await upsertBy(
+      'users.csv',
+      (row) => normalizeUsername(row.email) === normalizedDemo,
+      (row) => ({
+        ...row!,
+        last_login_at: nowIso,
+        full_name: row?.full_name || demoFullName,
+      }) as UserRow,
+      event
+    );
+    user = { ...user, last_login_at: nowIso, full_name: user.full_name || demoFullName };
+  }
+
+  const token = signJwt(
+    {
+      sub: user.id,
+      email: user.email,
+      is_admin: false,
+      role: user.role || 'user',
+      full_name: user.full_name,
+      demo: true,
+    },
+    config.jwtSecret,
+    DEMO_SESSION_TTL_SECONDS
+  );
+  const cookie = serializeCookie(config.cookieName, token, {
+    httpOnly: true,
+    secure: requestIsHttps(event),
+    sameSite: 'Lax',
+    path: '/',
+    maxAge: DEMO_SESSION_TTL_SECONDS,
+  });
+
+  return jsonResponse(
+    200,
+    { ok: true, user: { id: user.id, email: user.email, full_name: user.full_name, role: user.role, is_admin: false } },
+    [cookie]
+  );
 }
 
 async function handleMe(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
@@ -751,6 +823,11 @@ const handler: Handler = async (event) => {
     if (path === '/api/training/auth/me') {
       if (method !== 'GET') return methodNotAllowed();
       return await handleMe(event, config);
+    }
+
+    if (path === '/api/training/demo-login') {
+      if (method !== 'POST') return methodNotAllowed();
+      return await handleDemoLogin(event, config);
     }
 
     if (path === '/api/training/events') {

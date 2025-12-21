@@ -33,6 +33,7 @@ const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
 const ComplianceSecurityPage = lazy(() => import('./pages/ComplianceSecurityPage'));
 const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultationPage'));
 const TrainingEntryPage = lazy(() => import('./pages/training/TrainingEntryPage'));
+const TrainingDemoPage = lazy(() => import('./pages/training/TrainingDemoPage'));
 const TrainingDashboardPage = lazy(() => import('./pages/training/TrainingDashboardPage'));
 const TrainingCoursePage = lazy(() => import('./pages/training/TrainingCoursePage'));
 const TrainingAdminPage = lazy(() => import('./pages/training/TrainingAdminPage'));
@@ -148,6 +149,14 @@ function App() {
             element={
               <Suspense fallback={<LoadingSpinner />}>
                 <TrainingEntryPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="demo"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingDemoPage />
               </Suspense>
             }
           />

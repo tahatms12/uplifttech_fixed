@@ -9,14 +9,8 @@ const TrainingEntryPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState<boolean | null>(false); // Changed to false
   const [error, setError] = useState<string | null>(null);
-  const [takeDemo, setTakeDemo] = useState(false);
 
   useEffect(() => {
-    if (takeDemo) {
-      navigate('/training/dashboard');
-      return;
-    }
-
     trainingApi.me()
       .then((res) => {
         if (res.status === 200 && res.data) {
@@ -30,7 +24,7 @@ const TrainingEntryPage: React.FC = () => {
         // Silently handle API errors (no backend yet)
         setAuthenticated(false);
       });
-  }, [navigate, takeDemo]);
+  }, [navigate]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,7 +55,7 @@ const TrainingEntryPage: React.FC = () => {
   };
 
   const handleTakeDemo = () => {
-    setTakeDemo(true);
+    navigate('/training/demo');
   };
 
   // Removed loading check so page renders immediately

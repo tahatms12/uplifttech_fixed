@@ -23,26 +23,17 @@ async function request<T>(url: string, options: RequestInit): Promise<ApiRespons
 }
 
 export const trainingApi = {
-  // Mock auth endpoints - no backend needed
-  login: (payload: Record<string, unknown>) => 
-    Promise.resolve({ data: { success: true }, status: 200 }),
-  logout: () => 
-    Promise.resolve({ data: { success: true }, status: 200 }),
-  me: () => 
-    Promise.resolve({ data: { id: 'demo-user', username: 'demo' }, status: 200 }),
-  
-  // Mock progress endpoint with empty progress (fresh start)
-  progress: () => 
-    Promise.resolve({ 
-      data: { 
-        progress: [],
-        curriculumVersion: '1.0.0',
-        catalogVersion: '1.0.0'
-      }, 
-      status: 200 
-    }),
-  
-  // Keep other endpoints as-is (fixed syntax)
+  login: (payload: Record<string, unknown>) =>
+    request('/api/training/auth/login', { method: 'POST', body: JSON.stringify(payload) }),
+  logout: () =>
+    request('/api/training/auth/logout', { method: 'POST' }),
+  me: () =>
+    request('/api/training/auth/me', { method: 'GET' }),
+  demoLogin: () =>
+    request('/api/training/demo-login', { method: 'POST' }),
+  progress: () =>
+    request('/api/training/progress', { method: 'GET' }),
+
   events: (payload: Record<string, unknown>) => request('/api/training/events', { method: 'POST', body: JSON.stringify(payload) }),
   submitQuiz: (payload: Record<string, unknown>) => request('/api/training/quizzes/submit', { method: 'POST', body: JSON.stringify(payload) }),
   adminUsers: () => request('/api/training/admin/users', { method: 'GET' }),
