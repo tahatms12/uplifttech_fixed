@@ -1,6 +1,7 @@
 import React from 'react';
 import { useActiveTimeTracker } from './ActiveTimeTracker';
 import { progressStore } from './ProgressStore';
+import type { LessonProgressSummary } from './useTrainingProgress';
 
 export interface StepItem {
   stepId: string;
@@ -16,12 +17,14 @@ interface CourseStepperProps {
   courseId: string;
   dayNumber: number;
   steps: StepItem[];
+  stepProgress?: Map<string, LessonProgressSummary>;
   onComplete?: (stepId: string) => void;
 }
 
-const CourseStepper: React.FC<CourseStepperProps> = ({ courseId, dayNumber, steps, onComplete }) => {
+const CourseStepper: React.FC<CourseStepperProps> = ({ courseId, dayNumber, steps, stepProgress, onComplete }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const step = steps[activeStep];
+  const activeProgress = stepProgress?.get(step.stepId);
   useActiveTimeTracker({ courseId, stepId: step.stepId });
 
   const markComplete = async () => {
@@ -35,20 +38,36 @@ const CourseStepper: React.FC<CourseStepperProps> = ({ courseId, dayNumber, step
   return (
     <div>
       <div className="flex gap-2 mb-4" role="list">
-        {steps.map((s, idx) => (
+        {steps.map((s, idx) => {
+          const progress = stepProgress?.get(s.stepId);
+          const isCompleted = progress?.completed;
+          return (
           <button
             key={s.stepId}
             role="listitem"
-            className={`px-3 py-2 rounded ${idx === activeStep ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-200'}`}
+            className={`px-3 py-2 rounded border ${idx === activeStep ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-gray-800 text-gray-200 border-gray-700'}`}
             onClick={() => setActiveStep(idx)}
           >
-            {idx + 1}. {s.title}
+            {idx + 1}. {s.title} {isCompleted ? '✓' : ''}
           </button>
-        ))}
+        );
+        })}
       </div>
       <div className="bg-gray-800 p-4 rounded" aria-live="polite">
         <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
         <p className="text-sm text-gray-300 mb-2">Type: {step.type}</p>
+        {activeProgress ? (
+          <div className="text-xs text-gray-400 mb-2">
+            {activeProgress.completed ? (
+              <span className="text-green-400">Completed {activeProgress.completedAt ? `on ${activeProgress.completedAt}` : ''}</span>
+            ) : (
+              <span>In progress</span>
+            )}
+            {activeProgress.secondsActive ? (
+              <span className="ml-2">• {Math.round(activeProgress.secondsActive / 60)} min active</span>
+            ) : null}
+          </div>
+        ) : null}
         <div className="space-y-2">
           {step.contentBlocks.map((block, idx) => (
             <p key={idx} className="text-gray-100">
@@ -78,10 +97,13 @@ const CourseStepper: React.FC<CourseStepperProps> = ({ courseId, dayNumber, step
         )}
         <div className="mt-4">
           <button
-            className="px-4 py-2 bg-indigo-600 text-white rounded focus-visible:ring-2 focus-visible:ring-indigo-400"
+            className={`px-4 py-2 rounded focus-visible:ring-2 focus-visible:ring-indigo-400 ${
+              activeProgress?.completed ? 'bg-gray-700 text-gray-300 cursor-not-allowed' : 'bg-indigo-600 text-white'
+            }`}
             onClick={markComplete}
+            disabled={activeProgress?.completed}
           >
-            Mark complete
+            {activeProgress?.completed ? 'Completed' : 'Mark complete'}
           </button>
         </div>
         <div className="mt-2 text-xs text-gray-400">Acceptance criteria: {step.acceptanceCriteria.join('; ')}</div>

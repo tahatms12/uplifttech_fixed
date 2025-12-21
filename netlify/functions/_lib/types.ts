@@ -35,6 +35,14 @@ export interface LessonTimeRow {
   updated_at: string;
 }
 
+export interface StepCompletionRow {
+  user_id: string;
+  course_id: string;
+  step_id: string;
+  completed_at: string;
+  updated_at: string;
+}
+
 export interface QuizAttemptRow {
   id: string;
   user_id: string;
