@@ -70,9 +70,14 @@ function loadConfig(): TrainingConfig {
   const cookieName = getEnv('TRAINING_COOKIE_NAME', false, 'training_session') as string;
   const trainingOrigins = resolveAllowedOrigins();
   const adminEmails = getAdminEmails();
-  if (!jwtSecret || !demoKey || demoUsernames.length === 0) {
+  const missing: string[] = [];
+  if (!jwtSecret) missing.push('TRAINING_JWT_SECRET');
+  if (!demoKey) missing.push('DEMO_KEY (or demo_key)');
+  if (demoUsernames.length === 0) missing.push('DEMO_USERNAME');
+  if (missing.length) {
     const err = new Error('CONFIG_INCOMPLETE');
-    (err as any).statusCode = 500;
+    (err as any).statusCode = 503;
+    (err as any).missing = missing;
     throw err;
   }
   cachedConfig = { jwtSecret, demoKey, demoUsernames, cookieName, trainingOrigins, adminEmails } satisfies TrainingConfig;
@@ -666,18 +671,32 @@ async function handleCertificateVerify(event: HandlerEvent): Promise<HandlerResp
 
 const handler: Handler = async (event) => {
   try {
+    let path = event.path || '';
+    path = path.replace(/^\/?\.netlify\/functions\/training-api/, '') || path;
+    const method = event.httpMethod || 'GET';
+
+    if (path === '/api/training/certificates/verify') {
+      if (method !== 'GET') return methodNotAllowed();
+      return await handleCertificateVerify(event);
+    }
+
     let config: TrainingConfig;
     try {
       config = loadConfig();
     } catch (err: any) {
       if (err?.message === 'CONFIG_INCOMPLETE') {
-        return jsonResponse(500, { ok: false, code: 'CONFIG_INCOMPLETE', message: 'Training configuration missing' });
+        if (path === '/api/training/auth/me') {
+          return jsonResponse(401, { ok: false, error: 'unauthorized' });
+        }
+        return jsonResponse(err?.statusCode || 503, {
+          ok: false,
+          code: 'CONFIG_INCOMPLETE',
+          message: 'Training configuration missing',
+          missing: Array.isArray(err?.missing) ? err.missing : undefined,
+        });
       }
       throw err;
     }
-    let path = event.path || '';
-    path = path.replace(/^\/?\.netlify\/functions\/training-api/, '') || path;
-    const method = event.httpMethod || 'GET';
     if (path === '/api/training/auth/login') {
       if (method !== 'POST') return methodNotAllowed();
       return await handleLogin(event, config);
@@ -732,11 +751,6 @@ const handler: Handler = async (event) => {
     if (path === '/api/training/certificates/pdf') {
       if (method !== 'GET') return methodNotAllowed();
       return await handleCertificatePdf(event, config);
-    }
-
-    if (path === '/api/training/certificates/verify') {
-      if (method !== 'GET') return methodNotAllowed();
-      return await handleCertificateVerify(event);
     }
 
     return notFound();

@@ -19,6 +19,7 @@
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@emailjs/browser": "^4.3.3",
+    "@fontsource/orbitron": "^5.0.8",
     "@headlessui/react": "^1.7.17",
     "@netlify/blobs": "^6.5.0",
     "@netlify/functions": "^2.8.1",

@@ -1,18 +1,5 @@
-@font-face {
-  font-family: 'Orbitron';
-  src: url('/fonts/Orbitron-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Orbitron';
-  src: url('/fonts/Orbitron-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
+@import "@fontsource/orbitron/400.css";
+@import "@fontsource/orbitron/500.css";
 
 @tailwind base;
 @tailwind components;
