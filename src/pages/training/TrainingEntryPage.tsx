@@ -7,18 +7,23 @@ const TrainingEntryPage: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(false); // Changed to false
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    trainingApi.me().then((res) => {
-      if (res.status === 200 && res.data) {
-        setAuthenticated(true);
-        navigate('/training/dashboard');
-      } else {
+    trainingApi.me()
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          setAuthenticated(true);
+          navigate('/training/dashboard');
+        } else {
+          setAuthenticated(false);
+        }
+      })
+      .catch(() => {
+        // Silently handle 401 or network errors
         setAuthenticated(false);
-      }
-    });
+      });
   }, [navigate]);
 
   const submit = async (e: React.FormEvent) => {
@@ -51,11 +56,10 @@ const TrainingEntryPage: React.FC = () => {
 
   const handleTakeDemo = () => {
     navigate('/training/dashboard');
-    return;
   };
 
-  if (authenticated === null) return <div className="text-gray-200">Loading...</div>;
-
+  // Removed the loading check so page renders immediately
+  
   return (
     <div className="space-y-4">
       <TrainingNoIndexHelmet />
