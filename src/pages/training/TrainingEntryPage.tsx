@@ -7,24 +7,25 @@ const TrainingEntryPage: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [authenticated, setAuthenticated] = useState<boolean | null>(false); // Changed to false
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [takeDemo, setTakeDemo] = useState(false);
 
   useEffect(() => {
-    trainingApi.me()
-      .then((res) => {
-        if (res.status === 200 && res.data) {
-          setAuthenticated(true);
-          navigate('/training/dashboard');
-        } else {
-          setAuthenticated(false);
-        }
-      })
-      .catch(() => {
-        // Silently handle 401 or network errors
+    if (takeDemo) {
+      navigate('/training/dashboard');
+      return;
+    }
+
+    trainingApi.me().then((res) => {
+      if (res.status === 200 && res.data) {
+        setAuthenticated(true);
+        navigate('/training/dashboard');
+      } else {
         setAuthenticated(false);
-      });
-  }, [navigate]);
+      }
+    });
+  }, [navigate, takeDemo]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,11 +56,11 @@ const TrainingEntryPage: React.FC = () => {
   };
 
   const handleTakeDemo = () => {
-    navigate('/training/dashboard');
+    setTakeDemo(true);
   };
 
-  // Removed the loading check so page renders immediately
-  
+  if (authenticated === null && !takeDemo) return <div className="text-gray-200">Loading...</div>;
+
   return (
     <div className="space-y-4">
       <TrainingNoIndexHelmet />
