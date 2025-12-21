@@ -1,0 +1,301 @@
+import type { HandlerEvent, R2BucketLike } from './types';
+
+interface BlobStore {
+  get: (key: string, options: { type: 'text' }) => Promise<string | null>;
+  set: (key: string, value: string, options?: { onlyIfNew?: boolean }) => Promise<boolean | void>;
+  delete: (key: string) => Promise<void>;
+  getWithMetadata: (key: string, options: { type: 'text' }) => Promise<{ data: string | null; metadata: Record<string, unknown> }>;
+  list: (options: { prefix: string }) => Promise<{ blobs: { key: string }[] }>;
+}
+
+const localBlobs = new Map<string, string>();
+
+function createLocalStore(): BlobStore {
+  return {
+    async get(key, _options) {
+      return localBlobs.has(key) ? (localBlobs.get(key) as string) : null;
+    },
+    async set(key, value, options) {
+      if (options?.onlyIfNew && localBlobs.has(key)) return false;
+      localBlobs.set(key, value);
+      return true;
+    },
+    async delete(key) {
+      localBlobs.delete(key);
+    },
+    async getWithMetadata(key, _options) {
+      const data = localBlobs.has(key) ? (localBlobs.get(key) as string) : null;
+      return { data, metadata: {} };
+    },
+    async list({ prefix }) {
+      const blobs = Array.from(localBlobs.keys())
+        .filter((key) => key.startsWith(prefix))
+        .map((key) => ({ key }));
+      return { blobs };
+    },
+  } satisfies BlobStore;
+}
+
+function isPreconditionFailed(err: unknown): boolean {
+  const status = (err as any)?.status ?? (err as any)?.statusCode;
+  const message = (err as any)?.message || '';
+  return status === 412 || /precondition/i.test(message);
+}
+
+function createR2Store(bucket: R2BucketLike): BlobStore {
+  return {
+    async get(key, _options) {
+      const object = await bucket.get(key);
+      if (!object) return null;
+      return await object.text();
+    },
+    async set(key, value, options) {
+      try {
+        if (options?.onlyIfNew) {
+          await bucket.put(key, value, { ifNoneMatch: '*' });
+        } else {
+          await bucket.put(key, value);
+        }
+        return true;
+      } catch (err) {
+        if (options?.onlyIfNew && isPreconditionFailed(err)) return false;
+        throw err;
+      }
+    },
+    async delete(key) {
+      await bucket.delete(key);
+    },
+    async getWithMetadata(key, _options) {
+      const object = await bucket.get(key);
+      if (!object) return { data: null, metadata: {} };
+      const data = await object.text();
+      return { data, metadata: { etag: object.etag } };
+    },
+    async list({ prefix }) {
+      const result = await bucket.list({ prefix });
+      return { blobs: result.objects.map((obj) => ({ key: obj.key })) };
+    },
+  } satisfies BlobStore;
+}
+
+let cachedStore: BlobStore | null = null;
+
+async function getTrainingStore(event?: HandlerEvent) {
+  if (cachedStore) return cachedStore;
+  const bucket = event?.env?.TRAINING_CSV;
+  if (bucket) {
+    cachedStore = createR2Store(bucket);
+    return cachedStore;
+  }
+  cachedStore = createLocalStore();
+  return cachedStore;
+}
+
+interface CsvData {
+  headers: string[];
+  rows: Record<string, string>[];
+}
+
+const HEADER_MAP: Record<string, string[]> = {
+  'users.csv': ['id', 'email', 'full_name', 'role', 'created_at', 'last_login_at'],
+  'logins.csv': ['id', 'user_id', 'ts', 'ip_hash', 'user_agent'],
+  'lesson_time.csv': ['user_id', 'course_id', 'module_id', 'lesson_id', 'seconds_active', 'updated_at'],
+  'quiz_attempts.csv': [
+    'id',
+    'user_id',
+    'course_id',
+    'quiz_id',
+    'attempt_number',
+    'score_percent',
+    'passed',
+    'started_at',
+    'submitted_at',
+    'answers_json',
+  ],
+  'completions.csv': ['id', 'user_id', 'course_id', 'completed_at', 'final_score', 'certificate_id'],
+  'certificates.csv': ['id', 'certificate_code', 'user_id', 'course_id', 'issued_at'],
+  'rate_limits.csv': ['key', 'window_start', 'count', 'updated_at'],
+};
+
+function headersForKey(key: string): string[] {
+  if (HEADER_MAP[key]) return HEADER_MAP[key];
+  if (key.startsWith('events-') && key.endsWith('.csv')) {
+    return ['id', 'user_id', 'course_id', 'module_id', 'lesson_id', 'event_type', 'ts', 'meta_json'];
+  }
+  throw new Error(`Unknown CSV key: ${key}`);
+}
+
+function parseCsv(text: string, expectedHeaders: string[]): CsvData {
+  const rows: string[][] = [];
+  let current: string[] = [];
+  let field = '';
+  let inQuotes = false;
+
+  const pushField = () => {
+    current.push(field);
+    field = '';
+  };
+
+  const pushRow = () => {
+    if (current.length > 0 || field.length > 0) {
+      pushField();
+      rows.push(current);
+      current = [];
+    }
+  };
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        const next = text[i + 1];
+        if (next === '"') {
+          field += '"';
+          i++;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        field += ch;
+      }
+    } else {
+      if (ch === '"') {
+        inQuotes = true;
+      } else if (ch === ',') {
+        pushField();
+      } else if (ch === '\n') {
+        pushRow();
+      } else if (ch === '\r') {
+        continue;
+      } else {
+        field += ch;
+      }
+    }
+  }
+  pushRow();
+
+  const header = rows.shift() || [];
+  if (header.length === 0) {
+    return { headers: expectedHeaders, rows: [] };
+  }
+  const headers = header;
+  const dataRows = rows.map((row) => {
+    const obj: Record<string, string> = {};
+    headers.forEach((name, idx) => {
+      obj[name] = row[idx] ?? '';
+    });
+    return obj;
+  });
+  return { headers, rows: dataRows };
+}
+
+function serializeCsv(headers: string[], rows: Record<string, string>[]): string {
+  const escape = (value: string) => {
+    if (value === undefined || value === null) return '';
+    const needsQuote = /[",\n\r]/.test(value);
+    const escaped = value.replace(/"/g, '""');
+    return needsQuote ? `"${escaped}"` : escaped;
+  };
+  const lines = [headers.join(',')];
+  for (const row of rows) {
+    lines.push(headers.map((h) => escape(row[h] ?? '')).join(','));
+  }
+  return lines.join('\n');
+}
+
+async function acquireLock(key: string, event?: HandlerEvent): Promise<string> {
+  const store = await getTrainingStore(event);
+  const lockKey = `locks/${key}.lock`;
+  const now = Date.now();
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const value = now.toString();
+    const created = await store.set(lockKey, value, { onlyIfNew: true });
+    if (created) return lockKey;
+    const existing = await store.getWithMetadata(lockKey, { type: 'text' }).catch(() => null as any);
+    const timestamp = existing?.data ? parseInt(existing.data, 10) : 0;
+    if (timestamp && now - timestamp > 5000) {
+      await store.delete(lockKey).catch(() => {});
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 100 + attempt * 25));
+    }
+  }
+  throw new Error(`Unable to acquire lock for ${key}`);
+}
+
+async function releaseLock(lockKey: string, event?: HandlerEvent) {
+  const store = await getTrainingStore(event);
+  await store.delete(lockKey).catch(() => {});
+}
+
+async function ensureHeaders(key: string, headers: string[], event?: HandlerEvent) {
+  const store = await getTrainingStore(event);
+  const existing = await store.get(key, { type: 'text' });
+  if (existing === null) {
+    await store.set(key, `${headers.join(',')}`);
+  }
+}
+
+export async function readAll(key: string, event?: HandlerEvent): Promise<Record<string, string>[]> {
+  const store = await getTrainingStore(event);
+  const headers = headersForKey(key);
+  await ensureHeaders(key, headers, event);
+  const text = (await store.get(key, { type: 'text' })) || '';
+  if (!text) return [];
+  const parsed = parseCsv(text, headers);
+  return parsed.rows;
+}
+
+export async function appendRow(key: string, row: Record<string, string>, event?: HandlerEvent): Promise<void> {
+  const store = await getTrainingStore(event);
+  const headers = headersForKey(key);
+  const lockKey = await acquireLock(key, event);
+  try {
+    await ensureHeaders(key, headers, event);
+    const text = (await store.get(key, { type: 'text' })) || headers.join(',');
+    const parsed = parseCsv(text, headers);
+    parsed.rows.push(row);
+    await store.set(key, serializeCsv(headers, parsed.rows));
+  } finally {
+    await releaseLock(lockKey, event);
+  }
+}
+
+export async function upsertBy(
+  key: string,
+  predicate: (row: Record<string, string>) => boolean,
+  updater: (row: Record<string, string> | null) => Record<string, string>,
+  event?: HandlerEvent
+): Promise<void> {
+  const store = await getTrainingStore(event);
+  const headers = headersForKey(key);
+  const lockKey = await acquireLock(key, event);
+  try {
+    await ensureHeaders(key, headers, event);
+    const text = (await store.get(key, { type: 'text' })) || headers.join(',');
+    const parsed = parseCsv(text, headers);
+    const idx = parsed.rows.findIndex(predicate);
+    if (idx >= 0) {
+      parsed.rows[idx] = updater(parsed.rows[idx]);
+    } else {
+      parsed.rows.push(updater(null));
+    }
+    await store.set(key, serializeCsv(headers, parsed.rows));
+  } finally {
+    await releaseLock(lockKey, event);
+  }
+}
+
+export async function findOne(
+  key: string,
+  predicate: (row: Record<string, string>) => boolean,
+  event?: HandlerEvent
+): Promise<Record<string, string> | null> {
+  const rows = await readAll(key, event);
+  return rows.find(predicate) || null;
+}
+
+export async function listKeys(prefix: string, event?: HandlerEvent): Promise<string[]> {
+  const store = await getTrainingStore(event);
+  const result = await store.list({ prefix });
+  return result.blobs.map((b) => b.key);
+}

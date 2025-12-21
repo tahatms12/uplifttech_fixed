@@ -14,14 +14,13 @@
     "test:coverage": "vitest run --coverage",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "training:build": "node scripts/training/buildCatalog.mjs",
-    "training:validate": "node scripts/training/validateCatalog.mjs"
+    "training:validate": "node scripts/training/validateCatalog.mjs",
+    "validate:cloudflare": "npm run build && node scripts/validate-cloudflare.mjs"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@emailjs/browser": "^4.3.3",
     "@headlessui/react": "^1.7.17",
-    "@netlify/blobs": "^6.5.0",
-    "@netlify/functions": "^2.8.1",
     "framer-motion": "^11.0.3",
     "lucide-react": "^0.344.0",
     "pdf-lib": "^1.17.1",

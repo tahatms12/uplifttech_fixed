@@ -39,3 +39,25 @@ The issue appears to be deeply rooted in how `rollup`'s native module interacts 
 
 *   **Strategy 4: Migrate to Vercel/Cloudflare Pages:** These platforms often have more robust build environments that might handle such dependency issues better.
 *   **Strategy 6: Containerize the Build:** Creating a Dockerfile with a controlled build environment (e.g., Linux-based) could bypass the Windows-specific `rollup` problem.
+## Cloudflare Pages Deployment
+
+**Build command:** `npm run build`
+
+**Build output directory:** `dist`
+
+**Functions directory:** `functions`
+
+**Node.js version:** `18.x`
+
+### Required bindings
+
+- **R2 bucket binding:** `TRAINING_CSV`
+
+### Environment variables
+
+- `TRAINING_JWT_SECRET` (required)
+- `DEMO_USERNAME` (required)
+- `DEMO_KEY` (required; `demo_key` is also accepted)
+- `TRAINING_COOKIE_NAME` (optional; defaults to `training_session`)
+- `TRAINING_APP_ORIGIN` (optional; comma-separated allowed Origins)
+- `TRAINING_ADMIN_EMAILS` (optional; comma-separated admin emails)
