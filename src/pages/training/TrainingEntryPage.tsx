@@ -1,59 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import TrainingNoIndexHelmet from '../../components/training/TrainingNoIndexHelmet';
-import { trainingApi } from '../../lib/trainingApi';
-
 const TrainingEntryPage: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    trainingApi.me().then((res) => {
-      if (res.status === 200 && res.data) {
-        setAuthenticated(true);
-        navigate('/training/dashboard');
-      } else {
-        setAuthenticated(false);
-      }
-    });
-  }, [navigate]);
+  // Remove the useEffect that calls trainingApi.me()
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    const res = await trainingApi.login({ username, password });
     
-    if (res.status === 200) {
+    // Mock validation or just navigate directly
+    if (username && password) {
       navigate('/training/dashboard');
-      return;
+    } else {
+      setError('Please enter username and password');
     }
-
-    const data = (res.data || {}) as Record<string, any>;
-    if (res.status === 401) {
-      if (data.code === 'INVALID_USERNAME') {
-        setError('Username is incorrect');
-        return;
-      }
-      if (data.code === 'INVALID_PASSWORD') {
-        setError('Password is incorrect');
-        return;
-      }
-    }
-    if (typeof data.message === 'string' && data.message.trim()) {
-      setError(data.message);
-      return;
-    }
-    setError('Login failed. Try again.');
   };
 
   const handleTakeDemo = () => {
     navigate('/training/dashboard');
   };
-
-  //if (authenticated === null) return <div className="text-gray-200">Loading...</div>;
 
   return (
     <div className="space-y-4">
@@ -90,5 +57,3 @@ const TrainingEntryPage: React.FC = () => {
     </div>
   );
 };
-
-export default TrainingEntryPage;
