@@ -25,6 +25,7 @@ const TrainingEntryPage: React.FC = () => {
     e.preventDefault();
     setError(null);
     const res = await trainingApi.login({ username, password });
+    
     if (res.status === 200) {
       navigate('/training/dashboard');
       return;
@@ -46,6 +47,10 @@ const TrainingEntryPage: React.FC = () => {
       return;
     }
     setError('Login failed. Try again.');
+  };
+
+  const handleTakeDemo = () => {
+    navigate('/training/dashboard');
   };
 
   if (authenticated === null) return <div className="text-gray-200">Loading...</div>;
@@ -72,9 +77,14 @@ const TrainingEntryPage: React.FC = () => {
           <label className="block text-sm">Password</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-2 rounded bg-gray-800 border border-gray-700" />
         </div>
-        <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded focus-visible:ring-2 focus-visible:ring-indigo-400">
-          Log in
-        </button>
+        <div className="flex gap-3">
+          <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded focus-visible:ring-2 focus-visible:ring-indigo-400 hover:bg-indigo-700 transition-colors">
+            Log in
+          </button>
+          <button type="button" onClick={handleTakeDemo} className="px-4 py-2 bg-green-600 text-white rounded focus-visible:ring-2 focus-visible:ring-green-400 hover:bg-green-700 transition-colors">
+            Take Demo
+          </button>
+        </div>
         {error ? <p className="text-sm text-red-400" role="alert">{error}</p> : null}
       </form>
     </div>
