@@ -7,12 +7,11 @@ const TrainingEntryPage: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [authenticated, setAuthenticated] = useState<boolean | null>(false);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(false); // Changed to false
   const [error, setError] = useState<string | null>(null);
   const [takeDemo, setTakeDemo] = useState(false);
 
   useEffect(() => {
-    // Check takeDemo FIRST before making any API calls
     if (takeDemo) {
       navigate('/training/dashboard');
       return;
@@ -28,6 +27,7 @@ const TrainingEntryPage: React.FC = () => {
         }
       })
       .catch(() => {
+        // Silently handle API errors (no backend yet)
         setAuthenticated(false);
       });
   }, [navigate, takeDemo]);
@@ -61,9 +61,10 @@ const TrainingEntryPage: React.FC = () => {
   };
 
   const handleTakeDemo = () => {
-    // Navigate directly without triggering useEffect
-    navigate('/training/dashboard');
+    setTakeDemo(true);
   };
+
+  // Removed loading check so page renders immediately
 
   return (
     <div className="space-y-4">
