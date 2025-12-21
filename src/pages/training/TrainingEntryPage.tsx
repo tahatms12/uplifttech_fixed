@@ -53,7 +53,7 @@ const TrainingEntryPage: React.FC = () => {
     navigate('/training/dashboard');
   };
 
-  if (authenticated === null) return <div className="text-gray-200">Loading...</div>;
+  //if (authenticated === null) return <div className="text-gray-200">Loading...</div>;
 
   return (
     <div className="space-y-4">
