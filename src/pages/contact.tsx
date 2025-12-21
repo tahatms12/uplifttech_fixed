@@ -117,7 +117,7 @@ const ContactPage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="max-w-xl md:max-w-2xl lg:max-w-3xl"
           >
-            <h1 className="font-poppins font-semibold mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl">
+            <h1 className="font-sans font-semibold mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl">
               Get in <span className="gradient-text block sm:inline">Touch</span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-white/80">

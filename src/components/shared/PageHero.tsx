@@ -35,7 +35,7 @@ const PageHero: React.FC<PageHeroProps> = ({
             </motion.span>
           ) : null}
           <motion.h1
-            className="mt-4 font-poppins text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight"
+            className="mt-4 font-sans text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.05 }}

@@ -38,7 +38,7 @@ const ApplyPage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <h1 className="font-poppins font-semibold mb-6 text-3xl md:text-4xl lg:text-5xl">
+            <h1 className="font-sans font-semibold mb-6 text-3xl md:text-4xl lg:text-5xl">
               Join Our <span className="gradient-text">Team</span>
             </h1>
             <p className="text-lg md:text-xl text-white/80">

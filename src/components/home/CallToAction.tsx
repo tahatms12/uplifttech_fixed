@@ -18,7 +18,7 @@ const CallToAction: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-poppins font-semibold mb-3 sm:mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-sans font-semibold mb-3 sm:mb-4">
             Ready to <span className="gradient-text">UPLIFT</span> Your Business?
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl mx-auto">

@@ -69,8 +69,8 @@
   --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Fonts */
-  --font-body: 'Poppins', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-heading: 'Poppins', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
 
   /* Z-index */
   --z-sticky: 100;

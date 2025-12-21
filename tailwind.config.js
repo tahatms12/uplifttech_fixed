@@ -2,6 +2,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Poppins', 'sans-serif'],
+    },
     extend: {
       colors: {
         'rich-black': '#0D0D0F',
@@ -35,11 +38,6 @@ export default {
           800: '#1F2937',
           900: '#111827',
         }
-      },
-      fontFamily: {
-        'display': ['Orbitron', 'sans-serif'],
-        'body': ['Poppins', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        'poppins': ['Poppins', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
