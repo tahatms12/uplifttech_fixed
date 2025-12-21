@@ -67,6 +67,7 @@ const HEADER_MAP: Record<string, string[]> = {
   'users.csv': ['id', 'email', 'full_name', 'role', 'created_at', 'last_login_at'],
   'logins.csv': ['id', 'user_id', 'ts', 'ip_hash', 'user_agent'],
   'lesson_time.csv': ['user_id', 'course_id', 'module_id', 'lesson_id', 'seconds_active', 'updated_at'],
+  'step_completions.csv': ['user_id', 'course_id', 'step_id', 'completed_at', 'updated_at'],
   'quiz_attempts.csv': ['id', 'user_id', 'course_id', 'quiz_id', 'attempt_number', 'score_percent', 'passed', 'started_at', 'submitted_at', 'answers_json'],
   'completions.csv': ['id', 'user_id', 'course_id', 'completed_at', 'final_score', 'certificate_id'],
   'certificates.csv': ['id', 'certificate_code', 'user_id', 'course_id', 'issued_at'],

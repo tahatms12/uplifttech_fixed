@@ -6,6 +6,7 @@ import SitemapGenerator from './components/seo/SitemapGenerator';
 import ScrollToTop from './components/ScrollToTop';
 import HubSpotTracking from './components/integrations/HubSpotTracking';
 import TrainingLayout from './components/training/TrainingLayout';
+import TrainingGuard from './components/training/TrainingGuard';
 
 // Eager load HomePage for fastest initial render
 import HomePage from './pages/HomePage';
@@ -154,7 +155,9 @@ function App() {
             path="dashboard"
             element={
               <Suspense fallback={<LoadingSpinner />}>
-                <TrainingDashboardPage />
+                <TrainingGuard>
+                  <TrainingDashboardPage />
+                </TrainingGuard>
               </Suspense>
             }
           />
@@ -162,7 +165,9 @@ function App() {
             path="course/:courseId"
             element={
               <Suspense fallback={<LoadingSpinner />}>
-                <TrainingCoursePage />
+                <TrainingGuard>
+                  <TrainingCoursePage />
+                </TrainingGuard>
               </Suspense>
             }
           />
@@ -170,7 +175,9 @@ function App() {
             path="admin"
             element={
               <Suspense fallback={<LoadingSpinner />}>
-                <TrainingAdminPage />
+                <TrainingGuard requireAdmin>
+                  <TrainingAdminPage />
+                </TrainingGuard>
               </Suspense>
             }
           />

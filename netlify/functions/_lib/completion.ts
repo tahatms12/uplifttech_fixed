@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import type { HandlerEvent } from '@netlify/functions';
-import { CompletionRow, LessonTimeRow, QuizAttemptRow, CertificateRow } from './types';
+import { CompletionRow, LessonTimeRow, QuizAttemptRow, CertificateRow, StepCompletionRow } from './types';
 import { appendRow, readAll, upsertBy } from './csvStore';
 import { CatalogStep, getCourse, listCatalogCourses } from './catalog';
 
@@ -12,7 +12,7 @@ export interface LessonProgress {
   secondsActive: number;
   completed: boolean;
   completedAt?: string;
-  completionReason?: 'time' | 'quiz';
+  completionReason?: 'time' | 'quiz' | 'manual';
   hasQuiz: boolean;
   quizId?: string;
   quizPassed: boolean;
@@ -44,6 +44,7 @@ export interface CourseProgressSummary {
 
 export interface TrainingData {
   lessons: LessonTimeRow[];
+  stepCompletions: StepCompletionRow[];
   quizzes: QuizAttemptRow[];
   completions: CompletionRow[];
   certificates: CertificateRow[];
@@ -73,18 +74,26 @@ function latestQuizAttempt(attempts: QuizAttemptRow[], courseId: string, quizId:
   });
 }
 
-function lessonComplete(step: CatalogStep, timeSeconds: number, quizAttempt: QuizAttemptRow | null): LessonProgress {
+function lessonComplete(
+  step: CatalogStep,
+  timeSeconds: number,
+  quizAttempt: QuizAttemptRow | null,
+  manualCompletedAt?: string
+): LessonProgress {
   const hasQuiz = Boolean(step?.assessment?.questions?.length);
   const quizPassed = quizAttempt ? quizAttempt.passed === 'true' : false;
   const timeComplete = timeSeconds >= 180;
-  const completed = hasQuiz ? quizPassed || timeComplete : timeComplete;
-  const completionReason: 'time' | 'quiz' | undefined = completed
-    ? quizPassed
-      ? 'quiz'
-      : 'time'
+  const manualComplete = Boolean(manualCompletedAt);
+  const completed = manualComplete || (hasQuiz ? quizPassed || timeComplete : timeComplete);
+  const completionReason: 'time' | 'quiz' | 'manual' | undefined = completed
+    ? manualComplete
+      ? 'manual'
+      : quizPassed
+        ? 'quiz'
+        : 'time'
     : undefined;
-  const completedAt = completionReason === 'quiz' ? quizAttempt?.submitted_at : undefined;
-  const lockedReason = completed
+  const completedAt = completionReason === 'manual' ? manualCompletedAt : completionReason === 'quiz' ? quizAttempt?.submitted_at : undefined;
+  const lockedReason = completed || manualComplete
     ? undefined
     : hasQuiz && !quizPassed && !timeComplete
       ? 'requires_quiz_or_time'
@@ -165,13 +174,14 @@ async function persistCompletion(
 }
 
 export async function loadTrainingData(event?: HandlerEvent): Promise<TrainingData> {
-  const [lessons, quizzes, completions, certificates] = await Promise.all([
+  const [lessons, stepCompletions, quizzes, completions, certificates] = await Promise.all([
     readAll('lesson_time.csv', event) as Promise<LessonTimeRow[]>,
+    readAll('step_completions.csv', event) as Promise<StepCompletionRow[]>,
     readAll('quiz_attempts.csv', event) as Promise<QuizAttemptRow[]>,
     readAll('completions.csv', event) as Promise<CompletionRow[]>,
     readAll('certificates.csv', event) as Promise<CertificateRow[]>,
   ]);
-  return { lessons, quizzes, completions, certificates };
+  return { lessons, stepCompletions, quizzes, completions, certificates };
 }
 
 function withDayNumber(step: CatalogStep, dayNumber?: number): CatalogStep {
@@ -189,6 +199,12 @@ export async function buildProgress(
 
   for (const course of catalogCourses) {
     const courseLessons = data.lessons.filter((row) => row.user_id === userId && row.course_id === course.id);
+    const courseManualCompletions = data.stepCompletions.filter(
+      (row) => row.user_id === userId && row.course_id === course.id
+    );
+    const manualMap = new Map<string, StepCompletionRow>(
+      courseManualCompletions.map((row) => [row.step_id, row])
+    );
     const courseQuizAttempts = data.quizzes.filter((row) => row.user_id === userId && row.course_id === course.id);
     const completionRow = data.completions.find((row) => row.user_id === userId && row.course_id === course.id);
     const certificateRow = data.certificates.find(
@@ -211,7 +227,8 @@ export async function buildProgress(
     for (const step of steps) {
       const { seconds, lastActive } = sumSeconds(courseLessons, course.id, step.stepId);
       const quizAttempt = latestQuizAttempt(courseQuizAttempts, course.id, step.assessment?.quizId || step.stepId);
-      const progress = lessonComplete(step, seconds, quizAttempt);
+      const manualCompletion = manualMap.get(step.stepId);
+      const progress = lessonComplete(step, seconds, quizAttempt, manualCompletion?.completed_at);
       progress.completedAt = progress.completedAt || lastActive;
       lessons.push(progress);
     }

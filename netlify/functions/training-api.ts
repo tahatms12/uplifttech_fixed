@@ -29,7 +29,7 @@ import { buildProgress, getCourseProgress, loadTrainingData, type CourseProgress
 interface TrainingConfig {
   jwtSecret: string;
   demoKey: string;
-  demoUsername: string;
+  demoUsernames: string[];
   cookieName: string;
   trainingOrigins: string[];
   adminEmails: string[];
@@ -53,20 +53,28 @@ function resolveAllowedOrigins(): string[] {
   return Array.from(new Set([...configured, ...defaults]));
 }
 
+function parseDemoUsernames(value?: string): string[] {
+  if (!value) return [];
+  return value
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+}
+
 function loadConfig(): TrainingConfig {
   if (cachedConfig) return cachedConfig;
   const jwtSecret = getEnv('TRAINING_JWT_SECRET') as string | undefined;
   const demoKey = (getEnv('demo_key') || getEnv('DEMO_KEY')) as string | undefined;
-  const demoUsername = getEnv('DEMO_USERNAME') as string | undefined;
+  const demoUsernames = parseDemoUsernames(getEnv('DEMO_USERNAME') as string | undefined);
   const cookieName = getEnv('TRAINING_COOKIE_NAME', false, 'training_session') as string;
   const trainingOrigins = resolveAllowedOrigins();
   const adminEmails = getAdminEmails();
-  if (!jwtSecret || !demoKey || !demoUsername) {
+  if (!jwtSecret || !demoKey || demoUsernames.length === 0) {
     const err = new Error('CONFIG_INCOMPLETE');
     (err as any).statusCode = 500;
     throw err;
   }
-  cachedConfig = { jwtSecret, demoKey, demoUsername, cookieName, trainingOrigins, adminEmails } satisfies TrainingConfig;
+  cachedConfig = { jwtSecret, demoKey, demoUsernames, cookieName, trainingOrigins, adminEmails } satisfies TrainingConfig;
   return cachedConfig;
 }
 
@@ -168,7 +176,10 @@ async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise
     return failureResponse(start, 'INVALID_USERNAME', 'Username is incorrect');
   }
 
-  const usernameMatches = safeCompare(normalizeUsername(username), normalizeUsername(config.demoUsername));
+  const normalizedUsername = normalizeUsername(username);
+  const usernameMatches = config.demoUsernames.some((allowed) =>
+    safeCompare(normalizeUsername(allowed), normalizedUsername)
+  );
   if (!usernameMatches) {
     return failureResponse(start, 'INVALID_USERNAME', 'Username is incorrect');
   }
@@ -182,7 +193,6 @@ async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise
     return failureResponse(start, 'INVALID_PASSWORD', 'Password is incorrect');
   }
 
-  const normalizedUsername = normalizeUsername(username);
   const fullName = typeof body.fullName === 'string' ? body.fullName.trim() : '';
   const users = await readAll('users.csv', event);
   let user = users.find((u) => normalizeUsername(u.email) === normalizedUsername) as UserRow | undefined;
@@ -322,6 +332,26 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
           updated_at: nowIso,
         } as LessonTimeRow;
       },
+      event
+    );
+  }
+
+  if (eventType === 'progress') {
+    const completedAt = typeof body.completedAt === 'string' ? body.completedAt : tsDate.toISOString();
+    const nowIso = new Date().toISOString();
+    await upsertBy(
+      'step_completions.csv',
+      (row) =>
+        row.user_id === auth.id &&
+        row.course_id === String(courseId) &&
+        row.step_id === String(lessonId ?? ''),
+      (row) => ({
+        user_id: auth.id,
+        course_id: String(courseId),
+        step_id: String(lessonId ?? ''),
+        completed_at: row?.completed_at || completedAt,
+        updated_at: nowIso,
+      }),
       event
     );
   }
