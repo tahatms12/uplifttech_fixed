@@ -10,8 +10,12 @@ const TrainingAdminPage: React.FC = () => {
   useEffect(() => {
     trainingApi.adminUsers().then((res) => {
       if (res.status === 200 && res.data) {
-        const payload = res.data as { users?: any[] };
-        setUsers(payload.users || []);
+        const payload = res.data as { users?: any[] } | any[];
+        if (Array.isArray(payload)) {
+          setUsers(payload);
+        } else {
+          setUsers(payload.users || []);
+        }
       } else if (res.status === 401 || res.status === 403) {
         setError('Unauthorized');
       }

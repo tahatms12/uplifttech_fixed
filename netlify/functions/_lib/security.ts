@@ -115,15 +115,46 @@ export function hashIp(ip: string, secret: string): string {
   return crypto.createHmac('sha256', secret).update(ip).digest('hex');
 }
 
-export function verifyOrigin(event: HandlerEvent, allowedOrigin: string | string[]): boolean {
-  const origin = event.headers?.origin || event.headers?.Origin || '';
-  if (!origin) return false;
-  const allowedList = Array.isArray(allowedOrigin)
+export function requestIsHttps(event: HandlerEvent): boolean {
+  const proto = String(event.headers['x-forwarded-proto'] || event.headers['X-Forwarded-Proto'] || '').toLowerCase();
+  return proto === 'https';
+}
+
+function normalizeOrigin(origin: string): string {
+  return origin.trim().toLowerCase();
+}
+
+function buildAllowedOrigins(allowedOrigin: string | string[]): string[] {
+  const configured = Array.isArray(allowedOrigin)
     ? allowedOrigin
     : allowedOrigin
         .split(',')
         .map((entry) => entry.trim())
         .filter(Boolean);
-  if (!allowedList.length) return false;
-  return allowedList.some((candidate) => candidate === origin);
+  return configured.map((origin) => normalizeOrigin(origin));
+}
+
+function originMatches(origin: string, allowedList: string[]): boolean {
+  const normalized = normalizeOrigin(origin);
+  if (allowedList.includes(normalized)) return true;
+  if (normalized === 'http://localhost:8888' || normalized === 'http://127.0.0.1:8888') return true;
+  const siteName = process.env.SITE_NAME;
+  if (siteName) {
+    const base = `${siteName}.netlify.app`;
+    if (normalized === `https://${base}`) return true;
+    if (normalized.endsWith(`--${base}`)) return true;
+  }
+  return false;
+}
+
+export function verifyOrigin(event: HandlerEvent, allowedOrigin: string | string[]): boolean {
+  const allowedList = buildAllowedOrigins(allowedOrigin);
+  const headerOrigin = event.headers?.origin || event.headers?.Origin;
+  if (headerOrigin && originMatches(headerOrigin, allowedList)) return true;
+  const host = event.headers?.host || event.headers?.Host;
+  if (!host) return false;
+  const proto =
+    String(event.headers['x-forwarded-proto'] || event.headers['X-Forwarded-Proto'] || 'https').toLowerCase() || 'https';
+  const derivedOrigin = `${proto}://${host}`;
+  return originMatches(derivedOrigin, allowedList);
 }

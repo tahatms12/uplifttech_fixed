@@ -1,5 +1,3 @@
-import { trainingApi } from '../../lib/trainingApi';
-
 export interface StepProgress {
   stepId: string;
   completed: boolean;
@@ -26,11 +24,6 @@ export class ProgressStore {
   }
 
   async load(): Promise<CourseProgress[]> {
-    const response = await trainingApi.progress();
-    if (response.status === 200 && response.data) {
-      this.saveLocal(response.data as CourseProgress[]);
-      return response.data as CourseProgress[];
-    }
     return this.loadLocal();
   }
 
@@ -49,7 +42,6 @@ export class ProgressStore {
       current.push(course);
     }
     this.saveLocal(current);
-    await trainingApi.events({ type: 'progress', courseId, stepId, completedAt: now });
   }
 }
 

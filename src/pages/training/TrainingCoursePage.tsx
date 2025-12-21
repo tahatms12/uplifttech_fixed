@@ -10,17 +10,15 @@ const TrainingCoursePage: React.FC = () => {
   const { courseId } = useParams();
   const course = useMemo(() => (catalog as any).courses?.find((c: any) => c.id === courseId), [courseId]);
   const [activeDay, setActiveDay] = useState(1);
-  const { progress, loading: progressLoading, error: progressError, refresh } = useTrainingProgress();
+  const { loading: progressLoading, error: progressError, refresh, progressByCourse, progressByStep } =
+    useTrainingProgress({ courseId });
 
   if (!course) return <div className="text-gray-200">Course not found.</div>;
   const day = course.days.find((d: any) => d.dayNumber === activeDay) || course.days[0];
-  const courseProgress = progress.find((summary) => summary.courseId === course.id);
+  const courseProgress = progressByCourse.get(course.id);
   const completedLessons = courseProgress?.lessons?.filter((lesson) => lesson.completed).length ?? 0;
   const totalLessons = courseProgress?.lessons?.length ?? day.steps.length;
   const percent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
-  const progressByStep = useMemo(() => {
-    return new Map(courseProgress?.lessons?.map((lesson) => [lesson.lessonId, lesson]) || []);
-  }, [courseProgress?.lessons]);
 
   return (
     <div className="space-y-4">

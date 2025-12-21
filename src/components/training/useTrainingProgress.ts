@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { trainingApi } from '../../lib/trainingApi';
 
 export interface LessonProgressSummary {
@@ -32,7 +32,12 @@ export interface CourseProgressSummary {
   steps: { stepId: string; completed: boolean; completedAt?: string }[];
 }
 
-export function useTrainingProgress() {
+interface UseTrainingProgressOptions {
+  courseId?: string;
+}
+
+export function useTrainingProgress(options: UseTrainingProgressOptions = {}) {
+  const { courseId } = options;
   const [progress, setProgress] = useState<CourseProgressSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,8 +45,16 @@ export function useTrainingProgress() {
   const refresh = useCallback(async () => {
     setLoading(true);
     const res = await trainingApi.progress();
-    if (res.status === 200 && Array.isArray(res.data)) {
-      setProgress(res.data as CourseProgressSummary[]);
+    if (res.status === 200) {
+      const payload = res.data as any;
+      const courses = Array.isArray(payload)
+        ? payload
+        : Array.isArray(payload?.progress)
+          ? payload.progress
+          : Array.isArray(payload?.courses)
+            ? payload.courses
+            : [];
+      setProgress(courses as CourseProgressSummary[]);
       setError(null);
     } else if (res.status === 401) {
       setError('unauthorized');
@@ -56,5 +69,22 @@ export function useTrainingProgress() {
     refresh();
   }, [refresh]);
 
-  return { progress, loading, error, refresh };
+  const progressByCourse = useMemo(
+    () => new Map(progress.map((summary) => [summary.courseId, summary])),
+    [progress]
+  );
+  const progressByStep = useMemo(() => {
+    if (!courseId) return new Map<string, LessonProgressSummary>();
+    const course = progress.find((summary) => summary.courseId === courseId);
+    return new Map(course?.lessons?.map((lesson) => [lesson.lessonId, lesson]) || []);
+  }, [courseId, progress]);
+
+  return {
+    progress,
+    loading,
+    error,
+    refresh,
+    progressByCourse,
+    progressByStep,
+  };
 }

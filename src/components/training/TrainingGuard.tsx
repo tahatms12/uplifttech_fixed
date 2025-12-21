@@ -21,7 +21,7 @@ const TrainingGuard: React.FC<TrainingGuardProps> = ({ children, requireAdmin = 
   if (loading) return <div className="text-gray-200">Loading...</div>;
   if (!user) return null;
 
-  if (requireAdmin && !user.is_admin) {
+  if (requireAdmin && !user.isAdmin && !user.is_admin) {
     return (
       <div className="space-y-3 text-gray-200">
         <h2 className="text-xl font-semibold">Admin access required</h2>

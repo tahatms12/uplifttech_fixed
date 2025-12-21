@@ -21,12 +21,6 @@
   force = true
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
   from = "/creative-direction"
   to = "/services/front-office"
   status = 301
@@ -56,6 +50,12 @@
   status = 410
   force = true
 
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
 # THIS IS THE IMPORTANT ONE - Add this at the end
 [[redirects]]
   from = "/*"
@@ -63,6 +63,7 @@
   status = 200
 
 [functions]
+  directory = "netlify/functions"
   included_files = [
     "src/data/training/exports/courseCatalog.builder.json",
     "src/data/training/courseCatalog.json",
