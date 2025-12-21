@@ -24,7 +24,7 @@ import {
   verifyJwt,
   verifyOrigin,
 } from './_lib/security';
-import { courseTitle, getQuiz, listCatalogCourses } from './_lib/catalog';
+import { courseTitle, getCatalogVersion, getCurriculumVersion, getQuiz, listCatalogCourses } from './_lib/catalog';
 import { buildProgress, getCourseProgress, loadTrainingData, type CourseProgressSummary } from './_lib/completion';
 
 interface TrainingConfig {
@@ -293,6 +293,8 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
   const moduleId = body.moduleId || body.module_id || body.stepId || '';
   const lessonId = body.lessonId || body.lesson_id || body.stepId || '';
   const eventType = body.eventType || body.type || 'event';
+  const curriculumVersion = String(body.curriculumVersion || getCurriculumVersion() || '');
+  const catalogVersion = String(body.catalogVersion || getCatalogVersion() || '');
   if (!courseId || !lessonId) {
     return errorResponse(400, 'invalid_event');
   }
@@ -312,6 +314,8 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
       event_type: String(eventType),
       ts: Number.isNaN(tsDate.getTime()) ? new Date().toISOString() : tsDate.toISOString(),
       meta_json: JSON.stringify(meta || {}),
+      curriculum_version: curriculumVersion,
+      catalog_version: catalogVersion,
     },
     event
   );
@@ -326,7 +330,8 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
         row.user_id === auth.id &&
         row.course_id === String(courseId) &&
         row.module_id === String(moduleId ?? '') &&
-        row.lesson_id === String(lessonId ?? ''),
+        row.lesson_id === String(lessonId ?? '') &&
+        row.curriculum_version === curriculumVersion,
       (row) => {
         const current = row ? parseInt((row as LessonTimeRow).seconds_active || '0', 10) : 0;
         return {
@@ -336,6 +341,8 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
           lesson_id: String(lessonId ?? ''),
           seconds_active: String(current + delta),
           updated_at: nowIso,
+          curriculum_version: curriculumVersion,
+          catalog_version: catalogVersion,
         } as LessonTimeRow;
       },
       event
@@ -350,13 +357,16 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
       (row) =>
         row.user_id === auth.id &&
         row.course_id === String(courseId) &&
-        row.step_id === String(lessonId ?? ''),
+        row.step_id === String(lessonId ?? '') &&
+        row.curriculum_version === curriculumVersion,
       (row) => ({
         user_id: auth.id,
         course_id: String(courseId),
         step_id: String(lessonId ?? ''),
         completed_at: row?.completed_at || completedAt,
         updated_at: nowIso,
+        curriculum_version: curriculumVersion,
+        catalog_version: catalogVersion,
       }),
       event
     );
@@ -383,6 +393,8 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
   const body = parseJsonBody<any>(event) || {};
   const courseId = body.courseId || body.course_id;
   const quizId = body.quizId || body.quiz_id;
+  const curriculumVersion = String(body.curriculumVersion || getCurriculumVersion() || '');
+  const catalogVersion = String(body.catalogVersion || getCatalogVersion() || '');
   if (!courseId || !quizId) {
     return errorResponse(400, 'invalid_quiz_payload');
   }
@@ -431,6 +443,8 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
       started_at: startedAt,
       submitted_at: new Date().toISOString(),
       answers_json: JSON.stringify(answers),
+      curriculum_version: curriculumVersion,
+      catalog_version: catalogVersion,
     },
     event
   );
@@ -448,7 +462,11 @@ async function handleProgress(event: HandlerEvent, config: TrainingConfig): Prom
   if (!auth) return jsonResponse(401, { error: 'unauthorized' });
   const progress = await buildProgress(auth.id, { persistCompletions: true, event });
 
-  return jsonResponse(200, progress);
+  return jsonResponse(200, {
+    curriculumVersion: getCurriculumVersion(),
+    catalogVersion: getCatalogVersion(),
+    courses: progress,
+  });
 }
 
 function requireAdmin(event: HandlerEvent, config: TrainingConfig): { auth: AuthenticatedUser | null; error?: HandlerResponse } {
@@ -480,7 +498,11 @@ async function handleAdminUserProgress(event: HandlerEvent, userId: string, conf
   const targetId = userId || '';
   if (!targetId) return errorResponse(400, 'invalid_user');
   const progress = await buildProgress(targetId, { persistCompletions: true, event });
-  return jsonResponse(200, progress);
+  return jsonResponse(200, {
+    curriculumVersion: getCurriculumVersion(),
+    catalogVersion: getCatalogVersion(),
+    courses: progress,
+  });
 }
 
 async function handleAdminExport(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
@@ -568,7 +590,12 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
   }
 
   const certificates = (await readAll('certificates.csv', event)) as CertificateRow[];
-  const existing = certificates.find((c) => c.user_id === auth.id && c.course_id === courseId);
+  const existing = certificates.find(
+    (c) =>
+      c.user_id === auth.id &&
+      c.course_id === courseId &&
+      c.curriculum_version === getCurriculumVersion()
+  );
   if (existing) {
     return jsonResponse(200, { ok: true, certificateCode: existing.certificate_code });
   }
@@ -585,13 +612,18 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
       user_id: auth.id,
       course_id: courseId,
       issued_at: issuedAt,
+      curriculum_version: getCurriculumVersion(),
+      catalog_version: getCatalogVersion(),
     },
     event
   );
 
   await upsertBy(
     'completions.csv',
-    (row) => row.user_id === auth.id && row.course_id === courseId,
+    (row) =>
+      row.user_id === auth.id &&
+      row.course_id === courseId &&
+      row.curriculum_version === getCurriculumVersion(),
     (row) => ({
       ...(row as CompletionRow | null),
       id: row?.id || crypto.randomUUID(),
@@ -600,6 +632,8 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
       completed_at: row?.completed_at || courseProgress.completedAt || issuedAt,
       final_score: row?.final_score || (courseProgress.finalScore !== null ? String(courseProgress.finalScore) : ''),
       certificate_id: certificateId,
+      curriculum_version: getCurriculumVersion(),
+      catalog_version: getCatalogVersion(),
     }) as CompletionRow,
     event
   );
@@ -616,9 +650,16 @@ async function handleCertificatePdf(event: HandlerEvent, config: TrainingConfig)
     readAll('certificates.csv', event) as Promise<CertificateRow[]>,
     readAll('completions.csv', event) as Promise<CompletionRow[]>,
   ]);
-  const certificate = certificates.find((c) => c.user_id === auth.id && c.course_id === courseId);
+  const currentVersion = getCurriculumVersion();
+  const certificate =
+    certificates.find(
+      (c) => c.user_id === auth.id && c.course_id === courseId && c.curriculum_version === currentVersion
+    ) || certificates.find((c) => c.user_id === auth.id && c.course_id === courseId);
   if (!certificate) return jsonResponse(403, { ok: false, error: 'forbidden' });
-  const completion = completions.find((c) => c.user_id === auth.id && c.course_id === courseId);
+  const completion =
+    completions.find(
+      (c) => c.user_id === auth.id && c.course_id === courseId && c.curriculum_version === currentVersion
+    ) || completions.find((c) => c.user_id === auth.id && c.course_id === courseId);
   const courseName = courseTitle(courseId);
 
   const doc = await PDFDocument.create();

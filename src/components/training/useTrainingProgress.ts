@@ -4,8 +4,8 @@ import { trainingApi } from '../../lib/trainingApi';
 export interface LessonProgressSummary {
   lessonId: string;
   title?: string;
-  type?: string;
-  dayNumber?: number;
+  moduleId?: string;
+  moduleTitle?: string;
   secondsActive: number;
   completed: boolean;
   completedAt?: string;
@@ -39,6 +39,8 @@ interface UseTrainingProgressOptions {
 export function useTrainingProgress(options: UseTrainingProgressOptions = {}) {
   const { courseId } = options;
   const [progress, setProgress] = useState<CourseProgressSummary[]>([]);
+  const [curriculumVersion, setCurriculumVersion] = useState<string | null>(null);
+  const [catalogVersion, setCatalogVersion] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,6 +56,8 @@ export function useTrainingProgress(options: UseTrainingProgressOptions = {}) {
           : Array.isArray(payload?.courses)
             ? payload.courses
             : [];
+      setCurriculumVersion(payload?.curriculumVersion || null);
+      setCatalogVersion(payload?.catalogVersion || null);
       setProgress(courses as CourseProgressSummary[]);
       setError(null);
     } else if (res.status === 401) {
@@ -86,5 +90,7 @@ export function useTrainingProgress(options: UseTrainingProgressOptions = {}) {
     refresh,
     progressByCourse,
     progressByStep,
+    curriculumVersion,
+    catalogVersion,
   };
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TrainingNoIndexHelmet from '../../components/training/TrainingNoIndexHelmet';
 import { trainingApi } from '../../lib/trainingApi';
+import curriculum from '../../data/training/exports/curriculum.generated.json';
 
 const TrainingAdminPage: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -33,6 +34,10 @@ const TrainingAdminPage: React.FC = () => {
     <div className="space-y-4">
       <TrainingNoIndexHelmet />
       <h2 className="text-2xl font-bold">Training Admin</h2>
+      <div className="text-xs text-gray-400">
+        Curriculum version: {(curriculum as any).curriculumVersion || 'Not specified'} • Generated at:{' '}
+        {(curriculum as any).generatedAt || 'Not specified'}
+      </div>
       {error && <div className="text-red-400">{error}</div>}
       <div className="grid md:grid-cols-3 gap-4">
         <div className="md:col-span-1">

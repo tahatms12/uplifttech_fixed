@@ -2,13 +2,13 @@ import crypto from 'crypto';
 import type { HandlerEvent } from '@netlify/functions';
 import { CompletionRow, LessonTimeRow, QuizAttemptRow, CertificateRow, StepCompletionRow } from './types';
 import { appendRow, readAll, upsertBy } from './csvStore';
-import { CatalogStep, getCourse, listCatalogCourses } from './catalog';
+import { CatalogLesson, CatalogModule, getCatalogVersion, getCourse, getCurriculumVersion, listCatalogCourses } from './catalog';
 
 export interface LessonProgress {
   lessonId: string;
   title?: string;
-  type?: string;
-  dayNumber?: number;
+  moduleId?: string;
+  moduleTitle?: string;
   secondsActive: number;
   completed: boolean;
   completedAt?: string;
@@ -50,8 +50,19 @@ export interface TrainingData {
   certificates: CertificateRow[];
 }
 
-function sumSeconds(rows: LessonTimeRow[], courseId: string, lessonId: string): { seconds: number; lastActive?: string } {
-  const matching = rows.filter((row) => row.course_id === courseId && row.lesson_id === lessonId);
+function matchesVersion(row: { curriculum_version?: string }, version: string): boolean {
+  return row.curriculum_version === version;
+}
+
+function sumSeconds(
+  rows: LessonTimeRow[],
+  courseId: string,
+  lessonId: string,
+  version: string
+): { seconds: number; lastActive?: string } {
+  const matching = rows.filter(
+    (row) => row.course_id === courseId && row.lesson_id === lessonId && matchesVersion(row, version)
+  );
   const seconds = matching.reduce((acc, row) => acc + parseInt(row.seconds_active || '0', 10), 0);
   const lastActive = matching
     .map((row) => row.updated_at)
@@ -61,8 +72,13 @@ function sumSeconds(rows: LessonTimeRow[], courseId: string, lessonId: string): 
   return { seconds, lastActive };
 }
 
-function latestQuizAttempt(attempts: QuizAttemptRow[], courseId: string, quizId: string): QuizAttemptRow | null {
-  const matches = attempts.filter((a) => a.course_id === courseId && a.quiz_id === quizId);
+function latestQuizAttempt(
+  attempts: QuizAttemptRow[],
+  courseId: string,
+  quizId: string,
+  version: string
+): QuizAttemptRow | null {
+  const matches = attempts.filter((a) => a.course_id === courseId && a.quiz_id === quizId && matchesVersion(a, version));
   if (!matches.length) return null;
   return matches.reduce((latest, current) => {
     const currentAttempt = parseInt(current.attempt_number || '0', 10);
@@ -75,12 +91,14 @@ function latestQuizAttempt(attempts: QuizAttemptRow[], courseId: string, quizId:
 }
 
 function lessonComplete(
-  step: CatalogStep,
+  lesson: CatalogLesson,
+  module: CatalogModule,
   timeSeconds: number,
   quizAttempt: QuizAttemptRow | null,
   manualCompletedAt?: string
 ): LessonProgress {
-  const hasQuiz = Boolean(step?.assessment?.questions?.length);
+  const check = lesson.checks?.find((entry) => entry.questions && entry.questions.length);
+  const hasQuiz = Boolean(check?.questions?.length);
   const quizPassed = quizAttempt ? quizAttempt.passed === 'true' : false;
   const timeComplete = timeSeconds >= 180;
   const manualComplete = Boolean(manualCompletedAt);
@@ -100,26 +118,31 @@ function lessonComplete(
       : 'requires_time';
 
   return {
-    lessonId: step.stepId,
-    title: step.title,
-    type: step.type,
-    dayNumber: (step as any).dayNumber,
+    lessonId: lesson.id,
+    title: lesson.title,
+    moduleId: module.id,
+    moduleTitle: module.title,
     secondsActive: timeSeconds,
     completed,
     completedAt,
     completionReason,
     hasQuiz,
-    quizId: step.assessment?.quizId || step.stepId,
+    quizId: `${module.id}:${lesson.id}`,
     quizPassed,
     locked: !completed,
     lockedReason,
   };
 }
 
-function computeFinalScore(courseId: string, courseQuizzes: { quizId: string }[], attempts: QuizAttemptRow[]): number | null {
+function computeFinalScore(
+  courseId: string,
+  courseQuizzes: { quizId: string }[],
+  attempts: QuizAttemptRow[],
+  version: string
+): number | null {
   const scores: number[] = [];
   for (const quiz of courseQuizzes) {
-    const latest = latestQuizAttempt(attempts, courseId, quiz.quizId);
+    const latest = latestQuizAttempt(attempts, courseId, quiz.quizId, version);
     if (!latest) continue;
     const score = parseFloat(latest.score_percent || '0');
     if (Number.isFinite(score)) {
@@ -137,6 +160,8 @@ async function persistCompletion(
   completedAt: string,
   finalScore: number | null,
   existing: CompletionRow | undefined,
+  version: string,
+  catalogVersion: string,
   event?: HandlerEvent
 ) {
   const finalScoreValue = finalScore === null || Number.isNaN(finalScore) ? '' : String(finalScore);
@@ -150,6 +175,8 @@ async function persistCompletion(
           completed_at: row?.completed_at || existing.completed_at || completedAt,
           final_score: finalScoreValue,
           certificate_id: row?.certificate_id || existing.certificate_id || '',
+          curriculum_version: version,
+          catalog_version: catalogVersion,
           id: row?.id || existing.id,
           user_id: userId,
           course_id: courseId,
@@ -168,6 +195,8 @@ async function persistCompletion(
       completed_at: completedAt,
       final_score: finalScoreValue,
       certificate_id: '',
+      curriculum_version: version,
+      catalog_version: catalogVersion,
     },
     event
   );
@@ -184,10 +213,6 @@ export async function loadTrainingData(event?: HandlerEvent): Promise<TrainingDa
   return { lessons, stepCompletions, quizzes, completions, certificates };
 }
 
-function withDayNumber(step: CatalogStep, dayNumber?: number): CatalogStep {
-  return { ...step, dayNumber };
-}
-
 export async function buildProgress(
   userId: string,
   options: { persistCompletions?: boolean; data?: TrainingData; event?: HandlerEvent } = {}
@@ -196,46 +221,56 @@ export async function buildProgress(
   const data = providedData || (await loadTrainingData(event));
   const courses: CourseProgressSummary[] = [];
   const catalogCourses = listCatalogCourses();
+  const curriculumVersion = getCurriculumVersion();
+  const catalogVersion = getCatalogVersion();
 
   for (const course of catalogCourses) {
-    const courseLessons = data.lessons.filter((row) => row.user_id === userId && row.course_id === course.id);
+    const courseLessons = data.lessons.filter(
+      (row) => row.user_id === userId && row.course_id === course.id && matchesVersion(row, curriculumVersion)
+    );
     const courseManualCompletions = data.stepCompletions.filter(
-      (row) => row.user_id === userId && row.course_id === course.id
+      (row) =>
+        row.user_id === userId && row.course_id === course.id && matchesVersion(row, curriculumVersion)
     );
     const manualMap = new Map<string, StepCompletionRow>(
       courseManualCompletions.map((row) => [row.step_id, row])
     );
-    const courseQuizAttempts = data.quizzes.filter((row) => row.user_id === userId && row.course_id === course.id);
-    const completionRow = data.completions.find((row) => row.user_id === userId && row.course_id === course.id);
+    const courseQuizAttempts = data.quizzes.filter(
+      (row) => row.user_id === userId && row.course_id === course.id && matchesVersion(row, curriculumVersion)
+    );
+    const completionRow = data.completions.find(
+      (row) => row.user_id === userId && row.course_id === course.id && matchesVersion(row, curriculumVersion)
+    );
     const certificateRow = data.certificates.find(
-      (row) => row.user_id === userId && row.course_id === course.id
+      (row) => row.user_id === userId && row.course_id === course.id && matchesVersion(row, curriculumVersion)
     );
 
-    const steps: CatalogStep[] = [];
+    const lessonsInCourse: { module: CatalogModule; lesson: CatalogLesson }[] = [];
     const quizzesInCourse: { quizId: string }[] = [];
-    for (const day of course.days || []) {
-      for (const step of day.steps || []) {
-        const enriched = withDayNumber(step as CatalogStep, day.dayNumber);
-        steps.push(enriched);
-        if (step.assessment?.questions?.length) {
-          quizzesInCourse.push({ quizId: step.assessment.quizId || step.stepId });
+    for (const module of course.modules || []) {
+      for (const lesson of module.lessons || []) {
+        lessonsInCourse.push({ module, lesson });
+        const check = lesson.checks?.find((entry) => entry.questions && entry.questions.length);
+        if (check?.questions?.length) {
+          quizzesInCourse.push({ quizId: `${module.id}:${lesson.id}` });
         }
       }
     }
 
     const lessons: LessonProgress[] = [];
-    for (const step of steps) {
-      const { seconds, lastActive } = sumSeconds(courseLessons, course.id, step.stepId);
-      const quizAttempt = latestQuizAttempt(courseQuizAttempts, course.id, step.assessment?.quizId || step.stepId);
-      const manualCompletion = manualMap.get(step.stepId);
-      const progress = lessonComplete(step, seconds, quizAttempt, manualCompletion?.completed_at);
+    for (const entry of lessonsInCourse) {
+      const { module, lesson } = entry;
+      const { seconds, lastActive } = sumSeconds(courseLessons, course.id, lesson.id, curriculumVersion);
+      const quizAttempt = latestQuizAttempt(courseQuizAttempts, course.id, `${module.id}:${lesson.id}`, curriculumVersion);
+      const manualCompletion = manualMap.get(lesson.id);
+      const progress = lessonComplete(lesson, module, seconds, quizAttempt, manualCompletion?.completed_at);
       progress.completedAt = progress.completedAt || lastActive;
       lessons.push(progress);
     }
 
     const totalTimeSeconds = courseLessons.reduce((acc, row) => acc + parseInt(row.seconds_active || '0', 10), 0);
     const quizzes: QuizProgress[] = quizzesInCourse.map((q) => {
-      const latest = latestQuizAttempt(courseQuizAttempts, course.id, q.quizId);
+      const latest = latestQuizAttempt(courseQuizAttempts, course.id, q.quizId, curriculumVersion);
       return {
         quizId: q.quizId,
         latestScorePercent: latest ? parseFloat(latest.score_percent || '0') : 0,
@@ -245,7 +280,7 @@ export async function buildProgress(
     });
 
     const completed = lessons.length > 0 && lessons.every((l) => l.completed);
-    const courseFinalScore = computeFinalScore(course.id, quizzesInCourse, courseQuizAttempts);
+    const courseFinalScore = computeFinalScore(course.id, quizzesInCourse, courseQuizAttempts, curriculumVersion);
     const completedAt = completed
       ? completionRow?.completed_at ||
         lessons
@@ -257,7 +292,16 @@ export async function buildProgress(
       : undefined;
 
     if (completed && persistCompletions) {
-      await persistCompletion(userId, course.id, completedAt as string, courseFinalScore, completionRow, event);
+      await persistCompletion(
+        userId,
+        course.id,
+        completedAt as string,
+        courseFinalScore,
+        completionRow,
+        curriculumVersion,
+        catalogVersion,
+        event
+      );
     }
 
     const certificateId = completionRow?.certificate_id || certificateRow?.id || '';
