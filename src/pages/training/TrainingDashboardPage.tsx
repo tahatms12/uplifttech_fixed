@@ -8,7 +8,7 @@ const TrainingDashboardPage: React.FC = () => {
   const [role, setRole] = useState('');
   const [tag, setTag] = useState('');
   const [query, setQuery] = useState('');
-  const { progress, loading: progressLoading, error: progressError } = useTrainingProgress();
+  const { loading: progressLoading, error: progressError, progressByCourse } = useTrainingProgress();
 
   const courses = (catalog as any).courses || [];
   const filters = (catalog as any).filters || { byRole: [], byTag: [] };
@@ -23,10 +23,6 @@ const TrainingDashboardPage: React.FC = () => {
       return matchesRole && matchesTag && matchesQuery;
     });
   }, [courses, role, tag, query]);
-
-  const progressByCourse = useMemo(() => {
-    return new Map(progress.map((summary) => [summary.courseId, summary]));
-  }, [progress]);
 
   return (
     <div className="space-y-4">

@@ -7,6 +7,7 @@ export interface TrainingUser {
   full_name?: string;
   role?: string;
   is_admin?: boolean;
+  isAdmin?: boolean;
 }
 
 interface TrainingSessionState {
@@ -26,7 +27,11 @@ export const TrainingSessionProvider: React.FC<{ children: React.ReactNode }> = 
     setLoading(true);
     const res = await trainingApi.me();
     if (res.status === 200 && res.data && typeof (res.data as any).user === 'object') {
-      setUser((res.data as any).user as TrainingUser);
+      const rawUser = (res.data as any).user as TrainingUser;
+      setUser({
+        ...rawUser,
+        isAdmin: Boolean(rawUser.isAdmin ?? rawUser.is_admin),
+      });
     } else {
       setUser(null);
     }

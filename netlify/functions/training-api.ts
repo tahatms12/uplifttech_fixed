@@ -17,6 +17,7 @@ import {
   getClientIp,
   hashIp,
   parseCookies,
+  requestIsHttps,
   safeCompare,
   serializeCookie,
   signJwt,
@@ -48,7 +49,7 @@ function resolveAllowedOrigins(): string[] {
     process.env.DEPLOY_PRIME_URL,
     'https://uplift-technologies.com',
     'http://localhost:8888',
-    'http://localhost:5173',
+    'http://127.0.0.1:8888',
   ].filter(Boolean) as string[];
   return Array.from(new Set([...configured, ...defaults]));
 }
@@ -233,7 +234,7 @@ async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise
   );
   const cookie = serializeCookie(config.cookieName, token, {
     httpOnly: true,
-    secure: true,
+    secure: requestIsHttps(event),
     sameSite: 'Lax',
     path: '/',
     maxAge: SESSION_TTL_SECONDS,
@@ -251,7 +252,7 @@ async function handleLogout(event: HandlerEvent, config: TrainingConfig): Promis
   if (originError) return originError;
   const expiredCookie = serializeCookie(config.cookieName, '', {
     httpOnly: true,
-    secure: true,
+    secure: requestIsHttps(event),
     sameSite: 'Lax',
     path: '/',
     maxAge: 0,

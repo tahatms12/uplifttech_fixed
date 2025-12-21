@@ -2,6 +2,7 @@ import React from 'react';
 import { useActiveTimeTracker } from './ActiveTimeTracker';
 import { progressStore } from './ProgressStore';
 import type { LessonProgressSummary } from './useTrainingProgress';
+import { trainingApi } from '../../lib/trainingApi';
 
 export interface StepItem {
   stepId: string;
@@ -23,11 +24,25 @@ interface CourseStepperProps {
 
 const CourseStepper: React.FC<CourseStepperProps> = ({ courseId, dayNumber, steps, stepProgress, onComplete }) => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [error, setError] = React.useState<string | null>(null);
   const step = steps[activeStep];
   const activeProgress = stepProgress?.get(step.stepId);
   useActiveTimeTracker({ courseId, stepId: step.stepId });
 
   const markComplete = async () => {
+    setError(null);
+    const completedAt = new Date().toISOString();
+    const res = await trainingApi.events({
+      eventType: 'progress',
+      courseId,
+      moduleId: String(dayNumber),
+      lessonId: step.stepId,
+      completedAt,
+    });
+    if (res.status !== 200) {
+      setError('Unable to save completion. Please try again.');
+      return;
+    }
     await progressStore.markStep(courseId, step.stepId);
     onComplete?.(step.stepId);
     if (activeStep < steps.length - 1) {
@@ -105,6 +120,7 @@ const CourseStepper: React.FC<CourseStepperProps> = ({ courseId, dayNumber, step
           >
             {activeProgress?.completed ? 'Completed' : 'Mark complete'}
           </button>
+          {error ? <div className="mt-2 text-xs text-red-400">{error}</div> : null}
         </div>
         <div className="mt-2 text-xs text-gray-400">Acceptance criteria: {step.acceptanceCriteria.join('; ')}</div>
       </div>
