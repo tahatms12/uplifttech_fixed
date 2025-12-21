@@ -7,24 +7,29 @@ const TrainingEntryPage: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(false);
   const [error, setError] = useState<string | null>(null);
   const [takeDemo, setTakeDemo] = useState(false);
 
   useEffect(() => {
+    // Check takeDemo FIRST before making any API calls
     if (takeDemo) {
       navigate('/training/dashboard');
       return;
     }
 
-    trainingApi.me().then((res) => {
-      if (res.status === 200 && res.data) {
-        setAuthenticated(true);
-        navigate('/training/dashboard');
-      } else {
+    trainingApi.me()
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          setAuthenticated(true);
+          navigate('/training/dashboard');
+        } else {
+          setAuthenticated(false);
+        }
+      })
+      .catch(() => {
         setAuthenticated(false);
-      }
-    });
+      });
   }, [navigate, takeDemo]);
 
   const submit = async (e: React.FormEvent) => {
@@ -56,10 +61,9 @@ const TrainingEntryPage: React.FC = () => {
   };
 
   const handleTakeDemo = () => {
-    setTakeDemo(true);
+    // Navigate directly without triggering useEffect
+    navigate('/training/dashboard');
   };
-
-  if (authenticated === null && !takeDemo) return <div className="text-gray-200">Loading...</div>;
 
   return (
     <div className="space-y-4">
