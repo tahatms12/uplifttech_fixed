@@ -221,7 +221,7 @@ const CaseStudiesPage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <h1 className="font-poppins font-semibold mb-6">
+            <h1 className="font-sans font-semibold mb-6">
               Our <span className="gradient-text">Case Studies</span>
             </h1>
             <p className="text-xl text-white/80">
@@ -329,7 +329,7 @@ const CaseStudiesPage: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-poppins font-semibold mb-4">
+          <h2 className="text-3xl font-sans font-semibold mb-4">
             Ready to Achieve Similar Results?
           </h2>
           <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">

@@ -21,7 +21,7 @@ const ComplianceSecurityPage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <h1 className="font-poppins font-semibold mb-6">
+            <h1 className="font-sans font-semibold mb-6">
               Compliance &amp; <span className="gradient-text">Security</span>
             </h1>
             <p className="text-xl text-white/80">

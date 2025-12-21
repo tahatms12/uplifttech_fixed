@@ -24,7 +24,7 @@ const PrivacyPage: React.FC = () => {
             className="max-w-3xl"
           >
             <p className="text-sm text-white/60">Effective: {policyUpdated}</p>
-            <h1 className="font-poppins font-semibold mb-6">
+            <h1 className="font-sans font-semibold mb-6">
               Privacy <span className="gradient-text">Policy</span>
             </h1>
             <p className="text-xl text-white/80">

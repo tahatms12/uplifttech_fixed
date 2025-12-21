@@ -63,7 +63,7 @@ const Testimonials: React.FC = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-xl sm:text-2xl md:text-3xl font-poppins font-medium leading-relaxed mb-6 sm:mb-8">
+            <p className="text-xl sm:text-2xl md:text-3xl font-sans font-medium leading-relaxed mb-6 sm:mb-8">
               "{testimonials[currentIndex].quote}"
             </p>
             
