@@ -66,18 +66,76 @@ interface CsvData {
 const HEADER_MAP: Record<string, string[]> = {
   'users.csv': ['id', 'email', 'full_name', 'role', 'created_at', 'last_login_at'],
   'logins.csv': ['id', 'user_id', 'ts', 'ip_hash', 'user_agent'],
-  'lesson_time.csv': ['user_id', 'course_id', 'module_id', 'lesson_id', 'seconds_active', 'updated_at'],
-  'step_completions.csv': ['user_id', 'course_id', 'step_id', 'completed_at', 'updated_at'],
-  'quiz_attempts.csv': ['id', 'user_id', 'course_id', 'quiz_id', 'attempt_number', 'score_percent', 'passed', 'started_at', 'submitted_at', 'answers_json'],
-  'completions.csv': ['id', 'user_id', 'course_id', 'completed_at', 'final_score', 'certificate_id'],
-  'certificates.csv': ['id', 'certificate_code', 'user_id', 'course_id', 'issued_at'],
+  'lesson_time.csv': [
+    'user_id',
+    'course_id',
+    'module_id',
+    'lesson_id',
+    'seconds_active',
+    'updated_at',
+    'curriculum_version',
+    'catalog_version',
+  ],
+  'step_completions.csv': [
+    'user_id',
+    'course_id',
+    'step_id',
+    'completed_at',
+    'updated_at',
+    'curriculum_version',
+    'catalog_version',
+  ],
+  'quiz_attempts.csv': [
+    'id',
+    'user_id',
+    'course_id',
+    'quiz_id',
+    'attempt_number',
+    'score_percent',
+    'passed',
+    'started_at',
+    'submitted_at',
+    'answers_json',
+    'curriculum_version',
+    'catalog_version',
+  ],
+  'completions.csv': [
+    'id',
+    'user_id',
+    'course_id',
+    'completed_at',
+    'final_score',
+    'certificate_id',
+    'curriculum_version',
+    'catalog_version',
+  ],
+  'certificates.csv': [
+    'id',
+    'certificate_code',
+    'user_id',
+    'course_id',
+    'issued_at',
+    'curriculum_version',
+    'catalog_version',
+  ],
   'rate_limits.csv': ['key', 'window_start', 'count', 'updated_at'],
 };
 
 function headersForKey(key: string): string[] {
   if (HEADER_MAP[key]) return HEADER_MAP[key];
   if (key.startsWith('events-') && key.endsWith('.csv')) {
-    return ['id', 'user_id', 'course_id', 'module_id', 'lesson_id', 'event_type', 'ts', 'meta_json'];
+    return [
+      'id',
+      'user_id',
+      'course_id',
+      'module_id',
+      'lesson_id',
+      'event_type',
+      'ts',
+      'meta_json',
+      'curriculum_version',
+      'catalog_version',
+    ];
   }
   throw new Error(`Unknown CSV key: ${key}`);
 }
@@ -189,7 +247,22 @@ async function ensureHeaders(key: string, headers: string[], event?: HandlerEven
   const existing = await store.get(key, { type: 'text' });
   if (existing === null) {
     await store.set(key, `${headers.join(',')}`);
+    return;
   }
+  const headerLine = existing.split(/\r?\n/)[0] || '';
+  const existingHeaders = headerLine ? headerLine.split(',') : [];
+  const missingHeaders = headers.filter((header) => !existingHeaders.includes(header));
+  if (!missingHeaders.length) return;
+
+  const parsed = parseCsv(existing, existingHeaders);
+  const updatedRows = parsed.rows.map((row) => {
+    const updated: Record<string, string> = {};
+    headers.forEach((header) => {
+      updated[header] = row[header] ?? '';
+    });
+    return updated;
+  });
+  await store.set(key, serializeCsv(headers, updatedRows));
 }
 
 export async function readAll(key: string, event?: HandlerEvent): Promise<Record<string, string>[]> {

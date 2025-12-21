@@ -24,6 +24,8 @@ export interface EventRow {
   event_type: string;
   ts: string;
   meta_json: string;
+  curriculum_version?: string;
+  catalog_version?: string;
 }
 
 export interface LessonTimeRow {
@@ -33,6 +35,8 @@ export interface LessonTimeRow {
   lesson_id: string;
   seconds_active: string;
   updated_at: string;
+  curriculum_version?: string;
+  catalog_version?: string;
 }
 
 export interface StepCompletionRow {
@@ -41,6 +45,8 @@ export interface StepCompletionRow {
   step_id: string;
   completed_at: string;
   updated_at: string;
+  curriculum_version?: string;
+  catalog_version?: string;
 }
 
 export interface QuizAttemptRow {
@@ -54,6 +60,8 @@ export interface QuizAttemptRow {
   started_at: string;
   submitted_at: string;
   answers_json: string;
+  curriculum_version?: string;
+  catalog_version?: string;
 }
 
 export interface CompletionRow {
@@ -63,6 +71,8 @@ export interface CompletionRow {
   completed_at: string;
   final_score: string;
   certificate_id: string;
+  curriculum_version?: string;
+  catalog_version?: string;
 }
 
 export interface CertificateRow {
@@ -71,6 +81,8 @@ export interface CertificateRow {
   user_id: string;
   course_id: string;
   issued_at: string;
+  curriculum_version?: string;
+  catalog_version?: string;
 }
 
 export interface RateLimitRow {

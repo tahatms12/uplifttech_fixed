@@ -3,10 +3,19 @@ import { trainingApi } from '../../lib/trainingApi';
 
 export interface ActiveTimeTrackerOptions {
   courseId: string;
-  stepId: string;
+  moduleId: string;
+  lessonId: string;
+  curriculumVersion?: string;
+  catalogVersion?: string;
 }
 
-export function useActiveTimeTracker({ courseId, stepId }: ActiveTimeTrackerOptions) {
+export function useActiveTimeTracker({
+  courseId,
+  moduleId,
+  lessonId,
+  curriculumVersion,
+  catalogVersion,
+}: ActiveTimeTrackerOptions) {
   const lastHeartbeat = useRef<number>(Date.now());
   const idleTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -18,7 +27,15 @@ export function useActiveTimeTracker({ courseId, stepId }: ActiveTimeTrackerOpti
       if (document.hidden) return;
       if (now - lastHeartbeat.current >= 15000) {
         lastHeartbeat.current = now;
-        await trainingApi.events({ type: 'heartbeat', courseId, stepId, at: new Date().toISOString() });
+        await trainingApi.events({
+          type: 'heartbeat',
+          courseId,
+          moduleId,
+          lessonId,
+          curriculumVersion,
+          catalogVersion,
+          at: new Date().toISOString(),
+        });
       }
     };
 
@@ -42,5 +59,5 @@ export function useActiveTimeTracker({ courseId, stepId }: ActiveTimeTrackerOpti
       window.removeEventListener('keydown', handleActivity);
       document.removeEventListener('visibilitychange', sendHeartbeat);
     };
-  }, [courseId, stepId]);
+  }, [courseId, moduleId, lessonId, curriculumVersion, catalogVersion]);
 }

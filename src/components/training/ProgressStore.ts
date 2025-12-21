@@ -10,25 +10,29 @@ export interface CourseProgress {
 }
 
 export class ProgressStore {
-  private cacheKey = 'training-progress-cache-v1';
+  private cacheKeyBase = 'training-progress-cache-v1';
 
-  private loadLocal(): CourseProgress[] {
+  private cacheKey(version?: string): string {
+    return `${this.cacheKeyBase}-${version || 'legacy'}`;
+  }
+
+  private loadLocal(version?: string): CourseProgress[] {
     if (typeof window === 'undefined') return [];
-    const raw = localStorage.getItem(this.cacheKey);
+    const raw = localStorage.getItem(this.cacheKey(version));
     return raw ? (JSON.parse(raw) as CourseProgress[]) : [];
   }
 
-  private saveLocal(progress: CourseProgress[]) {
+  private saveLocal(progress: CourseProgress[], version?: string) {
     if (typeof window === 'undefined') return;
-    localStorage.setItem(this.cacheKey, JSON.stringify(progress));
+    localStorage.setItem(this.cacheKey(version), JSON.stringify(progress));
   }
 
-  async load(): Promise<CourseProgress[]> {
-    return this.loadLocal();
+  async load(version?: string): Promise<CourseProgress[]> {
+    return this.loadLocal(version);
   }
 
-  async markStep(courseId: string, stepId: string) {
-    const current = await this.load();
+  async markStep(courseId: string, stepId: string, curriculumVersion?: string) {
+    const current = await this.load(curriculumVersion);
     const course = current.find((c) => c.courseId === courseId) || { courseId, steps: [] };
     const step = course.steps.find((s) => s.stepId === stepId);
     const now = new Date().toISOString();
@@ -41,7 +45,7 @@ export class ProgressStore {
     if (!current.find((c) => c.courseId === courseId)) {
       current.push(course);
     }
-    this.saveLocal(current);
+    this.saveLocal(current, curriculumVersion);
   }
 }
 

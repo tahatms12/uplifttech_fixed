@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "npm run generate:sitemap && vite build --minify --sourcemap=false",
+    "build": "npm run training:build && npm run training:audit && npm run generate:sitemap && vite build --minify --sourcemap=false",
     "lint": "eslint .",
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",
@@ -14,7 +14,8 @@
     "test:coverage": "vitest run --coverage",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "training:build": "node scripts/training/buildCatalog.mjs",
-    "training:validate": "node scripts/training/validateCatalog.mjs"
+    "training:audit": "node scripts/training/auditCurriculum.mjs",
+    "training:validate": "node scripts/training/auditCurriculum.mjs"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
@@ -28,7 +29,10 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",
+    "react-markdown": "^9.1.0",
     "react-router-dom": "^6.22.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1",
     "three": "^0.162.0"
   },
   "devDependencies": {

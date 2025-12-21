@@ -1,28 +1,63 @@
 import fs from 'fs';
 import path from 'path';
 
-export interface CatalogCourse {
-  id: string;
-  slug?: string;
-  title: string;
-  days?: {
-    dayNumber?: number;
-    dayTitle?: string;
-    steps?: CatalogStep[];
-  }[];
+export interface CurriculumMetadata {
+  missing_fields: string[];
 }
 
-export interface CatalogStep {
-  stepId: string;
-  title?: string;
-  type?: string;
-  acceptanceCriteria?: string[];
-  assessment?: {
-    quizId?: string;
-    questions?: { question: string; id?: string; answerKey?: string | string[] }[];
-    answerKey?: (string | string[])[];
-    passingThresholdPercent?: number;
-  };
+export interface CatalogAssessmentQuestion {
+  id: string;
+  question: string;
+  answerKey?: string | string[];
+}
+
+export interface CatalogAssessment {
+  type: 'quiz' | 'exam' | 'practical';
+  questions?: CatalogAssessmentQuestion[];
+  passingScore?: number;
+  retakePolicy?: string;
+}
+
+export interface CatalogLesson {
+  id: string;
+  title: string;
+  contentMarkdown: string;
+  resources?: string[];
+  checks?: CatalogAssessment[];
+  order: number;
+  metadata?: CurriculumMetadata;
+}
+
+export interface CatalogModule {
+  id: string;
+  title: string;
+  description?: string;
+  objectives?: string[];
+  estimatedMinutes?: number;
+  lessons: CatalogLesson[];
+  assessment?: CatalogAssessment;
+  order: number;
+  metadata?: CurriculumMetadata;
+}
+
+export interface CatalogCourse {
+  id: string;
+  title: string;
+  description?: string;
+  audience?: string[];
+  roleTags?: string[];
+  prerequisites?: string[];
+  estimatedMinutes?: number;
+  modules: CatalogModule[];
+  order: number;
+  status: 'published' | 'draft';
+  metadata?: CurriculumMetadata;
+}
+
+export interface CurriculumData {
+  curriculumVersion: string;
+  generatedAt: string;
+  courses: CatalogCourse[];
 }
 
 export interface QuizDefinition {
@@ -31,59 +66,38 @@ export interface QuizDefinition {
   questions: { question: string; id?: string }[];
   answerKey: (string | string[])[];
   passingThresholdPercent: number;
-  stepTitle?: string;
-  dayNumber?: number;
+  lessonTitle?: string;
+  moduleTitle?: string;
 }
 
-interface CatalogData {
-  courses: CatalogCourse[];
-  filters?: unknown;
-}
-
-let cachedCatalog: CatalogData | null = null;
+let cachedCatalog: CurriculumData | null = null;
 
 function catalogPath(): string {
-  return path.resolve(process.cwd(), 'src/data/training/exports/courseCatalog.builder.json');
+  return path.resolve(process.cwd(), 'src/data/training/exports/curriculum.generated.json');
 }
 
-function loadCatalogFile(): CatalogData {
+function loadCatalogFile(): CurriculumData {
   if (cachedCatalog) return cachedCatalog;
   try {
     const file = fs.readFileSync(catalogPath(), 'utf-8');
     const parsed = JSON.parse(file);
-    cachedCatalog = { courses: Array.isArray(parsed?.courses) ? parsed.courses : [], filters: parsed?.filters };
+    cachedCatalog = {
+      curriculumVersion: parsed?.curriculumVersion || '',
+      generatedAt: parsed?.generatedAt || '',
+      courses: Array.isArray(parsed?.courses) ? parsed.courses : [],
+    };
   } catch (err) {
-    cachedCatalog = { courses: [], filters: undefined };
+    cachedCatalog = { curriculumVersion: '', generatedAt: '', courses: [] };
   }
   return cachedCatalog;
 }
 
-function parseThreshold(step?: CatalogStep): number {
-  const defaultThreshold = 80;
-  const passingFromAssessment = step?.assessment?.passingThresholdPercent;
-  if (typeof passingFromAssessment === 'number' && passingFromAssessment > 0) return passingFromAssessment;
-  const candidates = step?.acceptanceCriteria || [];
-  for (const entry of candidates) {
-    const match = /([0-9]{1,3})%/.exec(entry || '');
-    if (match) {
-      const value = parseInt(match[1], 10);
-      if (!Number.isNaN(value)) return value;
-    }
-  }
-  return defaultThreshold;
-}
-
-function normalizeAnswerKey(step?: CatalogStep): (string | string[])[] {
-  const assessment = step?.assessment;
+function normalizeAnswerKey(assessment?: CatalogAssessment): (string | string[])[] {
   if (!assessment) return [];
-  const explicit = (assessment as any).answerKey || (assessment as any).answers || assessment.passingAnswers;
-  if (Array.isArray(explicit)) {
-    return explicit as (string | string[])[];
-  }
   if (Array.isArray(assessment.questions)) {
-    return assessment.questions.map((q: any) => {
-      if (Array.isArray(q?.answerKey)) return q.answerKey as string[];
-      if (typeof q?.answerKey === 'string') return q.answerKey as string;
+    return assessment.questions.map((q) => {
+      if (Array.isArray(q.answerKey)) return q.answerKey;
+      if (typeof q.answerKey === 'string') return q.answerKey;
       return '';
     });
   }
@@ -92,30 +106,36 @@ function normalizeAnswerKey(step?: CatalogStep): (string | string[])[] {
 
 function traverseQuizzes(course: CatalogCourse): QuizDefinition[] {
   const quizzes: QuizDefinition[] = [];
-  const days = course.days || [];
-  for (const day of days) {
-    const steps = day?.steps || [];
-    for (const step of steps) {
-      const assessment = step.assessment;
-      if (!assessment || !Array.isArray(assessment.questions)) continue;
-      const quizId = assessment.quizId || step.stepId;
+  for (const module of course.modules || []) {
+    for (const lesson of module.lessons || []) {
+      const check = lesson.checks?.find((entry) => entry.questions && entry.questions.length);
+      if (!check || !check.questions) continue;
+      const quizId = `${course.id}:${lesson.id}`;
       quizzes.push({
         courseId: course.id,
         quizId,
-        questions: assessment.questions.map((q) => ({ question: q.question, id: q.id })),
-        answerKey: normalizeAnswerKey(step),
-        passingThresholdPercent: parseThreshold(step),
-        stepTitle: step.title,
-        dayNumber: day.dayNumber,
+        questions: check.questions.map((q) => ({ question: q.question, id: q.id })),
+        answerKey: normalizeAnswerKey(check),
+        passingThresholdPercent: check.passingScore ?? 80,
+        lessonTitle: lesson.title,
+        moduleTitle: module.title,
       });
     }
   }
   return quizzes;
 }
 
+export function getCurriculumVersion(): string {
+  return loadCatalogFile().curriculumVersion || '';
+}
+
+export function getCatalogVersion(): string {
+  return loadCatalogFile().generatedAt || '';
+}
+
 export function getCourse(courseId: string): CatalogCourse | null {
   const catalog = loadCatalogFile();
-  return catalog.courses.find((c) => c.id === courseId || c.slug === courseId) || null;
+  return catalog.courses.find((c) => c.id === courseId) || null;
 }
 
 export function getQuiz(courseId: string, quizId: string): QuizDefinition | null {
@@ -124,13 +144,12 @@ export function getQuiz(courseId: string, quizId: string): QuizDefinition | null
   const quizzes = traverseQuizzes(course);
   const quiz = quizzes.find((q) => q.quizId === quizId);
   if (quiz) return quiz;
-  // fallback discovery: match by stepId or partial suffix
   return quizzes.find((q) => q.quizId.endsWith(quizId)) || null;
 }
 
 export function courseTitle(courseId: string): string {
   const course = getCourse(courseId);
-  return course?.title || course?.slug || courseId;
+  return course?.title || courseId;
 }
 
 export function listCatalogCourses(): CatalogCourse[] {
