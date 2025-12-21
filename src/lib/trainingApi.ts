@@ -42,7 +42,7 @@ export const trainingApi = {
       status: 200 
     }),
   
-  // Keep other endpoints as-is
+  // Keep other endpoints as-is (fixed syntax)
   events: (payload: Record<string, unknown>) => request('/api/training/events', { method: 'POST', body: JSON.stringify(payload) }),
   submitQuiz: (payload: Record<string, unknown>) => request('/api/training/quizzes/submit', { method: 'POST', body: JSON.stringify(payload) }),
   adminUsers: () => request('/api/training/admin/users', { method: 'GET' }),
