@@ -181,6 +181,16 @@ function App() {
             }
           />
           <Route
+            path="course/:courseId/module/:moduleId/lesson/:lessonId"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingGuard>
+                  <TrainingCoursePage />
+                </TrainingGuard>
+              </Suspense>
+            }
+          />
+          <Route
             path="admin"
             element={
               <Suspense fallback={<LoadingSpinner />}>

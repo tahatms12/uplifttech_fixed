@@ -28,12 +28,13 @@ export function useActiveTimeTracker({
       if (now - lastHeartbeat.current >= 15000) {
         lastHeartbeat.current = now;
         await trainingApi.events({
-          type: 'heartbeat',
+          eventType: 'time_on_task',
           courseId,
           moduleId,
           lessonId,
           curriculumVersion,
           catalogVersion,
+          meta: { secondsDelta: 15 },
           at: new Date().toISOString(),
         });
       }

@@ -36,11 +36,29 @@ describe('training progress integration', () => {
       catalog_version: catalogVersion,
     });
 
+    await appendRow('quiz_attempts.csv', {
+      id: crypto.randomUUID(),
+      idempotency_key: '',
+      user_id: userId,
+      course_id: course.id,
+      quiz_id: `${course.id}:${lesson.id}`,
+      attempt_number: '1',
+      score_percent: '85',
+      passed: 'true',
+      started_at: now,
+      submitted_at: now,
+      answers_json: '{}',
+      curriculum_version: curriculumVersion,
+      catalog_version: catalogVersion,
+    });
+
     const progress = await buildProgress(userId, { persistCompletions: false });
     const courseProgress = progress.find((entry) => entry.courseId === course.id);
     expect(courseProgress).toBeTruthy();
     const lessonProgress = courseProgress?.lessons.find((entry) => entry.lessonId === lesson.id);
     expect(lessonProgress?.completed).toBe(true);
     expect(lessonProgress?.moduleId).toBe(module.id);
+    const quizProgress = courseProgress?.quizzes.find((entry) => entry.quizId === `${course.id}:${lesson.id}`);
+    expect(quizProgress?.latestSubmittedAt).toBeTruthy();
   });
 });
