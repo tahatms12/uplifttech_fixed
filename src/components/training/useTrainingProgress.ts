@@ -22,7 +22,7 @@ export interface CourseProgressSummary {
   courseName: string;
   totalTimeSeconds: number;
   lessons: LessonProgressSummary[];
-  quizzes: { quizId: string; latestScorePercent: number; passed: boolean; attempts: number; latestSubmittedAt?: string }[];
+  quizzes: { quizId: string; latestScorePercent: number; passed: boolean; attempts: number }[];
   completed: boolean;
   completedAt?: string;
   finalScore: number | null;

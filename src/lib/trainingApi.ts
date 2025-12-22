@@ -6,20 +6,10 @@ export interface ApiResponse<T> {
 
 async function request<T>(url: string, options: RequestInit): Promise<ApiResponse<T>> {
   try {
-    const method = (options.method || 'GET').toUpperCase();
-    const csrfToken =
-      typeof document !== 'undefined'
-        ? document.cookie
-            .split(';')
-            .map((entry) => entry.trim())
-            .find((entry) => entry.startsWith('training_csrf='))
-            ?.split('=')[1]
-        : null;
     const res = await fetch(url, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        ...(csrfToken && method !== 'GET' ? { 'x-csrf-token': csrfToken } : {}),
         ...(options.headers || {}),
       },
       ...options,

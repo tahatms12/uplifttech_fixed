@@ -6,7 +6,6 @@ import { getAdminEmails, getEnv } from './_lib/env';
 import { appendRow, readAll, upsertBy } from './_lib/csvStore';
 import {
   AuthenticatedUser,
-  AuditLogRow,
   CertificateRow,
   CompletionRow,
   LessonTimeRow,
@@ -14,7 +13,6 @@ import {
   RateLimitRow,
   UserRow,
 } from './_lib/types';
-import { buildAttemptPolicy, evaluateAttemptEligibility, scoreQuiz } from './_lib/quizEngine';
 import {
   getClientIp,
   hashIp,
@@ -91,8 +89,6 @@ function normalizeUsername(username: string): string {
   return username.trim().toLowerCase();
 }
 
-const CSRF_COOKIE_NAME = 'training_csrf';
-
 function errorResponse(status: number, message: string): HandlerResponse {
   return jsonResponse(status, { ok: false, error: message });
 }
@@ -162,62 +158,6 @@ function parseAuth(event: HandlerEvent, config: TrainingConfig): AuthenticatedUs
     role: (payload as any).role || 'user',
     is_admin: Boolean(payload.is_admin),
   };
-}
-
-function createCsrfCookie(event: HandlerEvent): { token: string; cookie: string } {
-  const token = crypto.randomBytes(16).toString('hex');
-  return {
-    token,
-    cookie: serializeCookie(CSRF_COOKIE_NAME, token, {
-      httpOnly: false,
-      secure: requestIsHttps(event),
-      sameSite: 'Lax',
-      path: '/',
-      maxAge: SESSION_TTL_SECONDS,
-    }),
-  };
-}
-
-function requireCsrf(event: HandlerEvent): HandlerResponse | null {
-  const cookies = parseCookies(event.headers?.cookie || event.headers?.Cookie);
-  const headerToken = event.headers['x-csrf-token'] || event.headers['X-CSRF-Token'];
-  if (!cookies[CSRF_COOKIE_NAME] || !headerToken) {
-    return jsonResponse(403, { ok: false, error: 'csrf_required' });
-  }
-  const headerValue = Array.isArray(headerToken) ? headerToken[0] : headerToken;
-  if (!safeCompare(cookies[CSRF_COOKIE_NAME], headerValue)) {
-    return jsonResponse(403, { ok: false, error: 'csrf_invalid' });
-  }
-  return null;
-}
-
-async function recordAuditEvent(
-  event: HandlerEvent,
-  payload: AuditLogRow,
-  idempotencyKey?: string
-): Promise<boolean> {
-  if (idempotencyKey) {
-    const existing = (await readAll('audit_log.csv', event)) as AuditLogRow[];
-    if (existing.find((row) => row.event_id === idempotencyKey)) {
-      return false;
-    }
-  }
-  await appendRow('audit_log.csv', payload, event);
-  return true;
-}
-
-function sanitizeMeta(meta: Record<string, unknown>): Record<string, unknown> {
-  const allowedKeys = new Set(['secondsDelta', 'device', 'note', 'attempt', 'score', 'passed']);
-  const sanitized: Record<string, unknown> = {};
-  Object.entries(meta).forEach(([key, value]) => {
-    if (!allowedKeys.has(key)) return;
-    if (typeof value === 'string') {
-      sanitized[key] = value.slice(0, 160);
-      return;
-    }
-    sanitized[key] = value;
-  });
-  return sanitized;
 }
 
 async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
@@ -316,20 +256,17 @@ async function handleLogin(event: HandlerEvent, config: TrainingConfig): Promise
     path: '/',
     maxAge: SESSION_TTL_SECONDS,
   });
-  const csrf = createCsrfCookie(event);
 
   return jsonResponse(
     200,
     { ok: true, user: { id: user.id, email: user.email, full_name: user.full_name, role: user.role, is_admin: isAdmin } },
-    [cookie, csrf.cookie]
+    [cookie]
   );
 }
 
 async function handleLogout(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
   const originError = requireOrigin(event, config);
   if (originError) return originError;
-  const csrfError = requireCsrf(event);
-  if (csrfError) return csrfError;
   const expiredCookie = serializeCookie(config.cookieName, '', {
     httpOnly: true,
     secure: requestIsHttps(event),
@@ -337,14 +274,7 @@ async function handleLogout(event: HandlerEvent, config: TrainingConfig): Promis
     path: '/',
     maxAge: 0,
   });
-  const expiredCsrf = serializeCookie(CSRF_COOKIE_NAME, '', {
-    httpOnly: false,
-    secure: requestIsHttps(event),
-    sameSite: 'Lax',
-    path: '/',
-    maxAge: 0,
-  });
-  return jsonResponse(200, { ok: true }, [expiredCookie, expiredCsrf]);
+  return jsonResponse(200, { ok: true }, [expiredCookie]);
 }
 
 async function handleDemoLogin(event: HandlerEvent, config: TrainingConfig): Promise<HandlerResponse> {
@@ -399,12 +329,11 @@ async function handleDemoLogin(event: HandlerEvent, config: TrainingConfig): Pro
     path: '/',
     maxAge: DEMO_SESSION_TTL_SECONDS,
   });
-  const csrf = createCsrfCookie(event);
 
   return jsonResponse(
     200,
     { ok: true, user: { id: user.id, email: user.email, full_name: user.full_name, role: user.role, is_admin: false } },
-    [cookie, csrf.cookie]
+    [cookie]
   );
 }
 
@@ -421,8 +350,6 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
   if (originError) return originError;
   const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
-  const csrfError = requireCsrf(event);
-  if (csrfError) return csrfError;
   const ip = getClientIp(event) || 'unknown';
   const ipHash = hashIp(ip, config.jwtSecret);
   try {
@@ -438,7 +365,6 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
   const moduleId = body.moduleId || body.module_id || body.stepId || '';
   const lessonId = body.lessonId || body.lesson_id || body.stepId || '';
   const eventType = body.eventType || body.type || 'event';
-  const idempotencyKey = body.idempotencyKey || body.idempotency_key;
   const curriculumVersion = String(body.curriculumVersion || getCurriculumVersion() || '');
   const catalogVersion = String(body.catalogVersion || getCatalogVersion() || '');
   if (!courseId || !lessonId) {
@@ -448,26 +374,6 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
   const tsDate = new Date(tsValue);
   const year = Number.isNaN(tsDate.getTime()) ? new Date().getUTCFullYear() : tsDate.getUTCFullYear();
   const meta = typeof body.meta === 'object' && body.meta !== null ? body.meta : {};
-  const sanitizedMeta = sanitizeMeta(meta as Record<string, unknown>);
-
-  const auditSaved = await recordAuditEvent(
-    event,
-    {
-      event_id: String(idempotencyKey || crypto.randomUUID()),
-      user_id: auth.id,
-      event_type: String(eventType),
-      entity_type: 'lesson',
-      entity_id: `${courseId}:${moduleId}:${lessonId}`,
-      payload_json: JSON.stringify({ ...sanitizedMeta }),
-      created_at: new Date().toISOString(),
-      curriculum_version: curriculumVersion,
-      catalog_version: catalogVersion,
-    },
-    idempotencyKey
-  );
-  if (idempotencyKey && !auditSaved) {
-    return jsonResponse(200, { ok: true, idempotent: true });
-  }
 
   await appendRow(
     `events-${year}.csv`,
@@ -479,15 +385,15 @@ async function handleEvents(event: HandlerEvent, config: TrainingConfig): Promis
       lesson_id: String(lessonId ?? ''),
       event_type: String(eventType),
       ts: Number.isNaN(tsDate.getTime()) ? new Date().toISOString() : tsDate.toISOString(),
-      meta_json: JSON.stringify(sanitizedMeta || {}),
+      meta_json: JSON.stringify(meta || {}),
       curriculum_version: curriculumVersion,
       catalog_version: catalogVersion,
     },
     event
   );
 
-  if (eventType === 'heartbeat' || eventType === 'time_on_task') {
-    const deltaRaw = typeof sanitizedMeta?.secondsDelta === 'number' ? sanitizedMeta.secondsDelta : 15;
+  if (eventType === 'heartbeat') {
+    const deltaRaw = typeof meta?.secondsDelta === 'number' ? meta.secondsDelta : 15;
     const delta = Math.min(60, Math.max(1, deltaRaw));
     const nowIso = new Date().toISOString();
     await upsertBy(
@@ -546,8 +452,6 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
   if (originError) return originError;
   const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
-  const csrfError = requireCsrf(event);
-  if (csrfError) return csrfError;
   const ip = getClientIp(event) || 'unknown';
   const ipHash = hashIp(ip, config.jwtSecret);
   try {
@@ -561,7 +465,6 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
   const body = parseJsonBody<any>(event) || {};
   const courseId = body.courseId || body.course_id;
   const quizId = body.quizId || body.quiz_id;
-  const idempotencyKey = body.idempotencyKey || body.idempotency_key;
   const curriculumVersion = String(body.curriculumVersion || getCurriculumVersion() || '');
   const catalogVersion = String(body.catalogVersion || getCatalogVersion() || '');
   if (!courseId || !quizId) {
@@ -575,94 +478,54 @@ async function handleQuizSubmit(event: HandlerEvent, config: TrainingConfig): Pr
     return errorResponse(400, 'quiz_not_configured');
   }
 
-  const policy = buildAttemptPolicy(quizDefinition);
-  const attempts = (await readAll('quiz_attempts.csv', event)) as QuizAttemptRow[];
-  const attemptsForQuiz = attempts.filter((a) => a.user_id === auth.id && a.quiz_id === String(quizId));
-  if (idempotencyKey) {
-    const existing = attemptsForQuiz.find((row) => row.idempotency_key === idempotencyKey);
-    if (existing) {
-      return jsonResponse(200, {
-        ok: true,
-        attemptNumber: parseInt(existing.attempt_number || '0', 10),
-        scorePercent: parseFloat(existing.score_percent || '0'),
-        passed: existing.passed === 'true',
-      });
+  const normalize = (value: unknown) => String(value ?? '').trim().toLowerCase();
+  const scoreCandidates = quizDefinition.questions.map((q, idx) => {
+    const expected = quizDefinition.answerKey[idx];
+    const answer = (answers as any)[q.id ?? idx] ?? (answers as any)[idx] ?? (answers as any)[String(idx)] ?? '';
+    if (Array.isArray(expected) && expected.length > 0) {
+      return expected.some((opt) => normalize(opt) === normalize(answer));
     }
-  }
+    if (typeof expected === 'string' && expected.trim().length > 0) {
+      return normalize(expected) === normalize(answer);
+    }
+    return String(answer || '').trim().length > 0;
+  });
 
-  const eligibility = evaluateAttemptEligibility(attemptsForQuiz, policy);
-  if (!eligibility.allowed && eligibility.reason === 'cooldown') {
-    return jsonResponse(429, {
-      ok: false,
-      error: 'cooldown_active',
-      retryAfterSeconds: eligibility.retryAfterSeconds || 0,
-    });
-  }
-  if (!eligibility.allowed && eligibility.reason === 'max_attempts') {
-    return jsonResponse(403, { ok: false, error: 'max_attempts' });
-  }
+  const correctCount = scoreCandidates.filter(Boolean).length;
+  const scorePercent = quizDefinition.questions.length
+    ? Math.round((correctCount / quizDefinition.questions.length) * 1000) / 10
+    : 0;
+  const threshold = quizDefinition.passingThresholdPercent ?? 80;
+  const passed = scorePercent >= threshold;
 
-  const scoreResult = scoreQuiz(quizDefinition, answers);
-  const passed = scoreResult.scorePercent >= policy.passingThresholdPercent;
-  const attemptNumber =
-    attemptsForQuiz.reduce((max, row) => Math.max(max, parseInt(row.attempt_number || '0', 10)), 0) + 1;
-
-  const sanitizedAnswers = Object.fromEntries(
-    Object.entries(answers).map(([key, value]) => {
-      if (Array.isArray(value)) {
-        return [key, value.map((entry) => String(entry).slice(0, 80))];
-      }
-      if (typeof value === 'string' && value.trim().length > 0) {
-        return [key, '[redacted]'];
-      }
-      return [key, value];
-    })
-  );
+  const attempts = await readAll('quiz_attempts.csv', event);
+  const attemptsForQuiz = attempts.filter((a) => a.user_id === auth.id && a.quiz_id === String(quizId));
+  const attemptNumber = attemptsForQuiz.reduce((max, row) => Math.max(max, parseInt(row.attempt_number || '0', 10)), 0) + 1;
 
   await appendRow(
     'quiz_attempts.csv',
     {
       id: crypto.randomUUID(),
-      idempotency_key: idempotencyKey || '',
       user_id: auth.id,
       course_id: String(courseId),
       quiz_id: String(quizId),
       attempt_number: String(attemptNumber),
-      score_percent: String(scoreResult.scorePercent || 0),
+      score_percent: String(scorePercent || 0),
       passed: passed ? 'true' : 'false',
       started_at: startedAt,
       submitted_at: new Date().toISOString(),
-      answers_json: JSON.stringify(sanitizedAnswers),
+      answers_json: JSON.stringify(answers),
       curriculum_version: curriculumVersion,
       catalog_version: catalogVersion,
     },
     event
   );
 
-  await recordAuditEvent(
-    event,
-    {
-      event_id: String(idempotencyKey || crypto.randomUUID()),
-      user_id: auth.id,
-      event_type: passed ? 'quiz_pass' : 'quiz_attempt',
-      entity_type: 'quiz',
-      entity_id: String(quizId),
-      payload_json: JSON.stringify({ score: scoreResult.scorePercent, passed }),
-      created_at: new Date().toISOString(),
-      curriculum_version: curriculumVersion,
-      catalog_version: catalogVersion,
-    },
-    idempotencyKey
-  );
-
   return jsonResponse(200, {
     ok: true,
     attemptNumber,
-    scorePercent: scoreResult.scorePercent || 0,
+    scorePercent: scorePercent || 0,
     passed,
-    correctMap: scoreResult.correctMap,
-    feedback: scoreResult.feedback,
-    attemptsRemaining: Math.max(0, policy.maxAttempts - attemptNumber),
   });
 }
 
@@ -789,11 +652,8 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
   if (originError) return originError;
   const auth = parseAuth(event, config);
   if (!auth) return jsonResponse(401, { ok: false, error: 'unauthorized' });
-  const csrfError = requireCsrf(event);
-  if (csrfError) return csrfError;
   const body = parseJsonBody<any>(event) || {};
   const courseId = String(body.courseId || '');
-  const idempotencyKey = body.idempotencyKey || body.idempotency_key;
   if (!courseId) return errorResponse(400, 'invalid_request');
 
   const courseProgress = await getCourseProgress(auth.id, courseId, { persistCompletions: true, event });
@@ -850,22 +710,6 @@ async function handleCertificateIssue(event: HandlerEvent, config: TrainingConfi
     event
   );
 
-  await recordAuditEvent(
-    event,
-    {
-      event_id: String(idempotencyKey || crypto.randomUUID()),
-      user_id: auth.id,
-      event_type: 'certificate_issued',
-      entity_type: 'course',
-      entity_id: courseId,
-      payload_json: JSON.stringify({ certificateId, certificateCode }),
-      created_at: issuedAt,
-      curriculum_version: getCurriculumVersion(),
-      catalog_version: getCatalogVersion(),
-    },
-    idempotencyKey
-  );
-
   return jsonResponse(200, { ok: true, certificateCode });
 }
 
@@ -902,10 +746,8 @@ async function handleCertificatePdf(event: HandlerEvent, config: TrainingConfig)
   drawLine(`Awarded to: ${auth.full_name || auth.email}`, 620);
   drawLine(`Course: ${courseName}`, 590);
   drawLine(`Completed on: ${issuedAt}`, 560);
-  drawLine(`Content version: ${getCurriculumVersion() || 'current'}`, 530, 12);
-  drawLine(`Certificate code: ${certificate.certificate_code}`, 510);
-  drawLine(`Verify at /training/verify?code=${certificate.certificate_code}`, 490, 12);
-  drawLine('This certificate does not confer HIPAA certification.', 460, 12);
+  drawLine(`Certificate code: ${certificate.certificate_code}`, 530);
+  drawLine(`Verify at /training/verify?code=${certificate.certificate_code}`, 500, 12);
 
   const pdfBytes = await doc.save();
   return {

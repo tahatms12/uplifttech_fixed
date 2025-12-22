@@ -25,7 +25,6 @@ export interface QuizProgress {
   latestScorePercent: number;
   passed: boolean;
   attempts: number;
-  latestSubmittedAt?: string;
 }
 
 export interface CourseProgressSummary {
@@ -92,7 +91,6 @@ function latestQuizAttempt(
 }
 
 function lessonComplete(
-  courseId: string,
   lesson: CatalogLesson,
   module: CatalogModule,
   timeSeconds: number,
@@ -129,7 +127,7 @@ function lessonComplete(
     completedAt,
     completionReason,
     hasQuiz,
-    quizId: `${courseId}:${lesson.id}`,
+    quizId: `${module.id}:${lesson.id}`,
     quizPassed,
     locked: !completed,
     lockedReason,
@@ -254,7 +252,7 @@ export async function buildProgress(
         lessonsInCourse.push({ module, lesson });
         const check = lesson.checks?.find((entry) => entry.questions && entry.questions.length);
         if (check?.questions?.length) {
-          quizzesInCourse.push({ quizId: `${course.id}:${lesson.id}` });
+          quizzesInCourse.push({ quizId: `${module.id}:${lesson.id}` });
         }
       }
     }
@@ -263,9 +261,9 @@ export async function buildProgress(
     for (const entry of lessonsInCourse) {
       const { module, lesson } = entry;
       const { seconds, lastActive } = sumSeconds(courseLessons, course.id, lesson.id, curriculumVersion);
-      const quizAttempt = latestQuizAttempt(courseQuizAttempts, course.id, `${course.id}:${lesson.id}`, curriculumVersion);
+      const quizAttempt = latestQuizAttempt(courseQuizAttempts, course.id, `${module.id}:${lesson.id}`, curriculumVersion);
       const manualCompletion = manualMap.get(lesson.id);
-      const progress = lessonComplete(course.id, lesson, module, seconds, quizAttempt, manualCompletion?.completed_at);
+      const progress = lessonComplete(lesson, module, seconds, quizAttempt, manualCompletion?.completed_at);
       progress.completedAt = progress.completedAt || lastActive;
       lessons.push(progress);
     }
@@ -278,7 +276,6 @@ export async function buildProgress(
         latestScorePercent: latest ? parseFloat(latest.score_percent || '0') : 0,
         passed: latest ? latest.passed === 'true' : false,
         attempts: latest ? parseInt(latest.attempt_number || '0', 10) : 0,
-        latestSubmittedAt: latest?.submitted_at,
       };
     });
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TrainingNoIndexHelmet from '../../components/training/TrainingNoIndexHelmet';
 import { trainingApi } from '../../lib/trainingApi';
 
@@ -7,19 +7,22 @@ const TrainingEntryPage: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [authenticated, setAuthenticated] = useState<boolean | null>(false); // Changed to false
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     trainingApi.me()
       .then((res) => {
         if (res.status === 200 && res.data) {
+          setAuthenticated(true);
           navigate('/training/dashboard');
         } else {
-          // not authenticated
+          setAuthenticated(false);
         }
       })
       .catch(() => {
         // Silently handle API errors (no backend yet)
+        setAuthenticated(false);
       });
   }, [navigate]);
 
@@ -63,11 +66,7 @@ const TrainingEntryPage: React.FC = () => {
       <h2 className="text-2xl font-bold">Training Access</h2>
       <p className="text-sm text-gray-300">
         This private training portal records your progress, time spent in lessons, and quiz results to help managers understand completion. See our
-        <Link to="/privacy" className="text-indigo-400 underline ml-1">privacy policy</Link> for details.
-      </p>
-      <p className="text-xs text-amber-300">
-        Completion of training does not constitute HIPAA certification. Training content uses fictional or de-identified examples only—do not enter
-        real PHI in any responses.
+        <a href="/privacy" className="text-indigo-400 underline ml-1">privacy policy</a> for details.
       </p>
       <form className="space-y-3" onSubmit={submit}>
         <div>
