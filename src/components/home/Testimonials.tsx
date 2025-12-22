@@ -26,9 +26,9 @@ const Testimonials: React.FC = () => {
     },
     {
       quote: "Uplift Technologies helped us streamline scheduling and follow-ups, improving how we communicate with patients across channels.",
-      author: "Z. Amiri",
+      author: "Z. Azeri",
       position: "Director of Operations",
-      company: "Auto Enhance Hub"
+      company: "Confidential Dental Lab"
     }
   ];
   
