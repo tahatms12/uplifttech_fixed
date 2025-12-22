@@ -1,14 +1,7 @@
 import React from 'react';
 
-interface ModuleItem {
-  id: string;
-  title: string;
-  locked?: boolean;
-  lockedReason?: string;
-}
-
 interface ModuleStepperProps {
-  modules: ModuleItem[];
+  modules: { id: string; title: string }[];
   activeModuleId: string;
   onSelect: (moduleId: string) => void;
 }
@@ -22,17 +15,12 @@ const ModuleStepper: React.FC<ModuleStepperProps> = ({ modules, activeModuleId, 
           role="tab"
           aria-selected={activeModuleId === module.id}
           aria-controls={`module-panel-${module.id}`}
-          className={`px-3 py-2 rounded border text-sm focus-visible:ring-2 focus-visible:ring-indigo-400 ${
-            activeModuleId === module.id ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-gray-800 text-gray-200 border-gray-700'
-          } ${module.locked ? 'opacity-60 cursor-not-allowed' : ''}`}
-          title={module.locked ? module.lockedReason : undefined}
-          onClick={() => {
-            if (module.locked) return;
-            onSelect(module.id);
-          }}
-          disabled={module.locked}
+          className={`px-3 py-2 rounded border ${
+            activeModuleId === module.id ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-200'
+          } focus-visible:ring-2 focus-visible:ring-indigo-400`}
+          onClick={() => onSelect(module.id)}
         >
-          {module.title} {module.locked ? '• Locked' : ''}
+          {module.title}
         </button>
       ))}
     </div>

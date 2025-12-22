@@ -1,9 +1,6 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import TrainingNoIndexHelmet from './TrainingNoIndexHelmet';
 import { TrainingSessionProvider, useTrainingSession } from './TrainingSessionContext';
-import { trainingApi } from '../../lib/trainingApi';
-import TrainingErrorBoundary from './TrainingErrorBoundary';
 
 const TrainingLayoutContent = () => {
   const { user, loading, logout } = useTrainingSession();
@@ -14,49 +11,9 @@ const TrainingLayoutContent = () => {
     navigate('/training');
   };
 
-  useEffect(() => {
-    const handleError = (event: ErrorEvent) => {
-      if (!user) return;
-      trainingApi.events({
-        eventType: 'client_error',
-        courseId: 'training-portal',
-        moduleId: 'ui',
-        lessonId: 'error-boundary',
-        meta: {
-          message: event.message,
-          stack: event.error?.stack,
-          source: event.filename,
-        },
-        idempotencyKey: crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`,
-      });
-    };
-    const handleRejection = (event: PromiseRejectionEvent) => {
-      if (!user) return;
-      trainingApi.events({
-        eventType: 'client_error',
-        courseId: 'training-portal',
-        moduleId: 'ui',
-        lessonId: 'unhandled-rejection',
-        meta: {
-          message: String(event.reason || 'Unhandled rejection'),
-        },
-        idempotencyKey: crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`,
-      });
-    };
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handleRejection);
-    return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleRejection);
-    };
-  }, [user]);
-
   return (
     <div className="min-h-screen bg-rich-black text-white">
       <TrainingNoIndexHelmet />
-      <a href="#training-main" className="sr-only focus:not-sr-only focus:underline">
-        Skip to content
-      </a>
       <div className="container-custom mx-auto px-4 py-8">
         <header className="mb-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -93,23 +50,9 @@ const TrainingLayoutContent = () => {
             </div>
           </div>
         </header>
-        <main
-          id="training-main"
-          className="bg-gray-900 rounded-lg shadow-lg p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
-        >
-          <TrainingErrorBoundary>
-            <Outlet />
-          </TrainingErrorBoundary>
+        <main className="bg-gray-900 rounded-lg shadow-lg p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400">
+          <Outlet />
         </main>
-        <footer className="mt-6 text-xs text-gray-400">
-          <p>
-            Training data includes progress, quiz attempts, time on task, and certificate issuance. Review the{' '}
-            <Link to="/privacy" className="underline text-indigo-300">
-              privacy policy
-            </Link>
-            .
-          </p>
-        </footer>
       </div>
     </div>
   );
