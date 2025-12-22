@@ -92,6 +92,20 @@ const PrivacyPage: React.FC = () => {
               Data may be accessed by authorized team members in the United States or other locations needed to deliver services. When required, we implement appropriate safeguards such as data protection agreements and role-based controls.
             </p>
 
+            <h3 className="text-xl font-semibold mt-8 text-electric-violet">Learning Management System (LMS) Data</h3>
+            <p>
+              The training portal collects learning progress information to verify completion and maintain audit trails. The LMS does not collect PHI, and training examples are fictional or de-identified.
+            </p>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>Progress data including lesson start/completion timestamps, time on task, and resume activity.</li>
+              <li>Assessment data including quiz attempts, scores, pass/fail status, and remediation outcomes.</li>
+              <li>Certificate issuance records including issued timestamps, content version, and verification codes.</li>
+              <li>Operational telemetry used for error monitoring and security audit logging.</li>
+            </ul>
+            <p>
+              LMS records are retained for compliance and audit purposes and reviewed annually. Learners can request access or correction by contacting privacy@uplift-technologies.com. We restrict LMS access by role, enforce least-privilege permissions, and log certificate and assessment events.
+            </p>
+
             <h3 className="text-xl font-semibold mt-8 text-electric-violet">Your Rights</h3>
             <p>
               You may request access, correction, or deletion of your personal data, or object to certain processing where applicable. Contact business@uplift-technologies.com or hr@uplift-technologies.com to exercise these rights.

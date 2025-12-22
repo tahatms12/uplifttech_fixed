@@ -51,6 +51,7 @@ export interface StepCompletionRow {
 
 export interface QuizAttemptRow {
   id: string;
+  idempotency_key?: string;
   user_id: string;
   course_id: string;
   quiz_id: string;
@@ -81,6 +82,18 @@ export interface CertificateRow {
   user_id: string;
   course_id: string;
   issued_at: string;
+  curriculum_version?: string;
+  catalog_version?: string;
+}
+
+export interface AuditLogRow {
+  event_id: string;
+  user_id: string;
+  event_type: string;
+  entity_type: string;
+  entity_id: string;
+  payload_json: string;
+  created_at: string;
   curriculum_version?: string;
   catalog_version?: string;
 }
