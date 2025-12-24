@@ -1,118 +1,39 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import curriculum from '../../data/training/exports/curriculum.generated.json';
 import TrainingNoIndexHelmet from '../../components/training/TrainingNoIndexHelmet';
-import ModuleStepper from '../../components/training/ModuleStepper';
-import CourseStepper from '../../components/training/CourseStepper';
-import { useTrainingProgress } from '../../components/training/useTrainingProgress';
-import { buildModuleObjectives } from '../../lib/trainingPolicy';
-import { trainingApi } from '../../lib/trainingApi';
+import { flattenLessons, getCourseById } from '../../data/training/trainingCatalog';
+import { progressService } from '../../components/training/ProgressService';
 import { useTrainingRole } from '../../hooks/useTrainingRole';
 
 const TrainingCoursePage: React.FC = () => {
-  const { courseId, moduleId, lessonId } = useParams();
+  const { courseId } = useParams();
   const navigate = useNavigate();
   const { role } = useTrainingRole();
-  const course = useMemo(() => (curriculum as any).courses?.find((c: any) => c.id === courseId), [courseId]);
-  const { progressByCourse, progressByStep, curriculumVersion, catalogVersion } = useTrainingProgress({ courseId });
 
-  if (!course) return <div className="text-gray-200">Course not found.</div>;
-  const modules = course.modules || [];
-  if (!modules.length) {
-    return <div className="text-gray-200">Course modules not available.</div>;
-  }
+  const course = useMemo(() => (courseId ? getCourseById(courseId) : null), [courseId]);
 
-  const activeModule =
-    modules.find((module: any) => module.id === moduleId) || modules[0];
-  const activeLesson =
-    activeModule?.lessons?.find((lesson: any) => lesson.id === lessonId) || activeModule?.lessons?.[0];
-
-  useEffect(() => {
-    if (!courseId || !activeModule || !activeLesson) return;
-    if (!moduleId || !lessonId) {
-      navigate(`/training/course/${courseId}/module/${activeModule.id}/lesson/${activeLesson.id}`, { replace: true });
-    }
-  }, [courseId, moduleId, lessonId, activeModule, activeLesson, navigate]);
-
-  const courseProgress = progressByCourse.get(course.id);
-  const completedLessons = courseProgress?.lessons?.filter((lesson) => lesson.completed).length ?? 0;
-  const totalLessons =
-    courseProgress?.lessons?.length ??
-    modules.reduce((acc: number, module: any) => acc + (module.lessons?.length || 0), 0);
-
-  const objectives = buildModuleObjectives(activeModule?.title || 'this module');
-
-  const moduleLockMap = new Map<string, { locked: boolean; reason?: string }>();
-  modules.forEach((module: any, index: number) => {
-    if (index === 0) {
-      moduleLockMap.set(module.id, { locked: false });
-      return;
-    }
-    const previous = modules[index - 1];
-    const previousLessons = previous?.lessons || [];
-    const allPreviousComplete = previousLessons.every(
-      (lesson: any) => progressByStep.get(lesson.id)?.completed
-    );
-    moduleLockMap.set(module.id, {
-      locked: !allPreviousComplete,
-      reason: !allPreviousComplete ? 'Complete the previous module to unlock.' : undefined,
-    });
-  });
-
-  const hasRoleAccess = !role || (course.audience || course.roleTags || []).includes(role);
-
-  const handleModuleSelect = (nextModuleId: string) => {
-    const nextModule = modules.find((module: any) => module.id === nextModuleId) || modules[0];
-    const nextLesson = nextModule?.lessons?.[0];
-    if (!nextLesson) return;
-    navigate(`/training/course/${course.id}/module/${nextModule.id}/lesson/${nextLesson.id}`);
-  };
-
-  const handleLessonChange = (nextLessonId: string) => {
-    navigate(`/training/course/${course.id}/module/${activeModule.id}/lesson/${nextLessonId}`);
-  };
-
-  const quizProgressMap = useMemo(() => {
-    const map = new Map<string, any>();
-    courseProgress?.quizzes?.forEach((quiz) => map.set(quiz.quizId, quiz));
-    return map;
-  }, [courseProgress]);
-
-  const handleCertificate = async () => {
-    const res = await trainingApi.issueCertificate({
-      courseId: course.id,
-      curriculumVersion,
-      catalogVersion,
-      idempotencyKey: crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`,
-    });
-    if (res.status !== 200) return;
-    await trainingApi.events({
-      eventType: 'certificate_issued',
-      courseId: course.id,
-      moduleId: activeModule.id,
-      lessonId: activeLesson.id,
-      curriculumVersion,
-      catalogVersion,
-      idempotencyKey: crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`,
-    });
-    window.open(`/api/training/certificates/pdf?courseId=${encodeURIComponent(course.id)}`, '_blank');
-  };
-
-  if (!hasRoleAccess) {
+  if (!course) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         <TrainingNoIndexHelmet />
-        <h1 className="text-2xl font-bold">Course access restricted</h1>
-        <p className="text-sm text-gray-300">
-          Your current role does not include access to this course. Update your role selection on the dashboard to
-          continue.
-        </p>
-        <Link to="/training/dashboard" className="inline-flex underline text-indigo-300">
+        <h1 className="text-2xl font-bold">Course not found</h1>
+        <Link to="/training/dashboard" className="text-indigo-300 underline">
           Return to dashboard
         </Link>
       </div>
     );
   }
+
+  const lessons = flattenLessons(course);
+  const lessonIds = lessons.map((lesson) => lesson.id);
+  const progressPercent = progressService.getProgressPercent(course.id, lessonIds);
+  const nextLessonId = progressService.getNextLessonId(course.id, lessonIds);
+  const nextLessonTitle = lessons.find((lesson) => lesson.id === nextLessonId)?.title;
+  const required = role ? course.roleMappings[role]?.required : undefined;
+
+  const handleStart = () => {
+    navigate(`/training/course/${course.id}/learn/${nextLessonId}`);
+  };
 
   return (
     <div className="space-y-6">
@@ -126,93 +47,84 @@ const TrainingCoursePage: React.FC = () => {
           </li>
           <li aria-hidden="true">/</li>
           <li>{course.title}</li>
-          <li aria-hidden="true">/</li>
-          <li>{activeModule?.title}</li>
-          <li aria-hidden="true">/</li>
-          <li>{activeLesson?.title}</li>
         </ol>
       </nav>
-      <header className="space-y-2">
+
+      <header className="space-y-3">
         <h1 className="text-2xl font-bold">{course.title}</h1>
-        <p className="text-gray-300">{course.description || 'Not specified.'}</p>
-        <div className="text-xs text-gray-400">
-          Audience: {(course.audience || course.roleTags || []).join(', ') || 'Not specified'}
+        <p className="text-gray-300">{course.description}</p>
+        <div className="flex flex-wrap gap-2 text-xs text-gray-300">
+          <span className="bg-gray-800 px-2 py-1 rounded">{course.category}</span>
+          <span className="bg-gray-800 px-2 py-1 rounded">{course.difficulty}</span>
+          <span className="bg-gray-800 px-2 py-1 rounded">Estimated {Math.round(course.estMinutes / 60)}h</span>
+          {required !== undefined ? (
+            <span className={`px-2 py-1 rounded ${required ? 'bg-emerald-700' : 'bg-gray-700'}`}>
+              {required ? 'Required for your role' : 'Optional for your role'}
+            </span>
+          ) : null}
         </div>
         <div className="text-xs text-amber-300">
-          Completion of this training does not confer HIPAA certification. Training uses fictional or de-identified examples only.
+          Completion does not confer HIPAA certification. Training content uses fictional or de-identified examples only.
         </div>
       </header>
 
-      <div className="text-sm text-gray-300">
-        {courseProgress ? (
-          <span>
-            Progress: {completedLessons}/{totalLessons}
-            {courseProgress.completed ? ' • Completed' : ''}
-          </span>
-        ) : null}
-      </div>
+      <section className="grid gap-4 md:grid-cols-2">
+        <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 space-y-2">
+          <h2 className="text-lg font-semibold">What you will learn</h2>
+          <ul className="list-disc list-inside text-sm text-gray-300">
+            {course.objectives.map((objective) => (
+              <li key={objective}>{objective}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 space-y-2">
+          <h2 className="text-lg font-semibold">Requirements & prerequisites</h2>
+          <ul className="list-disc list-inside text-sm text-gray-300">
+            {course.requirements.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+            {course.prerequisites.length ? (
+              course.prerequisites.map((item) => <li key={item}>{item}</li>)
+            ) : (
+              <li>No prerequisites listed.</li>
+            )}
+          </ul>
+        </div>
+      </section>
 
-      <section className="bg-gray-800 p-4 rounded">
-        <h2 className="text-xl font-semibold mb-2">Module objectives</h2>
-        <ul className="list-disc list-inside text-sm text-gray-200">
-          {objectives.map((objective) => (
-            <li key={objective.id}>{objective.text}</li>
+      <section className="bg-gray-900 border border-gray-700 rounded-lg p-4 space-y-3">
+        <h2 className="text-lg font-semibold">Course outline</h2>
+        <div className="grid gap-3 md:grid-cols-2">
+          {course.sections.map((section) => (
+            <div key={section.id} className="text-sm text-gray-300">
+              <div className="font-medium text-gray-100">{section.title}</div>
+              <div className="text-xs text-gray-400">{section.lessons.length} lessons</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-gray-900 border border-gray-700 rounded-lg p-4 space-y-2">
+        <h2 className="text-lg font-semibold">Assessments</h2>
+        <ul className="list-disc list-inside text-sm text-gray-300">
+          {course.assessments.map((item) => (
+            <li key={item}>{item}</li>
           ))}
         </ul>
       </section>
 
-      <ModuleStepper
-        modules={modules.map((module: any) => {
-          const lock = moduleLockMap.get(module.id);
-          return {
-            id: module.id,
-            title: module.title,
-            locked: lock?.locked,
-            lockedReason: lock?.reason,
-          };
-        })}
-        activeModuleId={activeModule?.id || modules[0].id}
-        onSelect={handleModuleSelect}
-      />
-
-      {moduleLockMap.get(activeModule?.id || '')?.locked ? (
-        <div className="bg-gray-800 p-4 rounded border border-amber-500 text-amber-200">
-          {moduleLockMap.get(activeModule?.id || '')?.reason}
+      <section className="bg-gray-900 border border-gray-700 rounded-lg p-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="text-sm text-gray-300">
+          Progress: {progressPercent}% {nextLessonTitle ? `• Next lesson: ${nextLessonTitle}` : ''}
         </div>
-      ) : null}
-
-      {!moduleLockMap.get(activeModule?.id || '')?.locked ? (
-        <div id={`module-panel-${activeModule?.id || 'module'}`} role="tabpanel">
-          <CourseStepper
-            courseId={course.id}
-            moduleId={activeModule?.id || ''}
-            moduleTitle={activeModule?.title || ''}
-            lessons={activeModule?.lessons || []}
-            activeLessonId={activeLesson?.id}
-            lessonProgress={progressByStep}
-            quizProgress={quizProgressMap}
-            curriculumVersion={curriculumVersion || undefined}
-            catalogVersion={catalogVersion || undefined}
-            onLessonChange={handleLessonChange}
-          />
-        </div>
-      ) : null}
-
-      {courseProgress?.completed ? (
-        <section className="bg-gray-800 p-4 rounded">
-          <h2 className="text-xl font-semibold mb-2">Certificate</h2>
-          <p className="text-sm text-gray-300">
-            Download your certificate of completion. This certificate does not indicate HIPAA certification.
-          </p>
-          <button
-            type="button"
-            className="mt-3 px-4 py-2 rounded bg-indigo-600 text-white focus-visible:ring-2 focus-visible:ring-indigo-400"
-            onClick={handleCertificate}
-          >
-            Download certificate
-          </button>
-        </section>
-      ) : null}
+        <button
+          type="button"
+          className="px-4 py-2 rounded bg-indigo-600 text-white focus-visible:ring-2 focus-visible:ring-indigo-400"
+          onClick={handleStart}
+        >
+          {progressPercent > 0 ? 'Continue course' : 'Start course'}
+        </button>
+      </section>
     </div>
   );
 };

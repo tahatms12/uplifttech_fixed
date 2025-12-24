@@ -15,7 +15,9 @@
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "training:build": "node scripts/training/buildCatalog.mjs",
     "training:audit": "node scripts/training/auditCurriculum.mjs",
-    "training:validate": "node scripts/training/auditCurriculum.mjs"
+    "training:validate": "node scripts/training/auditCurriculum.mjs",
+    "training:normalize-content": "node scripts/training/normalizeContent.mjs",
+    "training:validate-content": "node scripts/training/validateContent.mjs"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",

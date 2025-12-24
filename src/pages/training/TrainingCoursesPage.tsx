@@ -5,8 +5,6 @@ import { trainingCatalog, flattenLessons } from '../../data/training/trainingCat
 import RoleSelector from '../../components/training/RoleSelector';
 import CourseCatalogFilters, { CatalogFiltersState } from '../../components/training/CourseCatalogFilters';
 import CourseCard from '../../components/training/CourseCard';
-import ContinueLearningPanel from '../../components/training/ContinueLearningPanel';
-import LearningPathPanel from '../../components/training/LearningPathPanel';
 import { progressService } from '../../components/training/ProgressService';
 import { useTrainingProgressState } from '../../components/training/useTrainingProgressState';
 
@@ -19,11 +17,11 @@ const defaultFilters: CatalogFiltersState = {
   sort: 'recommended',
 };
 
-const TrainingDashboardPage: React.FC = () => {
+const TrainingCoursesPage: React.FC = () => {
   const { role, setRole } = useTrainingRole();
-  const [query, setQuery] = useState('');
+  const { state } = useTrainingProgressState();
   const [filters, setFilters] = useState<CatalogFiltersState>(defaultFilters);
-  const { state, refresh } = useTrainingProgressState();
+  const [query, setQuery] = useState('');
 
   const categories = useMemo(
     () => Array.from(new Set(trainingCatalog.courses.map((course) => course.category))),
@@ -81,26 +79,19 @@ const TrainingDashboardPage: React.FC = () => {
     return filtered;
   }, [query, filters, role, state]);
 
-  const handleRoleChange = (nextRole: string) => {
-    setRole(nextRole);
-    refresh();
-  };
-
   return (
     <div className="space-y-6">
       <TrainingNoIndexHelmet />
       <header className="space-y-2">
-        <h1 className="text-2xl font-bold">Training dashboard</h1>
-        <p className="text-sm text-gray-300">
-          Find the right training fast and resume exactly where you left off.
-        </p>
+        <h1 className="text-2xl font-bold">Course catalog</h1>
+        <p className="text-sm text-gray-300">Filter by role, requirement, or duration to find the right training.</p>
         <div className="text-xs text-amber-300">
           Completion does not confer HIPAA certification. Training content uses fictional or de-identified examples only.
         </div>
       </header>
 
       <section className="grid gap-4 md:grid-cols-3">
-        <RoleSelector roles={trainingCatalog.roles} value={role} onChange={handleRoleChange} />
+        <RoleSelector roles={trainingCatalog.roles} value={role} onChange={setRole} />
         <label className="md:col-span-2 text-sm text-gray-200">
           Search courses
           <input
@@ -114,43 +105,26 @@ const TrainingDashboardPage: React.FC = () => {
 
       <CourseCatalogFilters categories={categories} value={filters} onChange={setFilters} />
 
-      <section className="grid gap-4 lg:grid-cols-3">
-        <ContinueLearningPanel courses={trainingCatalog.courses} />
-        <LearningPathPanel roleId={role} courses={trainingCatalog.courses} />
-        <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
-          <h2 className="text-lg font-semibold">Course catalog</h2>
-          <p className="text-sm text-gray-300">
-            Browse the full catalog or jump into a role-aligned learning path.
-          </p>
-        </div>
-      </section>
-
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Course catalog</h2>
-          <span className="text-xs text-gray-400">{filteredCourses.length} courses</span>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {filteredCourses.map((course) => {
-            const lessonIds = flattenLessons(course).map((lesson) => lesson.id);
-            const progressPercent = progressService.getProgressPercent(course.id, lessonIds);
-            const nextLessonId = progressService.getNextLessonId(course.id, lessonIds);
-            const nextLessonTitle = flattenLessons(course).find((lesson) => lesson.id === nextLessonId)?.title;
-            const required = role ? course.roleMappings[role]?.required : undefined;
-            return (
-              <CourseCard
-                key={course.id}
-                course={course}
-                progressPercent={progressPercent}
-                nextLessonTitle={nextLessonTitle}
-                required={required}
-              />
-            );
-          })}
-        </div>
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {filteredCourses.map((course) => {
+          const lessonIds = flattenLessons(course).map((lesson) => lesson.id);
+          const progressPercent = progressService.getProgressPercent(course.id, lessonIds);
+          const nextLessonId = progressService.getNextLessonId(course.id, lessonIds);
+          const nextLessonTitle = flattenLessons(course).find((lesson) => lesson.id === nextLessonId)?.title;
+          const required = role ? course.roleMappings[role]?.required : undefined;
+          return (
+            <CourseCard
+              key={course.id}
+              course={course}
+              progressPercent={progressPercent}
+              nextLessonTitle={nextLessonTitle}
+              required={required}
+            />
+          );
+        })}
       </section>
     </div>
   );
 };
 
-export default TrainingDashboardPage;
+export default TrainingCoursesPage;
