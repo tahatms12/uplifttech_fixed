@@ -35,7 +35,10 @@ const ScheduleConsultationPage = lazy(() => import('./pages/ScheduleConsultation
 const TrainingEntryPage = lazy(() => import('./pages/training/TrainingEntryPage'));
 const TrainingDemoPage = lazy(() => import('./pages/training/TrainingDemoPage'));
 const TrainingDashboardPage = lazy(() => import('./pages/training/TrainingDashboardPage'));
+const TrainingCoursesPage = lazy(() => import('./pages/training/TrainingCoursesPage'));
 const TrainingCoursePage = lazy(() => import('./pages/training/TrainingCoursePage'));
+const TrainingCoursePlayerPage = lazy(() => import('./pages/training/TrainingCoursePlayerPage'));
+const TrainingLegacyRedirectPage = lazy(() => import('./pages/training/TrainingLegacyRedirectPage'));
 const TrainingAdminPage = lazy(() => import('./pages/training/TrainingAdminPage'));
 const TrainingVerifyPage = lazy(() => import('./pages/training/TrainingVerifyPage'));
 
@@ -171,6 +174,16 @@ function App() {
             }
           />
           <Route
+            path="courses"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingGuard>
+                  <TrainingCoursesPage />
+                </TrainingGuard>
+              </Suspense>
+            }
+          />
+          <Route
             path="course/:courseId"
             element={
               <Suspense fallback={<LoadingSpinner />}>
@@ -181,11 +194,21 @@ function App() {
             }
           />
           <Route
+            path="course/:courseId/learn/:lessonId"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <TrainingGuard>
+                  <TrainingCoursePlayerPage />
+                </TrainingGuard>
+              </Suspense>
+            }
+          />
+          <Route
             path="course/:courseId/module/:moduleId/lesson/:lessonId"
             element={
               <Suspense fallback={<LoadingSpinner />}>
                 <TrainingGuard>
-                  <TrainingCoursePage />
+                  <TrainingLegacyRedirectPage />
                 </TrainingGuard>
               </Suspense>
             }

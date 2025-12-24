@@ -89,6 +89,43 @@
     @apply bg-rich-black/40 backdrop-blur-lg border border-neutral-700 rounded-lg sm:rounded-xl;
     @apply transition-all duration-300;
   }
+
+  .training-lesson-content {
+    @apply text-sm sm:text-base/relaxed text-gray-100;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .training-lesson-content h1,
+  .training-lesson-content h2,
+  .training-lesson-content h3,
+  .training-lesson-content h4,
+  .training-lesson-content h5,
+  .training-lesson-content h6 {
+    @apply mt-4 mb-2 font-semibold text-gray-50;
+  }
+
+  .training-lesson-content p + p {
+    @apply mt-3;
+  }
+
+  .training-lesson-content ul,
+  .training-lesson-content ol {
+    @apply my-3 ml-5 space-y-1;
+  }
+
+  .training-lesson-content blockquote {
+    @apply border-l-4 border-indigo-500 pl-4 text-gray-300;
+  }
+
+  .training-lesson-content code {
+    @apply rounded bg-gray-800 px-1 py-0.5 text-xs sm:text-sm;
+  }
+
+  .training-lesson-content pre {
+    @apply my-4 rounded bg-gray-900 p-4 text-sm text-gray-100;
+    overflow-x: auto;
+  }
   
   @media (hover: hover) {
     .glass-card {
